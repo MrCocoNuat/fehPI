@@ -1,10 +1,11 @@
 import { GetStaticProps } from "next";
-import { RepositoryReader } from "../api-client/github";
-import skillDao from "../dao/skill-dao";
+import { heroDao, skillDao } from "../dao/dao-registry";
+
 
 export default function Test(props: {user: any}){
     return <>
-        <div>Octokit is authenticated as ordinary user with username: {props.user}</div>
+        <div>static props: {props.user}</div>
+        <div>Check console for "SENTINEL" strings, leaking server-side information</div>
     </>
 }
 
@@ -14,7 +15,8 @@ export const getStaticProps : GetStaticProps = async () => {
     const readmeText = "dummy me";
 
 
-    console.log ("should NOT be undefined: skill 123 is", await skillDao.getSkillByIdNum(123));
+    console.log("skill 595 is Geirskogul:", await skillDao.getByIdNums([595]));
+    console.log("hero 168 is Lucina: Brave Princess", await heroDao.getByIdNums([168]));
 
     return {
         props: {

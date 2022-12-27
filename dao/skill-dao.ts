@@ -1,7 +1,7 @@
 import { SkillDefinition } from "../types/dao-types";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
 
-export default class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
+export class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
 
     protected override toValueType(json: any) : SkillDefinition {
         return {

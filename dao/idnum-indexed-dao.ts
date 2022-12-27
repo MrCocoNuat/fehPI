@@ -56,7 +56,7 @@ export default abstract class IdNumIndexedDaoImpl<V extends IdNumIndexed> implem
 
     protected abstract toValueType(json: any) : V;
 
-    async getByIdNums(idNums: [number]) {
+    async getByIdNums(idNums: number[]) {
         await this.initialization; // must be done already
         return idNums.map(idNum => this.collection[idNum]);
     }

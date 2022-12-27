@@ -1,5 +1,5 @@
 import { createYoga, createSchema } from 'graphql-yoga'
-import schema from './graphql-schema'
+import { schema } from './schema/schema'
 
 export default createYoga({
   schema,

@@ -1,7 +1,7 @@
 import { HeroDefinition } from "../types/dao-types";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
 
-export default class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
+export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
     
     protected override toValueType(json: any): HeroDefinition {
         return {

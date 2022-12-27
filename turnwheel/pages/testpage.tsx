@@ -14,7 +14,7 @@ export const getStaticProps : GetStaticProps = async () => {
     const readmeText = "dummy me";
 
 
-    console.log ("should be undefined:", await skillDao.getSkillByIdNum(111));
+    console.log ("should NOT be undefined: skill 123 is", await skillDao.getSkillByIdNum(123));
 
     return {
         props: {

@@ -16,18 +16,23 @@ class SkillDao{
     }
     
     private async initialize() {
+        const timerLabel = "TIME: Skill Definition DAO finished initialization";
+        console.time(timerLabel);
+        await this.processTree();
+        console.timeEnd(timerLabel);
+    }
+    
+    private async processTree() {
         // get all of the files in the tree - these are mostly per-update
         const tree = await fehAssetsJsonReader.queryForTree(this.REPO_PATH);
-        console.log(tree);
         const entries = tree.repository.object.entries.filter(entry => entry.type === "blob");
 
         // for each file, get contents
-        for (const entry of entries){
+        for (const entry of entries) {
             await this.processBlob(entry);
         }
-        console.log("finished initialization");
     }
-    
+
     private async processBlob(entry: { name: string; type: GitObjectType; object: { isTruncated: boolean; }; }) {
         const entryPath = path.join(this.REPO_PATH, entry.name);
         let blobJson;
@@ -64,7 +69,7 @@ class SkillDao{
     }
 
     async getSkillByIdNum(idNum: number){
-        await this.initialization;
+        await this.initialization; // must be done already
         
         return this.collection[idNum];
     }

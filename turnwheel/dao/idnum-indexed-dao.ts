@@ -4,7 +4,7 @@ import { GitObjectType } from "../types/git-types";
 import { fehAssetsJsonReader } from "./remote-repository";
 
 export interface IdNumIndexedDao<V extends IdNumIndexed> {
-    getByIdNum(idNum: number) : Promise<V>; 
+    getByIdNums(idNums: [number]) : Promise<V[]>; 
 }
 
 export default abstract class IdNumIndexedDaoImpl<V extends IdNumIndexed> implements IdNumIndexedDao<V> {
@@ -56,8 +56,8 @@ export default abstract class IdNumIndexedDaoImpl<V extends IdNumIndexed> implem
 
     protected abstract toValueType(json: any) : V;
 
-    async getByIdNum(idNum: number) {
+    async getByIdNums(idNums: [number]) {
         await this.initialization; // must be done already
-        return this.collection[idNum];
+        return idNums.map(idNum => this.collection[idNum]);
     }
 }

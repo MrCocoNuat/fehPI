@@ -1,5 +1,3 @@
-import { TypeOfExpression } from "typescript";
-
 export const skillCategories = {
     weapon : 0,
     assist : 1,
@@ -93,7 +91,7 @@ type SkillsPerRarity = [
     string | null,
     string | null,
 ]; // 14 length
-type ParameterPerStat = {
+export type ParameterPerStat = {
     "hp": number,
     "atk": number,
     "spd": number,

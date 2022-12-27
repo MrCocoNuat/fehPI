@@ -9,7 +9,7 @@ const loadKeys = () => {
 }
 
 function keyForGenerator() {
-    console.error("SEEING THIS ON CLIENT SIDE MEANS KEYS ARE BEING LEAKED!!");
+    console.error("SENTINEL - client side means leak: API KEYS");
     const keysForApis = loadKeys();
     return (apiName : string) => keysForApis[apiName];
 }

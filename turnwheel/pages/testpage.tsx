@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import { RepositoryReader } from "../api-client/github";
+import skillDao from "../dao/skill-dao";
 
 export default function Test(props: {user: any}){
     return <>
@@ -10,13 +11,15 @@ export default function Test(props: {user: any}){
 export const getStaticProps : GetStaticProps = async () => {
     const octokitResponse = {viewer: {login: "dummy"}};
 
-    const r = new RepositoryReader("HertzDevil", "feh-assets-json", "book7");
-    const readme = await r.queryForBlob("README.md");
-    
-    const readmeText = readme.repository.object.text;
+    const readmeText = "dummy me";
+
+
+    console.log ("should be undefined:", await skillDao.getSkillByIdNum(111));
+
     return {
         props: {
             user: readmeText
         }
     }
+
 }

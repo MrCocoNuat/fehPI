@@ -4,7 +4,7 @@ export type GitBlobResponse = Promise<{
     repository: {
         object: {
             text: string;
-            byteSize: number;
+            isTruncated: boolean;
         };
     };
 }>
@@ -16,6 +16,7 @@ export type GitTreeResponse = Promise<{
                 {
                     name: string;
                     type: GitObjectType;
+                    object: {isTruncated: boolean};
                 }
             ];
         };

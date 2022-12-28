@@ -1,57 +1,58 @@
 import { TypeOfExpression } from "typescript";
 
+// These are objects, not arrays, because keyof only works on object types
 export const skillCategories = {
-    weapon : 0,
-    assist : 1,
-    special : 2, 
-    a : 3, 
-    b : 4, 
-    c : 5, 
-    s : 6, 
-    refine_effect : 7, 
-    beast_effect : 8,
+    0: "weapon",
+    1: "assist",
+    2: "special", 
+    3: "a", 
+    4: "b", 
+    5: "c", 
+    6: "s", 
+    7: "refine_effect", 
+    8: "beast_effect",
 } as const;
-export type SkillCategory = keyof typeof skillCategories;
-export type SkillCategoryId = typeof skillCategories[keyof typeof skillCategories];
+export type SkillCategory = typeof skillCategories[keyof typeof skillCategories];
+export type SkillCategoryId = keyof typeof skillCategories;
 
 export const movTypes = {
-    infantry : 0,
-    armored : 1,
-    cavalry : 2,
-    flier : 3
+    0: "infantry", 
+    1: "armored", 
+    2: "cavalry", 
+    3: "flier"
 } as const;
-export type MovType = keyof typeof movTypes;
-export type MovTypeId = typeof movTypes[keyof typeof movTypes];
+export type MovType = typeof movTypes[keyof typeof movTypes];
+export type MovTypeId = keyof typeof movTypes;
 
 export const wepTypes = {
-    sword: 0,
-    lance: 1,
-    axe: 2,
-    red_bow: 3,
-    blue_bow: 4,
-    green_bow: 5,
-    colorless_bow: 6,
-    red_dagger: 7,
-    blue_dagger: 8,
-    green_dagger: 9,
-    colorless_dagger: 10,
-    red_tome: 11,
-    blue_tome: 12,
-    green_tome: 13,
-    colorless_tome: 14,
-    staff: 15,
-    red_breath: 16,
-    blue_breath: 17,
-    green_breath: 18,
-    colorless_breath: 19,
-    red_beast: 20,
-    blue_beast: 21,
-    green_beast: 22,
-    colorless_beast: 23
+    0: "sword",
+    1: "lance",
+    2: "axe",
+    3: "red_bow",
+    4: "blue_bow",
+    5: "green_bow",
+    6: "colorless_bow",
+    7: "red_dagger",
+    8: "blue_dagger",
+    9: "green_dagger",
+    10: "colorless_dagger",
+    11: "red_tome",
+    12: "blue_tome",
+    13: "green_tome",
+    14: "colorless_tome",
+    15: "staff",
+    16: "red_breath",
+    17: "blue_breath",
+    18: "green_breath",
+    19: "colorless_breath",
+    20: "red_beast",
+    21: "blue_beast",
+    22: "green_beast",
+    23: "colorless_beast"
     //TODO- some of these have extra properties that would be nice to attach here??
 } as const;
-export type WepType = keyof typeof wepTypes;
-export type WepTypeId = typeof wepTypes[keyof typeof wepTypes];
+export type WepType = typeof wepTypes[keyof typeof wepTypes];
+export type WepTypeId = keyof typeof wepTypes;
 
 export interface IdNumIndexed {
     idNum: number

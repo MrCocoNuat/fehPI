@@ -1,6 +1,5 @@
-import { HeroDefinition, objForEach, Series, SeriesIdBitfield } from "../types/dao-types";
-import { bitvectorToBitfield } from "./dao-registry";
-import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
+import { HeroDefinition, objForEach, Series, SeriesIdBitfield } from "../../types/dao-types";
+import IdNumIndexedDaoImpl from "../types/idnum-indexed-dao";
 
 export default class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
     

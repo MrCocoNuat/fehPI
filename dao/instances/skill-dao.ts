@@ -1,5 +1,5 @@
-import {  MovementType, MovementTypeIdBitfield, objForEach, SkillDefinition, WeaponType, WeaponTypeIdBitfield,  } from "../types/dao-types";
-import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
+import {  MovementType, MovementTypeIdBitfield, objForEach, SkillDefinition, WeaponType, WeaponTypeIdBitfield,  } from "../../types/dao-types";
+import IdNumIndexedDaoImpl from "../types/idnum-indexed-dao";
 
 export default class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
 

@@ -1,7 +1,7 @@
 import path from "path";
-import { IdNumIndexed } from "../types/dao-types";
-import { GitObjectType } from "../types/git-types";
-import { fehAssetsJsonReader } from "./remote-repository";
+import { IdNumIndexed } from "../../types/dao-types";
+import { GitObjectType } from "../../types/git-types";
+import { fehAssetsJsonReader } from "../remote-data/remote-repository";
 
 export interface IdNumIndexedDao<V extends IdNumIndexed> {
     getByIdNums(idNums: number[]) : Promise<V[]>; 

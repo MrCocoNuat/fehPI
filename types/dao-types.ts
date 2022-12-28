@@ -100,9 +100,9 @@ export type SkillDefinition = IdNumIndexed & {
     enemyOnly : boolean,
     arcaneWeapon : boolean,
     
-    category : SkillCategoryId,
-    wepEquip: WepTypeIdBitfield,
-    movEquip: MoveTypeIdBitfield,
+    category : SkillCategory,
+    wepEquip: WeaponTypeIdBitfield,
+    movEquip: MovementTypeIdBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -137,9 +137,9 @@ export type HeroDefinition = IdNumIndexed & {
     dragonflowers : {maxCount: number},
     
     origins: SeriesIdBitfield,
-    series: SeriesId,
-    weaponType: WepTypeId,
-    moveType: MovTypeId,
+    series: Series,
+    weaponType: WeaponType,
+    moveType: MovementType,
     refresher: boolean,
     
     baseVectorId: number,

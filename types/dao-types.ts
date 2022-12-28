@@ -10,8 +10,8 @@ export const skillCategories = {
     7: "refine_effect", 
     8: "beast_effect",
 } as const;
-export type SkillCategory = typeof skillCategories[keyof typeof skillCategories];
 export type SkillCategoryId = keyof typeof skillCategories;
+export type SkillCategory = typeof skillCategories[SkillCategoryId];
 
 export const movTypes = {
     0: "infantry", 
@@ -19,8 +19,9 @@ export const movTypes = {
     2: "cavalry", 
     3: "flier"
 } as const;
-export type MovType = typeof movTypes[keyof typeof movTypes];
 export type MovTypeId = keyof typeof movTypes;
+export type MovType = typeof movTypes[MovTypeId];
+export type MoveTypeIdBitfield = {[moveTypeId in MovTypeId] : boolean};
 
 export const wepTypes = {
     0: "sword",
@@ -49,8 +50,31 @@ export const wepTypes = {
     23: "colorless_beast"
     //TODO- some of these have extra properties that would be nice to attach here??
 } as const;
-export type WepType = typeof wepTypes[keyof typeof wepTypes];
 export type WepTypeId = keyof typeof wepTypes;
+export type WepType = typeof wepTypes[WepTypeId];
+export type WepTypeIdBitfield = {[wepTypeId in WepTypeId] : boolean};
+
+// TODO-LANG - does this information need to be exposed outside of the API (which is english only?)
+export const series = {
+    0: "heroes",
+    1: "shadow_dragon_and_new_mystery",
+    2: "echoes",
+    3: "genealogy_of_the_holy_war",
+    4: "thracia_776",
+    5: "binding_blade",
+    6: "blazing_blade",
+    7: "sacred_stones",
+    8: "path_of_radiance",
+    9: "radiant_dawn",
+    10: "awakening",
+    11: "fates",
+    12: "three_houses",
+    13: "tokyo_mirage_sessions",
+} as const;
+export type SeriesId = keyof typeof series;
+export type Series = typeof series[SeriesId];
+export type SeriesIdBitfield = {[seriesId in SeriesId] : boolean};
+
 
 export interface IdNumIndexed {
     idNum: number
@@ -71,9 +95,9 @@ export type SkillDefinition = IdNumIndexed & {
     enemyOnly : boolean,
     arcaneWeapon : boolean,
     
-    category : number,
-    wepEquip: number,
-    movEquip: number, //TODO- should be maps from wep/move types to booleans? bitfield
+    category : SkillCategoryId,
+    wepEquip: WepTypeIdBitfield,
+    movEquip: MoveTypeIdBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -107,8 +131,8 @@ export type HeroDefinition = IdNumIndexed & {
     
     dragonflowers : {maxCount: number},
     
-    origins: number, //bitfield
-    series: number,
+    origins: SeriesIdBitfield,
+    series: SeriesId,
     weaponType: WepTypeId,
     moveType: MovTypeId,
     refresher: boolean,
@@ -117,6 +141,6 @@ export type HeroDefinition = IdNumIndexed & {
     baseStats: ParameterPerStat,
     growthRates: ParameterPerStat,
     
-    // importantly, heroes can equip Skills that are not exclusive OR appear in this collection
+    // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity];
 }

@@ -1,4 +1,5 @@
-import { SkillDefinition } from "../types/dao-types";
+import { movTypes, SkillDefinition, wepTypes } from "../types/dao-types";
+import { bitvectorToBitfield } from "./dao-registry";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
 
 export class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
@@ -17,8 +18,11 @@ export class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
             enemyOnly: json.enemy_only,
             arcaneWeapon: json.arcane_weapon,
             category: json.category,
-            wepEquip: json.wep_equip, //TODO - unbitmask this here!
-            movEquip: json.mov_equip
+            wepEquip: bitvectorToBitfield<typeof wepTypes>(wepTypes, json.wep_equip),
+            movEquip: bitvectorToBitfield<typeof movTypes>(movTypes, json.mov_equip),
         }
     }
+
+
 }
+

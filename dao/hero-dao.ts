@@ -1,4 +1,5 @@
-import { HeroDefinition } from "../types/dao-types";
+import { HeroDefinition, series } from "../types/dao-types";
+import { bitvectorToBitfield } from "./dao-registry";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
 
 export default class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
@@ -12,7 +13,7 @@ export default class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
             
             dragonflowers : {maxCount: json.dragonflowers.max_count},
             
-            origins: json.origins, //bitfield
+            origins: bitvectorToBitfield<typeof series>(series, json.origins),
             series: json.series,
             weaponType: json.weapon_type,
             moveType: json.move_type,

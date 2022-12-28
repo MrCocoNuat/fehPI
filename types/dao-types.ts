@@ -56,20 +56,20 @@ export type WepTypeIdBitfield = {[wepTypeId in WepTypeId] : boolean};
 
 // TODO-LANG - does this information need to be exposed outside of the API (which is english only?)
 export const series = {
-    0: "Heroes",
-    1: "ShadowDragonAndMystery",
-    2: "Echoes",
-    3: "GenealogyOfTheHolyWar",
-    4: "Thracia776",
-    5: "BindingBlade",
-    6: "BlazingBlade",
-    7: "SacredStones",
-    8: "PathOfRadiance",
-    9: "RadiantDawn",
-    10: "Awakening",
-    11: "Fates",
-    12: "ThreeHouses",
-    13: "TokyoMirageSessions",
+    0: "heroes",
+    1: "shadow_dragon_and_new_mystery",
+    2: "echoes",
+    3: "genealogy_of_the_holy_war",
+    4: "thracia_776",
+    5: "binding_blade",
+    6: "blazing_blade",
+    7: "sacred_stones",
+    8: "path_of_radiance",
+    9: "radiant_dawn",
+    10: "awakening",
+    11: "fates",
+    12: "three_houses",
+    13: "tokyo_mirage_sessions",
 } as const;
 export type SeriesId = keyof typeof series;
 export type Series = typeof series[SeriesId];

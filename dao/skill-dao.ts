@@ -1,5 +1,6 @@
-import {  MovementType, MovementTypeBitfield, objForEach, SkillDefinition, WeaponType, WeaponTypeBitfield,  } from "../types/dao-types";
+import {  MovementType, MovementTypeBitfield, SkillDefinition, WeaponType, WeaponTypeBitfield,  } from "../types/dao-types";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
+import { getAllEnumValues } from "enum-for";
 
 export class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
 
@@ -28,18 +29,16 @@ export class SkillDao extends IdNumIndexedDaoImpl<SkillDefinition> {
 // Is there a nice way to constrain a generic type to Numeric Enum???
 function toWeaponTypeIdBitfield(weaponTypeBitvector: number): WeaponTypeBitfield {
     const bitfield : any = {};
-    objForEach(WeaponType, (name) => {
-        const id = WeaponType[name];
-        if (!isNaN(id)) bitfield[id] = (weaponTypeBitvector & (1 << id)) > 0;
+    getAllEnumValues(WeaponType).forEach((id) => {
+        bitfield[id] = (weaponTypeBitvector & (1 << id)) > 0;
     });
 
     return bitfield;
 }
 function toMovementTypeIdBitfield(movementTypeBitvector: number): MovementTypeBitfield {
     const bitfield : any = {};
-    objForEach(MovementType, (name) => {
-        const id = MovementType[name];
-        if (!isNaN(id)) bitfield[id] = (movementTypeBitvector & (1 << id)) > 0;
+    getAllEnumValues(MovementType).forEach((id) => {
+        bitfield[id] = (movementTypeBitvector & (1 << id)) > 0;
     });
 
     return bitfield;

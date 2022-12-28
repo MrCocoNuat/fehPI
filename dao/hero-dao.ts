@@ -1,5 +1,6 @@
-import { HeroDefinition, objForEach, Series, SeriesBitfield } from "../types/dao-types";
+import { HeroDefinition, Series, SeriesBitfield } from "../types/dao-types";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
+import { getAllEnumValues } from "enum-for";
 
 export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
     
@@ -30,10 +31,9 @@ export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
 
 function toSeriesIdBitfield(seriesBitvector: number): SeriesBitfield {
     const bitfield : any = {};
-    objForEach(Series, (name) => {
-        const id = Series[name];
-        if (!isNaN(id)) bitfield[id] = (seriesBitvector & (1 << id)) > 0;
+    getAllEnumValues(Series).forEach((id) => {
+        bitfield[id] = (seriesBitvector & (1 << id)) > 0;
     });
-
+    
     return bitfield;
 }

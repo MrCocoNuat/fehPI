@@ -1,14 +1,5 @@
 // These are objects, not arrays, because keyof only works on object types
 
-// Thanks, https://stackoverflow.com/a/59723513
-export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): void {
-    for (let k in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, k)) {
-            f(k, obj[k]);
-        }
-    }
-}
-
 export enum SkillCategory {
     WEAPON,
     ASSIST,

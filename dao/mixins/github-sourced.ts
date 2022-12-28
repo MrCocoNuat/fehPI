@@ -24,18 +24,22 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
         async initialize() {
             console.time(this.TIMER_LABEL);
             console.log(">>Got repopath:", this.REPO_PATH);
-            await this.processTree();
+            await this.processTree(this.REPO_PATH);
             console.timeEnd(this.TIMER_LABEL);
         }
     
-        async processTree() {
+        async processTree(rootPath: string) {
             // get all of the files in the tree - these are mostly per-update
-            const tree = await fehAssetsJsonReader.queryForTree(this.REPO_PATH);
-            const entries = tree.repository.object.entries.filter(entry => entry.type === "blob");
-    
+            const tree = await fehAssetsJsonReader.queryForTree(rootPath);
+            const blobEntries = tree.repository.object.entries.filter(entry => entry.type === "blob");
+            const treeEntries = tree.repository.object.entries.filter(entry => entry.type === "tree");
             // for each file, get contents
-            for (const entry of entries) {
+            for (const entry of blobEntries) {
                 await this.processBlob(entry);
+            }
+            // for each subdirectory, recurse
+            for (const entry of treeEntries){
+                await this.processTree(path.join(rootPath, entry.name));
             }
         }
     

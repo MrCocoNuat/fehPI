@@ -1,5 +1,5 @@
-import HeroDao from "./instances/hero-dao";
-import SkillDao from "./instances/skill-dao";
+import { HeroDao }from "./types/hero-dao";
+import { SkillDao } from "./types/skill-dao";
 
-export const skillDao = new SkillDao({REPO_PATH: "files/assets/Common/SRPG/Skill", TIMER_LABEL: "TIME: Skill Definition DAO finished initialization"});
-export const heroDao = new HeroDao({REPO_PATH: "files/assets/Common/SRPG/Person", TIMER_LABEL: "TIME: Hero Definition DAO finished initialization"});
+export const skillDao = new SkillDao({repoPath: "files/assets/Common/SRPG/Skill", timerLabel: "TIME: Skill Definition DAO finished initialization"});
+export const heroDao = new HeroDao({repoPath: "files/assets/Common/SRPG/Person", timerLabel: "TIME: Hero Definition DAO finished initialization"});

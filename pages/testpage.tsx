@@ -16,8 +16,9 @@ export const getStaticProps : GetStaticProps = async () => {
 
 
     console.log("skill 595 is Geirskogul:", await skillDao.getByIdNums([595]));
+    console.log("this skill is also Geirskogul", await skillDao.getByIdTags(['SID_ゲイルスケグル']));
     console.log("hero 168 is Lucina: Brave Princess", await heroDao.getByIdNums([168]));
-
+    
     return {
         props: {
             user: readmeText

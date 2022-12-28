@@ -1,12 +1,23 @@
 // These are objects, not arrays, because keyof only works on object types
+
+// Thanks, https://stackoverflow.com/a/59723513
+export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): void {
+    for (let k in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+            f(k, obj[k]);
+        }
+    }
+}
+
+
 export const skillCategories = {
     0: "weapon",
     1: "assist",
     2: "special", 
-    3: "a", 
-    4: "b", 
-    5: "c", 
-    6: "s", 
+    3: "passive_a", 
+    4: "passive_b", 
+    5: "passive_c", 
+    6: "passive_s", 
     7: "refine_effect", 
     8: "beast_effect",
 } as const;

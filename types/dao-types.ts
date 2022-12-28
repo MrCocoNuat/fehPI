@@ -1,58 +1,85 @@
-import { TypeOfExpression } from "typescript";
-
 // These are objects, not arrays, because keyof only works on object types
-export const skillCategories = {
-    0: "weapon",
-    1: "assist",
-    2: "special", 
-    3: "a", 
-    4: "b", 
-    5: "c", 
-    6: "s", 
-    7: "refine_effect", 
-    8: "beast_effect",
-} as const;
-export type SkillCategory = typeof skillCategories[keyof typeof skillCategories];
-export type SkillCategoryId = keyof typeof skillCategories;
 
-export const movTypes = {
-    0: "infantry", 
-    1: "armored", 
-    2: "cavalry", 
-    3: "flier"
-} as const;
-export type MovType = typeof movTypes[keyof typeof movTypes];
-export type MovTypeId = keyof typeof movTypes;
+// Thanks, https://stackoverflow.com/a/59723513
+export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): void {
+    for (let k in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+            f(k, obj[k]);
+        }
+    }
+}
 
-export const wepTypes = {
-    0: "sword",
-    1: "lance",
-    2: "axe",
-    3: "red_bow",
-    4: "blue_bow",
-    5: "green_bow",
-    6: "colorless_bow",
-    7: "red_dagger",
-    8: "blue_dagger",
-    9: "green_dagger",
-    10: "colorless_dagger",
-    11: "red_tome",
-    12: "blue_tome",
-    13: "green_tome",
-    14: "colorless_tome",
-    15: "staff",
-    16: "red_breath",
-    17: "blue_breath",
-    18: "green_breath",
-    19: "colorless_breath",
-    20: "red_beast",
-    21: "blue_beast",
-    22: "green_beast",
-    23: "colorless_beast"
+export enum SkillCategory {
+    WEAPON,
+    ASSIST,
+    SPECIAL, 
+    PASSIVE_A, 
+    PASSIVE_B, 
+    PASSIVE_C, 
+    PASSIVE_S, 
+    REFINE_EFFECT, 
+    BEAST_EFFECT,
+};
+export type SkillCategoryName = keyof typeof SkillCategory;
+
+export enum MovementType {
+    INFANTRY, 
+    ARMORED, 
+    CAVALRY, 
+    FLIER,
+};
+export type MovementTypeName = keyof typeof MovementType;
+export type MovementTypeIdBitfield = {[movementTypeId in MovementType] : boolean};
+
+export enum WeaponType {
+    SWORD,
+    LANCE,
+    AXE,
+    RED_BOW,
+    BLUE_BOW,
+    GREEN_BOW,
+    COLORLESS_BOW,
+    RED_DAGGER,
+    BLUE_DAGGER,
+    GREEN_DAGGER,
+    COLORLESS_DAGGER,
+    RED_TOME,
+    BLUE_TOME,
+    GREEN_TOME,
+    COLORLESS_TOME,
+    STAFF,
+    RED_BREATH,
+    BLUE_BREATH,
+    GREEN_BREATH,
+    COLORLESS_BREATH,
+    RED_BEAST,
+    BLUE_BEAST,
+    GREEN_BEAST,
+    COLORLESS_BEAST,
     //TODO- some of these have extra properties that would be nice to attach here??
-} as const;
-export type WepType = typeof wepTypes[keyof typeof wepTypes];
-export type WepTypeId = keyof typeof wepTypes;
+};
+export type WeaponTypeName = keyof typeof WeaponType;
+export type WeaponTypeIdBitfield = {[weaponTypeId in WeaponType] : boolean};
+
+export enum Series {
+    HEROES,
+    SHADOW_DRAGON_AND_NEW_MYSTERY,
+    ECHOES,
+    GENEALOGY_OF_THE_HOLY_WAR,
+    THRACIA_776,
+    BINDING_BLADE,
+    BLAZING_BLADE,
+    SACRED_STONES,
+    PATH_OF_RADIANCE,
+    RADIANT_DAWN,
+    AWAKENING,
+    FATES,
+    THREE_HOUSES,
+    TOKYO_MIRAGE_SESSIONS,
+};
+export type SeriesName = keyof typeof Series;
+export type SeriesIdBitfield = {[seriesId in Series] : boolean};
+
 
 export interface IdNumIndexed {
     idNum: number
@@ -73,9 +100,9 @@ export type SkillDefinition = IdNumIndexed & {
     enemyOnly : boolean,
     arcaneWeapon : boolean,
     
-    category : number,
-    wepEquip: number,
-    movEquip: number, //TODO- should be maps from wep/move types to booleans? bitfield
+    category : SkillCategoryId,
+    wepEquip: WepTypeIdBitfield,
+    movEquip: MoveTypeIdBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -94,12 +121,12 @@ type SkillsPerRarity = [
     string | null,
     string | null,
 ]; // 14 length
-type ParameterPerStat = {
-    "hp": number,
-    "atk": number,
-    "spd": number,
-    "def": number,
-    "res": number
+export type ParameterPerStat = {
+    hp: number,
+    atk: number,
+    spd: number,
+    def: number,
+    res: number
 }
 
 export type HeroDefinition = IdNumIndexed & {
@@ -109,8 +136,8 @@ export type HeroDefinition = IdNumIndexed & {
     
     dragonflowers : {maxCount: number},
     
-    origins: number, //bitfield
-    series: number,
+    origins: SeriesIdBitfield,
+    series: SeriesId,
     weaponType: WepTypeId,
     moveType: MovTypeId,
     refresher: boolean,
@@ -119,6 +146,6 @@ export type HeroDefinition = IdNumIndexed & {
     baseStats: ParameterPerStat,
     growthRates: ParameterPerStat,
     
-    // importantly, heroes can equip Skills that are not exclusive OR appear in this collection
+    // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity];
 }

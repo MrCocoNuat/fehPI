@@ -39,3 +39,6 @@ next-env.d.ts
 
 # secrets and keys
 keys.json
+
+# local clones of remote data sources for development 
+local-clone/

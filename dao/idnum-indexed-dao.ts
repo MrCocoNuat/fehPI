@@ -4,7 +4,7 @@ import { GitObjectType } from "../types/git-types";
 import { fehAssetsJsonReader } from "./remote-repository";
 
 export interface IdNumIndexedDao<V extends IdNumIndexed> {
-    getByIdNums(idNums: [number]) : Promise<V[]>; 
+    getByIdNums(idNums: number[]) : Promise<V[]>; 
 }
 
 export default abstract class IdNumIndexedDaoImpl<V extends IdNumIndexed> implements IdNumIndexedDao<V> {

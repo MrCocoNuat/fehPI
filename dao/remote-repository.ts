@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { RepositoryReader } from "../api-client/github";
+import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../api-client/github/github";
 import { RepositoryDetails } from "../types/repository-types";
 
 const loadRepositoryDetails = (descriptor : string) => {
@@ -10,8 +10,11 @@ const loadRepositoryDetails = (descriptor : string) => {
     return fileJson[descriptor];
 }
 
-const fehRepositoryReader = () => {
-    return new RepositoryReader(loadRepositoryDetails("feh-assets-json"));
+const fehRepositoryReader : () => RepositoryReader = () => {
+    const repositoryDetails = loadRepositoryDetails("feh-assets-json");
+    return (process.env.NODE_ENV == "development")? 
+    new LocalRepositoryReader(repositoryDetails)
+    : new RemoteRepositoryReader(repositoryDetails);
 }
 
 export const fehAssetsJsonReader = fehRepositoryReader();

@@ -12,13 +12,11 @@ export type GitBlobResponse = Promise<{
 export type GitTreeResponse = Promise<{
     repository: {
         object: {
-            entries: [
-                {
-                    name: string;
-                    type: GitObjectType;
-                    object: {isTruncated: boolean};
-                }
-            ];
+            entries: {
+                name: string;
+                type: GitObjectType;
+                object: {isTruncated: boolean};
+            }[];
         };
     };
 }>

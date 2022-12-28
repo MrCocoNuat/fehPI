@@ -12,7 +12,7 @@ export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): v
 export enum SkillCategory {
     WEAPON,
     ASSIST,
-    special, 
+    SPECIAL, 
     PASSIVE_A, 
     PASSIVE_B, 
     PASSIVE_C, 
@@ -29,7 +29,7 @@ export enum MovementType {
     FLIER,
 };
 export type MovementTypeName = keyof typeof MovementType;
-export type MovementTypeIdBitfield = {[movementTypeId in MovementType] : boolean};
+export type MovementTypeBitfield = {[movementTypeId in MovementType] : boolean};
 
 export enum WeaponType {
     SWORD,
@@ -59,7 +59,7 @@ export enum WeaponType {
     //TODO- some of these have extra properties that would be nice to attach here??
 };
 export type WeaponTypeName = keyof typeof WeaponType;
-export type WeaponTypeIdBitfield = {[weaponTypeId in WeaponType] : boolean};
+export type WeaponTypeBitfield = {[weaponTypeId in WeaponType] : boolean};
 
 export enum Series {
     HEROES,
@@ -78,7 +78,7 @@ export enum Series {
     TOKYO_MIRAGE_SESSIONS,
 };
 export type SeriesName = keyof typeof Series;
-export type SeriesIdBitfield = {[seriesId in Series] : boolean};
+export type SeriesBitfield = {[seriesId in Series] : boolean};
 
 
 export interface IdNumIndexed {
@@ -100,9 +100,9 @@ export type SkillDefinition = IdNumIndexed & {
     enemyOnly : boolean,
     arcaneWeapon : boolean,
     
-    category : SkillCategoryId,
-    wepEquip: WepTypeIdBitfield,
-    movEquip: MoveTypeIdBitfield,
+    category : SkillCategory,
+    wepEquip: WeaponTypeBitfield,
+    movEquip: MovementTypeBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -136,10 +136,10 @@ export type HeroDefinition = IdNumIndexed & {
     
     dragonflowers : {maxCount: number},
     
-    origins: SeriesIdBitfield,
-    series: SeriesId,
-    weaponType: WepTypeId,
-    moveType: MovTypeId,
+    origins: SeriesBitfield,
+    series: Series,
+    weaponType: WeaponType,
+    movementType: MovementType,
     refresher: boolean,
     
     baseVectorId: number,

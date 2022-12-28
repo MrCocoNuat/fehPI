@@ -1,5 +1,4 @@
-import { HeroDefinition, objForEach, Series, SeriesIdBitfield } from "../types/dao-types";
-import { bitvectorToBitfield } from "./dao-registry";
+import { HeroDefinition, objForEach, Series, SeriesBitfield } from "../types/dao-types";
 import IdNumIndexedDaoImpl from "./idnum-indexed-dao";
 
 export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
@@ -16,7 +15,7 @@ export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
             series: json.series,
             origins: toSeriesIdBitfield(json.origins),
             weaponType: json.weapon_type,
-            moveType: json.move_type,
+            movementType: json.move_type,
             refresher: json.refresher,
             
             baseVectorId: json.base_vector_id,
@@ -29,7 +28,7 @@ export class HeroDao extends IdNumIndexedDaoImpl<HeroDefinition>{
     }
 }
 
-function toSeriesIdBitfield(seriesBitvector: number): SeriesIdBitfield {
+function toSeriesIdBitfield(seriesBitvector: number): SeriesBitfield {
     const bitfield : any = {};
     objForEach(Series, (name) => {
         const id = Series[name];

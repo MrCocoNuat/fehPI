@@ -12,7 +12,7 @@ export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): v
 export enum SkillCategory {
     WEAPON,
     ASSIST,
-    special, 
+    SPECIAL, 
     PASSIVE_A, 
     PASSIVE_B, 
     PASSIVE_C, 

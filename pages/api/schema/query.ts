@@ -58,7 +58,7 @@ export const setQueries = () => {
         description: "Given a Language, Looks up a list of message keys and returns a Message for each. No support for multiple languages in 1 query, because who needs that?",
         args: {
             language: qfb.arg({
-                type: LanguageEnum,
+                type: LanguageEnum, 
                 required: true
             }),
             messageKeys: qfb.arg({
@@ -66,7 +66,7 @@ export const setQueries = () => {
                 required: true,
             }),
         },
-        type: qfb.listRef(MessageObject, {nullable: false}),
+        type: qfb.listRef(MessageObject, {nullable: true}),
         nullable: false,
         resolve: async (parent, {language, messageKeys}) => (await messageDao.getByMessageKeys(language, messageKeys))
     }))

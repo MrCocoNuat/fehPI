@@ -16,7 +16,7 @@ export enum Terrain {
 }
 
 export function BattleTile({unit, terrain}: {unit?: {team: Team, idNum: number}, terrain: Terrain}){
-    return <div className={classes("battle-tile")}>
+    return <div className={""}>
     {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
     {Terrain[terrain]}
     </div>

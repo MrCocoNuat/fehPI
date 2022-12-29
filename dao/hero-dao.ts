@@ -37,3 +37,4 @@ function toSeriesIdBitfield(seriesBitvector: number): SeriesBitfield {
     
     return bitfield;
 }
+

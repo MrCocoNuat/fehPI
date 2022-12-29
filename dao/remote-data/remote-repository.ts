@@ -1,8 +1,10 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../api-client/github/github";
-import { RepositoryDetails } from "../types/repository-types";
+import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../../api-client/github/github";
+import { RepositoryDetails } from "../../types/repository-types";
+
+
 
 const loadRepositoryDetails = (descriptor : string) => {
     const fileText = readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "remote-repository.json"), "utf-8");

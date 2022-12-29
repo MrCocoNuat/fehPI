@@ -109,7 +109,7 @@ export class LocalRepositoryReader implements RepositoryReader {
                 object: {
                     entries: dirEntries.map((dirEntry) => ({
                         name: dirEntry.name,
-                        type: (dirEntry.isFile)? "blob" : "tree",
+                        type: (dirEntry.isFile())? "blob" : "tree",
                         object: {
                             isTruncated: false
                         }

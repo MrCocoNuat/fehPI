@@ -1,4 +1,4 @@
-import { HeroDefinition, Message, MovementType, ParameterPerStat, Series, SkillCategory, SkillDefinition, WeaponType } from "../../../types/dao-types";
+import { HeroDefinition, Message, MovementType, ParameterPerStat, Series, SkillCategory, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
 import { MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";

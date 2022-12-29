@@ -1,4 +1,4 @@
-import { HeroDefinition, Series, SeriesBitfield } from "../../types/dao-types";
+import { HeroDefinition, Series, SeriesBitfield } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { IdIndexed } from "../mixins/id-indexed";

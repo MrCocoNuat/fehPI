@@ -81,11 +81,8 @@ export type SeriesName = keyof typeof Series;
 export type SeriesIdBitfield = {[seriesId in Series] : boolean};
 
 
-export interface IdNumIndexed {
+export type SkillDefinition = {
     idNum: number
-}
-
-export type SkillDefinition = IdNumIndexed & {
     sortId: number,
     
     idTag : string,
@@ -129,7 +126,8 @@ export type ParameterPerStat = {
     res: number
 }
 
-export type HeroDefinition = IdNumIndexed & {
+export type HeroDefinition = {
+    idNum: number,
     sortValue: number,
     
     idTag: string,
@@ -148,4 +146,14 @@ export type HeroDefinition = IdNumIndexed & {
     
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity];
+}
+
+
+export enum Language {
+    EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT
+};
+
+export type Message = {
+    key: string,
+    value: string,
 }

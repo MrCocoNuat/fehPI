@@ -23,28 +23,28 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
 
         async initialize() {
             console.time(this.TIMER_LABEL);
-            console.log(">>Got repopath:", this.REPO_PATH);
             await this.processTree(this.REPO_PATH);
             console.timeEnd(this.TIMER_LABEL);
         }
     
-        async processTree(rootPath: string) {
+        async processTree(dirPath: string) {
             // get all of the files in the tree - these are mostly per-update
-            const tree = await fehAssetsJsonReader.queryForTree(rootPath);
+            const tree = await fehAssetsJsonReader.queryForTree(dirPath);
             const blobEntries = tree.repository.object.entries.filter(entry => entry.type === "blob");
             const treeEntries = tree.repository.object.entries.filter(entry => entry.type === "tree");
             // for each file, get contents
             for (const entry of blobEntries) {
-                await this.processBlob(entry);
+                // awaits not necessary for **eventual** correctness
+                await this.processBlob(dirPath, entry);
             }
             // for each subdirectory, recurse
             for (const entry of treeEntries){
-                await this.processTree(path.join(rootPath, entry.name));
+                await this.processTree(path.join(dirPath, entry.name));
             }
         }
     
-        async processBlob(entry: { name: string; type: GitObjectType; object: { isTruncated: boolean; }}) {
-            const entryPath = path.join(this.REPO_PATH, entry.name);
+        async processBlob(dirPath: string, entry: { name: string; object: { isTruncated: boolean; }}) {
+            const entryPath = path.join(dirPath, entry.name);
             let blobJson;
     
             if ((entry.object.isTruncated)) {

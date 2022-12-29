@@ -11,7 +11,8 @@ const typeToken = null! as Message;
 // There are 10 languages to support right now, each needs its own sub-DAO
 class LangMessageDao extends GithubSourced(typeToken, KeyIndexed(typeToken, Dao<string>)){
     RELEVANT_KEY_PATTERNS = [
-        /^MSID_.*/, // Skill names
+        /^MSID_.*/, // Messages related to Skills
+        /^MPID_.*/, // Messages related to Heroes (Persons)
     ] as const;
 
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){

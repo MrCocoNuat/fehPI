@@ -24,8 +24,8 @@ export const getStaticProps : GetStaticProps = async () => {
         (await messageDao.getByMessageKeys(Language.USEN, ['MSID_アスラの双刃']))[0].value,
         (await messageDao.getByMessageKeys(Language.EUFR, ['MSID_アスラの双刃']))[0].value,
         (await messageDao.getByMessageKeys(Language.JPJA, ['MSID_アスラの双刃']))[0].value,
-    ]
-    );
+    ]);
+    console.log("Legendary Shez's epithet in USEN is:", (await messageDao.getByMessageKeys(Language.USEN, ['MPID_HONOR_伝承シェズ女']))[0].value);
     
     return {
         props: {

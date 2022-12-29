@@ -19,6 +19,8 @@ export class HeroDao extends GithubSourced(typeToken, IdIndexed(typeToken, Dao<H
             sortValue: json.sort_value,
             
             idTag: json.id_tag,
+            nameId: (json.id_tag as string).replace(/^PID/, "MPID"),
+            epithetId: (json.id_tag as string).replace(/^PID/, "MPID_HONOR"),
             
             dragonflowers : {maxCount: json.dragonflowers.max_count},
             

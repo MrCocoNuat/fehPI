@@ -1,4 +1,4 @@
-import { HeroDefinition, MovementType, ParameterPerStat, Series, SkillCategory, SkillDefinition, WeaponType } from "../../../types/dao-types";
+import { HeroDefinition, Message, MovementType, ParameterPerStat, Series, SkillCategory, SkillDefinition, WeaponType } from "../../../types/dao-types";
 import { MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
@@ -161,4 +161,19 @@ export const HeroDefinitionObject = builder.objectRef<HeroDefinition>("HeroDefin
             description: "The games that this Hero is counted as being from"
         })
     }),
+})
+
+export const MessageObject = builder.objectRef<Message>("Message")
+.implement({
+    description: "A key and its associated human-readable message in some language",
+    fields: (ofb) => ({
+        key: ofb.exposeString("key", {
+            nullable: false,
+            description: "The unique key of this Message",
+        }),
+        value: ofb.exposeString("value", {
+            nullable: true,
+            description: "The human-readable value of this Message in some language. Can be null.",
+        })
+    })
 })

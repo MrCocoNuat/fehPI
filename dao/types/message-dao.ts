@@ -1,10 +1,9 @@
-// typescript needs this to correctly infer the type parameters of generic mixins, 
-
 import { Language, Message } from "../../types/dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { KeyIndexed } from "../mixins/key-indexed";
 
+// typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as Message;
 

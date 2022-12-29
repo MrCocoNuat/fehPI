@@ -1,14 +1,3 @@
-// These are objects, not arrays, because keyof only works on object types
-
-// Thanks, https://stackoverflow.com/a/59723513
-export function objForEach<T>(obj: T, f: (k: keyof T, v: T[keyof T]) => void): void {
-    for (let k in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, k)) {
-            f(k, obj[k]);
-        }
-    }
-}
-
 export enum SkillCategory {
     WEAPON,
     ASSIST,
@@ -29,7 +18,7 @@ export enum MovementType {
     FLIER,
 };
 export type MovementTypeName = keyof typeof MovementType;
-export type MovementTypeIdBitfield = {[movementTypeId in MovementType] : boolean};
+export type MovementTypeBitfield = {[movementTypeId in MovementType] : boolean};
 
 export enum WeaponType {
     SWORD,
@@ -59,7 +48,7 @@ export enum WeaponType {
     //TODO- some of these have extra properties that would be nice to attach here??
 };
 export type WeaponTypeName = keyof typeof WeaponType;
-export type WeaponTypeIdBitfield = {[weaponTypeId in WeaponType] : boolean};
+export type WeaponTypeBitfield = {[weaponTypeId in WeaponType] : boolean};
 
 export enum Series {
     HEROES,
@@ -78,7 +67,7 @@ export enum Series {
     TOKYO_MIRAGE_SESSIONS,
 };
 export type SeriesName = keyof typeof Series;
-export type SeriesIdBitfield = {[seriesId in Series] : boolean};
+export type SeriesBitfield = {[seriesId in Series] : boolean};
 
 
 export type SkillDefinition = {
@@ -98,8 +87,8 @@ export type SkillDefinition = {
     arcaneWeapon : boolean,
     
     category : SkillCategory,
-    wepEquip: WeaponTypeIdBitfield,
-    movEquip: MovementTypeIdBitfield,
+    wepEquip: WeaponTypeBitfield,
+    movEquip: MovementTypeBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -136,10 +125,10 @@ export type HeroDefinition = {
     
     dragonflowers : {maxCount: number},
     
-    origins: SeriesIdBitfield,
+    origins: SeriesBitfield,
     series: Series,
     weaponType: WeaponType,
-    moveType: MovementType,
+    movementType: MovementType,
     refresher: boolean,
     
     baseVectorId: number,

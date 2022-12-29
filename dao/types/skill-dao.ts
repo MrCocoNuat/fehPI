@@ -1,8 +1,9 @@
-import {  HeroDefinition, MovementType, MovementTypeIdBitfield, objForEach, SkillDefinition, WeaponType, WeaponTypeIdBitfield,  } from "../../types/dao-types";
+import {  MovementType, MovementTypeBitfield, SkillDefinition, WeaponType, WeaponTypeBitfield,  } from "../../types/dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { IdIndexed } from "../mixins/id-indexed";
 import { KeyIndexed } from "../mixins/key-indexed";
+import { getAllEnumValues } from "enum-for";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
@@ -12,7 +13,7 @@ export class SkillDao extends GithubSourced(typeToken, IdIndexed(typeToken, KeyI
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
         super({repoPath, timerLabel});
     }
-
+    
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
         return {
             idNum: json.id_num,
@@ -31,17 +32,17 @@ export class SkillDao extends GithubSourced(typeToken, IdIndexed(typeToken, KeyI
             movEquip: toMovementTypeIdBitfield(json.mov_equip),
         }
     }
-
+    
     protected override valueTypeConsumer: (skillDefinition: SkillDefinition) => void = (skillDefinition) => {
         this.setById(skillDefinition.idNum, skillDefinition);
         this.setByKey(skillDefinition.idTag, skillDefinition);
     };
-
+    
     async getByIdNums(idNums: number[]){
         await this.initialization;
         return this.getByIds(idNums);
     }
-
+    
     // NOTE!! idTags are not unique - e.g. Quick Riposte 3 as a PASSIVE_B and Quick Riposte 3 as a PASSIVE_S share the same idTag.
     async getByIdTags(idTags: string[]){
         await this.initialization;
@@ -51,21 +52,19 @@ export class SkillDao extends GithubSourced(typeToken, IdIndexed(typeToken, KeyI
 
 
 // Is there a nice way to constrain a generic type to Numeric Enum???
-function toWeaponTypeIdBitfield(weaponTypeBitvector: number): WeaponTypeIdBitfield {
+function toWeaponTypeIdBitfield(weaponTypeBitvector: number): WeaponTypeBitfield {
     const bitfield : any = {};
-    objForEach(WeaponType, (name) => {
-        const id = WeaponType[name];
-        if (!isNaN(id)) bitfield[id] = (weaponTypeBitvector & (1 << id)) > 0;
+    getAllEnumValues(WeaponType).forEach((id) => {
+        bitfield[id] = (weaponTypeBitvector & (1 << id)) > 0;
     });
-
+    
     return bitfield;
 }
-function toMovementTypeIdBitfield(movementTypeBitvector: number): MovementTypeIdBitfield {
+function toMovementTypeIdBitfield(movementTypeBitvector: number): MovementTypeBitfield {
     const bitfield : any = {};
-    objForEach(MovementType, (name) => {
-        const id = MovementType[name];
-        if (!isNaN(id)) bitfield[id] = (movementTypeBitvector & (1 << id)) > 0;
+    getAllEnumValues(MovementType).forEach((id) => {
+        bitfield[id] = (movementTypeBitvector & (1 << id)) > 0;
     });
-
+    
     return bitfield;
 }

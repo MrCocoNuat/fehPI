@@ -1,5 +1,4 @@
 import path from "path";
-import { GitObjectType } from "../../types/git-types";
 import { fehAssetsJsonReader } from "../remote-data/remote-repository";
 import { DaoConstructor } from "./dao";
 

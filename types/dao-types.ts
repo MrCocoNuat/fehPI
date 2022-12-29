@@ -1,5 +1,3 @@
-// These are objects, not arrays, because keyof only works on object types
-
 export enum SkillCategory {
     WEAPON,
     ASSIST,
@@ -89,8 +87,8 @@ export type SkillDefinition = {
     arcaneWeapon : boolean,
     
     category : SkillCategory,
-    wepEquip: WeaponTypeIdBitfield,
-    movEquip: MovementTypeIdBitfield,
+    wepEquip: WeaponTypeBitfield,
+    movEquip: MovementTypeBitfield,
 }
 
 type SkillsPerRarity = [ 
@@ -127,10 +125,10 @@ export type HeroDefinition = {
     
     dragonflowers : {maxCount: number},
     
-    origins: SeriesIdBitfield,
+    origins: SeriesBitfield,
     series: Series,
     weaponType: WeaponType,
-    moveType: MovementType,
+    movementType: MovementType,
     refresher: boolean,
     
     baseVectorId: number,

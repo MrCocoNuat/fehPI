@@ -4,21 +4,21 @@ import { BattleTile, Terrain } from "../components/BattleTile";
 import { Team } from "../components/UnitPortrait";
 
 export default function TestComponent(props: {user: any}){
-    const battleTiles : {terrain: Terrain, unit?: {idNum: number, team: Team}}[] = [
-        {terrain: Terrain.DEFENSIVE},
-        {terrain: Terrain.NORMAL, unit: {idNum: 156, team: Team.PLAYER}},
-        {terrain: Terrain.WALL_UNBREAKABLE, unit: {idNum: 158, team: Team.ENEMY}},
-    ] 
+    const battleTiles : {terrain: Terrain, unit?: {idNum: number, team: Team}}[] = new Array(48).fill(
+        {terrain: Terrain.NORMAL, unit: {idNum: 156, team: Team.PLAYER}}
+        );
+        
+        
+        return <>
+        <div>static props: {props.user}</div>
+        <div>Check console for "SENTINEL" strings, leaking server-side information</div>
+        
+        <BattleMap tiles={battleTiles}/>
+        </>
+    }
     
-    return <>
-    <div>static props: {props.user}</div>
-    <div>Check console for "SENTINEL" strings, leaking server-side information</div>
-
-    <BattleMap tiles={battleTiles}/>
-    </>
-}
-
-export const getStaticProps : GetStaticProps = async () => {
-    console.log("SENTINEL - client side means leak: STATIC PROPS");
-    return {props: {user: "dummy"}};
-}
+    export const getStaticProps : GetStaticProps = async () => {
+        console.log("SENTINEL - client side means leak: STATIC PROPS");
+        return {props: {user: "dummy"}};
+    }
+    

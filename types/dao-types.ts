@@ -131,6 +131,8 @@ export type HeroDefinition = {
     sortValue: number,
     
     idTag: string,
+    nameId: string,
+    epithetId: string,
     
     dragonflowers : {maxCount: number},
     

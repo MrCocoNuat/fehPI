@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import { Duplex } from "stream";
 import { BattleMap } from "../components/BattleMap";
 import { BattlePane } from "../components/BattlePane";
 import { BattleTile, Terrain } from "../components/BattleTile";
@@ -21,6 +22,7 @@ export default function TestComponent(props: { user: any }) {
 
         <nav className="bg-red-900 text-white h-[50px] w-full fixed top-0 flex justify-between items-center">
         <div>logo</div>
+        <div>name</div>
         <div>lang</div>
         </nav>
 

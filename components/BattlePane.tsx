@@ -16,7 +16,7 @@ export function BattlePane(props: any) {
     );
     const team = new Array(7).fill({ idNum: 156, team: Team.PLAYER });
 
-    return <div className="flex border-2 border-green-900 min-w-[800px]">
+    return <div className="flex flex-col md:flex-row border-2 border-green-900 md:min-w-[800px]">
         <div className="flex-initial flex flex-col">
             <Seeker></Seeker>
             <BattleMap tiles={battleTiles} ></BattleMap>

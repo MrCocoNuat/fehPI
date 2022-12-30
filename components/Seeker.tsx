@@ -1,4 +1,4 @@
-export function Seeker(props: any){
+export function Seeker(props: any) {
     return <div className="">
         Seeker
     </div>;

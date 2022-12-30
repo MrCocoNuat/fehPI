@@ -1,16 +1,20 @@
+import { useState } from "react";
 import { BattleMap } from "./BattleMap";
 import { Terrain } from "./BattleTile";
-import { Duel } from "./Duel";
+import { BattleDuel } from "./BattleDuel";
 import { Seeker } from "./Seeker";
-import { TabSelector } from "./TabSelector";
+import { Tab, TabSelector } from "./TabSelector";
 import { Team } from "./UnitPortrait";
 import { UnitTeam } from "./UnitTeam";
+import { BattleHistory } from "./BattleHistory";
 
-export function BattlePane(props: any){
-    const battleTiles : {terrain: Terrain, unit?: {idNum: number, team: Team}}[] = new Array(48).fill(
-        {terrain: Terrain.NORMAL, unit: {idNum: 156, team: Team.PLAYER}}
-        );
-    const team = new Array(4).fill({idNum:156, team: Team.PLAYER});
+export function BattlePane(props: any) {
+    const [selectedTab, updateSelectedTab] = useState(Tab.STATUS);
+
+    const battleTiles: { terrain: Terrain, unit?: { idNum: number, team: Team } }[] = new Array(48).fill(
+        { terrain: Terrain.NORMAL, unit: { idNum: 156, team: Team.PLAYER } }
+    );
+    const team = new Array(7).fill({ idNum: 156, team: Team.PLAYER });
 
     return <div className="flex border-2 border-green-900 min-w-[800px]">
         <div className="flex-initial flex flex-col">
@@ -18,10 +22,15 @@ export function BattlePane(props: any){
             <BattleMap tiles={battleTiles} ></BattleMap>
         </div>
         <div className="flex-initial flex flex-col">
-                <TabSelector></TabSelector>
+            <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>
+            {(selectedTab === Tab.STATUS) && <>
                 <UnitTeam units={team}></UnitTeam>
                 <UnitTeam units={team}></UnitTeam>
-                <Duel></Duel>
+                <BattleDuel></BattleDuel>
+            </>}
+            {(selectedTab === Tab.HISTORY) && <>
+                <BattleHistory></BattleHistory>
+            </>}
         </div>
     </div>
 }

@@ -14,9 +14,9 @@ export enum Terrain {
     WATER, // really redundant with mountain, both admit only fliers... but it looks different enough that it would be weird to exclude
 }
 
-export function BattleTile({unit, terrain}: {unit?: {team: Team, idNum: number}, terrain: Terrain}){
+export function BattleTile({ unit, terrain }: { unit?: { team: Team, idNum: number }, terrain: Terrain }) {
     return <div className="border-red-900 border-2">
-    {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
-    {Terrain[terrain]}
+        {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
+        {Terrain[terrain]}
     </div>
 }

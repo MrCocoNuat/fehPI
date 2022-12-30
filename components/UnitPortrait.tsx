@@ -2,9 +2,12 @@ export enum Team{
     PLAYER, ENEMY
 }
 
-export function UnitPortrait({unit}: {unit: {idNum: number, team: Team}}){
+export type Unit = {idNum: number, team: Team} // barebones
+
+export function UnitPortrait({unit}: {unit: Unit}){
     // yeah, not much of a looker right now...
-    return <div className="">
+    return <div className="border-blue-900 border-2 text-center aspect-1">
         {Team[unit.team]} - {unit.idNum}
+
     </div>
 }

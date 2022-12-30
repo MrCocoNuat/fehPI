@@ -1,5 +1,6 @@
 import { GetStaticProps } from "next";
 import { BattleMap } from "../components/BattleMap";
+import { BattlePane } from "../components/BattlePane";
 import { BattleTile, Terrain } from "../components/BattleTile";
 import { Team } from "../components/UnitPortrait";
 
@@ -8,12 +9,11 @@ export default function TestComponent(props: {user: any}){
         {terrain: Terrain.NORMAL, unit: {idNum: 156, team: Team.PLAYER}}
         );
         
-        
+        console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
         return <>
-        <div>static props: {props.user}</div>
-        <div>Check console for "SENTINEL" strings, leaking server-side information</div>
-        
-        <BattleMap tiles={battleTiles}/>
+        <div className="flex justify-center">
+        <BattlePane></BattlePane>
+        </div>
         </>
     }
     

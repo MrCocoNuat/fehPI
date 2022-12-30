@@ -1,5 +1,4 @@
 import { Team, UnitPortrait } from "./UnitPortrait";
-import { classes } from "./layout";
 
 export enum Terrain {
     NORMAL,
@@ -16,7 +15,7 @@ export enum Terrain {
 }
 
 export function BattleTile({unit, terrain}: {unit?: {team: Team, idNum: number}, terrain: Terrain}){
-    return <div className={""}>
+    return <div className="border-red-900 border-2">
     {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
     {Terrain[terrain]}
     </div>

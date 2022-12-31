@@ -10,10 +10,20 @@ import { getAllEnumValues } from "enum-for";
 const typeToken = null! as SkillDefinition;
 
 export class SkillDao extends GithubSourced(typeToken, IdIndexed(typeToken, KeyIndexed(typeToken, Dao<SkillDefinition>))){
+    initialization: Promise<void>;
+
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
-        super({repoPath, timerLabel});
+        super({repoPath});
+        console.time(timerLabel);
+        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
     }
     
+    private async loadData(){
+        return this.getGithubData()
+        .then(data => {this.setByIds(data); return data;})
+        .then(data => this.setByKeys(data));
+    }
+
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
         return {
             idNum: json.id_num,
@@ -32,11 +42,6 @@ export class SkillDao extends GithubSourced(typeToken, IdIndexed(typeToken, KeyI
             movEquip: toMovementTypeIdBitfield(json.mov_equip),
         }
     }
-    
-    protected override valueTypeConsumer: (skillDefinition: SkillDefinition) => void = (skillDefinition) => {
-        this.setById(skillDefinition.idNum, skillDefinition);
-        this.setByKey(skillDefinition.idTag, skillDefinition);
-    };
     
     async getByIdNums(idNums: number[]){
         await this.initialization;

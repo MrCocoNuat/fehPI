@@ -145,6 +145,6 @@ export enum Language {
 };
 
 export type Message = {
-    key: string,
+    idTag: string,
     value: string,
 }

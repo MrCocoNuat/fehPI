@@ -167,7 +167,7 @@ export const MessageObject = builder.objectRef<Message>("Message")
 .implement({
     description: "A key and its associated human-readable message in some language",
     fields: (ofb) => ({
-        key: ofb.exposeString("key", {
+        key: ofb.exposeString("idTag", {
             nullable: false,
             description: "The unique key of this Message",
         }),

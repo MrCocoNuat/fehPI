@@ -9,8 +9,17 @@ import { getAllEnumValues } from "enum-for";
 const typeToken = null! as HeroDefinition;
 
 export class HeroDao extends GithubSourced(typeToken, IdIndexed(typeToken, Dao<HeroDefinition>)){
+    private initialization: Promise<void>;
+    
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
-        super({repoPath, timerLabel});
+        super({repoPath});
+        console.time(timerLabel);
+        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
+    }
+
+    private async loadData(){
+        return this.getGithubData()
+        .then(data => this.setByIds(data));
     }
     
     protected override toValueType : (json: any) => HeroDefinition = (json) => {
@@ -39,10 +48,6 @@ export class HeroDao extends GithubSourced(typeToken, IdIndexed(typeToken, Dao<H
             skills: json.skills,
         }
     }
-    
-    protected override valueTypeConsumer: (heroDefinition: HeroDefinition) => void = (heroDefinition) => {
-        this.setById(heroDefinition.idNum, heroDefinition);
-    };
     
     async getByIdNums(idNums: number[]){
         await this.initialization;

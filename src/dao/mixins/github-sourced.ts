@@ -2,8 +2,8 @@ import path from "path";
 import { fehAssetsJsonReader } from "../remote-data/remote-repository";
 import { DaoConstructor } from "./dao";
 
-export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){ //add the arguments here? kinda violates the spirit of mixins?
-    return class GithubSourcedDao extends dBase{
+export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) { //add the arguments here? kinda violates the spirit of mixins?
+    return class GithubSourcedDao extends dBase {
         initialization: Promise<void>;
 
         protected toValueType!: (json: any) => V;
@@ -12,9 +12,9 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
         protected readonly TIMER_LABEL: string;
 
         // bye bye type safety!!
-        constructor(...args : any[]){
-            super(...(args.slice(1,args.length)));
-            const {repoPath, timerLabel} = args[0];
+        constructor(...args: any[]) {
+            super(...(args.slice(1, args.length)));
+            const { repoPath, timerLabel } = args[0];
             this.REPO_PATH = repoPath;
             this.TIMER_LABEL = timerLabel;
             this.initialization = this.initialize();
@@ -25,7 +25,7 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
             await this.processTree(this.REPO_PATH);
             console.timeEnd(this.TIMER_LABEL);
         }
-    
+
         async processTree(dirPath: string) {
             // get all of the files in the tree - these are mostly per-update
             const tree = await fehAssetsJsonReader.queryForTree(dirPath);
@@ -37,24 +37,19 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
                 await this.processBlob(dirPath, entry);
             }
             // for each subdirectory, recurse
-            for (const entry of treeEntries){
+            for (const entry of treeEntries) {
                 await this.processTree(path.join(dirPath, entry.name));
             }
         }
-    
-        async processBlob(dirPath: string, entry: { name: string; object: { isTruncated: boolean; }}) {
+
+        async processBlob(dirPath: string, entry: { name: string; object: { isTruncated: boolean; } }) {
             const entryPath = path.join(dirPath, entry.name);
             let blobJson;
-    
-            if ((entry.object.isTruncated)) {
-                // need to make an ordinary GET request
-                const blobText = await fehAssetsJsonReader.getRawBlob(entryPath);
-                blobJson = JSON.parse(blobText) as [any];
-            } else {
-                const blob = await fehAssetsJsonReader.queryForBlob(entryPath);
-                blobJson = JSON.parse(blob.repository.object.text) as [any];
-            }
-    
+
+            // always make an ordinary GET request, no point using graphql here
+            const blobText = await fehAssetsJsonReader.getRawBlob(entryPath);
+            blobJson = JSON.parse(blobText) as [any];
+
             blobJson.map(this.toValueType).forEach(this.valueTypeConsumer);
         }
 

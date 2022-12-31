@@ -1,15 +1,14 @@
 import { heroDao, messageDao, skillDao } from "../../../dao/dao-registry";
-import { Language } from "../../../dao/types/dao-types";
-import { MessageInput } from "./input";
 import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";
-import { getAllEnumValues } from "enum-for";
 import { LanguageEnum } from "./enum";
 
 
 export const setQueries = () => {
     builder.queryType();
     
+    builder.queryField("ping", (qfb) => qfb.string({nullable: false, resolve: () => "pong", description: "pong!"}));
+
     // define queries here. This one returns a field (with subfields)
     builder.queryField("skills", (qfb) => qfb.field({
         description: "Looks up a list of idNums and returns a SkillDefinition for each",

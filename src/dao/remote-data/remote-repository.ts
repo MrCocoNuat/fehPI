@@ -14,7 +14,8 @@ const loadRepositoryDetails = (descriptor : string) => {
 
 const fehRepositoryReader : () => RepositoryReader = () => {
     const repositoryDetails = loadRepositoryDetails("feh-assets-json");
-    return (process.env.NODE_ENV == "development")? 
+    //TEMP- always use local
+    return (process.env.NODE_ENV == "development" || process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test")? 
     new LocalRepositoryReader(repositoryDetails)
     : new RemoteRepositoryReader(repositoryDetails);
 }

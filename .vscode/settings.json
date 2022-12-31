@@ -2,5 +2,15 @@
     "git.branchProtection": [
         "main"
     ],
-    "git.branchProtectionPrompt": "alwaysCommitToNewBranch"
+    "git.branchProtectionPrompt": "alwaysCommitToNewBranch",
+
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "on"
+    },
+
+    "files.associations": {
+        "*.css": "tailwindcss"
+    }
 }

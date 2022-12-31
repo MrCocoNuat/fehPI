@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../../api-client/github/github";
-import { RepositoryDetails } from "../../types/repository-types";
+import { RepositoryDetails } from "./repository-types";
 
 
 

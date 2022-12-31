@@ -1,4 +1,4 @@
-import { Language, Message } from "../../types/dao-types";
+import { Language, Message } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { KeyIndexed } from "../mixins/key-indexed";

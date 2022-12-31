@@ -1,36 +1,38 @@
 import { GetStaticProps } from "next";
-import { heroDao, messageDao, skillDao } from "../dao/dao-registry";
-import { Language } from "../types/dao-types";
+import Head from "next/head";
+import { Duplex } from "stream";
+import { BattleMap } from "../components/BattleMap";
+import { BattlePane } from "../components/BattlePane";
+import { BattleTile, Terrain } from "../components/BattleTile";
+import { Team } from "../components/UnitPortrait";
 
+export default function TestComponent(props: { user: any }) {
+    const battleTiles: { terrain: Terrain, unit?: { idNum: number, team: Team } }[] = new Array(48).fill(
+        { terrain: Terrain.NORMAL, unit: { idNum: 156, team: Team.PLAYER } }
+    );
 
-export default function Test(props: {user: any}){
+    console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
+    //LANG-
     return <>
-    <div>static props: {props.user}</div>
-    <div>Check console for "SENTINEL" strings, leaking server-side information</div>
+
+        <Head>
+            <title>Turnwheel</title>
+            <meta name="description" content="turnwheel" />
+        </Head>
+
+        <nav className="bg-red-900 text-white h-[50px] w-full fixed top-0 flex justify-between items-center">
+        <div>logo</div>
+        <div>name</div>
+        <div>lang</div>
+        </nav>
+
+        <main className="flex justify-center mt-[100px]">
+            <BattlePane></BattlePane>
+        </main>
     </>
 }
 
-export const getStaticProps : GetStaticProps = async () => {
-    const octokitResponse = {viewer: {login: "dummy"}};
-    
-    const readmeText = "dummy me";
-    
-    
-    console.log("skill 595 is Geirskogul:", (await skillDao.getByIdNums([595]))[0].idTag);
-    console.log("skill with some idTag is also Geirskogul:", (await skillDao.getByIdTags(['SID_ゲイルスケグル']))[0].idTag);
-    console.log("hero 168 is Lucina: Brave Princess:", (await heroDao.getByIdNums([168]))[0].idTag);
-    console.log("Asura Blades in USEN, EUFR, JPJA:", 
-    [
-        (await messageDao.getByMessageKeys(Language.USEN, ['MSID_アスラの双刃']))[0].value,
-        (await messageDao.getByMessageKeys(Language.EUFR, ['MSID_アスラの双刃']))[0].value,
-        (await messageDao.getByMessageKeys(Language.JPJA, ['MSID_アスラの双刃']))[0].value,
-    ]);
-    console.log("Legendary Lucina's epithet in USEN is:", (await messageDao.getByMessageKeys(Language.USEN, [(await heroDao.getByIdNums([168]))[0].epithetId]))[0].value);
-    
-    return {
-        props: {
-            user: readmeText
-        }
-    }
-    
+export const getStaticProps: GetStaticProps = async () => {
+    console.log("SENTINEL - client side means leak: STATIC PROPS");
+    return { props: { user: "dummy" } };
 }

@@ -1,4 +1,4 @@
-import {  MovementType, MovementTypeBitfield, SkillDefinition, WeaponType, WeaponTypeBitfield,  } from "../../types/dao-types";
+import {  MovementType, MovementTypeBitfield, SkillDefinition, WeaponType, WeaponTypeBitfield,  } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { IdIndexed } from "../mixins/id-indexed";

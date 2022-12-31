@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/core";
 import path from "path";
-import { GitBlobResponse, GitTreeResponse } from "../../types/git-types";
-import { RepositoryDetails } from "../../types/repository-types";
+import { GitBlobResponse, GitTreeResponse } from "./git-types";
+import { RepositoryDetails } from "../../dao/remote-data/repository-types";
 import { keyFor } from "../keys";
 import fetch from "node-fetch";
 import { access, constants, readdir, readFile } from "fs/promises";

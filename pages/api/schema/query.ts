@@ -1,5 +1,5 @@
 import { heroDao, messageDao, skillDao } from "../../../dao/dao-registry";
-import { Language } from "../../../types/dao-types";
+import { Language } from "../../../dao/types/dao-types";
 import { MessageInput } from "./input";
 import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";

@@ -3,15 +3,10 @@ import Head from "next/head";
 import { BattlePane } from "../components/BattlePane";
 import { Terrain } from "../components/BattleTile";
 import { Team } from "../components/UnitPortrait";
-import { apolloClient } from "../components/api";
-import { gql, useQuery } from "@apollo/client";
-import { PING } from "../components/queries";
+import { PING } from "../components/api";
+import { useQuery } from "@apollo/client";
 
 export default function TestComponent(props: { user: any }) {
-    const battleTiles: { terrain: Terrain, unit?: { idNum: number, team: Team } }[] = new Array(48).fill(
-        { terrain: Terrain.NORMAL, unit: { idNum: 156, team: Team.PLAYER } }
-    );
-
     const {loading, data, error} = useQuery(PING);
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;

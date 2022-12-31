@@ -11,10 +11,12 @@ import { BattleHistory } from "./BattleHistory";
 export function BattlePane(props: any) {
     const [selectedTab, updateSelectedTab] = useState(Tab.STATUS);
 
-    const battleTiles: { terrain: Terrain, unit?: { idNum: number, team: Team } }[] = new Array(48).fill(
-        { terrain: Terrain.NORMAL, unit: { idNum: 156, team: Team.PLAYER } }
-    );
-    const team = new Array(7).fill({ idNum: 156, team: Team.PLAYER });
+    const getRandomIdNum = () => Math.floor(600*Math.random());
+
+    const [battleTiles, updateBattleTiles ] = useState(new Array(48).fill(0).map( () =>
+        ({ terrain: Terrain.NORMAL, unit: { idNum: getRandomIdNum(), team: Team.PLAYER } })
+    ));
+    const [team, updateTeam] = useState(new Array(7).fill(0).map(() => {return { idNum: getRandomIdNum(), team: Team.PLAYER }}));
 
     return <div className="flex flex-col md:flex-row border-2 border-green-900 md:min-w-[800px]">
         <div className="flex-initial flex flex-col">

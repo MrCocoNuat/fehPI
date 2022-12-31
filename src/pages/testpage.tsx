@@ -4,20 +4,20 @@ import { BattlePane } from "../components/BattlePane";
 import { Terrain } from "../components/BattleTile";
 import { Team } from "../components/UnitPortrait";
 import { apolloClient } from "../components/api";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
+import { PING } from "../components/queries";
 
 export default function TestComponent(props: { user: any }) {
     const battleTiles: { terrain: Terrain, unit?: { idNum: number, team: Team } }[] = new Array(48).fill(
         { terrain: Terrain.NORMAL, unit: { idNum: 156, team: Team.PLAYER } }
     );
 
-    console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
-    apolloClient.query({
-        query: gql`{
-          ping
-        }`,
-    }).then((result) => console.log(result));
+    const {loading, data, error} = useQuery(PING);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
 
+    console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
+    console.log(`graphql reply: ${JSON.stringify(data)}`);
     //LANG-
     return <>
 

@@ -3,6 +3,7 @@ import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, 
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../../../dao/dao-registry";
+import { DefinitionInfo } from "typescript";
 
 // From TypeScript Types, create ObjectRefs
 export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
@@ -34,8 +35,7 @@ SkillDefinitionObject.implement({
                     required: true,
                 })
             },
-            load: messageObjectLoader,
-            resolve: messageObjectResolver("nameId"),
+            ...messageObjectLoadAndResolve("nameId"),
             description: "The Message holding the name of the Skill. Provide a NONE Language argument if you just want the key."
         }),
         desc: ofb.loadable({
@@ -47,8 +47,7 @@ SkillDefinitionObject.implement({
                     required: true,
                 })
             },
-            load: messageObjectLoader,
-            resolve: messageObjectResolver("descId"),
+            ...messageObjectLoadAndResolve("descId"),
             description: "The Message holding the description of the Skill. Provide a NONE Language argument if you just want the key."
         }),
         imageUrl: ofb.exposeString("imageUrl", {
@@ -149,8 +148,7 @@ HeroDefinitionObject.implement({
                     required: true,
                 })
             },
-            load: messageObjectLoader,
-            resolve: messageObjectResolver("nameId"),
+            ...messageObjectLoadAndResolve("nameId"),
             description: "The Message holding the name of the Hero. Provide a NONE Language argument if you just want the key."
         }),
         epithet: ofb.loadable({
@@ -162,8 +160,7 @@ HeroDefinitionObject.implement({
                     required: true,
                 })
             },
-            load: messageObjectLoader,
-            resolve: messageObjectResolver("epithetId"),
+            ...messageObjectLoadAndResolve("epithetId"),
             description: "The Message holding the epithet of the Hero. Provide a NONE Language argument if you just want the key."
         }),
         imageUrl: ofb.exposeString("imageUrl", {
@@ -245,9 +242,9 @@ HeroDefinitionObject.implement({
 
 // yes this is pretty nasty type coercion all around. What can you do when serializing?
 const messageObjectLoader = async (langPlusKeys: string[]) => {
-    const keys = langPlusKeys.map(langPlusKey => langPlusKey.slice(4));
+    const keys = langPlusKeys.map(langPlusKey => JSON.parse(langPlusKey).key);
     // will never be called with 0 length array so deserializing the first element is ok
-    const language = langPlusKeys[0].slice(0, 4) as keyof typeof OptionalLanguage;
+    const language = JSON.parse(langPlusKeys[0]).lang as keyof typeof OptionalLanguage;
 
     if (language === OptionalLanguage[OptionalLanguage.NONE]) {
         // caller specifically only wants keys
@@ -257,9 +254,16 @@ const messageObjectLoader = async (langPlusKeys: string[]) => {
     }
 }
 function messageObjectResolver<Definition>(property: keyof Definition) {
-    return (definition: Definition, { language }: { language: OptionalLanguage}) =>
+    return (definition: Definition, { language }: { language: OptionalLanguage }) =>
         // stuff the language name into the key string, using the NULL_LANGUAGE string if needed
-        `${OptionalLanguage[language]}${definition[property]}`
+        JSON.stringify({ lang: OptionalLanguage[language], key: definition[property] })
+}
+// destructure this directly - encapsulates at least a little
+function messageObjectLoadAndResolve<Definition>(property: keyof Definition) {
+    return ({
+        load: messageObjectLoader,
+        resolve: messageObjectResolver(property),
+    })
 }
 
 export const MessageObject = builder.objectRef<Message>("Message");

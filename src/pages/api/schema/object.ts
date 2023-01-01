@@ -1,9 +1,8 @@
-import { HeroDefinition, Message, MovementType, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
-import { MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
+import { HeroDefinition, Language, Message, MovementType, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
+import { LanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
-import { ContextType } from "react";
-import { skillDao } from "../../../dao/dao-registry";
+import { messageDao, skillDao } from "../../../dao/dao-registry";
 
 // From TypeScript Types, create ObjectRefs
 export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
@@ -26,13 +25,31 @@ SkillDefinitionObject.implement({
             nullable: false,
             description: "Internal string identifier of Skill itself",
         }),
-        nameId: ofb.exposeString("nameId", {
+        name: ofb.loadable({
+            type: MessageObject,
             nullable: false,
-            description: "String identifier for the Message of the name of the Skill"
+            args: {
+                language: ofb.arg({
+                    type: LanguageEnum,
+                    required: false,
+                })
+            },
+            load: messageObjectLoader,
+            resolve: messageObjectResolver<SkillDefinition>("nameId"),
+            description: "The Message holding the name of the Skill. Provide a null Language argument if you just want the key."
         }),
-        descId: ofb.exposeString("descId", {
+        desc: ofb.loadable({
+            type: MessageObject,
             nullable: false,
-            description: "String identifier for the Message of the description of the Skill"
+            args: {
+                language: ofb.arg({
+                    type: LanguageEnum,
+                    required: false,
+                })
+            },
+            load: messageObjectLoader,
+            resolve: messageObjectResolver<SkillDefinition>("descId"),
+            description: "The Message holding the description of the Skill. Provide a null Language argument if you just want the key."
         }),
         imageUrl: ofb.exposeString("imageUrl", {
             nullable: true,
@@ -201,17 +218,41 @@ HeroDefinitionObject.implement({
     }),
 })
 
-export const MessageObject = builder.objectRef<Message>("Message")
-    .implement({
-        description: "A key and its associated human-readable message in some language",
-        fields: (ofb) => ({
-            key: ofb.exposeString("idTag", {
-                nullable: false,
-                description: "The unique key of this Message",
-            }),
-            value: ofb.exposeString("value", {
-                nullable: true,
-                description: "The human-readable value of this Message in some language. Can be null.",
-            })
+
+// Pothos does not support other than through a React Context, and in a standalone graphql api that does not make much sense...
+// do a dumb hack to serialize both arguments (Language, key) into a single string key for the dataloader
+//   we must additionally support null Language
+// Additionally each field must be loaded separately since someone can want names in one language and descriptions in another language...
+const NULL_LANGUAGE = "NLNL";
+const messageObjectLoader = async (langPlusKeys: string[]) => {
+    const keys = langPlusKeys.map(langPlusKey => langPlusKey.slice(4));
+    // will never be called with 0 length array so deserializing the first element is ok
+    const lang = langPlusKeys[0].slice(0, 4);
+
+    if (lang === NULL_LANGUAGE) {
+        // caller specifically only wants keys
+        return keys.map(key => ({ idTag: key })) as Message[];
+    } else { // need to call dao
+        return messageDao.getByMessageKeys(Language[lang as keyof typeof Language], keys);
+    }
+}
+function messageObjectResolver<Definition>(property: keyof Definition) {
+    return (definition: Definition, { language }: { language?: Language | null }) =>
+        // stuff the language name into the key string, using the NULL_LANGUAGE string if needed
+        `${(language) ? Language[language] : NULL_LANGUAGE}${definition[property]}`
+}
+
+export const MessageObject = builder.objectRef<Message>("Message");
+MessageObject.implement({
+    description: "A key and its associated human-readable message in some language",
+    fields: (ofb) => ({
+        key: ofb.exposeString("idTag", {
+            nullable: false,
+            description: "The unique key of this Message",
+        }),
+        value: ofb.exposeString("value", {
+            nullable: true,
+            description: "The human-readable value of this Message in some language. Can be null.",
         })
     })
+})

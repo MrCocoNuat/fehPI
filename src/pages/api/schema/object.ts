@@ -168,7 +168,7 @@ HeroDefinitionObject.implement({
         }),
         imageUrl: ofb.exposeString("imageUrl", {
             nullable: true,
-            description: "FEH wiki URL of an image of this Hero's face",
+            description: "FEH wiki URL of an image of this Hero's face. Other images are not supported at the moment.",
         }),
         maxDragonflowers: ofb.int({
             nullable: false,

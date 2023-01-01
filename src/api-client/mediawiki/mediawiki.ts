@@ -60,7 +60,11 @@ export class MediaWikiReader {
                     console.error(`MediaWiki returned missing for title ${title}`);
                     return;   
                 }
-                imageUrlsByFileTitles[title] = imageinfo[0].url;
+                // remove query parameters (what the heck is cb?)
+                // yeah you could just regex this but that is harder to immediately understand...
+                const url = new URL(imageinfo[0].url);
+                url.search = "";
+                imageUrlsByFileTitles[title] = url.toString();
             });
         }
         // return results in the order requested

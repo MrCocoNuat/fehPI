@@ -1,5 +1,5 @@
 import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
-import { LanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
+import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../../../dao/dao-registry";
@@ -30,7 +30,7 @@ SkillDefinitionObject.implement({
             nullable: false,
             args: {
                 language: ofb.arg({
-                    type: LanguageEnum,
+                    type: OptionalLanguageEnum,
                     required: true,
                 })
             },
@@ -43,7 +43,7 @@ SkillDefinitionObject.implement({
             nullable: false,
             args: {
                 language: ofb.arg({
-                    type: LanguageEnum,
+                    type: OptionalLanguageEnum,
                     required: true,
                 })
             },
@@ -145,7 +145,7 @@ HeroDefinitionObject.implement({
             nullable: false,
             args: {
                 language: ofb.arg({
-                    type: LanguageEnum,
+                    type: OptionalLanguageEnum,
                     required: true,
                 })
             },
@@ -158,7 +158,7 @@ HeroDefinitionObject.implement({
             nullable: false,
             args: {
                 language: ofb.arg({
-                    type: LanguageEnum,
+                    type: OptionalLanguageEnum,
                     required: true,
                 })
             },

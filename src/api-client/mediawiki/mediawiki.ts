@@ -1,36 +1,22 @@
-import { messageDao } from "../../dao/dao-registry";
-import { SkillCategory, SkillDefinition } from "../../dao/types/dao-types";
-import { TITLE_SEPARATOR, toFileTitle } from "./file-title";
-import { Titleable, WikiDetails } from "./mediawiki-types";
+import { WikiDetails } from "../../dao/remote-data/datasource-types";
+import { asciify, TITLE_SEPARATOR } from "./file-title";
 
-export class MediaWikiHero implements Titleable {
-    title: string;
-    toTitle() {
-        return this.title;
-    }
-}
 
-export class MediaWikiSkill implements Titleable {
-    title: string;
-    toTitle(){
-        return this.title;
-    }   
-
-    const supportedCategories = [
-        SkillCategory.PASSIVE_A,
-        SkillCategory.PASSIVE_B,
-        SkillCategory.PASSIVE_C,
-        SkillCategory.PASSIVE_S,
-    ]
-    constructor(skillDefinition: SkillDefinition){
-        const category = skillDefinition.category;
-        if (!this.supportedCategories.includes(category)){
-            throw new Error(`Mediawiki Unsupported Skill category for ${skillDefinition.idTag}`);
+type MediaWikiResponse = {
+    query: {
+        pages: {
+            [pageId: number]: {
+                title: string,
+                imageinfo: {
+                    url: string
+                }[]
+            }
         }
     }
 }
 
 export class MediaWikiReader {
+    private IMAGE_URL_QUERY_FACTORY: (upToFiftyTitles: string[]) => string;
 
     constructor({ baseUrl }: WikiDetails) {
         // mediawiki allows 50 requests in one batch, so do that!
@@ -50,7 +36,36 @@ export class MediaWikiReader {
         }
     }
 
+    // return results ordered!
+    async queryImageUrls(fileTitles: string[]) {
 
+        // batch up
+        const batchSize = 50;
+        const batches: string[][] = [];
+        for (let i = 0; i < fileTitles.length; i += batchSize) {
+            batches.push(fileTitles.slice(i, i + batchSize));
+        }
 
+        // collect results in:
+        const imageUrlsByFileTitles: { [fileTitle: string]: string } = {};
+        // each goes through
+        // MUST REMEMBER - forEach does not support async/await !!
+        for (const batch of batches) {
+            const batchJson= await fetch(this.IMAGE_URL_QUERY_FACTORY(batch)).then(data => data.json()) as MediaWikiResponse;
+            // associate the resulting urls with their file title for later retrieval
+            Object.values(batchJson.query.pages).forEach(({ title, imageinfo }) => {
+                // !!! The title property is returned with spaces, not underscores!
+                if (imageinfo === undefined){
+                    //uh oh
+                    console.error(`MediaWiki returned missing for title ${title}`);
+                    return;   
+                }
+                imageUrlsByFileTitles[title] = imageinfo[0].url;
+            });
+        }
+        // return results in the order requested
+        const imageUrls = fileTitles.map(fileTitle => imageUrlsByFileTitles[fileTitle]);
+        return imageUrls;
+    }
 
 }

@@ -4,3 +4,7 @@ export interface RepositoryDetails {
     branch: string,
     rawUrl: string
 }
+
+export interface WikiDetails {
+    baseUrl: string,
+}

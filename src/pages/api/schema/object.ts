@@ -25,11 +25,15 @@ export const SkillDefinitionObject = builder.objectRef<SkillDefinition>("SkillDe
         }),
         nameId: ofb.exposeString("nameId", {
             nullable: false, 
-            description: "String identifier for the name of the Skill"
+            description: "String identifier for the Message of the name of the Skill"
         }),
         descId: ofb.exposeString("descId", {
             nullable: false, 
-            description: "String identifier for the description of the Skill"
+            description: "String identifier for the Message of the description of the Skill"
+        }),
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills.",
         }),
         prerequisites: ofb.field({
             type: ofb.listRef("String", {
@@ -111,6 +115,18 @@ export const HeroDefinitionObject = builder.objectRef<HeroDefinition>("HeroDefin
         idTag: ofb.exposeString("idTag", {
             nullable: false, 
             description: "Internal string identifier of Hero",
+        }),
+        nameId: ofb.exposeString("nameId", {
+           nullable: false,
+           description: "String identifier of the Message of the name of the Hero",
+        }),
+        epithetId: ofb.exposeString("epithetId", {
+           nullable: false,
+           description: "String identifier of the Message of the epithet of the Hero",
+        }),
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Hero's face",
         }),
         maxDragonflowers: ofb.int({
             nullable: false,

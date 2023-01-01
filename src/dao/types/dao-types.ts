@@ -89,6 +89,8 @@ export type SkillDefinition = {
     category : SkillCategory,
     wepEquip: WeaponTypeBitfield,
     movEquip: MovementTypeBitfield,
+
+    imageUrl?: string,
 }
 
 type SkillsPerRarity = [ 
@@ -136,7 +138,9 @@ export type HeroDefinition = {
     growthRates: ParameterPerStat,
     
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
-    skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity];
+    skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity],
+
+    imageUrl?: string;
 }
 
 

@@ -3,12 +3,13 @@ import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { IdIndexed } from "../mixins/id-indexed";
 import { getAllEnumValues } from "enum-for";
+import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as HeroDefinition;
 
-export class HeroDao extends GithubSourced(typeToken, IdIndexed(typeToken, Dao<HeroDefinition>)){
+export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, IdIndexed(typeToken, Dao<HeroDefinition>))){
     private initialization: Promise<void>;
     
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
@@ -19,7 +20,9 @@ export class HeroDao extends GithubSourced(typeToken, IdIndexed(typeToken, Dao<H
 
     private async loadData(){
         return this.getGithubData()
-        .then(data => this.setByIds(data));
+        .then(data => data.filter(definition => definition.idNum > 0)) // remove the NULL Hero
+        .then(data => this.populateHeroImageUrls(data))
+        .then(/* not async so block is fine */data => {this.setByIds(data); return data});
     }
     
     protected override toValueType : (json: any) => HeroDefinition = (json) => {

@@ -1,5 +1,5 @@
 import path from "path";
-import { fehAssetsJsonReader } from "../remote-data/remote-repository";
+import { fehAssetsJsonReader } from "../remote-data/remote-data";
 import { DaoConstructor } from "./dao";
 
 export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) { //add the arguments here? kinda violates the spirit of mixins?

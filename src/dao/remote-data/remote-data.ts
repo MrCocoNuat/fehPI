@@ -14,7 +14,7 @@ const loadDataSourceDetails = (descriptor: string) => {
 const fehRepositoryReader: () => RepositoryReader = () => {
     const repositoryDetails = loadDataSourceDetails("feh-assets-json") as RepositoryDetails;
     //in dev, use a local copy instead of around 100 graphql requests
-    return (process.env.NODE_ENV == "development") ?
+    return (!!repositoryDetails.useLocal) ?
         new LocalRepositoryReader(repositoryDetails)
         : new RemoteRepositoryReader(repositoryDetails);
 }

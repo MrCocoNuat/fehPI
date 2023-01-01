@@ -147,6 +147,9 @@ export type HeroDefinition = {
 export enum Language {
     EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT
 };
+export enum OptionalLanguage {
+    EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT, NONE
+};
 
 export type Message = {
     idTag: string,

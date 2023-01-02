@@ -45,7 +45,7 @@ export enum WeaponType {
     BLUE_BEAST,
     GREEN_BEAST,
     COLORLESS_BEAST,
-    //TODO- some of these have extra properties that would be nice to attach here??
+    //TODO:- some of these have extra properties that would be nice to attach here??
 };
 export type WeaponTypeName = keyof typeof WeaponType;
 export type WeaponTypeBitfield = {[weaponTypeId in WeaponType] : boolean};
@@ -89,6 +89,8 @@ export type SkillDefinition = {
     category : SkillCategory,
     wepEquip: WeaponTypeBitfield,
     movEquip: MovementTypeBitfield,
+
+    imageUrl?: string,
 }
 
 type SkillsPerRarity = [ 
@@ -136,15 +138,20 @@ export type HeroDefinition = {
     growthRates: ParameterPerStat,
     
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
-    skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity];
+    skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity],
+
+    imageUrl?: string;
 }
 
 
 export enum Language {
     EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT
 };
+export enum OptionalLanguage {
+    EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT, NONE
+};
 
 export type Message = {
-    key: string,
+    idTag: string,
     value: string,
 }

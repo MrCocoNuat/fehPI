@@ -1,7 +1,8 @@
 import { heroDao, messageDao, skillDao } from "../../../dao/dao-registry";
 import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";
-import { LanguageEnum } from "./enum";
+import { LanguageEnum, OptionalLanguageEnum } from "./enum";
+import { Language, OptionalLanguage } from "../../../dao/types/dao-types";
 
 
 export const setQueries = () => {
@@ -67,6 +68,8 @@ export const setQueries = () => {
         },
         type: qfb.listRef(MessageObject, {nullable: true}),
         nullable: false,
-        resolve: async (parent, {language, messageKeys}) => (await messageDao.getByMessageKeys(language, messageKeys))
+        resolve: async (parent, {language, messageKeys}) => {
+            return await messageDao.getByMessageKeys(language, messageKeys);
+        }
     }))
 }

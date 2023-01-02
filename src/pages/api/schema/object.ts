@@ -3,7 +3,6 @@ import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, 
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../../../dao/dao-registry";
-import { DefinitionInfo } from "typescript";
 
 // From TypeScript Types, create ObjectRefs
 export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
@@ -52,15 +51,16 @@ SkillDefinitionObject.implement({
         }),
         imageUrl: ofb.exposeString("imageUrl", {
             nullable: true,
-            description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills.",
+            description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills, null otherwise",
         }),
         prerequisites: ofb.field({
             type: ofb.listRef(SkillDefinitionObject, {
-                nullable: true
+                nullable: false
             }),
             nullable: false,
-            resolve: (skillDefinition) => skillDefinition.prerequisites,
-            description: "The previous Skills in this Skill's inheritance tree. Just one needs to be learned.",
+            // remove nulls, they are worthless.
+            resolve: (skillDefinition) => skillDefinition.prerequisites.filter((prerequisite) : prerequisite is string => !!prerequisite),
+            description: "The previous Skills in this Skill's inheritance tree; if there are any, only one needs to be learned.",
         }),
         refineBase: ofb.field({
             type: SkillDefinitionObject,
@@ -72,7 +72,7 @@ SkillDefinitionObject.implement({
             type: SkillDefinitionObject,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.nextSkill,
-            description: "The next Skill in this Skill's inheritance tree",
+            description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise",
         }),
         exclusive: ofb.exposeBoolean("exclusive", {
             nullable: false,
@@ -228,7 +228,7 @@ HeroDefinitionObject.implement({
                 })
             },
             resolve: (heroDefinition, { rarity }) => heroDefinition.skills[rarity - 1],
-            description: "The Skills that this Hero learns at each rarity"
+            description: "The Skills that this Hero learns at each rarity. This is unfinished and pretty janky."
         })
     }),
 })

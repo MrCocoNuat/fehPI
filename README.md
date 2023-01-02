@@ -9,7 +9,7 @@ Test: this change can only be merged/pushed into main through an approved PR, ev
 
 ### Octokit
 
-This application optionally makes use of the [Octokit](https://github.com/octokit/octokit.js/) library to access a remote repository at https://github.com/Hertz-Devil/feh-assets-json. You will need to supply your own GitHub PAT at `src/api-client/keys.json`:
+This application optionally makes use of the [Octokit](https://github.com/octokit/octokit.js/) library to access a remote repository at https://github.com/HertzDevil/feh-assets-json. You will need to supply your own GitHub PAT at `src/api-client/keys.json`:
 ```
 {
   "octokit": "YOUR_PERSONAL_ACCESS_TOKEN_HERE"
@@ -33,7 +33,7 @@ or just `npm run dev` if you're running in an development environment.
 ## Dependencies
 
 Many thanks to maintainers of and contributors to:
-- [feh-assets-json](https://github.com/Hertz-Devil/feh-assets-json)
+- [feh-assets-json](https://github.com/HertzDevil/feh-assets-json)
 - [Fire Emblem Heroes Fandom Wiki](https://feheroes.fandom.com/)
 
 - [Next.js](https://github.com/vercel/next.js) (MIT)

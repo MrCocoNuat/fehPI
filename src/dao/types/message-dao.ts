@@ -13,16 +13,26 @@ class LangMessageDao extends GithubSourced(typeToken, KeyIndexed(typeToken, Dao<
         /^MSID_.*/, // Messages related to Skills
         /^MPID_.*/, // Messages related to Heroes (Persons)
     ] as const;
+    initialization: Promise<void>;
 
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
-        super({repoPath, timerLabel});
+        super({repoPath});
+        console.time(timerLabel);
+        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
+    }
+    
+    private async loadData(){
+        return this.getGithubData()
+        .then(data => data.filter(message => this.RELEVANT_KEY_PATTERNS.some(regExp => regExp.test(message.idTag))))
+        .then(data => this.setByKeys(data));
     }
     
     // already correct format
-    protected override toValueType: (json: any) => Message = (json) => (json);
-    
-    protected override valueTypeConsumer: (message: Message) => void = (message) => {
-        if (this.RELEVANT_KEY_PATTERNS.some(regExp => regExp.test(message.key))) this.setByKey(message.key, message);
+    protected override toValueType = (json : any) => {
+        return {
+            idTag: json.key,
+            value: json.value,
+        }
     };
 
     async getByMessageKeys(messageKeys : string[]){

@@ -1,0 +1,12 @@
+{
+    "feh-assets-json" : {
+        "repoOwner": "HertzDevil",
+        "repoName": "feh-assets-json",
+        "branch": "book7",
+        "rawUrl": "https://raw.githubusercontent.com/HertzDevil/feh-assets-json",
+        "useLocal": true
+    },
+    "feh-wiki": {
+        "baseUrl": "https://feheroes.fandom.com/api.php"
+    }
+}

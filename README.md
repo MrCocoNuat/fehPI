@@ -46,7 +46,7 @@ Many thanks to maintainers of and contributors to:
 
 ## License
 
-This application is licensed under the AGPL, see [LICENSE](./LICENSE)
+This application is licensed under the AGPL, see [LICENSE.md](./LICENSE.md)
 
 Fire Emblem Heroes and its associated data are the intellectual property of
 their respective owners.

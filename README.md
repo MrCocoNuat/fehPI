@@ -43,3 +43,28 @@ Many thanks to maintainers of and contributors to:
 - [Apollo GraphQL client](https://github.com/apollographql/apollo-client) (MIT)
 - [Octokit](https://github.com/octokit/octokit.js) (MIT)
 - and more
+
+## License
+
+This application is licensed under the AGPL, see [LICENSE](./LICENSE)
+
+Fire Emblem Heroes and its associated data are the intellectual property of
+their respective owners.
+
+### Why the copyleft license?
+
+This is because this application is not intended to be a software component,
+something that is included in other software that does one job out of many. 
+Virtually any work that is derivative on this application will fulfill almost
+exactly the same role. As such, I think that the AGPL is an appropriate
+license. If you disagree, you can always pick up from the last version of this
+software that was still licensed under the MIT license.
+
+If you are thinking of merely consuming the API offered by this application,
+please note that the AGPL does not restrict users of data produced by AGPL 
+licensed software. Most of it is not under my copyright anyway. Additionally,
+client software that calls this application's API is not considered a
+derivative work. 
+
+note: If any legal information above is incorrect, please contact me. I am not 
+much of a lawyer, I just write code.

@@ -16,5 +16,6 @@ export const PING = gql`{
 export const GET_HERO = gql`query getHero($idNum: Int!){
     heroes(idNums: [$idNum]){
         idTag
+        imageUrl
     }
 }`

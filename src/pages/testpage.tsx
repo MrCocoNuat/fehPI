@@ -21,7 +21,7 @@ export default function TestComponent(props: { user: any }) {
             <meta name="description" content="turnwheel" />
         </Head>
 
-        <nav className="bg-red-900 text-white h-[50px] w-full fixed top-0 flex justify-between items-center">
+        <nav className="bg-red-900 text-white h-[50px] w-full fixed top-0 flex justify-between items-center z-50">
             <div>logo</div>
             <div>name</div>
             <div>lang</div>

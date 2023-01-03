@@ -20,10 +20,12 @@ export function BattlePane(props: any) {
     const [playerTeam, updatePlayerTeam] = useState(new Array(7).fill(0).map(() => { return { idNum: getRandomIdNum(), team: getRandomTeam() } }));
     const [enemyTeam, updateEnemyTeam] = useState(new Array(7).fill(0).map(() => { return { idNum: getRandomIdNum(), team: getRandomTeam() } }));
 
-    return <div className="flex flex-col md:flex-row border-2 border-green-900 md:min-w-[800px]">
-        <div className="flex-initial flex flex-col">
-            <Seeker></Seeker>
-            <BattleMap tiles={battleTiles} ></BattleMap>
+    return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5">
+        <div className="flex justify-center">
+            <div className="flex flex-initial flex-col">
+                <Seeker></Seeker>
+                <BattleMap tiles={battleTiles} ></BattleMap>
+            </div>
         </div>
         <div className="flex-initial flex flex-col">
             <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>

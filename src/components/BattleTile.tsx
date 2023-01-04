@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react";
 import { Team, UnitPortrait } from "./UnitPortrait";
 
 export enum Terrain {
@@ -14,9 +15,16 @@ export enum Terrain {
     WATER, // really redundant with mountain, both admit only fliers... but it looks different enough that it would be weird to exclude
 }
 
-export function BattleTile({ unit, terrain }: { unit?: { team: Team, idNum: number }, terrain: Terrain }) {
+export function BattleTile({ unit, terrain, clickHandler, mouseEnterHandler, mouseLeaveHandler }:
+    {
+        unit?: { team: Team, idNum: number },
+        terrain: Terrain,
+        clickHandler: MouseEventHandler,
+        mouseEnterHandler: MouseEventHandler,
+        mouseLeaveHandler: MouseEventHandler
+    }) {
     return <div className="border-red-900 border-2 text-sm">
-        {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
+        <UnitPortrait unit={unit} clickHandler={clickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}></UnitPortrait>
         {Terrain[terrain]}
     </div>
 }

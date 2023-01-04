@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 
 export const apolloClient = new ApolloClient({
     // when in dev mode, for some reason the server tries to make a query too
@@ -7,3 +7,15 @@ export const apolloClient = new ApolloClient({
     uri: "/api/graphql",
     cache: new InMemoryCache(),
 })
+
+
+export const PING = gql`{
+    ping
+  }`
+
+export const GET_HERO = gql`query getHero($idNum: Int!){
+    heroes(idNums: [$idNum]){
+        idTag
+        imageUrl
+    }
+}`

@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+import { FocusType } from "./BattlePane";
 import { Team, UnitPortrait } from "./UnitPortrait";
 
 export enum Terrain {
@@ -14,9 +16,25 @@ export enum Terrain {
     WATER, // really redundant with mountain, both admit only fliers... but it looks different enough that it would be weird to exclude
 }
 
-export function BattleTile({ unit, terrain }: { unit?: { team: Team, idNum: number }, terrain: Terrain }) {
-    return <div className="border-red-900 border-2 text-sm">
-        {(unit !== undefined) && <UnitPortrait unit={unit}></UnitPortrait>}
+export function BattleTile(
+    {
+        unit,
+        terrain,
+        clickHandlerWith: clickHandlerWith,
+        mouseEnterHandler,
+        mouseLeaveHandler
+    }: {
+        unit?: { team: Team, idNum: number },
+        terrain: Terrain,
+        // allows distinction between the tile itself or the unit on it
+        clickHandlerWith: (focusType: FocusType) => MouseEventHandler,
+        mouseEnterHandler: MouseEventHandler,
+        mouseLeaveHandler: MouseEventHandler
+    }) {
+
+    return <div className="border-red-900 border-2 text-sm"
+        onClick={clickHandlerWith(FocusType.TILE)}>
+        <UnitPortrait unit={unit} clickHandler={clickHandlerWith(FocusType.TILE_UNIT)} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}></UnitPortrait>
         {Terrain[terrain]}
     </div>
 }

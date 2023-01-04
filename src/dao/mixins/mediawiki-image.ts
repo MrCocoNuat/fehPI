@@ -15,7 +15,7 @@ export function MediaWikiImage<V extends { imageUrl?: string, nameId: string }, 
             const epithets = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.epithetId));
             // zip these up
             const messageStrings = definitions.map((definition, i) => `${names[i].value} ${epithets[i].value}`);
-
+            // TODO:- support resplendency
             const fileTitles = messageStrings.map(messageString => `File:${asciify(messageString)} Face FC.webp`);
             const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
 

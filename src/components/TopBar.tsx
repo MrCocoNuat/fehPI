@@ -22,13 +22,20 @@ export function TopBar(
             <div>logo</div>
             <div>name</div>
             <div className="flex gap-2">
-                <Button onClick={() => setTheme((theme === "dark") ? "light" : "dark")}
-                    value={(theme === "dark") ? <MoonIcon className="h-6 w-6 text-white" /> : <SunIcon className="h-6 w-6" />}/>
-                <select className="m-2" defaultValue={currentLanguage}>
+                <Button
+                    onClick={() => setTheme((theme === "dark") ? "light" : "dark")}
+                    value={(theme === "dark") ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
+                />
+
+                <select
+                    className="m-2"
+                    defaultValue={currentLanguage}
+                    onChange={(evt) => updateCurrentLanguage(Language[evt.target.value as keyof typeof Language])}
+                >
                     {getAllEnumEntries(Language).map(([languageName, language]) => <option key={language} value={language}>{languageName}</option>)}
                 </select>
             </div>
         </nav>
-        <div className="h-[50px]"></div>
+        <div className="h-[50px]" />
     </>
 }

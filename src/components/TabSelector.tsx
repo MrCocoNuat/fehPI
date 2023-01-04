@@ -1,4 +1,5 @@
 import { getAllEnumEntries, getAllEnumKeys, getAllEnumValues } from "enum-for";
+import { Button } from "./tailwind-classes/Button";
 
 
 export enum Tab {
@@ -18,7 +19,7 @@ export function TabSelector(
 
     // UI-specific strings also need translations
 
-    return <div className="flex justify-around">
+    return <div className="flex justify-around m-2">
         {getAllEnumValues(Tab).map((tab) => <TabButton key={tab} tabName={Tab[tab]} selected={tab === selectedTab} clickHandler={() => updateSelectedTab(tab)}></TabButton>)}
     </div>
 }
@@ -34,11 +35,11 @@ function TabButton(
         selected: boolean
     }) {
 
-    const selectionClassName = (selected) ? "ring-4" : "";
-    return <button
-        className={`rounded-full bg-blue-800 hover:bg-blue-700 active:bg-blue-900 ${selectionClassName} ring-offset-2 text-white py-1 px-4 m-2`}
+    const selectionClassName = (selected) ? "ring-4 ring-blue-400 dark:ring-purple-400" : "";
+    return <Button className={selectionClassName}
         onClick={clickHandler}
-    >
-        {tabName}
-    </button>
+        value={tabName}
+        padding={{x: 4, y: 1}}
+    />
+    
 }

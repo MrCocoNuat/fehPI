@@ -31,9 +31,7 @@ export default function TestComponent(props: { user: any }) {
                 <meta name="description" content="turnwheel" />
             </Head>
 
-
-                <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />
-
+            <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />
 
             <main className="">
                 <div className="flex justify-center">

@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <ApolloProvider client={apolloClient}>
-      <ThemeProvider attribute="dark">
+      <ThemeProvider attribute='class'>
         <Component {...pageProps} />
       </ThemeProvider>
     </ApolloProvider>

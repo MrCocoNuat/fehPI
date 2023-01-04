@@ -9,13 +9,19 @@ export enum Team {
 
 export type Unit = { idNum: number, team: Team } // barebones
 
-export function UnitPortrait({ unit, clickHandler, mouseEnterHandler, mouseLeaveHandler }:
+export function UnitPortrait(
     {
+        unit,
+        clickHandler,
+        mouseEnterHandler,
+        mouseLeaveHandler
+    }: {
         unit?: Unit,
         clickHandler: MouseEventHandler,
         mouseEnterHandler: MouseEventHandler,
         mouseLeaveHandler: MouseEventHandler,
     }) {
+        
     const sizeCss = "w-[50px] sm:w-[80px] md:w-[100px] lg:w-[120px] xl:w-[150px] 2xl:w-[100px] aspect-square";
 
     if (unit === undefined) {

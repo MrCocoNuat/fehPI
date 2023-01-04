@@ -6,29 +6,41 @@ import { useTheme } from "next-themes";
 import { PING } from "../components/api";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
+import { createContext, useState } from "react";
+import { Language } from "../dao/types/dao-types";
+
+export const LanguageContext = createContext(Language.USEN);
 
 export default function TestComponent(props: { user: any }) {
+
+    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN);
+
     const { loading, data, error } = useQuery(PING);
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error : {error.message}</p>;
 
     console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
     console.log(`graphql reply: ${JSON.stringify(data)}`);
+
+
     //LANG-
     return <>
-        <Head>
-            <title>Turnwheel</title>
-            <meta name="description" content="turnwheel" />
-        </Head>
+        <LanguageContext.Provider value={currentLanguage}>
+            <Head>
+                <title>Turnwheel</title>
+                <meta name="description" content="turnwheel" />
+            </Head>
 
-        <TopBar/>
 
-        <main className="dark:bg-black dark:text-white">
-            <div className="flex justify-center">
-                <BattlePane></BattlePane>
-            </div>
-        </main>
+                <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />
 
+
+            <main className="">
+                <div className="flex justify-center">
+                    <BattlePane></BattlePane>
+                </div>
+            </main>
+        </LanguageContext.Provider>
     </>
 }
 

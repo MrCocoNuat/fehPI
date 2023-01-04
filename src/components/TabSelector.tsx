@@ -6,7 +6,16 @@ export enum Tab {
     HISTORY
 }
 
-export function TabSelector({ selectedTab, updateSelectedTab }: { selectedTab: Tab, updateSelectedTab: (tab: Tab) => void }) {
+export function TabSelector(
+    {
+        selectedTab,
+        updateSelectedTab
+    }: {
+        selectedTab: Tab,
+        updateSelectedTab: (tab: Tab) => void
+    }
+) {
+
     // UI-specific strings also need translations
 
     return <div className="flex justify-around">
@@ -14,12 +23,17 @@ export function TabSelector({ selectedTab, updateSelectedTab }: { selectedTab: T
     </div>
 }
 
-function TabButton({ tabName, clickHandler, selected }:
+function TabButton(
     {
+        tabName,
+        clickHandler,
+        selected
+    }: {
         tabName: string,
         clickHandler: () => void,
         selected: boolean
     }) {
+
     const selectionClassName = (selected) ? "ring-4" : "";
     return <button
         className={`rounded-full bg-blue-800 hover:bg-blue-700 active:bg-blue-900 ${selectionClassName} ring-offset-2 text-white py-1 px-4 m-2`}

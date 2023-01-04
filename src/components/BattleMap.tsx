@@ -15,7 +15,7 @@ export function BattleMap({ tiles, updateFocus, updateHover }:
     return <div className="grid grid-cols-6">
         {tiles.map((tile, i) =>
             <BattleTile key={i} unit={tile.unit} terrain={tile.terrain}
-                clickHandler={(evt) => {evt.stopPropagation(); updateFocus({ focusType: FocusType.TILE_UNIT, focusInfo: i })}}
+                clickHandlerWith={(focusType: FocusType) => (evt) => {evt.stopPropagation(); updateFocus({ focusType: focusType, focusInfo: i })}}
                 mouseEnterHandler={() => updateHover({ focusType: FocusType.TILE_UNIT, focusInfo: i })}
                 mouseLeaveHandler={() => updateHover({ focusType: FocusType.NONE, focusInfo: undefined })}
             />)}

@@ -35,11 +35,11 @@ function TabButton(
         selected: boolean
     }) {
 
-    const selectionClassName = (selected) ? "ring-4 ring-blue-400 dark:ring-purple-400" : "";
-    return <Button className={selectionClassName}
+    const paddingCss = "px-4 py-1";
+    const selectionCss = (selected) ? "ring-4 ring-blue-400 dark:ring-purple-400" : "";
+    return <Button className={`${paddingCss} ${selectionCss}`}
         onClick={clickHandler}
         value={tabName}
-        padding={{x: 4, y: 1}}
     />
-    
+
 }

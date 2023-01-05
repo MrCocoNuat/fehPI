@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
+import { Combatant, CombatantTeam, Team } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
-import { Team, Unit, UnitPortrait } from "./UnitPortrait";
+import { UnitPortrait } from "./UnitPortrait";
 
-export function UnitTeam(
+export function UnitTeamComponent(
     {
         team,
         units,
@@ -10,7 +11,7 @@ export function UnitTeam(
         updateHover
     }: {
         team: Team,
-        units: Unit[],
+        units: CombatantTeam,
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
     }) {

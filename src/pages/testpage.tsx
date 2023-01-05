@@ -1,8 +1,6 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { BattlePane } from "../components/BattlePane";
-import { Terrain } from "../components/BattleTile";
-import { useTheme } from "next-themes";
 import { PING } from "../components/api";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
@@ -21,7 +19,6 @@ export default function TestComponent(props: { user: any }) {
 
     console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
     console.log(`graphql reply: ${JSON.stringify(data)}`);
-
 
     //LANG-
     return <>

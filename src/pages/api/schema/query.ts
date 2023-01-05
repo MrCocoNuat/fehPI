@@ -1,4 +1,4 @@
-import { heroDao, messageDao, skillDao } from "../dao/dao-registry";
+import { growthVectorDao, heroDao, messageDao, skillDao } from "../dao/dao-registry";
 import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";
 import { LanguageEnum, OptionalLanguageEnum } from "./enum";
@@ -71,5 +71,12 @@ export const setQueries = () => {
         resolve: async (parent, {language, messageKeys}) => {
             return await messageDao.getByMessageKeys(language, messageKeys);
         }
+    }))
+
+    builder.queryField("growthVectors", (qfb) => qfb.field({
+        description: "Returns all 39*64 possible Hero growth vectors. Each bitvector is given as a decimal string (39 bits don't fit an Int) and should be read LSB-first. The 39 bits are given correspond to 39 level-ups.",
+        type: qfb.listRef(qfb.listRef("String", {nullable: false}), {nullable: false}),
+        nullable: false,
+        resolve: async (parent) => await growthVectorDao.getAllGrowthVectors(),
     }))
 }

@@ -154,4 +154,6 @@ export enum OptionalLanguage {
 export type Message = {
     idTag: string,
     value: string,
-}
+};
+
+export type GrowthVectors = string[];

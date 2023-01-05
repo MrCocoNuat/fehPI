@@ -6,13 +6,13 @@ export enum Terrain {
     NORMAL,
     TRENCH, // Costs cavalry 3 movement to enter
     DEFENSIVE, // %DR
-    DEFENSIVE_TRENCH, // both
-    WALL_UNBREAKABLE, // no one can enter
-    WALL_CRACKED_ONCE, // same, 2 hits break it
-    WALL_CRACKED_TWICE,  // same, 1 hit breaks it 
+    DEF_TRENCH, // both
+    UNBREAKABLE, // no one can enter
+    CRACK_ONCE, // same, 2 hits break it
+    CRACK_TWICE,  // same, 1 hit breaks it 
     MOUNTAIN, // only flier can enter
     FOREST, // cavalry cannot enter, costs infantry 2 movement to enter
-    DEFENSIVE_FOREST, // both
+    DEF_FOREST, // both
     WATER, // really redundant with mountain, both admit only fliers... but it looks different enough that it would be weird to exclude
 }
 

@@ -24,6 +24,7 @@ export function TopBar(
             <div className="flex gap-2">
                 <Button
                     onClick={() => setTheme((theme === "dark") ? "light" : "dark")}
+                    className="px-2 py-2"
                     value={(theme === "dark") ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
                 />
 

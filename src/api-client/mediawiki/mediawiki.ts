@@ -1,4 +1,4 @@
-import { WikiDetails } from "../../dao/remote-data/datasource-types";
+import { WikiDetails } from "../../pages/api/dao/remote-data/datasource-types";
 import { asciify, TITLE_SEPARATOR } from "./file-title";
 
 

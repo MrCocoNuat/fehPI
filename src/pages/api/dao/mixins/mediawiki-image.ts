@@ -1,6 +1,6 @@
 import { fchmod } from "fs";
-import { asciify } from "../../api-client/mediawiki/file-title";
-import { fudge } from "../../api-client/mediawiki/skill-name-fudger";
+import { asciify } from "../../../../api-client/mediawiki/file-title";
+import { fudge } from "../../../../api-client/mediawiki/skill-name-fudger";
 import { messageDao } from "../dao-registry";
 import { fehWikiReader } from "../remote-data/remote-data";
 import { HeroDefinition, Language, SkillCategory, SkillDefinition } from "../types/dao-types";

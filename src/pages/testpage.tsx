@@ -7,7 +7,7 @@ import { PING } from "../components/api";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
 import { createContext, useState } from "react";
-import { Language } from "../dao/types/dao-types";
+import { Language } from "./api/dao/types/dao-types";
 
 export const LanguageContext = createContext(Language.USEN);
 

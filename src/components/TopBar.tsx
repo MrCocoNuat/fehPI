@@ -1,7 +1,7 @@
 import { getAllEnumEntries, getAllEnumValues } from "enum-for";
 import { useTheme } from "next-themes";
 import { Dispatch, SetStateAction } from "react";
-import { Language } from "../dao/types/dao-types";
+import { Language } from "../pages/api/dao/types/dao-types";
 
 import { MoonIcon, SunIcon, BeakerIcon } from "@heroicons/react/24/solid";
 import { Button } from "./tailwind-classes/Button";

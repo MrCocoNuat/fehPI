@@ -1,8 +1,8 @@
-import { heroDao, messageDao, skillDao } from "../../../dao/dao-registry";
+import { heroDao, messageDao, skillDao } from "../dao/dao-registry";
 import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";
 import { LanguageEnum, OptionalLanguageEnum } from "./enum";
-import { Language, OptionalLanguage } from "../../../dao/types/dao-types";
+import { Language, OptionalLanguage } from "../dao/types/dao-types";
 
 
 export const setQueries = () => {

@@ -1,8 +1,8 @@
-import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
+import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../dao/types/dao-types";
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
-import { messageDao, skillDao } from "../../../dao/dao-registry";
+import { messageDao, skillDao } from "../dao/dao-registry";
 
 // From TypeScript Types, create ObjectRefs
 export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {

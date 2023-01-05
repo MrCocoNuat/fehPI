@@ -1,25 +1,23 @@
 import { Dispatch, SetStateAction } from "react";
+import { BattleMap, Combatant, Terrain } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
-import { BattleTile, Terrain } from "./BattleTile";
-import { Team } from "./UnitPortrait";
+import { BattleTileComponent } from "./BattleTile";
 
-export function BattleMap(
+
+export function BattleMapComponent(
     {
         tiles,
         updateFocus,
         updateHover
     }: {
-        tiles: {
-            unit?: { team: Team, idNum: number },
-            terrain: Terrain
-        }[],
+        tiles: BattleMap,
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
     }) {
 
     return <div className="grid grid-cols-6">
         {tiles.map((tile, i) =>
-            <BattleTile key={i} unit={tile.unit} terrain={tile.terrain}
+            <BattleTileComponent key={i} battleUnit={tile.combatant} terrain={tile.terrain}
                 clickHandlerWith={(focusType: FocusType) => (evt) => { evt.stopPropagation(); updateFocus({ focusType: focusType, focusInfo: i }) }}
                 mouseEnterHandler={() => updateHover({ focusType: FocusType.TILE_UNIT, focusInfo: i })}
                 mouseLeaveHandler={() => updateHover({ focusType: FocusType.NONE, focusInfo: undefined })}

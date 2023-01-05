@@ -12,7 +12,7 @@ export function Button({
     padding?: { x: number, y: number }
 }) {
     className = className ?? "";
-    padding = padding ?? { x: 2, y: 2 };
+    padding = padding ?? { x: 0, y: 0 };
 
     return <button
         className={`rounded-full

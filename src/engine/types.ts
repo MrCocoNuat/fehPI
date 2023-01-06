@@ -19,7 +19,7 @@ export enum Terrain {
 }
 
 export enum Rarity {
-    ONE_STAR = 1,
+    ONE_STAR,
     TWO_STARS,
     THREE_STARS,
     FOUR_STARS,

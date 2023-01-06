@@ -128,7 +128,7 @@ function growthFor(
     // The minimum growth rate is 25% and maximum is 80%, so no 
 
     const traitAdjustedGrowthRates = traitAdjustedGrowth(unit, growthRates);
-    const rarityFactor = [undefined, 0.86, 0.93, 1, 1.07, 1.14] as const;
+    const rarityFactor = [0.86, 0.93, 1, 1.07, 1.14] as const;
     const growthPoint = closeEnoughFloor(rarityFactor[unit.rarity] * traitAdjustedGrowthRates[stat]); // rarity adjusted growth rate
     const totalGrowth = closeEnoughFloor(39 / 100 * growthPoint);
 
@@ -144,6 +144,11 @@ function growthFor(
     // cast from a string, this is around 39+2 bits so still safe to represent as a double
     // but turn into a bigint because we want bitshifting
     // js is pretty ridiculous not supporting integer types, like come on!
+    try{
+        const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
+    } catch {
+        console.log(`rarity is ${unit.rarity},  growthPoint is ${growthPoint}, totalGrowth is ${totalGrowth}`);
+    }
     const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
 
     // find the hamming weight of the subvector

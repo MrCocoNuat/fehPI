@@ -30,6 +30,18 @@ export function BattlePane(props: any) {
     const [playerTeam, updatePlayerTeam] = useState(getRandomCombatantTeam(Team.PLAYER));
     const [enemyTeam, updateEnemyTeam] = useState(getRandomCombatantTeam(Team.ENEMY));
 
+    function getCombatant({focusType, focusInfo} : Focus) {
+        switch (focusType) {
+            case FocusType.TILE_UNIT:
+                return battleTiles[focusInfo].combatant;
+            case FocusType.TEAM_UNIT:
+                return (focusInfo < 7)?
+                {unit: playerTeam[focusInfo].unit, team: Team.PLAYER} :
+                {unit: enemyTeam[focusInfo - 7].unit, team: Team.ENEMY}
+            default:
+                return undefined;
+        }
+    }
 
     return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5"
         // any click not stopped will bubble here and clear the focus
@@ -57,8 +69,9 @@ export function BattlePane(props: any) {
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
             {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && <>
-                <ReactUnitBuilder></ReactUnitBuilder>
+                <ReactUnitBuilder combatant={getCombatant(focus)}></ReactUnitBuilder>
             </>}
         </div>
     </div>
 }
+

@@ -3,7 +3,29 @@ import { BattleMap, BattleTile, Combatant, CombatantTeam, Team, Unit } from "./t
 
 const randInt = (n: number) => Math.floor(n * Math.random());
 
+export const getRandomStat: () => Stat = () => [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES][randInt(5)];
+export const getRandomTraits: () => { asset: Stat | null, flaw: Stat | null, ascension: Stat | null } = () => {
+    const traits = { asset: null as Stat | null, flaw: null as Stat | null, ascension: null as Stat | null };
 
+    const allStats = [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES];
+    const threeRandomStats = []; // without replacement!!
+    for (let i = 0; i < 3; i++) {
+        const choice = randInt(allStats.length);
+        const stat = allStats.splice(choice, 1)[0];
+        threeRandomStats.push(stat);
+    }
+    if (Math.random() < 20/21) {
+        // not neutral
+        traits.asset = threeRandomStats[0];
+        traits.flaw = threeRandomStats[1];
+    }
+
+    if (Math.random() < 0.5) {
+        // give an ascension
+        traits.ascension = threeRandomStats[2];
+    }
+    return traits;
+}
 export const getRandomTeam: () => Team = () => randInt(2);
 
 export const getRandomUnit: () => Unit = () => ({
@@ -13,10 +35,9 @@ export const getRandomUnit: () => Unit = () => ({
     merges: randInt(11),
     dragonflowers: randInt(6),
     baseVectorId: randInt(64),
-    
-    asset: null,
-    flaw: null,
-    ascension: null,
+
+    ...getRandomTraits(),
+
 });
 
 export const getRandomCombatant: () => Combatant = () => ({
@@ -31,7 +52,7 @@ export const getRandomCombatantTeam: (forceTeam?: Team) => CombatantTeam = (forc
 
 export const getRandomBattleTile: () => BattleTile = () => ({
     terrain: randInt(11),
-    combatant: (Math.random() > 0.8) ? getRandomCombatant() : undefined,
+    combatant: (Math.random() > 0.5) ? getRandomCombatant() : undefined,
 })
 
 export const getRandomBattleMap: () => BattleMap = () => new Array(48).fill(0).map(_ => getRandomBattleTile());

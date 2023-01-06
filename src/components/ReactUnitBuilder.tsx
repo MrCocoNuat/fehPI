@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { statsFor } from "../engine/stat-calculation"
-import { Combatant, Team, Unit } from "../engine/types";
+import { Combatant, Rarity, Team, Unit } from "../engine/types";
 import { Stat } from "../pages/api/dao/types/dao-types";
 import { UnitPortrait } from "./UnitPortrait";
 
@@ -24,18 +24,23 @@ export function ReactUnitBuilder({
     //     team: Team.PLAYER,
     // }\
 
-    if (combatant === undefined){
+    if (combatant === undefined) {
         return null;
     }
     const stats = statsFor(combatant.unit);
     if (typeof stats === "string") {
-        return null; 
+        return null;
     }
 
     return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col">
         <div className="flex">
-        <UnitPortrait unit={combatant}></UnitPortrait>
-        <div>{`stats: ${JSON.stringify(stats)}`}</div>
+            <UnitPortrait unit={combatant}></UnitPortrait>
+            <div>
+                <div>{`idNum: ${combatant.unit.idNum}`}</div>
+                <div>{`${Rarity[combatant.unit.rarity]} Lvl: ${combatant.unit.level} +${combatant.unit.merges} df:${combatant.unit.dragonflowers}`}</div>
+                <div>{`Traits: +:${combatant.unit.asset} -:${combatant.unit.flaw} ^:${combatant.unit.ascension}`}</div>
+                <div>{`stats: ${JSON.stringify(stats)}`}</div>
+            </div>
         </div>
     </div>
 }

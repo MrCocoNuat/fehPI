@@ -49,11 +49,20 @@ function closeEnoughFloor(x: number) {
     return Math.floor(x + x * Number.EPSILON);
 }
 
+const nonHpStats = [Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
+const allStats = [Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
+function orderBaseStatsDescending(whichStats: readonly Stat[], baseValues: ParameterPerStat) {
+    const copy = [...whichStats];
+    // sort in place
+    copy.sort((statA, statB) => (baseValues[statB] - baseValues[statA]));
+    return copy;
+}
+
 /*
  traits add or subtract 5 from growth rates.
  Asset and Ascension are not allowed to stack.
 */
-function traitAdjustedGrowths({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, growthRates: ParameterPerStat) {
+function traitAdjustedGrowthRates({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, growthRates: ParameterPerStat) {
     const copy = { ...growthRates };
     if (flaw !== null) copy[flaw] -= 5;
     if (asset !== null) copy[asset] += 5;
@@ -64,7 +73,7 @@ function traitAdjustedGrowths({ asset, flaw, ascension }: { asset: Stat | null, 
 /*
  growths are multiplied by a constant depending on rarity
  */
-function rarityAdjustedGrowths(rarity: Rarity, growthRates: ParameterPerStat) {
+function rarityAdjustedGrowthRates(rarity: Rarity, growthRates: ParameterPerStat) {
     const rarityFactor = {
         [Rarity.ONE_STAR]: 0.86,
         [Rarity.TWO_STARS]: 0.93,
@@ -82,10 +91,12 @@ function rarityAdjustedGrowths(rarity: Rarity, growthRates: ParameterPerStat) {
 /*
  AFTER rarity correction, traits add or subtract 1 from base stats.
  Asset and Ascension are not allowed to stack.
+
+ If there are merges, do not apply a flaw
 */
-function traitAdjustedBases({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, baseStats: ParameterPerStat) {
+function traitAdjustedBases({ merges, asset, flaw, ascension }: Unit, baseStats: ParameterPerStat) {
     const copy = { ...baseStats };
-    if (flaw !== null) copy[flaw]--;
+    if (merges === 0 && flaw !== null) copy[flaw]--;
     if (asset !== null) copy[asset]++;
     if (ascension !== asset && ascension !== null) copy[ascension]++;
     return copy;
@@ -114,19 +125,60 @@ function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) 
     }
 
     // actually need to sort
-    const nonHpStats: Stat[] = [Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES];
-    // in place is good, sort descending
-    nonHpStats.sort((statA, statB) => (baseStats3Stars[statB] - baseStats3Stars[statA]));
+    const orderedNonHpStats = orderBaseStatsDescending(nonHpStats, baseStats3Stars);
     const copy = { ...baseStats3Stars };
     switch (rarity) {
         case Rarity.FOUR_STARS:
-            nonHpStats.slice(0, 2).forEach(stat => copy[stat]++);
+            orderedNonHpStats.slice(0, 2).forEach(stat => copy[stat]++);
             return copy;
         case Rarity.TWO_STARS:
             copy[Stat.HP]--;
-            nonHpStats.slice(2).forEach(stat => copy[stat]--);
+            orderedNonHpStats.slice(2).forEach(stat => copy[stat]--);
             return copy;
     }
+}
+
+/*
+ If there is no flaw, add 1 to the 3 highest base stats.
+ For each merge, add 1 to the next 2 stats, in ordered sequence, wrapping when necessary. 10 merges applies +4 to all stats.
+*/
+function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
+    const bonuses: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 }
+    if (unit.flaw === null) {
+        orderedAllStats.slice(0, 3).forEach(stat => bonuses[stat]++);
+    }
+
+    // optimize here, very common branch
+    if (unit.merges === 10) {
+        orderedAllStats.forEach(stat => bonuses[stat] += 4);
+        return bonuses;
+    }
+
+    // otherwise apply manually
+    for (let merge = 0, i = 0; merge < unit.merges; merge++) {
+        bonuses[orderedAllStats[i++ % 5]]++;
+        bonuses[orderedAllStats[i++ % 5]]++;
+    }
+    return bonuses;
+}
+
+/*
+  For each dragonflower, add 1 to the next stat, in ordered sequence, wrapping when necessary. Each 5 dragonflowers applies +1 to all stats.
+*/
+function dragonflowerBonuses({ dragonflowers }: Unit, orderedAllStats: Stat[]) {
+    const bonuses: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 }
+
+    // optimize here, very common branch
+    if (dragonflowers % 5 === 0) {
+        orderedAllStats.forEach(stat => bonuses[stat] += dragonflowers / 5);
+        return bonuses;
+    }
+
+    // otherwise apply manually
+    for (let df = 0; df < dragonflowers;) {
+        bonuses[orderedAllStats[df++ % 5]]++;
+    }
+    return bonuses;
 }
 
 function growthFor(
@@ -185,9 +237,9 @@ function growthsFor(unit: Unit,
     growthVectors: GrowthVectors[],
 ) {
 
-    const adjustedGrowthRates = rarityAdjustedGrowths(unit.rarity, traitAdjustedGrowths(unit, hero.growthRates));
+    const adjustedGrowthRates = rarityAdjustedGrowthRates(unit.rarity, traitAdjustedGrowthRates(unit, hero.growthRates));
 
-    const growths: ParameterPerStat = { hp: 0, atk: 0, spd: 0, def: 0, res: 0 };
+    const growths: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 };
     for (const s in growths) {
         const stat = s as Stat;
         growths[stat] = growthFor(stat, unit, { baseStat: hero.baseStats[stat], adjustedGrowthRate: adjustedGrowthRates[stat], baseVectorId: hero.baseVectorId }, growthVectors);
@@ -200,7 +252,19 @@ function basesFor(unit: Unit,
     { baseStats: baseStats3Stars }:
         { baseStats: ParameterPerStat }
 ) {
-    return traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
+    const adjustedBases = traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
+    
+    if (!(unit.merges === 0 && unit.dragonflowers === 0)) {
+        // Need to order stats solely on traits at 5*, which is equivalent to ordering at 3*
+        const traitAdjustedOnlyBases = traitAdjustedBases(unit, baseStats3Stars);
+        const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
+
+        const mergeBonus = mergeBonuses(unit, orderedAllStats);
+        const dragonflowerBonus = dragonflowerBonuses(unit, orderedAllStats);
+
+        orderedAllStats.forEach(stat => adjustedBases[stat] += (mergeBonus[stat] + dragonflowerBonus[stat]));
+    }
+    return adjustedBases;
 }
 
 export function statsFor(unit: Unit): ParameterPerStat | string {

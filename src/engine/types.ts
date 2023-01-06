@@ -32,7 +32,7 @@ export type Unit = {
     level: number,
     merges: number,
     dragonflowers: number,
-    
+
     asset: Stat | null,
     flaw: Stat | null,
     ascension: Stat | null,
@@ -40,7 +40,7 @@ export type Unit = {
     // traits and so on for stats
 }
 
-export type Combatant = { 
+export type Combatant = {
     unit: Unit,
     team: Team,
     tileNumber?: number,
@@ -57,7 +57,7 @@ export type BattleMap = BattleTile[]
 
 export type BattleContext = {
     combatantTeams: {
-        [team in Team] : CombatantTeam
+        [team in Team]: CombatantTeam
     },
     battleMap: BattleMap,
 }

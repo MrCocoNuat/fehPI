@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client"
 import { statsFor } from "../engine/stat-calculation"
 import { Combatant, Team, Unit } from "../engine/types";
+import { Stat } from "../pages/api/dao/types/dao-types";
 import { UnitPortrait } from "./UnitPortrait";
 
 export function ReactUnitBuilder(props: any) {
@@ -12,7 +13,9 @@ export function ReactUnitBuilder(props: any) {
             level: 40,
             merges: 0,
             dragonflowers: 0,
-            baseVectorId: 0x9D,
+            asset: Stat.HP,
+            flaw: Stat.DEF,
+            ascension: Stat.SPD,
         },
         team: Team.PLAYER,
     }

@@ -1,3 +1,5 @@
+import { ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
+
 export enum Team {
     PLAYER, ENEMY,
 }
@@ -30,7 +32,11 @@ export type Unit = {
     level: number,
     merges: number,
     dragonflowers: number,
-    baseVectorId: number,
+    
+    asset: Stat | null,
+    flaw: Stat | null,
+    ascension: Stat | null,
+
     // traits and so on for stats
 }
 

@@ -1,4 +1,4 @@
-import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../dao/types/dao-types";
+import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, Stat, WeaponType } from "../dao/types/dao-types";
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
@@ -115,11 +115,11 @@ export const ParameterPerStatObject = builder.objectRef<ParameterPerStat>("Param
     .implement({
         description: "An object holding one integer parameter for each stat",
         fields: (ofb) => ({
-            hp: ofb.exposeInt("hp", { nullable: false }),
-            atk: ofb.exposeInt("atk", { nullable: false }),
-            spd: ofb.exposeInt("spd", { nullable: false }),
-            def: ofb.exposeInt("def", { nullable: false }),
-            res: ofb.exposeInt("res", { nullable: false }),
+            hp: ofb.exposeInt(Stat.HP, { nullable: false }),
+            atk: ofb.exposeInt(Stat.ATK, { nullable: false }),
+            spd: ofb.exposeInt(Stat.SPD, { nullable: false }),
+            def: ofb.exposeInt(Stat.DEF, { nullable: false }),
+            res: ofb.exposeInt(Stat.RES, { nullable: false }),
         })
     })
 

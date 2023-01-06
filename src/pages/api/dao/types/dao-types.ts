@@ -109,13 +109,14 @@ type SkillsPerRarity = [
     string | null,
     string | null,
 ]; // 14 length
-export type ParameterPerStat = {
-    hp: number,
-    atk: number,
-    spd: number,
-    def: number,
-    res: number
-}
+export type ParameterPerStat = {[stat in Stat] : number}
+export enum Stat {
+    HP = "hp",
+    ATK = "atk",
+    SPD = "spd",
+    DEF = "def",
+    RES = "res"
+};
 
 export type HeroDefinition = {
     idNum: number,

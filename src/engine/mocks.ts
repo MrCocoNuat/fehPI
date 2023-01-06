@@ -1,3 +1,4 @@
+import { Stat } from "../pages/api/dao/types/dao-types";
 import { BattleMap, BattleTile, Combatant, CombatantTeam, Team, Unit } from "./types";
 
 const randInt = (n: number) => Math.floor(n * Math.random());
@@ -12,6 +13,10 @@ export const getRandomUnit: () => Unit = () => ({
     merges: randInt(11),
     dragonflowers: randInt(6),
     baseVectorId: randInt(64),
+    
+    asset: null,
+    flaw: null,
+    ascension: null,
 });
 
 export const getRandomCombatant: () => Combatant = () => ({

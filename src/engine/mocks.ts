@@ -31,7 +31,7 @@ export const getRandomTeam: () => Team = () => randInt(2);
 export const getRandomUnit: () => Unit = () => ({
     idNum: randInt(800),
     rarity: randInt(5),
-    level: randInt(40),
+    level: 40, //randInt(40), // level adjustments are so poorly supported by others...
     merges: randInt(11),
     dragonflowers: randInt(6),
     baseVectorId: randInt(64),

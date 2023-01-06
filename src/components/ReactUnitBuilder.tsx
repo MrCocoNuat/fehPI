@@ -1,7 +1,5 @@
-import { useQuery } from "@apollo/client"
 import { statsFor } from "../engine/stat-calculation"
-import { Combatant, Rarity, Team, Unit } from "../engine/types";
-import { Stat } from "../pages/api/dao/types/dao-types";
+import { Combatant, Rarity } from "../engine/types";
 import { UnitPortrait } from "./UnitPortrait";
 
 export function ReactUnitBuilder({

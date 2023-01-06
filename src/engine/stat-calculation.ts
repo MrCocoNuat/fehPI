@@ -50,7 +50,7 @@ function closeEnoughFloor(x: number) {
 }
 
 const nonHpStats = [Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
-const allStats = [Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
+const allStats = [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
 function orderBaseStatsDescending(whichStats: readonly Stat[], baseValues: ParameterPerStat) {
     const copy = [...whichStats];
     // sort in place
@@ -61,10 +61,12 @@ function orderBaseStatsDescending(whichStats: readonly Stat[], baseValues: Param
 /*
  traits add or subtract 5 from growth rates.
  Asset and Ascension are not allowed to stack.
+
+ if there are merges. do not apply a flaw
 */
-function traitAdjustedGrowthRates({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, growthRates: ParameterPerStat) {
+function traitAdjustedGrowthRates({ merges, asset, flaw, ascension }: Unit, growthRates: ParameterPerStat) {
     const copy = { ...growthRates };
-    if (flaw !== null) copy[flaw] -= 5;
+    if (merges === 0 && flaw !== null) copy[flaw] -= 5;
     if (asset !== null) copy[asset] += 5;
     if (ascension !== asset && ascension !== null) copy[ascension] += 5;
     return copy;
@@ -89,6 +91,13 @@ function rarityAdjustedGrowthRates(rarity: Rarity, growthRates: ParameterPerStat
 }
 
 /*
+ For purposes of stat ordering in merges/dragonflowers, ascensions do not count
+*/
+function traitAdjustedBasesWithoutAscension(unit : Unit, baseStats: ParameterPerStat){
+    return traitAdjustedBases({...unit, ascension: null}, baseStats);
+}
+
+/*
  AFTER rarity correction, traits add or subtract 1 from base stats.
  Asset and Ascension are not allowed to stack.
 
@@ -104,8 +113,8 @@ function traitAdjustedBases({ merges, asset, flaw, ascension }: Unit, baseStats:
 
 /*
  Starting from 1 star base stats,
- when increasing to 2 or 4 stars, raise the 2 highest that are not HP
- when increasing to 3 or 5 stars, raise HP and the remaining 2 
+ when increasing to 2 or 4 stars, raise by 1 the 2 highest that are not HP
+ when increasing to 3 or 5 stars, raise by 1 HP and the remaining 2 
  break ties by atk > spd > def > res.
 */
 function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) {
@@ -139,12 +148,12 @@ function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) 
 }
 
 /*
- If there is no flaw, add 1 to the 3 highest base stats.
+ If there are merges and no flaw, add 1 to the 3 highest base stats.
  For each merge, add 1 to the next 2 stats, in ordered sequence, wrapping when necessary. 10 merges applies +4 to all stats.
 */
 function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
     const bonuses: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 }
-    if (unit.flaw === null) {
+    if (unit.merges !== 0 && unit.flaw === null) {
         orderedAllStats.slice(0, 3).forEach(stat => bonuses[stat]++);
     }
 
@@ -228,7 +237,7 @@ function growthFor(
     return growth;
 }
 
-function growthsFor(unit: Unit,
+export function growthsFor(unit: Unit,
     hero: {
         baseStats: ParameterPerStat,
         growthRates: ParameterPerStat,
@@ -248,19 +257,24 @@ function growthsFor(unit: Unit,
     return growths;
 }
 
-function basesFor(unit: Unit,
+export function basesFor(unit: Unit,
     { baseStats: baseStats3Stars }:
         { baseStats: ParameterPerStat }
 ) {
     const adjustedBases = traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
-    
+    console.log(`traits and rarity bases: ${JSON.stringify(adjustedBases)}`);
+
     if (!(unit.merges === 0 && unit.dragonflowers === 0)) {
         // Need to order stats solely on traits at 5*, which is equivalent to ordering at 3*
-        const traitAdjustedOnlyBases = traitAdjustedBases(unit, baseStats3Stars);
+        const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
         const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
+        console.log(`for merges/df: ${JSON.stringify(traitAdjustedOnlyBases)}`);
 
         const mergeBonus = mergeBonuses(unit, orderedAllStats);
+    console.log(`merges: ${JSON.stringify(mergeBonus)}`);
+
         const dragonflowerBonus = dragonflowerBonuses(unit, orderedAllStats);
+        console.log(`df: ${JSON.stringify(dragonflowerBonus)}`);
 
         orderedAllStats.forEach(stat => adjustedBases[stat] += (mergeBonus[stat] + dragonflowerBonus[stat]));
     }
@@ -281,10 +295,7 @@ export function statsFor(unit: Unit): ParameterPerStat | string {
 
     console.log(`bases: ${JSON.stringify(bases)}`);
     console.log(`growths: ${JSON.stringify(growths)}`);
-    // missing steps
-    // DF
-    // merges
-
+    
     // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be +stat skills
 
     // add bases and growths

@@ -120,7 +120,12 @@ function growthFor(
         baseStats: ParameterPerStat,
         growthRates: ParameterPerStat,
         baseVectorId: number
-    }){
+    }) {
+
+    // easy enough to optimize this branch out too
+    if (unit.level === 1) {
+        return 0;
+    }
 
     const { baseStats, growthRates, baseVectorId } = hero;
 
@@ -136,7 +141,6 @@ function growthFor(
     if (unit.level === 40) {
         return totalGrowth;
     }
-
     // prevent negative values from messing up (a % b)
     const statSpecificOffsets = { hp: -35 + 64, atk: -28 + 64, spd: -21 + 64, def: -14 + 64, res: -7 + 64 } as const;
     const gvid = closeEnoughFloor(3 * (baseStats[stat] + 1) + statSpecificOffsets[stat] + growthPoint + baseVectorId) % 64;
@@ -144,7 +148,7 @@ function growthFor(
     // cast from a string, this is around 39+2 bits so still safe to represent as a double
     // but turn into a bigint because we want bitshifting
     // js is pretty ridiculous not supporting integer types, like come on!
-    try{
+    try {
         const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
     } catch {
         console.log(`rarity is ${unit.rarity},  growthPoint is ${growthPoint}, totalGrowth is ${totalGrowth}`);

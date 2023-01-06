@@ -16,12 +16,11 @@ export class GrowthVectorDao extends GithubSourced(typeToken, Dao<GrowthVectors>
 
     private async loadData() {
         return this.getGithubData()
-            // .then(data => data.map(growthVectorPerIndex => growthVectorPerIndex.map(growthVector => String(growthVector/4))))
             .then(data => this.growthVectors = data)
     }
 
-    // remove 2 LSBs and turn into a string so it can be transmitted
-    protected toValueType: (json: any) => GrowthVectors = (json) => (json.map((bitvector: number) => String(bitvector / 4)));
+    // turn into a string so it can be transmitted
+    protected toValueType: (json: any) => GrowthVectors = (json) => (json.map((bitvector: number) => String(bitvector)));
 
     async getAllGrowthVectors() {
         await this.initialization;

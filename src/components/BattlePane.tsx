@@ -8,6 +8,7 @@ import { UnitTeamComponent } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
 import { Team } from "../engine/types";
 import { getRandomBattleMap, getRandomCombatantTeam } from "../engine/mocks";
+import { ReactUnitBuilder } from "./ReactUnitBuilder";
 
 export enum FocusType {
     TILE,
@@ -28,7 +29,7 @@ export function BattlePane(props: any) {
     const [battleTiles, updateBattleTiles] = useState(getRandomBattleMap());
     const [playerTeam, updatePlayerTeam] = useState(getRandomCombatantTeam(Team.PLAYER));
     const [enemyTeam, updateEnemyTeam] = useState(getRandomCombatantTeam(Team.ENEMY));
-    
+
 
     return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5"
         // any click not stopped will bubble here and clear the focus
@@ -49,11 +50,14 @@ export function BattlePane(props: any) {
             <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>
             <UnitTeamComponent units={playerTeam} updateFocus={updateFocus} updateHover={updateHover} team={Team.PLAYER}></UnitTeamComponent>
             <UnitTeamComponent units={enemyTeam} updateFocus={updateFocus} updateHover={updateHover} team={Team.ENEMY}></UnitTeamComponent>
-            {(selectedTab === Tab.STATUS) && <>
+            {(selectedTab === Tab.STATUS) && focus.focusType === FocusType.NONE && <>
                 <BattleDuelComponent></BattleDuelComponent>
             </>}
-            {(selectedTab === Tab.HISTORY) && <>
+            {(selectedTab === Tab.HISTORY) && focus.focusType === FocusType.NONE && <>
                 <BattleHistoryComponent></BattleHistoryComponent>
+            </>}
+            {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && <>
+                <ReactUnitBuilder></ReactUnitBuilder>
             </>}
         </div>
     </div>

@@ -16,17 +16,28 @@ export enum Terrain {
     WATER, // really redundant with mountain, both admit only fliers... but it looks different enough that it would be weird to exclude
 }
 
+export enum Rarity {
+    ONE_STAR = 1,
+    TWO_STARS,
+    THREE_STARS,
+    FOUR_STARS,
+    FIVE_STARS,
+}
+
 export type Unit = {
     idNum: number,
-    rarity: number,
+    rarity: Rarity,
     level: number,
     merges: number,
+    dragonflowers: number,
+    baseVectorId: number,
+    // traits and so on for stats
 }
 
 export type Combatant = { 
     unit: Unit,
     team: Team,
-    tileNumber: number,
+    tileNumber?: number,
 }
 
 export type CombatantTeam = Combatant[]

@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client"
 import loadConfig from "next/dist/server/config"
 import { MouseEventHandler, useEffect } from "react";
 import { Team, Combatant } from "../engine/types";
-import { GET_HERO } from "./api"
+import { GET_SINGLE_HERO } from "./api"
 
 
 
@@ -15,9 +15,9 @@ export function UnitPortrait(
         mouseLeaveHandler
     }: {
         unit?: Combatant,
-        clickHandler: MouseEventHandler,
-        mouseEnterHandler: MouseEventHandler,
-        mouseLeaveHandler: MouseEventHandler,
+        clickHandler?: MouseEventHandler,
+        mouseEnterHandler?: MouseEventHandler,
+        mouseLeaveHandler?: MouseEventHandler,
     }) {
         
     const sizeCss = "w-[50px] sm:w-[80px] md:w-[100px] lg:w-[120px] xl:w-[150px] 2xl:w-[100px] aspect-square";
@@ -30,7 +30,7 @@ export function UnitPortrait(
     }
 
     // tapped heroes get a grayscale portrait, dead ones are darker (and only appear in the team, not the map obviously)
-    const { loading, error, data } = useQuery(GET_HERO, { variables: { idNum: battleUnit.unit.idNum } });
+    const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { idNum: battleUnit.unit.idNum } });
 
 
     if (loading) return <div className={`${sizeCss} border-blue-900 border-2`}

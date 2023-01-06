@@ -200,7 +200,10 @@ HeroDefinitionObject.implement({
             resolve: (heroDefinition) => (heroDefinition.growthRates),
             description: "Growth rates for each stat. Note that final stats depend on rarity, level, and a predetermined growth vector for each Hero.",
         }),
-        //TODO:- after building stats calculation engine, expose that instead of these useless fields!
+        baseVectorId: ofb.exposeInt("baseVectorId", {
+            nullable: false,
+            description: "A characteristic growth vector id for each Hero. Note that final stats depend on rarity, level, and a predetermined growth vector for each Hero."
+        }),
         series: ofb.field({
             type: SeriesEnum,
             nullable: false,

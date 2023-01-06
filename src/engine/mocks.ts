@@ -6,10 +6,12 @@ const randInt = (n: number) => Math.floor(n * Math.random());
 export const getRandomTeam: () => Team = () => randInt(2);
 
 export const getRandomUnit: () => Unit = () => ({
-    idNum: randInt(600),
+    idNum: randInt(800),
     rarity: randInt(5),
     level: randInt(40),
     merges: randInt(11),
+    dragonflowers: randInt(6),
+    baseVectorId: randInt(64),
 });
 
 export const getRandomCombatant: () => Combatant = () => ({

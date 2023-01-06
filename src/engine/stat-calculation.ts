@@ -49,12 +49,11 @@ function closeEnoughFloor(x: number) {
     return Math.floor(x + x * Number.EPSILON);
 }
 
-
 /*
  traits add or subtract 5 from growth rates.
  Asset and Ascension are not allowed to stack.
 */
-function traitAdjustedGrowth({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, growthRates: ParameterPerStat) {
+function traitAdjustedGrowths({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, growthRates: ParameterPerStat) {
     const copy = { ...growthRates };
     if (flaw !== null) copy[flaw] -= 5;
     if (asset !== null) copy[asset] += 5;
@@ -63,10 +62,28 @@ function traitAdjustedGrowth({ asset, flaw, ascension }: { asset: Stat | null, f
 }
 
 /*
+ growths are multiplied by a constant depending on rarity
+ */
+function rarityAdjustedGrowths(rarity: Rarity, growthRates: ParameterPerStat) {
+    const rarityFactor = {
+        [Rarity.ONE_STAR]: 0.86,
+        [Rarity.TWO_STARS]: 0.93,
+        [Rarity.THREE_STARS]: 1,
+        [Rarity.FOUR_STARS]: 1.07,
+        [Rarity.FIVE_STARS]: 1.14
+    } as const;
+    const copy = { ...growthRates };
+    for (const s in copy) {
+        copy[s as Stat] = closeEnoughFloor(rarityFactor[rarity] * copy[s as Stat]);
+    }
+    return copy;
+}
+
+/*
  AFTER rarity correction, traits add or subtract 1 from base stats.
  Asset and Ascension are not allowed to stack.
 */
-function traitAdjustedBase({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, baseStats: ParameterPerStat) {
+function traitAdjustedBases({ asset, flaw, ascension }: { asset: Stat | null, flaw: Stat | null, ascension: Stat | null }, baseStats: ParameterPerStat) {
     const copy = { ...baseStats };
     if (flaw !== null) copy[flaw]--;
     if (asset !== null) copy[asset]++;
@@ -80,7 +97,7 @@ function traitAdjustedBase({ asset, flaw, ascension }: { asset: Stat | null, fla
  when increasing to 3 or 5 stars, raise HP and the remaining 2 
  break ties by atk > spd > def > res.
 */
-function rarityAdjustedBase(rarity: Rarity, baseStats3Stars: ParameterPerStat): ParameterPerStat {
+function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) {
     // nothing changes
     switch (rarity) {
         case Rarity.THREE_STARS:
@@ -115,44 +132,39 @@ function rarityAdjustedBase(rarity: Rarity, baseStats3Stars: ParameterPerStat): 
 function growthFor(
     stat: Stat,
     unit: Unit,
-    growthVectors: GrowthVectors[],
-    hero: {
-        baseStats: ParameterPerStat,
-        growthRates: ParameterPerStat,
+    {
+        baseStat,
+        adjustedGrowthRate,
+        baseVectorId,
+    }: {
+        baseStat: number,
+        adjustedGrowthRate: number,
         baseVectorId: number
-    }) {
-
+    },
+    growthVectors: GrowthVectors[],
+) {
     // easy enough to optimize this branch out too
     if (unit.level === 1) {
         return 0;
     }
 
-    const { baseStats, growthRates, baseVectorId } = hero;
-
     // is handling the 0% gv 01100000 11001111 10111010 01100001 01110001 or > 100% gvs necessary?
     // The minimum growth rate is 25% and maximum is 80%, so no 
 
-    const traitAdjustedGrowthRates = traitAdjustedGrowth(unit, growthRates);
-    const rarityFactor = [0.86, 0.93, 1, 1.07, 1.14] as const;
-    const growthPoint = closeEnoughFloor(rarityFactor[unit.rarity] * traitAdjustedGrowthRates[stat]); // rarity adjusted growth rate
-    const totalGrowth = closeEnoughFloor(39 / 100 * growthPoint);
+    // rarity adjusted growth rate
+    const totalGrowth = closeEnoughFloor(39 / 100 * adjustedGrowthRate);
 
     // very very likely branch, so optimize here:
     if (unit.level === 40) {
         return totalGrowth;
     }
     // prevent negative values from messing up (a % b)
-    const statSpecificOffsets = { hp: -35 + 64, atk: -28 + 64, spd: -21 + 64, def: -14 + 64, res: -7 + 64 } as const;
-    const gvid = closeEnoughFloor(3 * (baseStats[stat] + 1) + statSpecificOffsets[stat] + growthPoint + baseVectorId) % 64;
+    const statSpecificOffsets = { [Stat.HP]: -35 + 64, [Stat.ATK]: -28 + 64, [Stat.SPD]: -21 + 64, [Stat.DEF]: -14 + 64, [Stat.RES]: -7 + 64 } as const;
+    const gvid = closeEnoughFloor(3 * (baseStat + 1) + statSpecificOffsets[stat] + adjustedGrowthRate + baseVectorId) % 64;
 
     // cast from a string, this is around 39+2 bits so still safe to represent as a double
     // but turn into a bigint because we want bitshifting
     // js is pretty ridiculous not supporting integer types, like come on!
-    try {
-        const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
-    } catch {
-        console.log(`rarity is ${unit.rarity},  growthPoint is ${growthPoint}, totalGrowth is ${totalGrowth}`);
-    }
     const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
 
     // find the hamming weight of the subvector
@@ -164,28 +176,31 @@ function growthFor(
     return growth;
 }
 
-function growthsFor(unit: Unit, {
-    growthVectors,
-    hero,
-}: {
-    growthVectors: GrowthVectors[],
+function growthsFor(unit: Unit,
     hero: {
         baseStats: ParameterPerStat,
         growthRates: ParameterPerStat,
         baseVectorId: number,
-    }
-}): ParameterPerStat {
+    },
+    growthVectors: GrowthVectors[],
+) {
+
+    const adjustedGrowthRates = rarityAdjustedGrowths(unit.rarity, traitAdjustedGrowths(unit, hero.growthRates));
 
     const growths: ParameterPerStat = { hp: 0, atk: 0, spd: 0, def: 0, res: 0 };
     for (const s in growths) {
-        growths[s as Stat] = growthFor(s as Stat, unit, growthVectors, hero);
+        const stat = s as Stat;
+        growths[stat] = growthFor(stat, unit, { baseStat: hero.baseStats[stat], adjustedGrowthRate: adjustedGrowthRates[stat], baseVectorId: hero.baseVectorId }, growthVectors);
     }
 
     return growths;
 }
 
-export function basesFor(unit: Unit, { baseStats: baseStats3Stars }: { baseStats: ParameterPerStat }) {
-    return traitAdjustedBase(unit, rarityAdjustedBase(unit.rarity, baseStats3Stars));
+function basesFor(unit: Unit,
+    { baseStats: baseStats3Stars }:
+        { baseStats: ParameterPerStat }
+) {
+    return traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
 }
 
 export function statsFor(unit: Unit): ParameterPerStat | string {
@@ -197,7 +212,7 @@ export function statsFor(unit: Unit): ParameterPerStat | string {
 
     const hero = hData.heroes[0];
 
-    const growths = growthsFor(unit, { growthVectors: gvData.growthVectors as GrowthVectors[], hero });
+    const growths = growthsFor(unit, hero, gvData.growthVectors as GrowthVectors[]);
     const bases = basesFor(unit, hero);
 
     console.log(`bases: ${JSON.stringify(bases)}`);

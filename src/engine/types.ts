@@ -1,4 +1,4 @@
-import { ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
+import { OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
 
 export enum Team {
     PLAYER, ENEMY,
@@ -33,9 +33,9 @@ export type Unit = {
     merges: number,
     dragonflowers: number,
 
-    asset: Stat | null,
-    flaw: Stat | null,
-    ascension: Stat | null,
+    asset: OptionalStat,
+    flaw: OptionalStat,
+    ascension: OptionalStat,
 
     // traits and so on for stats
 }
@@ -43,14 +43,15 @@ export type Unit = {
 export type Combatant = {
     unit: Unit,
     team: Team,
+    teamNumber: number,
     tileNumber?: number,
+    uid: symbol,
 }
 
 export type CombatantTeam = Combatant[]
 
 export type BattleTile = {
     terrain: Terrain,
-    combatant?: Combatant,
 }
 
 export type BattleMap = BattleTile[]

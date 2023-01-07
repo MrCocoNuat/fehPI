@@ -110,6 +110,15 @@ type SkillsPerRarity = [
     string | null,
 ]; // 14 length
 export type ParameterPerStat = {[stat in Stat] : number}
+
+export enum OptionalStat {
+    HP = "hp",
+    ATK = "atk",
+    SPD = "spd",
+    DEF = "def",
+    RES = "res",
+    NONE = "none",
+}
 export enum Stat {
     HP = "hp",
     ATK = "atk",

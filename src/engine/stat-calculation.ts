@@ -1,8 +1,9 @@
 // takes a Unit and returns its stat tuple
 
 import { useQuery } from "@apollo/client";
+import { Stats } from "fs";
 import { GET_GROWTH_VECTORS, GET_SINGLE_HERO } from "../components/api";
-import { GrowthVectors, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
+import { GrowthVectors, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
 import { Rarity, Unit } from "./types";
 
 /*
@@ -66,9 +67,9 @@ function orderBaseStatsDescending(whichStats: readonly Stat[], baseValues: Param
 */
 function traitAdjustedGrowthRates({ merges, asset, flaw, ascension }: Unit, growthRates: ParameterPerStat) {
     const copy = { ...growthRates };
-    if (merges === 0 && flaw !== null) copy[flaw] -= 5;
-    if (asset !== null) copy[asset] += 5;
-    if (ascension !== asset && ascension !== null) copy[ascension] += 5;
+    if (merges === 0 && flaw !== OptionalStat.NONE) copy[flaw] -= 5;
+    if (asset !== OptionalStat.NONE) copy[asset] += 5;
+    if (ascension !== asset && ascension !== OptionalStat.NONE) copy[ascension] += 5;
     return copy;
 }
 
@@ -94,7 +95,7 @@ function rarityAdjustedGrowthRates(rarity: Rarity, growthRates: ParameterPerStat
  For purposes of stat ordering in merges/dragonflowers, ascensions do not count
 */
 function traitAdjustedBasesWithoutAscension(unit : Unit, baseStats: ParameterPerStat){
-    return traitAdjustedBases({...unit, ascension: null}, baseStats);
+    return traitAdjustedBases({...unit, ascension: OptionalStat.NONE}, baseStats);
 }
 
 /*
@@ -105,9 +106,9 @@ function traitAdjustedBasesWithoutAscension(unit : Unit, baseStats: ParameterPer
 */
 function traitAdjustedBases({ merges, asset, flaw, ascension }: Unit, baseStats: ParameterPerStat) {
     const copy = { ...baseStats };
-    if (merges === 0 && flaw !== null) copy[flaw]--;
-    if (asset !== null) copy[asset]++;
-    if (ascension !== asset && ascension !== null) copy[ascension]++;
+    if (merges === 0 && flaw !== OptionalStat.NONE) copy[flaw]--;
+    if (asset !== OptionalStat.NONE) copy[asset]++;
+    if (ascension !== asset && ascension !== OptionalStat.NONE) copy[ascension]++;
     return copy;
 }
 
@@ -141,7 +142,7 @@ function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) 
             orderedNonHpStats.slice(0, 2).forEach(stat => copy[stat]++);
             return copy;
         case Rarity.TWO_STARS:
-            copy[Stat.HP]--;
+            copy[OptionalStat.HP]--;
             orderedNonHpStats.slice(2).forEach(stat => copy[stat]--);
             return copy;
     }
@@ -152,7 +153,7 @@ function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) 
  For each merge, add 1 to the next 2 stats, in ordered sequence, wrapping when necessary. 10 merges applies +4 to all stats.
 */
 function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
-    const bonuses: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 }
+    const bonuses: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 }
     if (unit.merges !== 0 && unit.flaw === null) {
         orderedAllStats.slice(0, 3).forEach(stat => bonuses[stat]++);
     }
@@ -175,7 +176,7 @@ function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
   For each dragonflower, add 1 to the next stat, in ordered sequence, wrapping when necessary. Each 5 dragonflowers applies +1 to all stats.
 */
 function dragonflowerBonuses({ dragonflowers }: Unit, orderedAllStats: Stat[]) {
-    const bonuses: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 }
+    const bonuses: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 }
 
     // optimize here, very common branch
     if (dragonflowers % 5 === 0) {
@@ -220,7 +221,7 @@ function growthFor(
         return totalGrowth;
     }
     // prevent negative values from messing up (a % b)
-    const statSpecificOffsets = { [Stat.HP]: -35 + 64, [Stat.ATK]: -28 + 64, [Stat.SPD]: -21 + 64, [Stat.DEF]: -14 + 64, [Stat.RES]: -7 + 64 } as const;
+    const statSpecificOffsets = { [OptionalStat.HP]: -35 + 64, [OptionalStat.ATK]: -28 + 64, [OptionalStat.SPD]: -21 + 64, [OptionalStat.DEF]: -14 + 64, [OptionalStat.RES]: -7 + 64 } as const;
     const gvid = closeEnoughFloor(3 * (baseStat + 1) + statSpecificOffsets[stat] + adjustedGrowthRate + baseVectorId) % 64;
 
     // cast from a string, this is around 39+2 bits so still safe to represent as a double
@@ -248,7 +249,7 @@ export function growthsFor(unit: Unit,
 
     const adjustedGrowthRates = rarityAdjustedGrowthRates(unit.rarity, traitAdjustedGrowthRates(unit, hero.growthRates));
 
-    const growths: ParameterPerStat = { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 };
+    const growths: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 };
     for (const s in growths) {
         const stat = s as Stat;
         growths[stat] = growthFor(stat, unit, { baseStat: hero.baseStats[stat], adjustedGrowthRate: adjustedGrowthRates[stat], baseVectorId: hero.baseVectorId }, growthVectors);
@@ -262,19 +263,14 @@ export function basesFor(unit: Unit,
         { baseStats: ParameterPerStat }
 ) {
     const adjustedBases = traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
-    console.log(`traits and rarity bases: ${JSON.stringify(adjustedBases)}`);
 
     if (!(unit.merges === 0 && unit.dragonflowers === 0)) {
         // Need to order stats solely on traits at 5*, which is equivalent to ordering at 3*
         const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
         const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
-        console.log(`for merges/df: ${JSON.stringify(traitAdjustedOnlyBases)}`);
 
         const mergeBonus = mergeBonuses(unit, orderedAllStats);
-    console.log(`merges: ${JSON.stringify(mergeBonus)}`);
-
         const dragonflowerBonus = dragonflowerBonuses(unit, orderedAllStats);
-        console.log(`df: ${JSON.stringify(dragonflowerBonus)}`);
 
         orderedAllStats.forEach(stat => adjustedBases[stat] += (mergeBonus[stat] + dragonflowerBonus[stat]));
     }
@@ -293,9 +289,9 @@ export function statsFor(unit: Unit): ParameterPerStat | string {
     const growths = growthsFor(unit, hero, gvData.growthVectors as GrowthVectors[]);
     const bases = basesFor(unit, hero);
 
-    console.log(`bases: ${JSON.stringify(bases)}`);
-    console.log(`growths: ${JSON.stringify(growths)}`);
-    
+    // console.log(`bases: ${JSON.stringify(bases)}`);
+    // console.log(`growths: ${JSON.stringify(growths)}`);
+
     // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be +stat skills
 
     // add bases and growths

@@ -1,11 +1,15 @@
-import { Stat } from "../pages/api/dao/types/dao-types";
+import { Nunito } from "@next/font/google";
+import { OptionalStat, Stat } from "../pages/api/dao/types/dao-types";
 import { BattleMap, BattleTile, Combatant, CombatantTeam, Team, Unit } from "./types";
+
+const NUM_TILES = 48;
+const NUM_TEAM_MEMBERS = 7;
+const NUM_TEAMS = 2;
 
 const randInt = (n: number) => Math.floor(n * Math.random());
 
-export const getRandomStat: () => Stat = () => [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES][randInt(5)];
-export const getRandomTraits: () => { asset: Stat | null, flaw: Stat | null, ascension: Stat | null } = () => {
-    const traits = { asset: null as Stat | null, flaw: null as Stat | null, ascension: null as Stat | null };
+const randomTraits: () => { asset: OptionalStat, flaw: OptionalStat, ascension: OptionalStat } = () => {
+    const traits = { asset: OptionalStat.NONE, flaw: OptionalStat.NONE, ascension: OptionalStat.NONE };
 
     const allStats = [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES];
     const threeRandomStats = []; // without replacement!!
@@ -14,21 +18,21 @@ export const getRandomTraits: () => { asset: Stat | null, flaw: Stat | null, asc
         const stat = allStats.splice(choice, 1)[0];
         threeRandomStats.push(stat);
     }
-    if (Math.random() < 20/21) {
+    if (Math.random() < 20 / 21) {
         // not neutral
-        traits.asset = threeRandomStats[0];
-        traits.flaw = threeRandomStats[1];
+        traits.asset = threeRandomStats[0] as unknown as OptionalStat;
+        traits.flaw = threeRandomStats[1] as unknown as OptionalStat;
     }
 
     if (Math.random() < 0.5) {
         // give an ascension
-        traits.ascension = threeRandomStats[2];
+        traits.ascension = threeRandomStats[2] as unknown as OptionalStat;
     }
     return traits;
 }
-export const getRandomTeam: () => Team = () => randInt(2);
+const randomTeam: () => Team = () => randInt(2);
 
-export const getRandomUnit: () => Unit = () => ({
+const randomUnit: () => Unit = () => ({
     idNum: randInt(800),
     rarity: randInt(5),
     level: 40, //randInt(40), // level adjustments are so poorly supported by others...
@@ -36,23 +40,38 @@ export const getRandomUnit: () => Unit = () => ({
     dragonflowers: randInt(6),
     baseVectorId: randInt(64),
 
-    ...getRandomTraits(),
+    ...randomTraits(),
 
 });
 
-export const getRandomCombatant: () => Combatant = () => ({
-    team: getRandomTeam(),
-    unit: getRandomUnit(),
-    tileNumber: -1,
+const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({
+    team: team,
+    unit: randomUnit(),
+    tileNumber: tileNumber,
+    teamNumber: teamNumber,
+    uid: Symbol("combatant uid"),
 });
 
-export const getRandomCombatantTeam: (forceTeam?: Team) => CombatantTeam = (forceTeam) =>
-    new Array(7).fill(0).map(_ => getRandomCombatant()).map(combatant => { combatant.team = forceTeam ?? combatant.team; return combatant; })
+export const generateTeams: () => { [team in Team]: CombatantTeam } = () => {
+    // assign the team members randomly to tiles
+    const fourteenTileNumbers: number[] = [];
+    const pool = new Array(NUM_TILES).fill(0).map((_, i) => i);
+    for (let i = 0; i < NUM_TEAMS*NUM_TEAM_MEMBERS; i++) {
+        const choice = pool.splice(randInt(pool.length), 1)[0];
+        fourteenTileNumbers.push(choice);
+    }
+
+    return {
+        [Team.PLAYER]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.PLAYER, i, fourteenTileNumbers[i])),
+        [Team.ENEMY]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.ENEMY, i, fourteenTileNumbers[i+NUM_TEAM_MEMBERS]))
+    }
+}
 
 
-export const getRandomBattleTile: () => BattleTile = () => ({
+const generateBattleTile: () => BattleTile = () => ({
     terrain: randInt(11),
-    combatant: (Math.random() > 0.5) ? getRandomCombatant() : undefined,
 })
 
-export const getRandomBattleMap: () => BattleMap = () => new Array(48).fill(0).map(_ => getRandomBattleTile());
+export const generateBattleMap: () => BattleMap = () => {
+    return Array(48).fill(0).map((_, i) => generateBattleTile());
+};

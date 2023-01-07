@@ -6,8 +6,8 @@ import { Tab, TabSelector } from "./TabSelector";
 
 import { UnitTeamComponent } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
-import { Team } from "../engine/types";
-import { getRandomBattleMap, getRandomCombatantTeam } from "../engine/mocks";
+import { Combatant, Team } from "../engine/types";
+import { generateBattleMap, generateTeams } from "../engine/mocks";
 import { ReactUnitBuilder } from "./ReactUnitBuilder";
 
 export enum FocusType {
@@ -21,27 +21,38 @@ export type Focus = {
     focusInfo: any // right now always number
 }
 
+const {[Team.PLAYER]: basePlayerTeam, [Team.ENEMY]: baseEnemyTeam} = generateTeams();
+const baseBattleMap = generateBattleMap();
+
 export function BattlePane(props: any) {
     const [selectedTab, updateSelectedTab] = useState(Tab.STATUS);
     const [focus, updateFocus] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
     const [hover, updateHover] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
 
-    const [battleTiles, updateBattleTiles] = useState(getRandomBattleMap());
-    const [playerTeam, updatePlayerTeam] = useState(getRandomCombatantTeam(Team.PLAYER));
-    const [enemyTeam, updateEnemyTeam] = useState(getRandomCombatantTeam(Team.ENEMY));
+    const [playerTeam, updatePlayerTeam] = useState(basePlayerTeam);
+    const [enemyTeam, updateEnemyTeam] = useState(baseEnemyTeam);
+    const [battleTiles, updateBattleTiles] = useState(baseBattleMap);
 
     function getCombatant({focusType, focusInfo} : Focus) {
         switch (focusType) {
-            case FocusType.TILE_UNIT:
-                return battleTiles[focusInfo].combatant;
+            //case FocusType.TILE_UNIT:
+             //   return battleTiles[focusInfo].combatant;
             case FocusType.TEAM_UNIT:
                 return (focusInfo < 7)?
-                {unit: playerTeam[focusInfo].unit, team: Team.PLAYER} :
-                {unit: enemyTeam[focusInfo - 7].unit, team: Team.ENEMY}
+                playerTeam[focusInfo] :
+                enemyTeam[focusInfo - 7]
             default:
                 return undefined;
         }
     }
+    function updateCombatant(team: Team, teamNumber: number, newCombatant : Combatant){
+        const [selectedTeam, selectedUpdate] = (team === Team.PLAYER)? [playerTeam,updatePlayerTeam] : [enemyTeam, updateEnemyTeam];
+        const copy = [...selectedTeam];
+        copy[teamNumber] = newCombatant;
+        selectedUpdate(copy);
+    }
+
+    const focusCombatant = getCombatant(focus);
 
     return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5"
         // any click not stopped will bubble here and clear the focus
@@ -55,7 +66,7 @@ export function BattlePane(props: any) {
                     Hover: {FocusType[hover.focusType]} param: {hover.focusInfo}
                 </div>
                 <Seeker></Seeker>
-                <BattleMapComponent tiles={battleTiles} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
+                <BattleMapComponent tiles={battleTiles} allCombatants={playerTeam.concat(enemyTeam)} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
             </div>
         </div>
         <div className="flex-initial flex flex-col">
@@ -68,8 +79,8 @@ export function BattlePane(props: any) {
             {(selectedTab === Tab.HISTORY) && focus.focusType === FocusType.NONE && <>
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
-            {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && <>
-                <ReactUnitBuilder combatant={getCombatant(focus)}></ReactUnitBuilder>
+            {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
+                <ReactUnitBuilder combatant={focusCombatant}></ReactUnitBuilder>
             </>}
         </div>
     </div>

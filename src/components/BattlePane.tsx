@@ -80,7 +80,7 @@ export function BattlePane(props: any) {
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
             {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
-                <ReactUnitBuilder combatant={focusCombatant}></ReactUnitBuilder>
+                <ReactUnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focusCombatant.team, focusCombatant.teamNumber, newCombatant)}></ReactUnitBuilder>
             </>}
         </div>
     </div>

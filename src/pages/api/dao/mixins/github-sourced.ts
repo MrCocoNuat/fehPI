@@ -7,7 +7,11 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
         private githubInitialization: Promise<void>;
         private githubData: V[];
 
-        protected toValueType!: (json: any) => V;
+        protected toValueType: (json: any) => V = (json) => {
+            throw new Error("toValueType not implemented");
+        }
+        protected acceptIf = (json : any) => true;
+
         private readonly REPO_PATH: string;
         private readonly IS_BLOB: boolean;
 
@@ -53,7 +57,7 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
             blobJson = JSON.parse(blobText) as [any];
 
             // js is singlethreaded, right?
-            this.githubData.push(...blobJson.map(this.toValueType));
+            this.githubData.push(...blobJson.filter(this.acceptIf).map(this.toValueType));
         }
 
         protected async getGithubData() {

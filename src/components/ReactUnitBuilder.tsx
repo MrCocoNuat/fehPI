@@ -1,4 +1,5 @@
 import { getAllEnumEntries } from "enum-for";
+import Select from "react-select/dist/declarations/src/Select";
 import { statsFor } from "../engine/stat-calculation"
 import { Combatant, Rarity, Unit } from "../engine/types";
 import { OptionalStat } from "../pages/api/dao/types/dao-types";
@@ -33,6 +34,9 @@ export function ReactUnitBuilder({
             <div>
                 <form onSubmit={(evt) => { evt.preventDefault(); }}>
                     <input id="unit-idNum" type="number" value={combatant.unit.idNum} onChange={(evt) => mergeChanges("idNum", +evt.target.value)} />
+                    {/*<Select id="unit-idNum2" options={
+
+                    }/>*/}
                     {/* to be replaced with react-select */}
                     <select id="unit-rarity" value={combatant.unit.rarity} onChange={(evt) => mergeChanges("rarity", +evt.target.value as Rarity)}>
                         {getAllEnumEntries(Rarity).map(([key, value]) => <option value={value}>{key}</option>)}

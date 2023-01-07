@@ -1,8 +1,8 @@
 import { MovementType, MovementTypeBitfield, SkillCategory, SkillDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
-import { IdIndexed } from "../mixins/id-indexed";
-import { KeyIndexed } from "../mixins/key-indexed";
+import { WriteOnceIdIndexed } from "../mixins/id-indexed";
+import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage } from "../mixins/mediawiki-image";
 
@@ -10,7 +10,7 @@ import { MediaWikiImage } from "../mixins/mediawiki-image";
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as SkillDefinition;
 
-export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, IdIndexed(typeToken, KeyIndexed(typeToken, Dao<SkillDefinition>)))) {
+export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>)))) {
     initialization: Promise<void>;
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
@@ -59,6 +59,40 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
         }
     }
 
+    // What about removing stat-refine weapons (that are not staves)?
+    //   Almost all inheritable + and all arcane weapons have 4 stat refines, and any prf weapon that has a special effect refine also has 4 stat refines. 
+    //   Don't store those pointless SkillDefinitions to save around 11246 - () entries.
+    // 
+    //   Any stat refined weapon has (refined: true), an hp boost, and a boost to one other stat:
+    //
+    //   Melee        Ranged
+    //   3 5/2,3,4,4  0 2/1,2,3,3    (special:hp hp/atk,spd,def,res)
+    //
+    //   Special effect refines have only the lower hp boost. Thus stat refines can be distinguished by (refined: true) and a nonzero non-hp boost.
+    //
+    // There are many exceptions to these rules:
+    //   Bravery inheritables do not get refines at all
+    //   Melee bravery prfs (with refines) get 5/1,3,4,4 instead
+    //   Ranged bravery prfs 
+    //   Silver inheritables and inheritables like Wo Dao, Wo Gun get 1 additional atk on all 4 stat refines
+    //   Certain prf weapons can "evolve" into other prfs entirely, which themselves may be refinable.
+    //   Certain inheritables can "evolve" into other inheritables (but they are inheritable anyway so who cares)
+    // This set **IS EXPECTED TO CHANGE** in the future and cannot be handled adequately by the Refine Engine.
+    
+    // Only want these categories, 
+    RELEVANT_SKILL_CATEGORIES = [
+        SkillCategory.WEAPON,
+        SkillCategory.ASSIST,
+        SkillCategory.SPECIAL,
+        SkillCategory.PASSIVE_A,
+        SkillCategory.PASSIVE_B,
+        SkillCategory.PASSIVE_C,
+        SkillCategory.PASSIVE_S
+    ] as const;
+    protected override acceptIf: (json: any) => boolean = (json) => {
+        return this.RELEVANT_SKILL_CATEGORIES.includes(json.category);
+    }
+
     async getByIdNums(idNums: number[]) {
         await this.initialization;
         return this.getByIds(idNums);
@@ -68,6 +102,11 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     async getByIdTags(idTags: string[]) {
         await this.initialization;
         return this.getByKeys(idTags);
+    }
+
+    async getAll() {
+        await this.initialization;
+        return this.getAllIds();
     }
 }
 

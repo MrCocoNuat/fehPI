@@ -12,20 +12,20 @@ export const setQueries = () => {
 
     // define queries here. This one returns a field (with subfields)
     builder.queryField("skills", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a SkillDefinition for each",
+        description: "Looks up a list of idNums and returns a SkillDefinition for each. Alternatively, if the list is null, returns all known SkillDefinitions.",
         // its args are a
         args: {
             // [Int!]! named idNums
             idNums: qfb.arg({
                 type: qfb.arg.listRef("Int", {required: true}),
-                required: true,
+                required: false,
             }),
         },
         // and the return field is a [Graphql Object type implemented elsewhere]!. To get its backing object,
         type: qfb.listRef(SkillDefinitionObject, {nullable: true}),
         nullable: false,
         // run this resolver given args.
-        resolve: async (parent, {idNums}) => (await skillDao.getByIdNums(idNums))
+        resolve: async (parent, {idNums}) => (await (idNums? skillDao.getByIdNums(idNums) : skillDao.getAll())),
     }));
     
     builder.queryField("skillsByTag", (qfb) => qfb.field({
@@ -42,16 +42,16 @@ export const setQueries = () => {
     }));
     
     builder.queryField("heroes", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a HeroDefinition for each",
+        description: "Looks up a list of idNums and returns a HeroDefinition for each. Alternatively, if the list is null, returns all known HeroDefinitions.",
         args: {
             idNums: qfb.arg({
                 type: qfb.arg.listRef("Int", {required: true}),
-                required: true
+                required: false
             }),
         },
         type: qfb.listRef(HeroDefinitionObject, {nullable: true}),
         nullable: false,
-        resolve: async (parent, {idNums}) => (await heroDao.getByIdNums(idNums))
+        resolve: async (parent, {idNums}) => (await (idNums? heroDao.getByIdNums(idNums) : heroDao.getAll())),
     }))
     
     builder.queryField("messages", (qfb) => qfb.field({

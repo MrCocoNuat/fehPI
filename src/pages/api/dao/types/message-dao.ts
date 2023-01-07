@@ -1,14 +1,14 @@
 import { Language, Message } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
-import { KeyIndexed } from "../mixins/key-indexed";
+import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as Message;
 
 // There are 10 languages to support right now, each needs its own sub-DAO
-class LangMessageDao extends GithubSourced(typeToken, KeyIndexed(typeToken, Dao<string>)){
+class LangMessageDao extends GithubSourced(typeToken, WriteOnceKeyIndexed(typeToken, Dao<string>)){
     RELEVANT_KEY_PATTERNS = [
         /^MSID_.*/, // Messages related to Skills
         /^MPID_.*/, // Messages related to Heroes (Persons)

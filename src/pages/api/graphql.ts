@@ -6,6 +6,8 @@ export default createYoga({
   schema,
   graphqlEndpoint: '/api/graphql',
   plugins: [
+    // Although this method is named use*, it is not a React hook!
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useResponseCache({
       // for everyone
       session: () => null,

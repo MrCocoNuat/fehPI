@@ -27,7 +27,8 @@ const baseBattleMap = generateBattleMap();
 export function BattlePane(props: any) {
     const [selectedTab, updateSelectedTab] = useState(Tab.STATUS);
     const [focus, updateFocus] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
-    const [hover, updateHover] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
+    const [hover, updateHoverDisabled] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
+    const updateHover = () => {};
 
     const [playerTeam, updatePlayerTeam] = useState(basePlayerTeam);
     const [enemyTeam, updateEnemyTeam] = useState(baseEnemyTeam);

@@ -11,7 +11,7 @@ export const LanguageContext = createContext(Language.USEN);
 
 export default function TestComponent(props: { user: any }) {
 
-    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN);
+    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN); // yeah yeah US defaultism... 
 
     const { loading, data, error } = useQuery(PING);
     if (loading) return <p>Loading...</p>;

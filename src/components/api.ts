@@ -35,8 +35,21 @@ export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
         baseVectorId
         maxDragonflowers
     }
-}`
+}`;
+
+export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLanguage!){
+    heroes{
+        idNum
+        name(language: $lang){
+            value
+        }
+        epithet(language: $lang){
+            value
+        }
+    }
+}
+`;
 
 export const GET_GROWTH_VECTORS = gql`query getGrowthVectors{
     growthVectors
-}`
+}`;

@@ -1,9 +1,12 @@
+import { useQuery } from "@apollo/client";
 import { getAllEnumEntries } from "enum-for";
-import Select from "react-select/dist/declarations/src/Select";
+import { useContext } from "react";
 import { statsFor } from "../engine/stat-calculation"
 import { Combatant, Rarity, Unit } from "../engine/types";
-import { OptionalStat } from "../pages/api/dao/types/dao-types";
-import { UnitPortrait } from "./UnitPortrait";
+import { Language, OptionalStat } from "../pages/api/dao/types/dao-types";
+import { LanguageContext } from "../pages/testpage";
+import { GET_ALL_HERO_NAMES } from "./api";
+import { ReactSelect } from "./tailwind-classes/ReactSelect";
 
 export function ReactUnitBuilder({
     combatant,
@@ -13,8 +16,20 @@ export function ReactUnitBuilder({
     updater: (newCombatant: Combatant) => void,
 }) {
 
-    //const [bufferUnit, updateBufferUnit] = useState(combatant.unit as Unit);
-    //const [bufferUid, updateBufferUid] = useState(Symbol());
+    const selectedLanguage = useContext(LanguageContext);
+    const { data, loading, error } = useQuery(GET_ALL_HERO_NAMES, {
+        variables: {
+            lang: Language[selectedLanguage],
+        }
+    });
+
+    let heroes: { idNum: number, name: { value: string }, epithet: { value: string } }[] = [];
+    if (!(loading || error)) {
+        heroes = data.heroes;
+    } else {
+        console.log(error);
+    }
+    console.log("querying for hero names with lang:", Language[selectedLanguage]);
 
     const stats = statsFor(combatant.unit);
 
@@ -34,12 +49,15 @@ export function ReactUnitBuilder({
             <div>
                 <form onSubmit={(evt) => { evt.preventDefault(); }}>
                     <input id="unit-idNum" type="number" value={combatant.unit.idNum} onChange={(evt) => mergeChanges("idNum", +evt.target.value)} />
-                    {/*<Select id="unit-idNum2" options={
 
-                    }/>*/}
-                    {/* to be replaced with react-select */}
+                    <ReactSelect id="unit-idNum2"
+                        value={{ value: combatant.unit.idNum, label: ((hero) => `${hero?.name.value}: ${hero?.epithet.value}`)(heroes.find(hero => hero.idNum === combatant.unit.idNum)) }}
+                        onChange={(choice) => { if (choice) mergeChanges("idNum", +choice.value) }}
+                        options={
+                            heroes.map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
+                        } />
                     <select id="unit-rarity" value={combatant.unit.rarity} onChange={(evt) => mergeChanges("rarity", +evt.target.value as Rarity)}>
-                        {getAllEnumEntries(Rarity).map(([key, value]) => <option value={value}>{key}</option>)}
+                        {getAllEnumEntries(Rarity).map(([key, value]) => <option key={value} value={value}>{key}</option>)}
                     </select> <br />
 
                     <input id="unit-level" type="number" value={combatant.unit.level} onChange={(evt) => mergeChanges("level", +evt.target.value)} />
@@ -48,13 +66,13 @@ export function ReactUnitBuilder({
                     <br />
 
                     <select id="unit-asset" value={combatant.unit.asset} onChange={(evt) => mergeChanges("asset", evt.target.value as OptionalStat)}>
-                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option value={value}>{key}</option>)}
+                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option key={value} value={value}>{key}</option>)}
                     </select>
                     <select id="unit-flaw" value={combatant.unit.flaw} onChange={(evt) => mergeChanges("flaw", evt.target.value as OptionalStat)}>
-                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option value={value}>{key}</option>)}
+                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option key={value} value={value}>{key}</option>)}
                     </select>
                     <select id="unit-ascension" value={combatant.unit.ascension} onChange={(evt) => mergeChanges("ascension", evt.target.value as OptionalStat)}>
-                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option value={value}>{key}</option>)}
+                        {getAllEnumEntries(OptionalStat).map(([key, value]) => <option key={value} value={value}>{key}</option>)}
                     </select> <br />
                 </form>
                 <div>{`stats: ${JSON.stringify(stats)}`}</div>

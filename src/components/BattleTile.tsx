@@ -28,7 +28,7 @@ export function BattleTileComponent(
 
     return <div className="border-red-900 border-2 text-xs"
         onClick={tileClickHandler}>
-        <UnitPortrait unit={battleUnit} clickHandler={portraitClickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}></UnitPortrait>
+        <UnitPortrait combatant={battleUnit} clickHandler={portraitClickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}/>
         {Terrain[terrain]}
     </div>
 }

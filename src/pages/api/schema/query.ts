@@ -1,5 +1,5 @@
 import { growthVectorDao, heroDao, messageDao, skillDao } from "../dao/dao-registry";
-import { SkillDefinitionObject, HeroDefinitionObject, MessageObject } from "./object";
+import { SkillDefinitionInterface, HeroDefinitionObject, MessageObject } from "./object";
 import { builder } from "./schema-builder";
 import { LanguageEnum, OptionalLanguageEnum } from "./enum";
 import { Language, OptionalLanguage } from "../dao/types/dao-types";
@@ -22,7 +22,7 @@ export const setQueries = () => {
             }),
         },
         // and the return field is a [Graphql Object type implemented elsewhere]!. To get its backing object,
-        type: qfb.listRef(SkillDefinitionObject, {nullable: true}),
+        type: qfb.listRef(SkillDefinitionInterface, {nullable: true}),
         nullable: false,
         // run this resolver given args.
         resolve: async (parent, {idNums}) => (await (idNums? skillDao.getByIdNums(idNums) : skillDao.getAll())),
@@ -36,7 +36,7 @@ export const setQueries = () => {
                 required: true,
             }),
         },
-        type: qfb.listRef(SkillDefinitionObject, {nullable: true}),
+        type: qfb.listRef(SkillDefinitionInterface, {nullable: true}),
         nullable: false,
         resolve: async (parent, {idTags}) => (await skillDao.getByIdTags(idTags))
     }));

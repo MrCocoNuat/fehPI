@@ -1,24 +1,24 @@
 export enum SkillCategory {
     WEAPON,
     ASSIST,
-    SPECIAL, 
-    PASSIVE_A, 
-    PASSIVE_B, 
-    PASSIVE_C, 
-    PASSIVE_S, 
-    REFINE_EFFECT, 
+    SPECIAL,
+    PASSIVE_A,
+    PASSIVE_B,
+    PASSIVE_C,
+    PASSIVE_S,
+    REFINE_EFFECT,
     BEAST_EFFECT,
 };
 export type SkillCategoryName = keyof typeof SkillCategory;
 
 export enum MovementType {
-    INFANTRY, 
-    ARMORED, 
-    CAVALRY, 
+    INFANTRY,
+    ARMORED,
+    CAVALRY,
     FLIER,
 };
 export type MovementTypeName = keyof typeof MovementType;
-export type MovementTypeBitfield = {[movementTypeId in MovementType] : boolean};
+export type MovementTypeBitfield = { [movementTypeId in MovementType]: boolean };
 
 export enum WeaponType {
     SWORD,
@@ -48,7 +48,7 @@ export enum WeaponType {
     //TODO:- some of these have extra properties that would be nice to attach here??
 };
 export type WeaponTypeName = keyof typeof WeaponType;
-export type WeaponTypeBitfield = {[weaponTypeId in WeaponType] : boolean};
+export type WeaponTypeBitfield = { [weaponTypeId in WeaponType]: boolean };
 
 export enum Series {
     HEROES,
@@ -67,37 +67,44 @@ export enum Series {
     TOKYO_MIRAGE_SESSIONS,
 };
 export type SeriesName = keyof typeof Series;
-export type SeriesBitfield = {[seriesId in Series] : boolean};
+export type SeriesBitfield = { [seriesId in Series]: boolean };
 
-
-export type SkillDefinition = {
+export interface SkillDefinition {
     idNum: number
     sortId: number,
-    
-    idTag : string,
-    nameId : string,
-    descId: string,
-    
-    prerequisites : string[],
-    nextSkill : string | null,
 
-    refined: boolean,
-    refineBase : string | null,
-    refineStats: ParameterPerStat,
-    refines: string[],
-    
-    exclusive : boolean,
-    enemyOnly : boolean,
-    arcaneWeapon : boolean,
-    
-    category : SkillCategory,
+    idTag: string,
+    nameId: string,
+    descId: string,
+
+    prerequisites: string[],
+    nextSkill: string | null,
+
+    exclusive: boolean,
+    enemyOnly: boolean,
+
+    category: SkillCategory,
     wepEquip: WeaponTypeBitfield,
     movEquip: MovementTypeBitfield,
 
     imageUrl?: string,
 }
 
-type SkillsPerRarity = [ 
+export interface WeaponDefinition extends SkillDefinition {
+    refined: boolean,
+    refineBase: string | null,
+    refineStats: ParameterPerStat,
+    refines: string[],
+    arcaneWeapon: boolean,
+    category: SkillCategory.WEAPON, // always known
+}
+// not a complete guard, shifts responsibility to programmer to remember to actually define fields
+export function assertIsWeaponDefinition(skillDefinition: SkillDefinition): skillDefinition is WeaponDefinition {
+    return skillDefinition.category === SkillCategory.WEAPON;
+}
+
+
+type SkillsPerRarity = [
     string | null,
     string | null,
     string | null,
@@ -113,7 +120,7 @@ type SkillsPerRarity = [
     string | null,
     string | null,
 ]; // 14 length
-export type ParameterPerStat = {[stat in Stat] : number}
+export type ParameterPerStat = { [stat in Stat]: number }
 
 export enum OptionalStat {
     HP = "hp",
@@ -131,26 +138,26 @@ export enum Stat {
     RES = "res"
 };
 
-export type HeroDefinition = {
+export interface HeroDefinition {
     idNum: number,
     sortValue: number,
-    
+
     idTag: string,
     nameId: string,
     epithetId: string,
-    
-    dragonflowers : {maxCount: number},
-    
+
+    dragonflowers: { maxCount: number },
+
     origins: SeriesBitfield,
     series: Series,
     weaponType: WeaponType,
     movementType: MovementType,
     refresher: boolean,
-    
+
     baseVectorId: number,
     baseStats: ParameterPerStat,
     growthRates: ParameterPerStat,
-    
+
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity],
 

@@ -1,4 +1,4 @@
-import { MovementType, MovementTypeBitfield, SkillCategory, SkillDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
+import { assertIsWeaponDefinition, MovementType, MovementTypeBitfield, SkillCategory, SkillDefinition, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
@@ -42,26 +42,40 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
-        return {
+        const skillDefinition = {
             idNum: json.id_num,
             sortId: json.sort_id,
             idTag: json.id_tag,
             nameId: json.name_id,
             descId: json.desc_id,
+
             // remove nulls, they are worthless.
             prerequisites: json.prerequisites.filter((idTag: string | null) => idTag !== null),
             nextSkill: json.next_skill,
-            refined: json.refined,
-            refineBase: json.refine_base,
-            refineStats: json.refine_stats,
-            // this needs to be loaded in later
-            refines: [],
+
             exclusive: json.exclusive,
             enemyOnly: json.enemy_only,
-            arcaneWeapon: json.arcane_weapon,
+
             category: json.category,
             wepEquip: toWeaponTypeIdBitfield(json.wep_equip),
             movEquip: toMovementTypeIdBitfield(json.mov_equip),
+        }
+
+        // category differentiates SkillDefinition implementations
+        switch (skillDefinition.category) {
+            case SkillCategory.WEAPON:
+                const weaponDefinition: WeaponDefinition = {
+                    ...skillDefinition,
+                    arcaneWeapon: json.arcane_weapon,
+                    refined: json.refined,
+                    refineBase: json.refine_base,
+                    refineStats: json.refine_stats,
+                    // this needs to be loaded in later
+                    refines: [],
+                };
+                return weaponDefinition;
+            default:
+                return skillDefinition;
         }
     }
 
@@ -106,10 +120,13 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     private async populateRefines(data: SkillDefinition[]) {
         data.forEach(skillDefinition => {
             // yes this mutates elements, but it does not structurally modify the list, so it is ok 
-            if (skillDefinition.refineBase === null) {
+            if (!assertIsWeaponDefinition(skillDefinition) || skillDefinition.refineBase === null) {
                 return;
             }
-            (this.sneakyGetByKey(skillDefinition.refineBase)).refines.push(skillDefinition.idTag);
+            const refineBaseWeapon = this.sneakyGetByKey(skillDefinition.refineBase);
+            if (assertIsWeaponDefinition(refineBaseWeapon) /* always true */) {
+                refineBaseWeapon.refines.push(skillDefinition.idTag);
+            }
         })
     }
 

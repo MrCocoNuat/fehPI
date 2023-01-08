@@ -1,16 +1,16 @@
-import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, Stat, WeaponType } from "../dao/types/dao-types";
+import { assertIsWeaponDefinition, HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../dao/dao-registry";
 
-// From TypeScript Types, create ObjectRefs
-export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
+// From TypeScript Types, create ObjectRefs/InterfaceRefs
+export const SkillDefinitionInterface = builder.loadableInterfaceRef<SkillDefinition, string>("SkillDefinition", {
     // this one is dataloadable - one query that generates many SkillDefinitions can instead generate keys (here of type string) that get looked up all at once
     load: (idTags: string[]) => skillDao.getByIdTags(idTags),
 });
 // then, implement them with GraphQL object/input types
-SkillDefinitionObject.implement({
+SkillDefinitionInterface.implement({
     description: "Details about a Skill",
     fields: (ofb) => ({
         // by choosing which fields to expose directly or resolve through a function
@@ -55,34 +55,15 @@ SkillDefinitionObject.implement({
             description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills, null otherwise",
         }),
         prerequisites: ofb.field({
-            type: ofb.listRef(SkillDefinitionObject, {
+            type: ofb.listRef(SkillDefinitionInterface, {
                 nullable: false
             }),
             nullable: false,
             resolve: (skillDefinition) => skillDefinition.prerequisites,
             description: "The previous Skills in this Skill's inheritance tree; if there are any, only one needs to be learned.",
         }),
-        // TODO:- split these off into a WeaponDefinition implementation of SkillDefinition, a lot of fields (and more unexposed yet) these make no sense for general skills
-        refineBase: ofb.field({
-            type: SkillDefinitionObject,
-            nullable: true,
-            resolve: (skillDefinition) => skillDefinition.refineBase,
-            description: "If this Skill is a refined weapon, the SkillDefinition of the base weapon. Null otherwise.",
-        }),
-        refineStats: ofb.field({
-            type: ParameterPerStatObject,
-            nullable: true,
-            resolve: (skillDefinition) => (skillDefinition.refined? skillDefinition.refineStats : null),
-            description: "If this Skill is a refined weapon, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
-        }),
-        refines: ofb.field({
-            type: ofb.listRef(SkillDefinitionObject, {nullable: false}),
-            nullable: false,
-            resolve: (skillDefinition) => skillDefinition.refines,
-            description: "If this Skill is an unrefined weapon, the SkillDefinitions of the refine options. Empty otherwise. Weapon evolutions are not included." 
-        }),
         nextSkill: ofb.field({
-            type: SkillDefinitionObject,
+            type: SkillDefinitionInterface,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.nextSkill,
             description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise",
@@ -95,10 +76,7 @@ SkillDefinitionObject.implement({
             nullable: false,
             description: "Whether this Skill is only equippable by story enemy units",
         }),
-        arcaneWeapon: ofb.exposeBoolean("arcaneWeapon", {
-            nullable: false,
-            description: "Whether this Skill is an arcane weapon",
-        }),
+
         category: ofb.field({
             type: SkillCategoryEnum,
             nullable: false,
@@ -123,6 +101,57 @@ SkillDefinitionObject.implement({
         }),
     }),
 })
+
+export const NonWeaponDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("NonWeaponDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags),
+});
+NonWeaponDefinitionObject.implement({
+    description: "Details about a non-Weapon Skill",
+    interfaces: [SkillDefinitionInterface],
+    // a bit of a patch-up until I actually make the other SkillDefinition implementations
+    isTypeOf: (value) => (!assertIsWeaponDefinition(value as SkillDefinition)),
+    /* no additional fields */
+})
+
+
+export const WeaponDefinitionObject = builder.loadableObjectRef<WeaponDefinition, string>("WeaponDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<WeaponDefinition[]>,
+});
+WeaponDefinitionObject.implement({
+    description: "Details about a Weapon Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsWeaponDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        refineBase: ofb.field({
+            type: WeaponDefinitionObject,
+            nullable: true,
+            resolve: (weaponDefinition) => weaponDefinition.refineBase,
+            description: "If this Weapon is refined, the SkillDefinition of the base weapon. Null otherwise.",
+        }),
+        refineStats: ofb.field({
+            type: ParameterPerStatObject,
+            nullable: true,
+            resolve: (weaponDefinition) => (weaponDefinition.refined ? weaponDefinition.refineStats : null),
+            description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
+        }),
+        refines: ofb.field({
+            type: ofb.listRef(WeaponDefinitionObject, { nullable: false }),
+            nullable: false,
+            resolve: (weaponDefinition) => weaponDefinition.refines,
+            description: "If this Weapon is unrefined, the SkillDefinitions of the refine options. Empty otherwise. Weapon evolutions are not included."
+        }),
+        arcaneWeapon: ofb.exposeBoolean("arcaneWeapon", {
+            nullable: false,
+            description: "Whether this Weapon is an arcane weapon",
+        }),
+        refined: ofb.exposeBoolean("refined", {
+            nullable: false,
+            description: "Whether this Weapon is refined"
+        })
+    })
+}
+
+)
 
 export const ParameterPerStatObject = builder.objectRef<ParameterPerStat>("ParameterPerStat")
     .implement({
@@ -232,7 +261,7 @@ HeroDefinitionObject.implement({
             description: "The games that this Hero is considered to be from"
         }),
         skills: ofb.field({
-            type: ofb.listRef(SkillDefinitionObject, {
+            type: ofb.listRef(SkillDefinitionInterface, {
                 nullable: true
             }),
             nullable: false,

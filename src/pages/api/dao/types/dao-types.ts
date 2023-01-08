@@ -80,7 +80,10 @@ export type SkillDefinition = {
     
     prerequisites : string[],
     nextSkill : string | null,
+
+    refined: boolean,
     refineBase : string | null,
+    refineStats: ParameterPerStat,
     refines: string[],
     
     exclusive : boolean,

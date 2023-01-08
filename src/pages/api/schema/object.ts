@@ -62,11 +62,18 @@ SkillDefinitionObject.implement({
             resolve: (skillDefinition) => skillDefinition.prerequisites,
             description: "The previous Skills in this Skill's inheritance tree; if there are any, only one needs to be learned.",
         }),
+        // TODO:- split these off into a WeaponDefinition implementation of SkillDefinition, a lot of fields (and more unexposed yet) these make no sense for general skills
         refineBase: ofb.field({
             type: SkillDefinitionObject,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.refineBase,
             description: "If this Skill is a refined weapon, the SkillDefinition of the base weapon. Null otherwise.",
+        }),
+        refineStats: ofb.field({
+            type: ParameterPerStatObject,
+            nullable: true,
+            resolve: (skillDefinition) => (skillDefinition.refined? skillDefinition.refineStats : null),
+            description: "If this Skill is a refined weapon, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
         }),
         refines: ofb.field({
             type: ofb.listRef(SkillDefinitionObject, {nullable: false}),

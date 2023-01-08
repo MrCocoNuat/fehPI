@@ -51,7 +51,9 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
             // remove nulls, they are worthless.
             prerequisites: json.prerequisites.filter((idTag: string | null) => idTag !== null),
             nextSkill: json.next_skill,
+            refined: json.refined,
             refineBase: json.refine_base,
+            refineStats: json.refine_stats,
             // this needs to be loaded in later
             refines: [],
             exclusive: json.exclusive,

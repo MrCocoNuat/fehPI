@@ -12,7 +12,7 @@ export const setQueries = () => {
 
     // define queries here. This one returns a field (with subfields)
     builder.queryField("skills", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a SkillDefinition for each. Alternatively, if the list is null, returns all known SkillDefinitions.",
+        description: "Looks up a list of idNums and returns a SkillDefinition for each. Alternatively, if the input is null, returns all known SkillDefinitions.",
         // its args are a
         args: {
             // [Int!]! named idNums
@@ -42,7 +42,7 @@ export const setQueries = () => {
     }));
     
     builder.queryField("heroes", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a HeroDefinition for each. Alternatively, if the list is null, returns all known HeroDefinitions.",
+        description: "Looks up a list of idNums and returns a HeroDefinition for each. Alternatively, if the input is null, returns all known HeroDefinitions.",
         args: {
             idNums: qfb.arg({
                 type: qfb.arg.listRef("Int", {required: true}),

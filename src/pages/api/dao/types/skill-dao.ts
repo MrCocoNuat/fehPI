@@ -47,7 +47,8 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
             idTag: json.id_tag,
             nameId: json.name_id,
             descId: json.desc_id,
-            prerequisites: json.prerequisites,
+            // remove nulls, they are worthless.
+            prerequisites: json.prerequisites.filter((idTag: string | null) => idTag !== null),
             refineBase: json.refine_base,
             nextSkill: json.next_skill,
             exclusive: json.exclusive,
@@ -78,7 +79,7 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     //   Certain prf weapons can "evolve" into other prfs entirely, which themselves may be refinable.
     //   Certain inheritables can "evolve" into other inheritables (but they are inheritable anyway so who cares)
     // This set **IS EXPECTED TO CHANGE** in the future and cannot be handled adequately by the Refine Engine.
-    
+
     // Only want these categories, 
     RELEVANT_SKILL_CATEGORIES = [
         SkillCategory.WEAPON,

@@ -58,8 +58,7 @@ SkillDefinitionObject.implement({
                 nullable: false
             }),
             nullable: false,
-            // remove nulls, they are worthless.
-            resolve: (skillDefinition) => skillDefinition.prerequisites.filter((prerequisite) : prerequisite is string => !!prerequisite),
+            resolve: (skillDefinition) => skillDefinition.prerequisites,
             description: "The previous Skills in this Skill's inheritance tree; if there are any, only one needs to be learned.",
         }),
         refineBase: ofb.field({

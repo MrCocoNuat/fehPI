@@ -78,7 +78,7 @@ export type SkillDefinition = {
     nameId : string,
     descId: string,
     
-    prerequisites : [string | null, string | null],
+    prerequisites : string[],
     refineBase : string | null,
     nextSkill : string | null,
     

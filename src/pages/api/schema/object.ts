@@ -6,6 +6,7 @@ import { messageDao, skillDao } from "../dao/dao-registry";
 
 // From TypeScript Types, create ObjectRefs
 export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
+    // this one is dataloadable - one query that generates many SkillDefinitions can instead generate keys (here of type string) that get looked up all at once
     load: (idTags: string[]) => skillDao.getByIdTags(idTags),
 });
 // then, implement them with GraphQL object/input types
@@ -65,7 +66,13 @@ SkillDefinitionObject.implement({
             type: SkillDefinitionObject,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.refineBase,
-            description: "If this Skill is a refined weapon, the string identifier of the base weapon. Null otherwise.",
+            description: "If this Skill is a refined weapon, the SkillDefinition of the base weapon. Null otherwise.",
+        }),
+        refines: ofb.field({
+            type: ofb.listRef(SkillDefinitionObject, {nullable: false}),
+            nullable: false,
+            resolve: (skillDefinition) => skillDefinition.refines,
+            description: "If this Skill is an unrefined weapon, the SkillDefinitions of the refine options. Empty otherwise. Weapon evolutions are not included." 
         }),
         nextSkill: ofb.field({
             type: SkillDefinitionObject,

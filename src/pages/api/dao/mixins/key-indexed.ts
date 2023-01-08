@@ -4,7 +4,7 @@ import { DaoConstructor } from "./dao";
 
 export function WriteOnceKeyIndexed<V extends {idTag: string}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){
     return class KeyIndexedDao extends dBase{
-        protected collection : {[key : string] : V} = {};
+        private collectionKeys : {[key : string] : V} = {};
         private readOnlyKeys = false;
 
         constructor(...args: any[]){
@@ -13,7 +13,12 @@ export function WriteOnceKeyIndexed<V extends {idTag: string}, DBase extends Dao
 
         protected getByKeys(keys: string[]) {
             this.readOnlyKeys = true;
-            return keys.map(key => this.collection[key]);
+            return keys.map(key => this.collectionKeys[key]);
+        }
+
+        // do not expose this public! For speed, it is a single-key operation and does not set the readOnly flag!
+        protected sneakyGetByKey(key: string){
+            return this.collectionKeys[key];
         }
 
         protected setByKeys(entries: V[]){
@@ -21,7 +26,7 @@ export function WriteOnceKeyIndexed<V extends {idTag: string}, DBase extends Dao
                 console.error("IdNum DAO modification attempted after readonly, write rejected");
                 return;
             }
-            entries.forEach(entry => this.collection[entry.idTag] = entry);
+            entries.forEach(entry => this.collectionKeys[entry.idTag] = entry);
         }
     }
 }

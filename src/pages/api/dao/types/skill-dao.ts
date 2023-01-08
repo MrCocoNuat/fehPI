@@ -38,6 +38,7 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
             })
             .then(data => { this.setByIds(data); return data; })
             .then(data => { this.setByKeys(data); return data; })
+            .then(data => { this.populateRefines(data); return data; })
     }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
@@ -49,8 +50,10 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
             descId: json.desc_id,
             // remove nulls, they are worthless.
             prerequisites: json.prerequisites.filter((idTag: string | null) => idTag !== null),
-            refineBase: json.refine_base,
             nextSkill: json.next_skill,
+            refineBase: json.refine_base,
+            // this needs to be loaded in later
+            refines: [],
             exclusive: json.exclusive,
             enemyOnly: json.enemy_only,
             arcaneWeapon: json.arcane_weapon,
@@ -92,6 +95,20 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     ] as const;
     protected override acceptIf: (json: any) => boolean = (json) => {
         return this.RELEVANT_SKILL_CATEGORIES.includes(json.category);
+    }
+
+    //TODO:- where is a special effect refine's desc stored?
+
+    // the refineBase of a refined weapon points to the unrefined version
+    // but a refines of a unrefined weapon pointing to the refined versions is needed too - perform that reverse mapping
+    private async populateRefines(data: SkillDefinition[]) {
+        data.forEach(skillDefinition => {
+            // yes this mutates elements, but it does not structurally modify the list, so it is ok 
+            if (skillDefinition.refineBase === null) {
+                return;
+            }
+            (this.sneakyGetByKey(skillDefinition.refineBase)).refines.push(skillDefinition.idTag);
+        })
     }
 
     async getByIdNums(idNums: number[]) {

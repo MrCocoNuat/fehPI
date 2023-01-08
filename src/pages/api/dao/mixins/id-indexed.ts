@@ -4,7 +4,7 @@ import { DaoConstructor } from "./dao";
 
 export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){
     return class IdIndexedDao extends dBase{
-        protected collection : {[id : number] : V} = {};
+        private collectionIds : {[id : number] : V} = {};
         private valuesArrayIds? : V[];
         private readOnlyIds = false;
 
@@ -14,7 +14,7 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
 
         protected getByIds(ids: number[]) {
             this.readOnlyIds = true;
-            return ids.map(id => this.collection[id]);
+            return ids.map(id => this.collectionIds[id]);
         }
 
         protected setByIds(entries: V[]){
@@ -22,14 +22,14 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
                 console.error("IdNum DAO modification attempted after readonly, write rejected");
                 return;
             }
-            entries.forEach(entry => this.collection[entry.idNum] = entry);
+            entries.forEach(entry => this.collectionIds[entry.idNum] = entry);
         }
 
         // very common, cache results
         protected getAllIds(){
             this.readOnlyIds = true;
             if (this.valuesArrayIds === undefined){
-                this.valuesArrayIds = Object.values(this.collection);
+                this.valuesArrayIds = Object.values(this.collectionIds);
                 console.log(`dao recorded ${this.valuesArrayIds.length} entries in getAll`);
             }
             return this.valuesArrayIds;

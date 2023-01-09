@@ -9,22 +9,16 @@ const sizeCss = "w-[50px] sm:w-[80px] md:w-[100px] lg:w-[120px] xl:w-[150px] 2xl
 const sizeNextStr = "(max-width )"
 
 export function UnitPortrait(
-    {
-        combatant,
-        clickHandler,
-        mouseEnterHandler,
-        mouseLeaveHandler
-    }: {
+    props : {
         combatant?: Combatant,
         clickHandler?: MouseEventHandler,
         mouseEnterHandler?: MouseEventHandler,
         mouseLeaveHandler?: MouseEventHandler,
     }) {
-    return (combatant) ?
-        <Portrait combatant={combatant} clickHandler={clickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler} />
-        : <BlankPortrait clickHandler={clickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler} />;
+    return (props.combatant) ?
+        <Portrait combatant={props.combatant} {...props} />
+        : <BlankPortrait {...props}/>;
 }
-
 
 
 //TODO:- should this handle team background? probably not

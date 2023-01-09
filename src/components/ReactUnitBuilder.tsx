@@ -6,7 +6,7 @@ import { Combatant, Rarity, Unit } from "../engine/types";
 import { Language, OptionalStat } from "../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../pages/testpage";
 import { GET_ALL_HERO_NAMES } from "./api";
-import { ReactSelect } from "./tailwind-classes/ReactSelect";
+import { ReactSelect } from "./tailwind-styled/ReactSelect";
 
 export function ReactUnitBuilder({
     combatant,

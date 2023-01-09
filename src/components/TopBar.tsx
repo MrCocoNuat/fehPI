@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Language } from "../pages/api/dao/types/dao-types";
 
 import { MoonIcon, SunIcon, BeakerIcon } from "@heroicons/react/24/solid";
-import { Button } from "./tailwind-classes/Button";
+import { Button } from "./tailwind-styled/Button";
 
 export function TopBar(
     {

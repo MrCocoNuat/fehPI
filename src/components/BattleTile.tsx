@@ -10,21 +10,25 @@ export function BattleTileComponent(
     {
         battleUnit,
         terrain,
-        clickHandlerWith: clickHandlerWith,
+        clickHandlerWith,
         mouseEnterHandler,
         mouseLeaveHandler
     }: {
         battleUnit?: Combatant,
         terrain: Terrain,
         // allows distinction between the tile itself or the unit on it
-        clickHandlerWith: (focusType: FocusType) => MouseEventHandler,
-        mouseEnterHandler: MouseEventHandler,
-        mouseLeaveHandler: MouseEventHandler
+        clickHandlerWith?: (focusType: FocusType) => MouseEventHandler,
+        mouseEnterHandler?: MouseEventHandler,
+        mouseLeaveHandler?: MouseEventHandler
     }) {
 
+    const [tileClickHandler, portraitClickHandler] = clickHandlerWith ?
+        [clickHandlerWith(FocusType.TILE), clickHandlerWith(FocusType.TILE_UNIT)]
+        : [undefined, undefined];
+
     return <div className="border-red-900 border-2 text-xs"
-        onClick={clickHandlerWith(FocusType.TILE)}>
-        <UnitPortrait unit={battleUnit} clickHandler={clickHandlerWith(FocusType.TILE_UNIT)} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}></UnitPortrait>
+        onClick={tileClickHandler}>
+        <UnitPortrait combatant={battleUnit} clickHandler={portraitClickHandler} mouseEnterHandler={mouseEnterHandler} mouseLeaveHandler={mouseLeaveHandler}/>
         {Terrain[terrain]}
     </div>
 }

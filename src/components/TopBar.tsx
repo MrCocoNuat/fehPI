@@ -1,10 +1,10 @@
 import { getAllEnumEntries, getAllEnumValues } from "enum-for";
 import { useTheme } from "next-themes";
 import { Dispatch, SetStateAction } from "react";
-import { Language } from "../dao/types/dao-types";
+import { Language } from "../pages/api/dao/types/dao-types";
 
 import { MoonIcon, SunIcon, BeakerIcon } from "@heroicons/react/24/solid";
-import { Button } from "./tailwind-classes/Button";
+import { Button } from "./tailwind-styled/Button";
 
 export function TopBar(
     {
@@ -31,7 +31,7 @@ export function TopBar(
                 <select
                     className="m-2"
                     defaultValue={currentLanguage}
-                    onChange={(evt) => updateCurrentLanguage(Language[evt.target.value as keyof typeof Language])}
+                    onChange={(evt) => updateCurrentLanguage(+evt.target.value as Language)}
                 >
                     {getAllEnumEntries(Language).map(([languageName, language]) => <option key={language} value={language}>{languageName}</option>)}
                 </select>

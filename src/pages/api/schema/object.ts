@@ -1,16 +1,17 @@
-import { HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, WeaponType } from "../../../dao/types/dao-types";
+import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
-import { messageDao, skillDao } from "../../../dao/dao-registry";
+import { messageDao, skillDao } from "../dao/dao-registry";
 
-// From TypeScript Types, create ObjectRefs
-export const SkillDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("SkillDefinition", {
+// From TypeScript Types, create ObjectRefs/InterfaceRefs
+export const SkillDefinitionInterface = builder.loadableInterfaceRef<SkillDefinition, string>("SkillDefinition", {
+    // this one is dataloadable - one query that generates many SkillDefinitions can instead generate keys (here of type string) that get looked up all at once
     load: (idTags: string[]) => skillDao.getByIdTags(idTags),
 });
 // then, implement them with GraphQL object/input types
-SkillDefinitionObject.implement({
-    description: "Details about a Skill",
+SkillDefinitionInterface.implement({
+    description: "Details about a generic Skill",
     fields: (ofb) => ({
         // by choosing which fields to expose directly or resolve through a function
         idNum: ofb.exposeInt("idNum", {
@@ -49,27 +50,16 @@ SkillDefinitionObject.implement({
             ...messageObjectLoadAndResolve("descId"),
             description: "The Message holding the description of the Skill. Provide a NONE Language argument if you just want the key."
         }),
-        imageUrl: ofb.exposeString("imageUrl", {
-            nullable: true,
-            description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills, null otherwise",
-        }),
         prerequisites: ofb.field({
-            type: ofb.listRef(SkillDefinitionObject, {
+            type: ofb.listRef(SkillDefinitionInterface, {
                 nullable: false
             }),
             nullable: false,
-            // remove nulls, they are worthless.
-            resolve: (skillDefinition) => skillDefinition.prerequisites.filter((prerequisite) : prerequisite is string => !!prerequisite),
+            resolve: (skillDefinition) => skillDefinition.prerequisites,
             description: "The previous Skills in this Skill's inheritance tree; if there are any, only one needs to be learned.",
         }),
-        refineBase: ofb.field({
-            type: SkillDefinitionObject,
-            nullable: true,
-            resolve: (skillDefinition) => skillDefinition.refineBase,
-            description: "If this Skill is a refined weapon, the string identifier of the base weapon. Null otherwise.",
-        }),
         nextSkill: ofb.field({
-            type: SkillDefinitionObject,
+            type: SkillDefinitionInterface,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.nextSkill,
             description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise",
@@ -82,10 +72,7 @@ SkillDefinitionObject.implement({
             nullable: false,
             description: "Whether this Skill is only equippable by story enemy units",
         }),
-        arcaneWeapon: ofb.exposeBoolean("arcaneWeapon", {
-            nullable: false,
-            description: "Whether this Skill is an arcane weapon",
-        }),
+
         category: ofb.field({
             type: SkillCategoryEnum,
             nullable: false,
@@ -111,15 +98,108 @@ SkillDefinitionObject.implement({
     }),
 })
 
+
+
+
+export const WeaponDefinitionObject = builder.loadableObjectRef<WeaponDefinition, string>("WeaponDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<WeaponDefinition[]>,
+});
+WeaponDefinitionObject.implement({
+    description: "Details about a Weapon Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsWeaponDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        might: ofb.exposeInt("might", {
+            nullable: false,
+            description: "The inherent offensive power of this Weapon. Note that this includes any boost to ATK from a refine.",
+        }),
+        range: ofb.exposeInt("range", {
+            nullable: false,
+            description: "The range from which this Weapon attacks"
+        }),
+        refineBase: ofb.field({
+            type: WeaponDefinitionObject,
+            nullable: true,
+            resolve: (weaponDefinition) => weaponDefinition.refineBase,
+            description: "If this Weapon is refined, the SkillDefinition of the base weapon. Null otherwise.",
+        }),
+        refineStats: ofb.field({
+            type: ParameterPerStatObject,
+            nullable: true,
+            resolve: (weaponDefinition) => (weaponDefinition.refined ? weaponDefinition.refineStats : null),
+            description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
+        }),
+        refines: ofb.field({
+            type: ofb.listRef(WeaponDefinitionObject, { nullable: false }),
+            nullable: false,
+            resolve: (weaponDefinition) => weaponDefinition.refines,
+            description: "If this Weapon is unrefined, the SkillDefinitions of the refine options. Empty otherwise. Weapon evolutions are not included."
+        }),
+        arcaneWeapon: ofb.exposeBoolean("arcaneWeapon", {
+            nullable: false,
+            description: "Whether this Weapon is an arcane weapon",
+        }),
+        refined: ofb.exposeBoolean("refined", {
+            nullable: false,
+            description: "Whether this Weapon is refined"
+        })
+    })
+})
+
+export const AssistDefinitionObject = builder.loadableObjectRef<AssistDefinition, string>("AssistDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<AssistDefinition[]>,
+});
+AssistDefinitionObject.implement({
+    description: "Details about an Assist Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsAssistDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        range: ofb.exposeInt("range", {
+            nullable: false,
+            description: "The range from which this Assist Skill operates",
+        }),
+    }),
+})
+
+export const SpecialDefinitionObject = builder.loadableObjectRef<SpecialDefinition, string>("SpecialDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<SpecialDefinition[]>,
+});
+SpecialDefinitionObject.implement({
+    description: "Details about a Special Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsSpecialDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        cooldownCount: ofb.exposeInt("cooldownCount", {
+            nullable: false,
+            description: "The cooldown count of this Special Skill",
+        }),
+    }),
+})
+
+export const PassiveSkillDefinitionObject = builder.loadableObjectRef<PassiveSkillDefinition, string>("PassiveSkillDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<PassiveSkillDefinition[]>,
+});
+PassiveSkillDefinitionObject.implement({
+    description: "Details about a Passive Skill - A, B, C, or S",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsPassiveSkillDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: false,
+            description: "FEH wiki URL of an image of this Passive Skill's icon",
+        }),
+    }),
+})
+
 export const ParameterPerStatObject = builder.objectRef<ParameterPerStat>("ParameterPerStat")
     .implement({
         description: "An object holding one integer parameter for each stat",
         fields: (ofb) => ({
-            hp: ofb.exposeInt("hp", { nullable: false }),
-            atk: ofb.exposeInt("atk", { nullable: false }),
-            spd: ofb.exposeInt("spd", { nullable: false }),
-            def: ofb.exposeInt("def", { nullable: false }),
-            res: ofb.exposeInt("res", { nullable: false }),
+            hp: ofb.exposeInt(Stat.HP, { nullable: false }),
+            atk: ofb.exposeInt(Stat.ATK, { nullable: false }),
+            spd: ofb.exposeInt(Stat.SPD, { nullable: false }),
+            def: ofb.exposeInt(Stat.DEF, { nullable: false }),
+            res: ofb.exposeInt(Stat.RES, { nullable: false }),
         })
     })
 
@@ -200,7 +280,10 @@ HeroDefinitionObject.implement({
             resolve: (heroDefinition) => (heroDefinition.growthRates),
             description: "Growth rates for each stat. Note that final stats depend on rarity, level, and a predetermined growth vector for each Hero.",
         }),
-        //TODO:- after building stats calculation engine, expose that instead of these useless fields!
+        baseVectorId: ofb.exposeInt("baseVectorId", {
+            nullable: false,
+            description: "A characteristic growth vector id for each Hero. Note that final stats depend on rarity, level, and a predetermined growth vector for each Hero."
+        }),
         series: ofb.field({
             type: SeriesEnum,
             nullable: false,
@@ -216,7 +299,7 @@ HeroDefinitionObject.implement({
             description: "The games that this Hero is considered to be from"
         }),
         skills: ofb.field({
-            type: ofb.listRef(SkillDefinitionObject, {
+            type: ofb.listRef(SkillDefinitionInterface, {
                 nullable: true
             }),
             nullable: false,

@@ -5,13 +5,13 @@ import { PING } from "../components/api";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
 import { createContext, useState } from "react";
-import { Language } from "../dao/types/dao-types";
+import { Language } from "./api/dao/types/dao-types";
 
 export const LanguageContext = createContext(Language.USEN);
 
 export default function TestComponent(props: { user: any }) {
 
-    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN);
+    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN); // yeah yeah US defaultism... 
 
     const { loading, data, error } = useQuery(PING);
     if (loading) return <p>Loading...</p>;

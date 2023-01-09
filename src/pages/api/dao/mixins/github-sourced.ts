@@ -7,19 +7,29 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
         private githubInitialization: Promise<void>;
         private githubData: V[];
 
-        protected toValueType!: (json: any) => V;
+        protected toValueType: (json: any) => V = (json) => {
+            throw new Error("toValueType not implemented");
+        }
+        protected acceptIf = (json : any) => true;
+
         private readonly REPO_PATH: string;
+        private readonly IS_BLOB: boolean;
 
         // bye bye type safety!!
         constructor(...args: any[]) {
             super(...args);
             this.REPO_PATH = args[0].repoPath;
+            this.IS_BLOB = args[0].isBlob ?? false;
             this.githubData = [];
             this.githubInitialization = this.githubInitialize();
         }
 
         private async githubInitialize() {
-            await this.processTree(this.REPO_PATH);
+            if (this.IS_BLOB) {
+                await this.processBlob(path.dirname(this.REPO_PATH), { name: path.basename(this.REPO_PATH) });
+            } else {
+                await this.processTree(this.REPO_PATH);
+            }
         }
 
         private async processTree(dirPath: string) {
@@ -38,7 +48,7 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
             }
         }
 
-        private async processBlob(dirPath: string, entry: { name: string; object: { isTruncated: boolean; } }) {
+        private async processBlob(dirPath: string, entry: { name: string }) {
             const entryPath = path.join(dirPath, entry.name);
             let blobJson;
 
@@ -47,10 +57,10 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
             blobJson = JSON.parse(blobText) as [any];
 
             // js is singlethreaded, right?
-            this.githubData.push(...blobJson.map(this.toValueType));
+            this.githubData.push(...blobJson.filter(this.acceptIf).map(this.toValueType));
         }
 
-        protected async getGithubData(){
+        protected async getGithubData() {
             await this.githubInitialization;
             return this.githubData;
         }

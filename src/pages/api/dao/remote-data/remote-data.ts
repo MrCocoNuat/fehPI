@@ -1,8 +1,8 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../../api-client/github/github";
-import { MediaWikiReader } from "../../api-client/mediawiki/mediawiki";
+import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../../../../api-client/github/github";
+import { MediaWikiReader } from "../../../../api-client/mediawiki/mediawiki";
 import { RepositoryDetails, WikiDetails } from "./datasource-types";
 
 const loadDataSourceDetails = (descriptor: string) => {

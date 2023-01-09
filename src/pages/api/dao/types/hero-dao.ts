@@ -1,7 +1,7 @@
 import { HeroDefinition, Series, SeriesBitfield } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
-import { IdIndexed } from "../mixins/id-indexed";
+import { WriteOnceIdIndexed } from "../mixins/id-indexed";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
 
@@ -9,7 +9,7 @@ import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as HeroDefinition;
 
-export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, IdIndexed(typeToken, Dao<HeroDefinition>))){
+export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, WriteOnceIdIndexed(typeToken, Dao<HeroDefinition>))){
     private initialization: Promise<void>;
     
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
@@ -49,12 +49,20 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
             
             // importantly, heroes can equip Skills that are not exclusive OR appear in this collection
             skills: json.skills,
+
+            //TODO:- again, do this without breaking TS 
+            imageUrl: null! as string,
         }
     }
     
     async getByIdNums(idNums: number[]){
         await this.initialization;
         return this.getByIds(idNums);
+    }
+
+    async getAll(){
+        await this.initialization;
+        return this.getAllIds();
     }
 }
 

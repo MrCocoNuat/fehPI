@@ -1,4 +1,4 @@
-import { Language, MovementType, OptionalLanguage, Series, SkillCategory, WeaponType } from "../../../dao/types/dao-types";
+import { Language, MovementType, OptionalLanguage, Series, SkillCategory, WeaponType } from "../dao/types/dao-types";
 import { builder } from "./schema-builder";
 
 export const SkillCategoryEnum = builder.enumType(SkillCategory, {name: "SkillCategory"});

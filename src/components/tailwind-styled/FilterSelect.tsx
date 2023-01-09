@@ -12,7 +12,7 @@ import Select from "react-select";
  but this makes keyboard navigation not cooperate with the mouse, so this is also a no go unless performance is so bad that it is necessary.
 */
 
-export function ReactSelect<optionType = unknown>({
+export function FilterSelect<optionType>({
     id,
     value,
     onChange,
@@ -40,7 +40,7 @@ export function ReactSelect<optionType = unknown>({
             valueContainer: (state) => "dark:bg-neutral-900",
             input: (state) => "text-black dark:text-white",
             indicatorsContainer: (state) => "dark:bg-neutral-900",
-            singleValue: (state) => "dark:text-neutral-200"
+            singleValue: (state) => "dark:text-neutral-200",
         }}
     />
 }

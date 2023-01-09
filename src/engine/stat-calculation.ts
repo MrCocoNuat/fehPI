@@ -292,7 +292,7 @@ export function statsFor(unit: Unit): ParameterPerStat | string {
     // console.log(`bases: ${JSON.stringify(bases)}`);
     // console.log(`growths: ${JSON.stringify(growths)}`);
 
-    // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be +stat skills
+    // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be additional +stat effects
 
     // add bases and growths
     const stats = {

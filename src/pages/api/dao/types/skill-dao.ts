@@ -1,4 +1,4 @@
-import { assertIsWeaponDefinition, MovementType, MovementTypeBitfield, SkillCategory, SkillDefinition, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
+import { assertIsPassiveSkillDefinition, assertIsWeaponDefinition, AssistDefinition, MovementType, MovementTypeBitfield, PassiveSkillDefinition, SkillCategory, SkillDefinition, SpecialDefinition, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
@@ -9,8 +9,9 @@ import { MediaWikiImage } from "../mixins/mediawiki-image";
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as SkillDefinition;
+const imageTypeToken = null! as PassiveSkillDefinition;
 
-export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>)))) {
+export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>)))) {
     initialization: Promise<void>;
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
@@ -19,30 +20,24 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
         this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
     }
 
-
-    private static readonly CATEGORIES_WITH_IMAGES = [
-        SkillCategory.PASSIVE_A,
-        SkillCategory.PASSIVE_B,
-        SkillCategory.PASSIVE_C,
-        SkillCategory.PASSIVE_S,
-    ]
     private async loadData() {
         return this.getGithubData()
             .then(data => data.filter(definition => definition.idNum > 0)) // remove the NULL Skill
-            // must be declared async/await since not returning the promise, but the data
-            .then(async data => {
-                await this.populateSkillImageUrls(
-                    data.filter(skillDefinition => SkillDao.CATEGORIES_WITH_IMAGES.includes(skillDefinition.category))
-                );
-                return data;
-            })
             .then(data => { this.setByIds(data); return data; })
             .then(data => { this.setByKeys(data); return data; })
             .then(data => { this.populateRefines(data); return data; })
-    }
+            // must be declared async/await since not returning the promise, but the data
+            .then(async data => {
+                await this.populateSkillImageUrls(
+                    // too bad type guards don't work with filter...
+                    data.filter(skillDefinition => assertIsPassiveSkillDefinition(skillDefinition)) as PassiveSkillDefinition[]
+                );
+                return data;
+            })
+        }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
-        const skillDefinition = {
+        const skillDefinition : SkillDefinition = {
             idNum: json.id_num,
             sortId: json.sort_id,
             idTag: json.id_tag,
@@ -62,19 +57,50 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
         }
 
         // category differentiates SkillDefinition implementations
-        switch (skillDefinition.category) {
+        // pull it out into its own const to let TS narrow properly
+        const category = skillDefinition.category;
+        switch (category) {
             case SkillCategory.WEAPON:
                 const weaponDefinition: WeaponDefinition = {
                     ...skillDefinition,
+                    might: json.might,
+                    range: json.range,
                     arcaneWeapon: json.arcane_weapon,
                     refined: json.refined,
                     refineBase: json.refine_base,
                     refineStats: json.refine_stats,
                     // this needs to be loaded in later
                     refines: [],
+                    category: category,
                 };
                 return weaponDefinition;
+            case SkillCategory.ASSIST:
+                const assistDefinition: AssistDefinition = {
+                    ...skillDefinition,
+                    range: json.range,
+                    category: category,
+                }
+                return assistDefinition;
+            case SkillCategory.SPECIAL:
+                const specialDefinition: SpecialDefinition = {
+                    ...skillDefinition,
+                    cooldownCount: json.cooldown_count,
+                    category: category,
+                }
+                return specialDefinition;
+            case SkillCategory.PASSIVE_A:
+            case SkillCategory.PASSIVE_B:
+            case SkillCategory.PASSIVE_C:
+            case SkillCategory.PASSIVE_S:
+                const passiveSkillDefinition : PassiveSkillDefinition = {
+                    ...skillDefinition,
+                    // loaded in later
+                    //TODO:- find some way to not break TS when doing this
+                    imageUrl: null! as string,
+                }
+                return passiveSkillDefinition;
             default:
+                console.error(`Unexpected SkillCategory - should have been excluded! id ${skillDefinition.idNum}, ${SkillCategory[skillDefinition.category]}`)
                 return skillDefinition;
         }
     }
@@ -119,7 +145,6 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(typeToken,
     // but a refines of a unrefined weapon pointing to the refined versions is needed too - perform that reverse mapping
     private async populateRefines(data: SkillDefinition[]) {
         data.forEach(skillDefinition => {
-            // yes this mutates elements, but it does not structurally modify the list, so it is ok 
             if (!assertIsWeaponDefinition(skillDefinition) || skillDefinition.refineBase === null) {
                 return;
             }

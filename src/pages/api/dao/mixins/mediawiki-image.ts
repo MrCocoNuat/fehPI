@@ -3,12 +3,14 @@ import { asciify } from "../../../../api-client/mediawiki/file-title";
 import { fudge } from "../../../../api-client/mediawiki/skill-name-fudger";
 import { messageDao } from "../dao-registry";
 import { fehWikiReader } from "../remote-data/remote-data";
-import { HeroDefinition, Language, SkillCategory, SkillDefinition } from "../types/dao-types";
+import { HeroDefinition, Language, PassiveSkillDefinition, SkillCategory, SkillDefinition } from "../types/dao-types";
 import { DaoConstructor } from "./dao";
 
 // specifically for getting image urls from mediawiki
-export function MediaWikiImage<V extends { imageUrl?: string, nameId: string }, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) {
+export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) {
     return class MediaWikiImageDao extends dBase {
+
+        // could really generify by allowing overrides for getting file titles, but how often is this mixin really going to be used???
 
         async populateHeroImageUrls(definitions: HeroDefinition[]) {
             const names = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
@@ -23,7 +25,7 @@ export function MediaWikiImage<V extends { imageUrl?: string, nameId: string }, 
             return definitions;
         }
 
-        async populateSkillImageUrls(definitions: SkillDefinition[]) {
+        async populateSkillImageUrls(definitions: PassiveSkillDefinition[]) {
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
             const fileTitles = messages.map(message => message.value).map(name => fudge(name)).map(name => `File:${asciify(name)}.png`);

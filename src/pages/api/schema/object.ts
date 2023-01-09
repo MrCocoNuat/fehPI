@@ -1,4 +1,4 @@
-import { assertIsWeaponDefinition, HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, Series, SkillDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
+import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
@@ -11,7 +11,7 @@ export const SkillDefinitionInterface = builder.loadableInterfaceRef<SkillDefini
 });
 // then, implement them with GraphQL object/input types
 SkillDefinitionInterface.implement({
-    description: "Details about a Skill",
+    description: "Details about a generic Skill",
     fields: (ofb) => ({
         // by choosing which fields to expose directly or resolve through a function
         idNum: ofb.exposeInt("idNum", {
@@ -49,10 +49,6 @@ SkillDefinitionInterface.implement({
             },
             ...messageObjectLoadAndResolve("descId"),
             description: "The Message holding the description of the Skill. Provide a NONE Language argument if you just want the key."
-        }),
-        imageUrl: ofb.exposeString("imageUrl", {
-            nullable: true,
-            description: "FEH wiki URL of an image of this Skill's icon. Only exists for PASSIVE_* skills, null otherwise",
         }),
         prerequisites: ofb.field({
             type: ofb.listRef(SkillDefinitionInterface, {
@@ -102,16 +98,7 @@ SkillDefinitionInterface.implement({
     }),
 })
 
-export const NonWeaponDefinitionObject = builder.loadableObjectRef<SkillDefinition, string>("NonWeaponDefinition", {
-    load: (idTags: string[]) => skillDao.getByIdTags(idTags),
-});
-NonWeaponDefinitionObject.implement({
-    description: "Details about a non-Weapon Skill",
-    interfaces: [SkillDefinitionInterface],
-    // a bit of a patch-up until I actually make the other SkillDefinition implementations
-    isTypeOf: (value) => (!assertIsWeaponDefinition(value as SkillDefinition)),
-    /* no additional fields */
-})
+
 
 
 export const WeaponDefinitionObject = builder.loadableObjectRef<WeaponDefinition, string>("WeaponDefinition", {
@@ -122,6 +109,14 @@ WeaponDefinitionObject.implement({
     interfaces: [SkillDefinitionInterface],
     isTypeOf: (value) => (assertIsWeaponDefinition(value as SkillDefinition)),
     fields: (ofb) => ({
+        might: ofb.exposeInt("might", {
+            nullable: false,
+            description: "The inherent offensive power of this Weapon. Note that this includes any boost to ATK from a refine.",
+        }),
+        range: ofb.exposeInt("range", {
+            nullable: false,
+            description: "The range from which this Weapon attacks"
+        }),
         refineBase: ofb.field({
             type: WeaponDefinitionObject,
             nullable: true,
@@ -149,9 +144,52 @@ WeaponDefinitionObject.implement({
             description: "Whether this Weapon is refined"
         })
     })
-}
+})
 
-)
+export const AssistDefinitionObject = builder.loadableObjectRef<AssistDefinition, string>("AssistDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<AssistDefinition[]>,
+});
+AssistDefinitionObject.implement({
+    description: "Details about an Assist Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsAssistDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        range: ofb.exposeInt("range", {
+            nullable: false,
+            description: "The range from which this Assist Skill operates",
+        }),
+    }),
+})
+
+export const SpecialDefinitionObject = builder.loadableObjectRef<SpecialDefinition, string>("SpecialDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<SpecialDefinition[]>,
+});
+SpecialDefinitionObject.implement({
+    description: "Details about a Special Skill",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsSpecialDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        cooldownCount: ofb.exposeInt("cooldownCount", {
+            nullable: false,
+            description: "The cooldown count of this Special Skill",
+        }),
+    }),
+})
+
+export const PassiveSkillDefinitionObject = builder.loadableObjectRef<PassiveSkillDefinition, string>("PassiveSkillDefinition", {
+    load: (idTags: string[]) => skillDao.getByIdTags(idTags) as Promise<PassiveSkillDefinition[]>,
+});
+PassiveSkillDefinitionObject.implement({
+    description: "Details about a Passive Skill - A, B, C, or S",
+    interfaces: [SkillDefinitionInterface],
+    isTypeOf: (value) => (assertIsPassiveSkillDefinition(value as SkillDefinition)),
+    fields: (ofb) => ({
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: false,
+            description: "FEH wiki URL of an image of this Passive Skill's icon",
+        }),
+    }),
+})
 
 export const ParameterPerStatObject = builder.objectRef<ParameterPerStat>("ParameterPerStat")
     .implement({

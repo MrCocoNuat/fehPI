@@ -86,11 +86,11 @@ export interface SkillDefinition {
     category: SkillCategory,
     wepEquip: WeaponTypeBitfield,
     movEquip: MovementTypeBitfield,
-
-    imageUrl?: string,
 }
 
 export interface WeaponDefinition extends SkillDefinition {
+    might: number,
+    range: number,
     refined: boolean,
     refineBase: string | null,
     refineStats: ParameterPerStat,
@@ -103,6 +103,29 @@ export function assertIsWeaponDefinition(skillDefinition: SkillDefinition): skil
     return skillDefinition.category === SkillCategory.WEAPON;
 }
 
+export interface AssistDefinition extends SkillDefinition{
+    range: number, // do we need this?
+    category: SkillCategory.ASSIST,
+}
+export function assertIsAssistDefinition(skillDefinition: SkillDefinition): skillDefinition is AssistDefinition {
+    return skillDefinition.category === SkillCategory.ASSIST;
+}
+
+export interface SpecialDefinition extends SkillDefinition{
+    cooldownCount: number,
+    category: SkillCategory.SPECIAL,
+}
+export function assertIsSpecialDefinition(skillDefinition: SkillDefinition): skillDefinition is SpecialDefinition {
+    return skillDefinition.category === SkillCategory.SPECIAL;
+}
+
+export interface PassiveSkillDefinition extends SkillDefinition{
+    imageUrl: string,
+}
+const passiveSkillCategories : readonly SkillCategory[] = [SkillCategory.PASSIVE_A, SkillCategory.PASSIVE_B, SkillCategory.PASSIVE_C, SkillCategory.PASSIVE_S];
+export function assertIsPassiveSkillDefinition(skillDefinition: SkillDefinition): skillDefinition is PassiveSkillDefinition {
+    return passiveSkillCategories.includes(skillDefinition.category);
+}
 
 type SkillsPerRarity = [
     string | null,
@@ -161,7 +184,7 @@ export interface HeroDefinition {
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity],
 
-    imageUrl?: string;
+    imageUrl: string;
 }
 
 

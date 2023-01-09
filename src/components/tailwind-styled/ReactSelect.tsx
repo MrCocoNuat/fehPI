@@ -17,15 +17,17 @@ export function ReactSelect<optionType = unknown>({
     value,
     onChange,
     options,
+    className,
 }: {
     id: string,
     value: optionType,
     onChange: (choice: SingleValue<optionType>) => void,
     options: optionType[],
+    className?: string,
 }) {
 
     return <Select
-        className=""
+        className={className}
         unstyled={false}
         id={id}
         value={value}

@@ -49,6 +49,9 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
             
             // importantly, heroes can equip Skills that are not exclusive OR appear in this collection
             skills: json.skills,
+
+            //TODO:- again, do this without breaking TS 
+            imageUrl: null! as string,
         }
     }
     

@@ -48,10 +48,8 @@ export function ReactUnitBuilder({
             {/*<UnitPortrait unit={combatant}></UnitPortrait>  there is already a portrait in the team section! */}
             <div>
                 <form onSubmit={(evt) => { evt.preventDefault(); }}>
-                    <input id="unit-idNum" type="number" value={combatant.unit.idNum} onChange={(evt) => mergeChanges("idNum", +evt.target.value)} />
-
-                    <ReactSelect id="unit-idNum2"
-                        value={{ value: combatant.unit.idNum, label: ((hero) => `${hero?.name.value}: ${hero?.epithet.value}`)(heroes.find(hero => hero.idNum === combatant.unit.idNum)) }}
+                    <ReactSelect id="unit-idNum"
+                        value={{ value: combatant.unit.idNum, label: ((hero) => hero? (`${hero.name.value}: ${hero.epithet.value}`) : ("..."))(heroes.find(hero => hero.idNum === combatant.unit.idNum)) }}
                         onChange={(choice) => { if (choice) mergeChanges("idNum", +choice.value) }}
                         options={
                             heroes.map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))

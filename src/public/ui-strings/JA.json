@@ -1,8 +1,8 @@
 {
     "UNIT_STAT_HP": "HP",
     "UNIT_STAT_ATK": "攻撃",
-    "UNIT_STAT_SPD": "速**",
-    "UNIT_STAT_DEF": "守**",
+    "UNIT_STAT_SPD": "NOT_TRANSLATED",
+    "UNIT_STAT_DEF": "NOT_TRANSLATED",
     "UNIT_STAT_RES": "魔防",
     "UNIT_STAT_NONE": "何一つ",
 

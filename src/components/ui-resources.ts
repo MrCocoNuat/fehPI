@@ -24,6 +24,12 @@ const stringsForLanguage = {
     [Language.USPT]: ptStrings,
 } as const;
 
-export function getUiResources(language: Language, resourceKey: keyof typeof enStrings): string | string[] {
-    return stringsForLanguage[language][resourceKey];
+const DEFAULT_LANGUAGE = Language.USEN;
+const NOT_TRANSLATED = "NOT_TRANSLATED";
+export function getUiResources(language: Language, resouceId: keyof typeof enStrings): string | string[] {
+    const resource = stringsForLanguage[language][resouceId];
+    if (resource === NOT_TRANSLATED){
+        return `**${stringsForLanguage[DEFAULT_LANGUAGE][resouceId]}**`;
+    }
+    return resource;
 }

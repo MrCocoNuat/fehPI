@@ -145,6 +145,7 @@ type SkillsPerRarity = [
 ]; // 14 length
 export type ParameterPerStat = { [stat in Stat]: number }
 
+// these string enum values ARE IMPORTANT - they match feh-assets-json
 export enum OptionalStat {
     HP = "hp",
     ATK = "atk",

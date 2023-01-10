@@ -57,6 +57,11 @@ export type Combatant = {
     teamNumber: number,
     tileNumber?: number,
     uid: symbol,
+
+    weaponSkillId: number | 0,
+    assistSkillId: number | 0,
+    specialSkillId: number | 0,
+    
 }
 
 export type CombatantTeam = Combatant[]

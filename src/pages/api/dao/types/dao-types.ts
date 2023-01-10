@@ -103,7 +103,7 @@ export function assertIsWeaponDefinition(skillDefinition: SkillDefinition): skil
     return skillDefinition.category === SkillCategory.WEAPON;
 }
 
-export interface AssistDefinition extends SkillDefinition{
+export interface AssistDefinition extends SkillDefinition {
     range: number, // do we need this?
     category: SkillCategory.ASSIST,
 }
@@ -111,7 +111,7 @@ export function assertIsAssistDefinition(skillDefinition: SkillDefinition): skil
     return skillDefinition.category === SkillCategory.ASSIST;
 }
 
-export interface SpecialDefinition extends SkillDefinition{
+export interface SpecialDefinition extends SkillDefinition {
     cooldownCount: number,
     category: SkillCategory.SPECIAL,
 }
@@ -119,10 +119,10 @@ export function assertIsSpecialDefinition(skillDefinition: SkillDefinition): ski
     return skillDefinition.category === SkillCategory.SPECIAL;
 }
 
-export interface PassiveSkillDefinition extends SkillDefinition{
+export interface PassiveSkillDefinition extends SkillDefinition {
     imageUrl: string,
 }
-const passiveSkillCategories : readonly SkillCategory[] = [SkillCategory.PASSIVE_A, SkillCategory.PASSIVE_B, SkillCategory.PASSIVE_C, SkillCategory.PASSIVE_S];
+const passiveSkillCategories: readonly SkillCategory[] = [SkillCategory.PASSIVE_A, SkillCategory.PASSIVE_B, SkillCategory.PASSIVE_C, SkillCategory.PASSIVE_S];
 export function assertIsPassiveSkillDefinition(skillDefinition: SkillDefinition): skillDefinition is PassiveSkillDefinition {
     return passiveSkillCategories.includes(skillDefinition.category);
 }
@@ -142,7 +142,12 @@ type SkillsPerRarity = [
     string | null,
     string | null,
     string | null,
-]; // 14 length
+];
+// 14 length - Known(weapon,assist,special,a,b,c) Learnable(weapon,assist,special,a,b,c,Leg/Myth upgraded prf,Leg/Myth Remix)
+// gets transformed by graphql into:
+export type HeroSkills = { known: string[], learnable: string[] }
+
+
 export type ParameterPerStat = { [stat in Stat]: number }
 
 // these string enum values ARE IMPORTANT - they match feh-assets-json

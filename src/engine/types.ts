@@ -42,7 +42,9 @@ export type Unit = {
     flaw: OptionalStat,
     ascension: OptionalStat,
 
-    // traits and so on for stats
+    // selected skills
+    // blessing
+    //support
 }
 export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;
 export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as const;

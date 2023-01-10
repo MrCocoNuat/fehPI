@@ -1,6 +1,6 @@
 import { SingleValue } from "react-select"
 import Select from "react-select";
-import { getUiResources } from "../ui-resources";
+import { getUiStringResource } from "../ui-resources";
 import { useContext } from "react";
 import { LanguageContext } from "../../pages/testpage";
 
@@ -35,7 +35,7 @@ export function FilterSelect<optionType>({
         id={id}
         value={value}
         onChange={onChange}
-        noOptionsMessage={(input) => getUiResources(selectedLanguage, "SELECT_NO_OPTIONS") as string}
+        noOptionsMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         options={options}
         classNames={{
             // apply tailwind classes to some inner components

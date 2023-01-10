@@ -34,8 +34,8 @@ export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
         }
         baseVectorId
         maxDragonflowers
-        movType
-        wepType
+        movementType
+        weaponType
     }
 }`;
 

@@ -79,7 +79,7 @@ SkillDefinitionInterface.implement({
             resolve: (skillDefinition) => skillDefinition.category,
             description: "The category of this Skill",
         }),
-        movEquip: ofb.field({
+        movementEquip: ofb.field({
             type: ofb.listRef(MovementTypeEnum, {
                 nullable: false
             }),
@@ -87,7 +87,7 @@ SkillDefinitionInterface.implement({
             resolve: (skillDefinition) => getAllEnumValues(MovementType).filter(movementType => skillDefinition.movEquip[movementType]),
             description: "The movement types that are allowed to equip this skill",
         }),
-        wepEquip: ofb.field({
+        weaponEquip: ofb.field({
             type: ofb.listRef(WeaponTypeEnum, {
                 nullable: false
             }),
@@ -252,13 +252,13 @@ HeroDefinitionObject.implement({
             resolve: (heroDefinition) => heroDefinition.dragonflowers.maxCount,
             description: "Maximum number of dragonflowers that can be applied to this Hero",
         }),
-        wepType: ofb.field({
+        weaponType: ofb.field({
             type: WeaponTypeEnum,
             nullable: false,
             resolve: (heroDefinition) => (heroDefinition.weaponType),
             description: "The Hero's weapon type",
         }),
-        movType: ofb.field({
+        movementType: ofb.field({
             type: MovementTypeEnum,
             nullable: false,
             resolve: (heroDefinition) => (heroDefinition.movementType),

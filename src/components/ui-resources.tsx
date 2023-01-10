@@ -28,7 +28,7 @@ const stringsForLanguage = {
 
 const DEFAULT_LANGUAGE = Language.USEN;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
-export function getUiResources(language: Language, resouceId: keyof typeof enStrings): string | string[] {
+export function getUiStringResource(language: Language, resouceId: keyof typeof enStrings): string | string[] {
     const resource = stringsForLanguage[language][resouceId];
     if (resource === NOT_TRANSLATED) {
         return `**${stringsForLanguage[DEFAULT_LANGUAGE][resouceId]}**`;
@@ -54,23 +54,29 @@ export function ascendantFloretImage() {
     return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={""} fill={true} />
 }
 
-export function skillCategoryIcon(skillCategory: SkillCategory) {
+const PassiveSkillCategoryLetter = {
+    [SkillCategory.PASSIVE_A]: <div className="text-xs text-red-500 relative bottom-0 right-0">A</div>,
+    [SkillCategory.PASSIVE_B]: <div className="text-xs text-green-500 relative bottom-0 right-0">B</div>,
+    [SkillCategory.PASSIVE_C]: <div className="text-xs text-blue-500 relative bottom-0 right-0">C</div>,
+    [SkillCategory.PASSIVE_S]: <div className="text-xs text-yellow-500 relative bottom-0 right-0">S</div>,
+} as const;
+export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string) {
     switch (skillCategory) {
         case SkillCategory.WEAPON:
             return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} fill={true} />
         case SkillCategory.ASSIST:
             return <Image src={"/icons/skill-category/FEH_Skill_Assist.webp"} alt={"Assist"} fill={true} />
-        case SkillCategory.WEAPON:
-            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
-        case SkillCategory.WEAPON:
-            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
-        case SkillCategory.WEAPON:
-            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
-        case SkillCategory.WEAPON:
-            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
-        case SkillCategory.WEAPON:
-            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+        case SkillCategory.SPECIAL:
+            return <Image src={"/icons/skill-category/FEH_Skill_Special.webp"} alt={"Special"} fill={true} />
 
+        case SkillCategory.PASSIVE_A:
+        case SkillCategory.PASSIVE_B:
+        case SkillCategory.PASSIVE_C:
+        case SkillCategory.PASSIVE_S:
+            return <div className="relative">
+                {PassiveSkillCategoryLetter[skillCategory]}
+                <Image src={imageUrl!} alt={"Passive"} fill={true} />
+            </div >
         default:
             return <></>;
     }

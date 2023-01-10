@@ -10,11 +10,11 @@ import { GET_ALL_HERO_NAMES, GET_SINGLE_HERO } from "./api";
 import { FilterSelect } from "./tailwind-styled/FilterSelect";
 import { NumericInput } from "./tailwind-styled/NumericInput";
 import { Select } from "./tailwind-styled/Select";
-import { ascendantFloretImage, dragonflowerImage, getUiResources } from "./ui-resources";
+import { ascendantFloretImage, dragonflowerImage, getUiStringResource } from "./ui-resources";
 import { getAllEnumValues } from "enum-for";
 
 function rarityStringsForLanguage(langauge: Language) {
-    return (rarity: Rarity) => getUiResources(langauge, "UNIT_RARITY")[rarity];
+    return (rarity: Rarity) => getUiStringResource(langauge, "UNIT_RARITY")[rarity];
 }
 
 const statStringResourceIds = {
@@ -26,7 +26,7 @@ const statStringResourceIds = {
     [OptionalStat.NONE]: "UNIT_STAT_NONE",
 } as const;
 function statStringsForLanguage(language: Language) {
-    return (stat: OptionalStat) => getUiResources(language, statStringResourceIds[stat]);
+    return (stat: OptionalStat) => getUiStringResource(language, statStringResourceIds[stat]);
 }
 
 export function ReactUnitBuilder({
@@ -102,7 +102,7 @@ export function ReactUnitBuilder({
                         </div>
                         <div className="flex flex-row justify-between">
                             <div>
-                                <label htmlFor="unit-level">{getUiResources(selectedLanguage, "UNIT_LEVEL")}</label>
+                                <label htmlFor="unit-level">{getUiStringResource(selectedLanguage, "UNIT_LEVEL")}</label>
                                 <NumericInput className="w-16" id="unit-level" minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }} value={combatant.unit.level} onChange={(evt) => mergeChanges("level", +evt.target.value)} />
                                 <label htmlFor="unit-merges">+</label>
                                 <NumericInput className="w-16" id="unit-merges" minMax={{ min: MIN_MERGES, max: MAX_MERGES }} value={combatant.unit.merges} onChange={(evt) => mergeChanges("merges", +evt.target.value)} />
@@ -119,7 +119,7 @@ export function ReactUnitBuilder({
 
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col gap-1 items-center">
-                                <label htmlFor="unit-asset">{getUiResources(selectedLanguage, "UNIT_ASSET")}</label>
+                                <label htmlFor="unit-asset">{getUiStringResource(selectedLanguage, "UNIT_ASSET")}</label>
                                 <Select id="unit-asset" className="w-32"
                                     value={{ value: combatant.unit.asset, label: statString(combatant.unit.asset) }}
                                     onChange={(choice) => mergeChanges("asset", choice!.value)}
@@ -128,7 +128,7 @@ export function ReactUnitBuilder({
                                     } />
                             </div>
                             <div className="flex flex-col gap-1 items-center">
-                                <label htmlFor="unit-flaw">{getUiResources(selectedLanguage, "UNIT_FLAW")}</label>
+                                <label htmlFor="unit-flaw">{getUiStringResource(selectedLanguage, "UNIT_FLAW")}</label>
                                 <Select id="unit-flaw" className="w-32"
                                     value={{ value: combatant.unit.flaw, label: statString(combatant.unit.flaw) }}
                                     onChange={(choice) => mergeChanges("flaw", choice!.value)}
@@ -142,7 +142,7 @@ export function ReactUnitBuilder({
                                         <div className="relative w-6 aspect-square">
                                         {ascendantFloretImage()}
                                         </div>
-                                        {getUiResources(selectedLanguage, "UNIT_ASCENSION")}
+                                        {getUiStringResource(selectedLanguage, "UNIT_ASCENSION")}
                                     </div>
                                 </label>
                                 <Select id="unit-ascension" className="w-32"

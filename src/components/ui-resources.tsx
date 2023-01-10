@@ -1,4 +1,4 @@
-import { Language, MovementType } from "../pages/api/dao/types/dao-types";
+import { Language, MovementType, SkillCategory } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -43,7 +43,7 @@ export function dragonflowerImage(movementType: MovementType) {
             return <Image src={"/icons/dragonflower/Dragonflower_I.webp"} alt={"DF-I"} fill={true} />;
         case MovementType.ARMORED:
             return <Image src={"/icons/dragonflower/Dragonflower_A.webp"} alt={"DF-A"} fill={true} />;
-        case MovementType.FLIER:
+        case MovementType.FLYING:
             return <Image src={"/icons/dragonflower/Dragonflower_F.webp"} alt={"DF-F"} fill={true} />;
         case MovementType.CAVALRY:
             return <Image src={"/icons/dragonflower/Dragonflower_C.webp"} alt={"DF-C"} fill={true} />;
@@ -52,4 +52,26 @@ export function dragonflowerImage(movementType: MovementType) {
 
 export function ascendantFloretImage() {
     return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={""} fill={true} />
+}
+
+export function skillCategoryIcon(skillCategory: SkillCategory) {
+    switch (skillCategory) {
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} fill={true} />
+        case SkillCategory.ASSIST:
+            return <Image src={"/icons/skill-category/FEH_Skill_Assist.webp"} alt={"Assist"} fill={true} />
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+        case SkillCategory.WEAPON:
+            return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} />
+
+        default:
+            return <></>;
+    }
 }

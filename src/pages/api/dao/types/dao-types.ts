@@ -15,7 +15,7 @@ export enum MovementType {
     INFANTRY,
     ARMORED,
     CAVALRY,
-    FLIER,
+    FLYING,
 };
 export type MovementTypeName = keyof typeof MovementType;
 export type MovementTypeBitfield = { [movementTypeId in MovementType]: boolean };

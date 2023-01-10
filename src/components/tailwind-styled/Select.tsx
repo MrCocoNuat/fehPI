@@ -7,13 +7,13 @@ export function Select<optionType>({
     onChange,
     options,
     className,
-} : {
+}: {
     id: string,
     value: optionType,
-    onChange:  (choice: SingleValue<optionType>) => void,
+    onChange: (choice: SingleValue<optionType>) => void,
     options: optionType[],
     className?: string,
-}){
+}) {
     return <ReactSelect
         className={className}
         unstyled={false}
@@ -29,7 +29,25 @@ export function Select<optionType>({
             valueContainer: (state) => "dark:bg-neutral-900",
             input: (state) => "text-black dark:text-white",
             indicatorsContainer: (state) => "dark:bg-neutral-900",
-            singleValue: (state) => "dark:text-neutral-200"
+            singleValue: (state) => "dark:text-neutral-200",
+            control: (state) => "dark:bg-black",
+        }}
+        // box sizing styles are stubborn and tailwind cannot override from in classNames
+        // these make Select a less prominent / smaller element than FilterSelect which is correct
+        styles={{
+            dropdownIndicator: (baseStyles, state) => ({
+                ...baseStyles,
+                padding: 4,
+            }),
+            indicatorsContainer: (baseStyles, state) => ({
+                ...baseStyles,
+                paddingTop: 0,
+                paddingBottom: 0,
+            }),
+            control: (baseStyles, state) => ({
+                ...baseStyles,
+                minHeight: 30,
+            }),
         }}
     />
 }

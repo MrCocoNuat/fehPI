@@ -59,10 +59,10 @@ export function ReactUnitBuilder({
         allHeroes = heroesData.heroes;
         const selectedHero = unitData.heroes[0];
         selectedHeroMaxDragonflowers = selectedHero.maxDragonflowers;
-        selectedHeroMovementType = MovementType[selectedHero.movType as keyof typeof MovementType];
+        selectedHeroMovementType = MovementType[selectedHero.movementType as keyof typeof MovementType];
     } else {
         // Still render a dehydrated view
-        console.log(heroesError);
+        if (heroesError) console.error(heroesError);
         selectedHeroMaxDragonflowers = MAX_SAFE_DRAGONFLOWERS;
         selectedHeroMovementType = null;
     }
@@ -78,7 +78,7 @@ export function ReactUnitBuilder({
         updater({ ...combatant, unit: copyUnit });
     }
 
-    console.log("rerender");
+    //console.log("rerender");
 
     return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col" onClick={(evt) => evt.stopPropagation()}>
         <div className="flex">
@@ -110,7 +110,7 @@ export function ReactUnitBuilder({
                             <div className="flex">
                                 <label htmlFor="unit-dragonflowers">
                                     <div className="relative w-8 aspect-square">
-                                        {(selectedHeroMovementType === null) ? (console.log(selectedHeroMovementType), <></>) : dragonflowerImage(selectedHeroMovementType)}
+                                        {(selectedHeroMovementType === null) ? <></> : dragonflowerImage(selectedHeroMovementType)}
                                     </div>
                                 </label>
                                 <NumericInput className="w-16" id="unit-dragonflowers" minMax={{ min: MIN_DRAGONFLOWERS, max: selectedHeroMaxDragonflowers }} value={combatant.unit.dragonflowers} onChange={(evt) => mergeChanges("dragonflowers", +evt.target.value)} />
@@ -152,6 +152,10 @@ export function ReactUnitBuilder({
                                         getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
                                     } />
                             </div>
+                        </div>
+
+                        <div>
+                            
                         </div>
                     </div>
                 </form>

@@ -75,7 +75,7 @@ export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: strin
         case SkillCategory.PASSIVE_S:
             return <div className="relative">
                 {PassiveSkillCategoryLetter[skillCategory]}
-                <Image src={imageUrl!} alt={"Passive"} fill={true} />
+                <Image src={imageUrl ?? "/icons/misc/Null_Skill.webp"} alt={"Passive"} fill={true} />
             </div >
         default:
             return <></>;

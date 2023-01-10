@@ -44,7 +44,15 @@ function Portrait(
         return <p className={sizeCss}> error </p>;
     }
 
-    const { imageUrl } = data.heroes[0];
+    let imageUrl;
+    try{
+        imageUrl = data.heroes[0].imageUrl;
+    } catch {
+        console.error(`null imageurl for ${combatant.unit.idNum}`);
+        console.error(`api reply: ${JSON.stringify(data)}`);
+        imageUrl = "";
+    }
+
     const teamBackgroundColorCss = (combatant.team === Team.PLAYER) ? "bg-blue-300" : "bg-red-300";
     // here just fake some tapped data
     const tappedImageCss = (Math.random() > 0.8) ? "grayscale" : "";

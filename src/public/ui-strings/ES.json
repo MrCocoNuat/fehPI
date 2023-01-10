@@ -1,10 +1,10 @@
 {
-    "UNIT_STAT_HP": "Hp",
-    "UNIT_STAT_ATK": "Atk",
-    "UNIT_STAT_SPD": "Spd",
-    "UNIT_STAT_DEF": "Def",
-    "UNIT_STAT_RES": "Res",
-    "UNIT_STAT_NONE": "None",
+    "UNIT_STAT_HP": "PV",
+    "UNIT_STAT_ATK": "Atq.",
+    "UNIT_STAT_SPD": "Vel.",
+    "UNIT_STAT_DEF": "Def.",
+    "UNIT_STAT_RES": "Res.",
+    "UNIT_STAT_NONE": "Ninguno",
 
     "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
 }

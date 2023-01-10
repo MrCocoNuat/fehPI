@@ -8,8 +8,12 @@
 
     "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
     "UNIT_LEVEL": "Liv",
+    "UNIT_DRAGONFLOWERS": "Fiordidrago",
     "UNIT_ASSET": "Pregio",
     "UNIT_FLAW": "Difetto",
-    "UNIT_ASCENSION": "Ascendi"
+    "UNIT_ASCENSION": "Ascendi",
+
+    "SELECT_NO_OPTIONS": "NOT_TRANSLATED"
+
 
 }

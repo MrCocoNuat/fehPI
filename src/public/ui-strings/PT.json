@@ -8,8 +8,12 @@
 
     "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
     "UNIT_LEVEL": "Nív.",
+    "UNIT_DRAGONFLOWERS": "Flores de dragão",
     "UNIT_ASSET": "Forte",
     "UNIT_FLAW": "Fraco",
-    "UNIT_ASCENSION": "Ascender"
+    "UNIT_ASCENSION": "Ascender",
+
+    "SELECT_NO_OPTIONS": "NOT_TRANSLATED"
+
 
 }

@@ -8,7 +8,11 @@
 
     "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
     "UNIT_LEVEL": "LV.",
+    "UNIT_DRAGONFLOWERS": "Dragonflowers",
     "UNIT_ASSET": "Asset",
     "UNIT_FLAW": "Flaw",
-    "UNIT_ASCENSION": "Ascension"
+    "UNIT_ASCENSION": "Ascension",
+    
+
+    "SELECT_NO_OPTIONS": "No options"
 }

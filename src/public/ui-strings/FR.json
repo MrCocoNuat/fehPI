@@ -8,7 +8,11 @@
 
     "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
     "UNIT_LEVEL": "Niv.",
+    "UNIT_DRAGONFLOWERS": "Dracofleurs",
     "UNIT_ASSET": "Atout",
     "UNIT_FLAW": "Défaut",
-    "UNIT_ASCENSION": "Élever"
+    "UNIT_ASCENSION": "Élever",
+
+    "SELECT_NO_OPTIONS": "NOT_TRANSLATED"
+
 }

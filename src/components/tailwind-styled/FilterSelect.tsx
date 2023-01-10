@@ -1,5 +1,8 @@
 import { SingleValue } from "react-select"
 import Select from "react-select";
+import { getUiResources } from "../ui-resources";
+import { useContext } from "react";
+import { LanguageContext } from "../../pages/testpage";
 
 /*
  react-select is not known for having great performance with lists of any significant length (as in >100)
@@ -25,13 +28,14 @@ export function FilterSelect<optionType>({
     options: optionType[],
     className?: string,
 }) {
-
+    const selectedLanguage = useContext(LanguageContext);
     return <Select
         className={className}
         unstyled={false}
         id={id}
         value={value}
         onChange={onChange}
+        noOptionsMessage={(input) => getUiResources(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         options={options}
         classNames={{
             // apply tailwind classes to some inner components

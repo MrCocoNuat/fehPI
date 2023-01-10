@@ -1,5 +1,8 @@
+import { useContext } from "react";
 import ReactSelect from "react-select";
 import { SingleValue } from "react-select"
+import { LanguageContext } from "../../pages/testpage";
+import { getUiResources } from "../ui-resources";
 
 export function Select<optionType>({
     id,
@@ -14,6 +17,7 @@ export function Select<optionType>({
     options: optionType[],
     className?: string,
 }) {
+    const selectedLanguage = useContext(LanguageContext);
     return <ReactSelect
         className={className}
         unstyled={false}
@@ -22,6 +26,7 @@ export function Select<optionType>({
         onChange={onChange}
         options={options}
         isSearchable={false}
+        noOptionsMessage={(input) => getUiResources(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         classNames={{
             // apply tailwind classes to some inner components
             menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-neutral-900 text-black dark:text-white",

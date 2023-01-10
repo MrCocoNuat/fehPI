@@ -1,4 +1,6 @@
-import { Language } from "../pages/api/dao/types/dao-types";
+import { Language, MovementType } from "../pages/api/dao/types/dao-types";
+import Image from "next/image";
+
 
 // nextjs static inclusions
 import enStrings from "../public/ui-strings/EN.json"
@@ -28,8 +30,22 @@ const DEFAULT_LANGUAGE = Language.USEN;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
 export function getUiResources(language: Language, resouceId: keyof typeof enStrings): string | string[] {
     const resource = stringsForLanguage[language][resouceId];
-    if (resource === NOT_TRANSLATED){
+    if (resource === NOT_TRANSLATED) {
         return `**${stringsForLanguage[DEFAULT_LANGUAGE][resouceId]}**`;
     }
     return resource;
+}
+
+
+export function dragonflowerImage(movementType: MovementType) {
+    switch (movementType) {
+        case MovementType.INFANTRY:
+            return <Image src={"/icons/dragonflower/Dragonflower_I.webp"} alt={"DF-I"} fill={true} />;
+        case MovementType.ARMORED:
+            return <Image src={"/icons/dragonflower/Dragonflower_A.webp"} alt={"DF-A"} fill={true} />;
+        case MovementType.FLIER:
+            return <Image src={"/icons/dragonflower/Dragonflower_F.webp"} alt={"DF-F"} fill={true} />;
+        case MovementType.CAVALRY:
+            return <Image src={"/icons/dragonflower/Dragonflower_C.webp"} alt={"DF-C"} fill={true} />;
+    }
 }

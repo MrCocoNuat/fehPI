@@ -4,13 +4,13 @@ import { useContext } from "react";
 import { deflateRaw } from "zlib";
 import { statsFor } from "../engine/stat-calculation"
 import { Combatant, constrainNumeric, MAX_LEVEL, MAX_MERGES, MAX_RARITY, MAX_SAFE_DRAGONFLOWERS, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, MIN_RARITY, Rarity, Unit } from "../engine/types";
-import { Language, OptionalStat } from "../pages/api/dao/types/dao-types";
+import { Language, MovementType, OptionalStat } from "../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../pages/testpage";
 import { GET_ALL_HERO_NAMES, GET_SINGLE_HERO } from "./api";
 import { FilterSelect } from "./tailwind-styled/FilterSelect";
 import { NumericInput } from "./tailwind-styled/NumericInput";
 import { Select } from "./tailwind-styled/Select";
-import { getUiResources } from "./ui-resources";
+import { dragonflowerImage, getUiResources } from "./ui-resources";
 import { getAllEnumValues } from "enum-for";
 
 function rarityStringsForLanguage(langauge: Language) {
@@ -54,13 +54,17 @@ export function ReactUnitBuilder({
 
     let allHeroes: { idNum: number, name: { value: string }, epithet: { value: string } }[] = [];
     let selectedHeroMaxDragonflowers: number;
+    let selectedHeroMovementType: MovementType | null;
     if (!(heroesLoading || unitLoading)) {
         allHeroes = heroesData.heroes;
-        selectedHeroMaxDragonflowers = unitData.heroes[0].maxDragonflowers;
+        const selectedHero = unitData.heroes[0];
+        selectedHeroMaxDragonflowers = selectedHero.maxDragonflowers;
+        selectedHeroMovementType = MovementType[selectedHero.movType as keyof typeof MovementType];
     } else {
         // Still render a dehydrated view
         console.log(heroesError);
         selectedHeroMaxDragonflowers = MAX_SAFE_DRAGONFLOWERS;
+        selectedHeroMovementType = null;
     }
     const constrainNumericProp = constrainNumericPropWhenMaxDragonflowersIs(selectedHeroMaxDragonflowers);
 
@@ -80,60 +84,66 @@ export function ReactUnitBuilder({
             {/*<UnitPortrait unit={combatant}></UnitPortrait>  there is already a portrait in the team section! */}
             <div>
                 <form className="m-2 border-2 border-blue-500" onSubmit={(evt) => { evt.preventDefault(); }}>
-                    <div className="flex flex-row items-center gap-2">
-                        <FilterSelect id="unit-idNum" className="w-80"
-                            value={{ value: combatant.unit.idNum, label: ((hero) => hero ? (`${hero.name.value}: ${hero.epithet.value}`) : ("..."))(allHeroes.find(hero => hero.idNum === combatant.unit.idNum)) }}
-                            onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-                            options={
-                                allHeroes.map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
-                            } />
-                        <Select id="unit-rarity" className="w-20"
-                            value={{ value: combatant.unit.rarity, label: rarityString(combatant.unit.rarity) }}
-                            onChange={(choice) => { mergeChanges("rarity", choice!.value) }}
-                            options={
-                                getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))
-                            } />
-                    </div>
-                    <div className="flex flex-row justify-between">
-                        <div>
-                            <label htmlFor="unit-level">{getUiResources(selectedLanguage, "UNIT_LEVEL")}</label>
-                            <NumericInput className="w-16" id="unit-level" minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }} value={combatant.unit.level} onChange={(evt) => mergeChanges("level", +evt.target.value)} />
-                            <label htmlFor="unit-merges">+</label>
-                            <NumericInput className="w-16" id="unit-merges" minMax={{ min: MIN_MERGES, max: MAX_MERGES }} value={combatant.unit.merges} onChange={(evt) => mergeChanges("merges", +evt.target.value)} />
+                    <div className="flex flex-col gap-1">
+                        <div className="flex flex-row items-center gap-2">
+                            <FilterSelect id="unit-idNum" className="w-80"
+                                value={{ value: combatant.unit.idNum, label: ((hero) => hero ? (`${hero.name.value}: ${hero.epithet.value}`) : ("..."))(allHeroes.find(hero => hero.idNum === combatant.unit.idNum)) }}
+                                onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
+                                options={
+                                    allHeroes.map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
+                                } />
+                            <Select id="unit-rarity" className="w-20"
+                                value={{ value: combatant.unit.rarity, label: rarityString(combatant.unit.rarity) }}
+                                onChange={(choice) => { mergeChanges("rarity", choice!.value) }}
+                                options={
+                                    getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))
+                                } />
                         </div>
-                        <div>
-                            <label htmlFor="unit-dragonflowers">{getUiResources(selectedLanguage, "UNIT_DRAGONFLOWERS")}</label>
-                            <NumericInput className="w-16" id="unit-dragonflowers" minMax={{ min: MIN_DRAGONFLOWERS, max: selectedHeroMaxDragonflowers }} value={combatant.unit.dragonflowers} onChange={(evt) => mergeChanges("dragonflowers", +evt.target.value)} />
+                        <div className="flex flex-row justify-between">
+                            <div>
+                                <label htmlFor="unit-level">{getUiResources(selectedLanguage, "UNIT_LEVEL")}</label>
+                                <NumericInput className="w-16" id="unit-level" minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }} value={combatant.unit.level} onChange={(evt) => mergeChanges("level", +evt.target.value)} />
+                                <label htmlFor="unit-merges">+</label>
+                                <NumericInput className="w-16" id="unit-merges" minMax={{ min: MIN_MERGES, max: MAX_MERGES }} value={combatant.unit.merges} onChange={(evt) => mergeChanges("merges", +evt.target.value)} />
+                            </div>
+                            <div className="flex">
+                                <label htmlFor="unit-dragonflowers">
+                                    <div className="relative w-8 aspect-square">
+                                        {(selectedHeroMovementType === null) ? (console.log(selectedHeroMovementType), <></>) : dragonflowerImage(selectedHeroMovementType)}
+                                    </div>
+                                </label>
+                                <NumericInput className="w-16" id="unit-dragonflowers" minMax={{ min: MIN_DRAGONFLOWERS, max: selectedHeroMaxDragonflowers }} value={combatant.unit.dragonflowers} onChange={(evt) => mergeChanges("dragonflowers", +evt.target.value)} />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="flex flex-row justify-between">
-                        <div className="flex flex-col gap-1 items-center">
-                            <label htmlFor="unit-asset">{getUiResources(selectedLanguage, "UNIT_ASSET")}</label>
-                            <Select id="unit-asset" className="w-32"
-                                value={{ value: combatant.unit.asset, label: statString(combatant.unit.asset) }}
-                                onChange={(choice) => mergeChanges("asset", choice!.value)}
-                                options={
-                                    getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
-                                } />
-                        </div>
-                        <div className="flex flex-col gap-1 items-center">
-                            <label htmlFor="unit-flaw">{getUiResources(selectedLanguage, "UNIT_FLAW")}</label>
-                            <Select id="unit-flaw" className="w-32"
-                                value={{ value: combatant.unit.flaw, label: statString(combatant.unit.flaw) }}
-                                onChange={(choice) => mergeChanges("flaw", choice!.value)}
-                                options={
-                                    getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
-                                } />
-                        </div>
-                        <div className="flex flex-col gap-1 items-center">
-                            <label htmlFor="unit-ascension">{getUiResources(selectedLanguage, "UNIT_ASCENSION")}</label>
-                            <Select id="unit-ascension" className="w-32"
-                                value={{ value: combatant.unit.ascension, label: statString(combatant.unit.ascension) }}
-                                onChange={(choice) => mergeChanges("ascension", choice!.value)}
-                                options={
-                                    getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
-                                } />
+                        <div className="flex flex-row justify-between">
+                            <div className="flex flex-col gap-1 items-center">
+                                <label htmlFor="unit-asset">{getUiResources(selectedLanguage, "UNIT_ASSET")}</label>
+                                <Select id="unit-asset" className="w-32"
+                                    value={{ value: combatant.unit.asset, label: statString(combatant.unit.asset) }}
+                                    onChange={(choice) => mergeChanges("asset", choice!.value)}
+                                    options={
+                                        getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
+                                    } />
+                            </div>
+                            <div className="flex flex-col gap-1 items-center">
+                                <label htmlFor="unit-flaw">{getUiResources(selectedLanguage, "UNIT_FLAW")}</label>
+                                <Select id="unit-flaw" className="w-32"
+                                    value={{ value: combatant.unit.flaw, label: statString(combatant.unit.flaw) }}
+                                    onChange={(choice) => mergeChanges("flaw", choice!.value)}
+                                    options={
+                                        getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
+                                    } />
+                            </div>
+                            <div className="flex flex-col gap-1 items-center">
+                                <label htmlFor="unit-ascension">{getUiResources(selectedLanguage, "UNIT_ASCENSION")}</label>
+                                <Select id="unit-ascension" className="w-32"
+                                    value={{ value: combatant.unit.ascension, label: statString(combatant.unit.ascension) }}
+                                    onChange={(choice) => mergeChanges("ascension", choice!.value)}
+                                    options={
+                                        getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
+                                    } />
+                            </div>
                         </div>
                     </div>
                 </form>

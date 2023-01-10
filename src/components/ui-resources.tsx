@@ -49,3 +49,7 @@ export function dragonflowerImage(movementType: MovementType) {
             return <Image src={"/icons/dragonflower/Dragonflower_C.webp"} alt={"DF-C"} fill={true} />;
     }
 }
+
+export function ascendantFloretImage() {
+    return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={""} fill={true} />
+}

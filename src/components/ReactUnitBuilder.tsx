@@ -10,7 +10,7 @@ import { GET_ALL_HERO_NAMES, GET_SINGLE_HERO } from "./api";
 import { FilterSelect } from "./tailwind-styled/FilterSelect";
 import { NumericInput } from "./tailwind-styled/NumericInput";
 import { Select } from "./tailwind-styled/Select";
-import { dragonflowerImage, getUiResources } from "./ui-resources";
+import { ascendantFloretImage, dragonflowerImage, getUiResources } from "./ui-resources";
 import { getAllEnumValues } from "enum-for";
 
 function rarityStringsForLanguage(langauge: Language) {
@@ -74,6 +74,7 @@ export function ReactUnitBuilder({
     const mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void = (prop, value) => {
         const copyUnit = { ...combatant.unit, [prop]: constrainNumericProp(prop, value) };
         ensureTraitConsistency(copyUnit, prop);
+        ensureDragonflowerConsistency(copyUnit, prop);
         updater({ ...combatant, unit: copyUnit });
     }
 
@@ -92,7 +93,7 @@ export function ReactUnitBuilder({
                                 options={
                                     allHeroes.map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
                                 } />
-                            <Select id="unit-rarity" className="w-20"
+                            <Select id="unit-rarity" className="w-18"
                                 value={{ value: combatant.unit.rarity, label: rarityString(combatant.unit.rarity) }}
                                 onChange={(choice) => { mergeChanges("rarity", choice!.value) }}
                                 options={
@@ -136,7 +137,14 @@ export function ReactUnitBuilder({
                                     } />
                             </div>
                             <div className="flex flex-col gap-1 items-center">
-                                <label htmlFor="unit-ascension">{getUiResources(selectedLanguage, "UNIT_ASCENSION")}</label>
+                                <label htmlFor="unit-ascension">
+                                    <div className="flex items-center">
+                                        <div className="relative w-6 aspect-square">
+                                        {ascendantFloretImage()}
+                                        </div>
+                                        {getUiResources(selectedLanguage, "UNIT_ASCENSION")}
+                                    </div>
+                                </label>
                                 <Select id="unit-ascension" className="w-32"
                                     value={{ value: combatant.unit.ascension, label: statString(combatant.unit.ascension) }}
                                     onChange={(choice) => mergeChanges("ascension", choice!.value)}
@@ -223,5 +231,14 @@ function ensureTraitConsistency(unit: Unit, justSetTrait: keyof Unit) {
             }
             break;
         default: // do nothing
+    }
+}
+
+// the dragonflower count needs to be reset when the hero changes - it might have a lower max dragonflowers
+function ensureDragonflowerConsistency(unit: Unit, justSetProp: keyof Unit) {
+    switch (justSetProp) {
+        case "idNum":
+            unit.dragonflowers = MIN_DRAGONFLOWERS;
+        default: //do nothing
     }
 }

@@ -6,5 +6,10 @@
     "UNIT_STAT_RES": "Res.",
     "UNIT_STAT_NONE": "Nenhuma",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
+    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_LEVEL": "Nív.",
+    "UNIT_ASSET": "Forte",
+    "UNIT_FLAW": "Fraco",
+    "UNIT_ASCENSION": "Ascender"
+
 }

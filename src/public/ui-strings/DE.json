@@ -1,10 +1,14 @@
 {
-    "UNIT_STAT_HP": "NOT_TRANSLATED",
-    "UNIT_STAT_ATK": "NOT_TRANSLATED",
-    "UNIT_STAT_SPD": "NOT_TRANSLATED",
-    "UNIT_STAT_DEF": "NOT_TRANSLATED",
-    "UNIT_STAT_RES": "NOT_TRANSLATED",
+    "UNIT_STAT_HP": "KP",
+    "UNIT_STAT_ATK": "Agr.",
+    "UNIT_STAT_SPD": "Ges.",
+    "UNIT_STAT_DEF": "Ver.",
+    "UNIT_STAT_RES": "Res.",
     "UNIT_STAT_NONE": "Nichts",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
+    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_LEVEL": "Lv.",
+    "UNIT_ASSET": "Vorzug",
+    "UNIT_FLAW": "Defizit",
+    "UNIT_ASCENSION": "Vorteil"
 }

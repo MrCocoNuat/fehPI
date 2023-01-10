@@ -6,5 +6,9 @@
     "UNIT_STAT_RES": "NOT_TRANSLATED",
     "UNIT_STAT_NONE": "沒有",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
+    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_LEVEL": "NOT_TRANSLATED",
+    "UNIT_ASSET": "NOT_TRANSLATED",
+    "UNIT_FLAW": "NOT_TRANSLATED",
+    "UNIT_ASCENSION": "NOT_TRANSLATED"
 }

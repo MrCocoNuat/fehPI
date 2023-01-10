@@ -6,5 +6,9 @@
     "UNIT_STAT_RES": "Res",
     "UNIT_STAT_NONE": "None",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
+    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_LEVEL": "LV.",
+    "UNIT_ASSET": "Asset",
+    "UNIT_FLAW": "Flaw",
+    "UNIT_ASCENSION": "Ascension"
 }

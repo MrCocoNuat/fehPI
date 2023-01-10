@@ -6,5 +6,9 @@
     "UNIT_STAT_RES": "Rés",
     "UNIT_STAT_NONE": "Aucun",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"]
+    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_LEVEL": "Niv.",
+    "UNIT_ASSET": "Atout",
+    "UNIT_FLAW": "Défaut",
+    "UNIT_ASCENSION": "Élever"
 }

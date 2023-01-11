@@ -1,4 +1,4 @@
-import { SingleValue } from "react-select"
+import { Options, SingleValue } from "react-select"
 import Select from "react-select";
 import { getUiStringResource } from "../ui-resources";
 import { useContext } from "react";
@@ -26,20 +26,23 @@ export function FilterSelect({
     isLoading,
 }: {
     id: string,
-    value: ValueAndLabel,
+    value: ValueAndLabel["value"],
     onChange: (choice: SingleValue<ValueAndLabel>) => void,
-    options: ValueAndLabel[],
+    options: Options<ValueAndLabel>,
     className?: string,
     isLoading?: boolean,
 }) {
     const selectedLanguage = useContext(LanguageContext);
+
+    const valueAndLabel = options.find(option => option.value === value)!;
     return <Select
         className={className}
         unstyled={false}
         id={id}
-        value={value}
+        value={valueAndLabel}
         onChange={onChange}
         noOptionsMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_NO_OPTIONS") as string}
+        loadingMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_LOADING") as string}
         options={options}
         isLoading={isLoading}
         classNames={{

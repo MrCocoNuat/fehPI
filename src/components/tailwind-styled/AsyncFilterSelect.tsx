@@ -9,26 +9,27 @@ import { FilterSelect, ValueAndLabel } from "./FilterSelect";
 
 export function AsyncFilterSelect({
     id,
-    valueAndLabelFromOptions,
+    value,
     onChange,
     loadInitialOptions,
     className,
+    otherDependencies: otherDeps,
 }: {
     id: string,
-    // while react-select can accept a value, there will be no label
-    valueAndLabelFromOptions: (options: Options<ValueAndLabel>) => ValueAndLabel,
+    // this should work more like HTML select, where you just give a value and the label is automatically applied!
+    value: ValueAndLabel["value"],
     onChange: (choice: SingleValue<ValueAndLabel>) => void,
     loadInitialOptions: (() => Promise<ValueAndLabel[]>),
     className?: string,
+    otherDependencies?: any[],
 }) {
     const [options, setOptions] = useState([] as ValueAndLabel[]);
-    const [value, setValue] = useState({ value: 0, label: "" } as ValueAndLabel);
     useEffect(() => {
+        setOptions([]);
         loadInitialOptions().then(initialOptions => {
             setOptions(initialOptions);
-            setValue(valueAndLabelFromOptions(initialOptions));
         });
-    }, [loadInitialOptions])
+    }, [value, ...(otherDeps ?? [])])
 
     return <FilterSelect id={id} className={className}
         value={value}

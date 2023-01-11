@@ -15,5 +15,6 @@
     
     "UNIT_SKILL_NONE": "None",
 
-    "SELECT_NO_OPTIONS": "No options"
+    "SELECT_NO_OPTIONS": "No options",
+    "SELECT_LOADING": "Loading..."
 }

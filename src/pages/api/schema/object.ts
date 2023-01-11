@@ -62,7 +62,7 @@ SkillDefinitionInterface.implement({
             type: SkillDefinitionInterface,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.nextSkill,
-            description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise",
+            description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise. Note that if multiple Skills have this Skill as a prerequisite, only one will be here",
         }),
         exclusive: ofb.exposeBoolean("exclusive", {
             nullable: false,

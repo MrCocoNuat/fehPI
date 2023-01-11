@@ -8,7 +8,7 @@ import { UnitTeamComponent } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
 import { Combatant, Team } from "../engine/types";
 import { generateBattleMap, generateTeams } from "../engine/mocks";
-import { ReactUnitBuilder } from "./ReactUnitBuilder";
+import { UnitBuilder } from "./UnitBuilder/UnitBuilder";
 
 export enum FocusType {
     TILE,
@@ -81,7 +81,7 @@ export function BattlePane(props: any) {
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
             {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
-                <ReactUnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focusCombatant.team, focusCombatant.teamNumber, newCombatant)}></ReactUnitBuilder>
+                <UnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focusCombatant.team, focusCombatant.teamNumber, newCombatant)}></UnitBuilder>
             </>}
         </div>
     </div>

@@ -1,8 +1,10 @@
+import { useQuery } from "@apollo/client"
 import { getAllEnumEntries } from "enum-for"
 import { useContext } from "react"
 import { Combatant, Rarity, Unit } from "../../engine/types"
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
+import { GET_ALL_HERO_NAMES } from "../api"
 import { FilterSelect } from "../tailwind-styled/FilterSelect"
 import { Select } from "../tailwind-styled/Select"
 import { getUiStringResource } from "../ui-resources"
@@ -16,16 +18,21 @@ function rarityStringsForLanguage(langauge: Language) {
 export function UnitAndRarityPicker(
     {
         currentCombatant,
-        allHeroes,
         mergeChanges,
     }: {
         currentCombatant: Combatant,
-        allHeroes: { idNum: number, name: { value: string }, epithet: { value: string } }[],
         mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
     }
 ) {
     const selectedLanguage = useContext(LanguageContext);
     const rarityString = rarityStringsForLanguage(selectedLanguage);
+    
+    const { data: heroesData, loading: heroesLoading, error: heroesError } = useQuery(GET_ALL_HERO_NAMES, {
+        variables: {
+            lang: Language[selectedLanguage],
+        }
+    });
+    const allHeroes = (heroesData?.heroes ?? []) as { idNum: number, name: { value: string }, epithet: { value: string } }[];
 
     return <div className="flex flex-row items-center gap-2">
         <FilterSelect id="unit-idNum" className="w-80"

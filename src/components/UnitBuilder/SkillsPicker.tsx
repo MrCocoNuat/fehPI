@@ -1,8 +1,9 @@
+import { useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { Combatant, NULL_SKILL_ID, Unit } from "../../engine/types"
-import { MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
+import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { AllSkillExclusivities } from "../api";
+import { AllSkillExclusivities, GET_ALL_SKILL_NAMES_EXCLUSIVITIES } from "../api";
 import { FilterSelect } from "../tailwind-styled/FilterSelect";
 import { getUiStringResource } from "../ui-resources";
 import { SelectedHeroContext } from "./UnitBuilder";
@@ -28,14 +29,19 @@ function getAvailableInheritables(allSkills: AllSkillExclusivities, { weaponType
 export function SkillsPicker({
     currentCombatant,
     mergeChanges,
-    allSkills,
 }: {
     currentCombatant: Combatant,
     mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
-    allSkills: AllSkillExclusivities,
 }) {
     const selectedLanguage = useContext(LanguageContext);
     const selectedHero = useContext(SelectedHeroContext);
+
+    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
+        variables: {
+            lang: Language[selectedLanguage],
+        }
+    });
+    const allSkills = (skillsData?.skills ?? []) as AllSkillExclusivities;
 
     if (selectedHero !== null) {
         const inheritables = getAvailableInheritables(allSkills, selectedHero);

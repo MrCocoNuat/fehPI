@@ -34,37 +34,22 @@ export function UnitBuilder({
     const [selectedHero, updateSelectedHero] = useState(null as SelectedHeroProps | null);
 
     // call API a couple of times
-    const { data: heroesData, loading: heroesLoading, error: heroesError } = useQuery(GET_ALL_HERO_NAMES, {
-        variables: {
-            lang: Language[selectedLanguage],
-        }
-    });
+
     const { data: heroData, loading: heroLoading, error: heroError } = useQuery(GET_SINGLE_HERO, {
         variables: {
             idNum: combatant.unit.idNum,
         }
     })
-    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
-        variables: {
-            lang: Language[selectedLanguage],
-        }
-    })
 
     // use API data to hydrate interface
-    let allHeroes: AllHeroNames = [];
-    let allSkills: AllSkillExclusivities = [];
-    if (!(heroesLoading || heroLoading || skillsLoading)) {
-        allHeroes = heroesData.heroes;
-        allSkills = skillsData.skills;
+    if (!(heroLoading)) {
         const queriedHero = heroData.heroes[0];
         if (selectedHero === null || queriedHero.idNum !== selectedHero.idNum) {
             updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: MovementType[queriedHero.weaponType] });
         }
     } else {
         // Still render a dehydrated view
-        if (heroesError) console.error(heroesError);
         if (heroError) console.error(heroError);
-        if (skillsError) console.error(skillsError);
     }
 
     //TODO:- probably should be a useEffect instead
@@ -88,7 +73,7 @@ export function UnitBuilder({
         <SelectedHeroContext.Provider value={selectedHero}>
             <form className="m-2 border-2 border-blue-500" onSubmit={(evt) => { evt.preventDefault(); }}>
                 <div className="flex flex-col gap-1">
-                    <UnitAndRarityPicker currentCombatant={combatant} mergeChanges={mergeChanges} allHeroes={allHeroes} />
+                    <UnitAndRarityPicker currentCombatant={combatant} mergeChanges={mergeChanges}/>
 
                     <LevelAndMergesPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
 
@@ -96,7 +81,7 @@ export function UnitBuilder({
 
                     <div>{`stats: ${JSON.stringify(stats)}`}</div>
 
-                    <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} allSkills={allSkills} />
+                    <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
                 </div>
             </form>
         </SelectedHeroContext.Provider>

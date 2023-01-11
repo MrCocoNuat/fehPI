@@ -4,7 +4,9 @@ import { SingleValue } from "react-select"
 import { LanguageContext } from "../../pages/testpage";
 import { getUiStringResource } from "../ui-resources";
 
-export function Select<optionType>({
+export type ValueAndLabel<ValueType> = {value: ValueType, label: string};
+
+export function Select<ValueType>({
     id,
     value,
     onChange,
@@ -12,17 +14,18 @@ export function Select<optionType>({
     className,
 }: {
     id: string,
-    value: optionType,
-    onChange: (choice: SingleValue<optionType>) => void,
-    options: optionType[],
+    value: ValueType,
+    onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
+    options: ValueAndLabel<ValueType>[],
     className?: string,
 }) {
     const selectedLanguage = useContext(LanguageContext);
+    const valueAndLabel = options.find(option => option.value === value)!;
     return <ReactSelect
         className={className}
         unstyled={false}
         id={id}
-        value={value}
+        value={valueAndLabel}
         onChange={onChange}
         options={options}
         isSearchable={false}

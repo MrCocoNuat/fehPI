@@ -7,16 +7,21 @@ import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
 import { GET_ALL_HERO_NAMES } from "../api"
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
-import { FilterSelect, ValueAndLabel } from "../tailwind-styled/FilterSelect"
 import { Select } from "../tailwind-styled/Select"
 import { getUiStringResource } from "../ui-resources"
 
 
 
-function rarityStringsForLanguage(langauge: Language) {
-    return (rarity: Rarity) => getUiStringResource(langauge, "UNIT_RARITY")[rarity];
+const rarityStringResourceIds = {
+    [Rarity.ONE_STAR]: "UNIT_RARITY_ONE",
+    [Rarity.TWO_STARS]: "UNIT_RARITY_TWO",
+    [Rarity.THREE_STARS]: "UNIT_RARITY_THREE",
+    [Rarity.FOUR_STARS]: "UNIT_RARITY_FOUR",
+    [Rarity.FIVE_STARS]: "UNIT_RARITY_FIVE",
+} as const;
+function rarityStringForLanguage(langauge: Language) {
+    return (rarity: Rarity) => getUiStringResource(langauge, rarityStringResourceIds[rarity]);
 }
-
 
 export function UnitAndRarityPicker(
     {
@@ -28,7 +33,7 @@ export function UnitAndRarityPicker(
     }
 ) {
     const selectedLanguage = useContext(LanguageContext);
-    const rarityString = rarityStringsForLanguage(selectedLanguage);
+    const rarityString = rarityStringForLanguage(selectedLanguage);
 
     const [getHeroNames] = useLazyQuery(GET_ALL_HERO_NAMES, {
         variables: { lang: Language[selectedLanguage] },
@@ -40,7 +45,6 @@ export function UnitAndRarityPicker(
             .map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
     }
 
-
     console.log("rerender unitpicker");
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="w-80"
@@ -49,7 +53,7 @@ export function UnitAndRarityPicker(
             loadInitialOptions={loadInitialOptions}
             otherDependencies={[selectedLanguage]} />
         <Select id="unit-rarity" className="w-18"
-            value={{ value: currentCombatant.unit.rarity, label: rarityString(currentCombatant.unit.rarity) }}
+            value={currentCombatant.unit.rarity}
             onChange={(choice) => { mergeChanges("rarity", choice!.value) }}
             options={
                 getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))

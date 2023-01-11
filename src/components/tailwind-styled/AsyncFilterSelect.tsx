@@ -3,11 +3,12 @@ import { GroupBase, Options, OptionsOrGroups, SelectInstance, SingleValue } from
 import AsyncSelect from "react-select/async";
 import { LanguageContext } from "../../pages/testpage";
 import { getUiStringResource } from "../ui-resources";
-import { FilterSelect, ValueAndLabel } from "./FilterSelect";
+import { FilterSelect } from "./FilterSelect";
+import { ValueAndLabel } from "./Select";
 
 // react-select's own async functionality is insufficient for me
 
-export function AsyncFilterSelect({
+export function AsyncFilterSelect<ValueType>({
     id,
     value,
     onChange,
@@ -17,13 +18,13 @@ export function AsyncFilterSelect({
 }: {
     id: string,
     // this should work more like HTML select, where you just give a value and the label is automatically applied!
-    value: ValueAndLabel["value"],
-    onChange: (choice: SingleValue<ValueAndLabel>) => void,
-    loadInitialOptions: (() => Promise<ValueAndLabel[]>),
+    value: ValueType,
+    onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
+    loadInitialOptions: (() => Promise<ValueAndLabel<ValueType>[]>),
     className?: string,
     otherDependencies?: any[],
 }) {
-    const [options, setOptions] = useState([] as ValueAndLabel[]);
+    const [options, setOptions] = useState([] as ValueAndLabel<ValueType>[]);
     useEffect(() => {
         setOptions([]);
         loadInitialOptions().then(initialOptions => {

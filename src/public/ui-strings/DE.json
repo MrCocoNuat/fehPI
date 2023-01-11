@@ -6,7 +6,12 @@
     "UNIT_STAT_RES": "Res.",
     "UNIT_STAT_NONE": "Nichts",
 
-    "UNIT_RARITY": ["1★", "2★", "3★", "4★", "5★"],
+    "UNIT_RARITY_ONE": "1★",
+    "UNIT_RARITY_TWO": "2★",
+    "UNIT_RARITY_THREE": "3★",
+    "UNIT_RARITY_FOUR": "4★",
+    "UNIT_RARITY_FIVE": "5★",
+    
     "UNIT_LEVEL": "Lv.",
     "UNIT_DRAGONFLOWERS": "Drachenblumen",
     "UNIT_ASSET": "Vorzug",

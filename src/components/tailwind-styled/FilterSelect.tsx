@@ -3,6 +3,7 @@ import Select from "react-select";
 import { getUiStringResource } from "../ui-resources";
 import { useContext } from "react";
 import { LanguageContext } from "../../pages/testpage";
+import { ValueAndLabel } from "./Select";
 
 /*
  react-select is not known for having great performance with lists of any significant length (as in >100)
@@ -15,9 +16,7 @@ import { LanguageContext } from "../../pages/testpage";
  but this makes keyboard navigation not cooperate with the mouse, so this is also a no go unless performance is so bad that it is necessary.
 */
 
-export type ValueAndLabel = { value: number, label: string };
-
-export function FilterSelect({
+export function FilterSelect<ValueType>({
     id,
     value,
     onChange,
@@ -26,9 +25,9 @@ export function FilterSelect({
     isLoading,
 }: {
     id: string,
-    value: ValueAndLabel["value"],
-    onChange: (choice: SingleValue<ValueAndLabel>) => void,
-    options: Options<ValueAndLabel>,
+    value: ValueType,
+    onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
+    options: Options<ValueAndLabel<ValueType>>,
     className?: string,
     isLoading?: boolean,
 }) {

@@ -28,7 +28,7 @@ const stringsForLanguage = {
 
 const DEFAULT_LANGUAGE = Language.USEN;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
-export function getUiStringResource(language: Language, resouceId: keyof typeof enStrings): string | string[] {
+export function getUiStringResource(language: Language, resouceId: keyof typeof enStrings): string {
     const resource = stringsForLanguage[language][resouceId];
     if (resource === NOT_TRANSLATED) {
         return `**${stringsForLanguage[DEFAULT_LANGUAGE][resouceId]}**`;

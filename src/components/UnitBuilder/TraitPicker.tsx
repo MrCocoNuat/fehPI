@@ -32,7 +32,7 @@ export function TraitPicker({
         <div className="flex flex-col gap-1 items-center">
             <label htmlFor="unit-asset">{getUiStringResource(selectedLanguage, "UNIT_ASSET")}</label>
             <Select id="unit-asset" className="w-32"
-                value={{ value: currentCombatant.unit.asset, label: statString(currentCombatant.unit.asset) }}
+                value={currentCombatant.unit.asset}
                 onChange={(choice) => mergeChanges("asset", choice!.value)}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
@@ -41,7 +41,7 @@ export function TraitPicker({
         <div className="flex flex-col gap-1 items-center">
             <label htmlFor="unit-flaw">{getUiStringResource(selectedLanguage, "UNIT_FLAW")}</label>
             <Select id="unit-flaw" className="w-32"
-                value={{ value: currentCombatant.unit.flaw, label: statString(currentCombatant.unit.flaw) }}
+                value={currentCombatant.unit.flaw}
                 onChange={(choice) => mergeChanges("flaw", choice!.value)}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
@@ -57,7 +57,7 @@ export function TraitPicker({
                 </div>
             </label>
             <Select id="unit-ascension" className="w-32"
-                value={{ value: currentCombatant.unit.ascension, label: statString(currentCombatant.unit.ascension) }}
+                value={currentCombatant.unit.ascension}
                 onChange={(choice) => mergeChanges("ascension", choice!.value)}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))

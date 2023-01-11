@@ -63,13 +63,16 @@ export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLangu
 `;
 export type AllHeroNames = { idNum: number, name: { value: string }, epithet: { value: string } }[];
 
-export const GET_ALL_SKILL_EXCLUSIVITIES = gql`query getAllSkillExclusivityCategory{
+export const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`query getAllSkillExclusivityCategory($lang: OptionalLanguage!){
     skills{
         idNum
         exclusive
         category
         weaponEquip
         movementEquip
+        name(language: $lang){
+            value
+        }
     }
 }`
 export type AllSkillExclusivities = {
@@ -78,6 +81,7 @@ export type AllSkillExclusivities = {
     category: SkillCategory,
     weaponEquip: (keyof typeof WeaponType)[],
     movementEquip: (keyof typeof MovementType)[],
+    name: { value: string },
 }[]
 
 export const GET_GROWTH_VECTORS = gql`query getGrowthVectors{

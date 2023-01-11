@@ -13,6 +13,8 @@
     "UNIT_FLAW": "Défaut",
     "UNIT_ASCENSION": "Élever",
 
+    "UNIT_SKILL_NONE": "Vide",  
+
     "SELECT_NO_OPTIONS": "NOT_TRANSLATED"
 
 }

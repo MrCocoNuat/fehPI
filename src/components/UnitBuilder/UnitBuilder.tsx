@@ -4,7 +4,7 @@ import { statsFor } from "../../engine/stat-calculation"
 import { Combatant, constrainNumeric, MAX_LEVEL, MAX_MERGES, MAX_RARITY, MAX_SAFE_DRAGONFLOWERS, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, MIN_RARITY, Unit } from "../../engine/types";
 import { Language, MovementType, OptionalStat, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { AllHeroNames, AllSkillExclusivities, GET_ALL_HERO_NAMES, GET_ALL_SKILL_EXCLUSIVITIES, GET_SINGLE_HERO } from "../api";
+import { AllHeroNames, AllSkillExclusivities, GET_ALL_HERO_NAMES, GET_ALL_SKILL_NAMES_EXCLUSIVITIES, GET_SINGLE_HERO } from "../api";
 import { getAllEnumValues } from "enum-for";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { constrainNumericPropWhenMaxDragonflowersIs, ensureDragonflowerConsistency, LevelAndMergesPicker } from "./LevelAndMergesPicker";
@@ -19,7 +19,6 @@ type SelectedHeroProps = {
     skills: { known: { idNum: number, exclusive: boolean }[], learnable: { idNum: number, exclusive: boolean }[] }[],
     maxDragonflowers: number
 }
-
 
 
 export const SelectedHeroContext = createContext(null as SelectedHeroProps | null);
@@ -45,7 +44,11 @@ export function UnitBuilder({
             idNum: combatant.unit.idNum,
         }
     })
-    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_EXCLUSIVITIES)
+    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
+        variables: {
+            lang: Language[selectedLanguage],
+        }
+    })
 
     // use API data to hydrate interface
     let allHeroes: AllHeroNames = [];
@@ -77,7 +80,7 @@ export function UnitBuilder({
         updater({ ...combatant, unit: copyUnit });
     }
 
-    console.log("rerender");
+    console.log("rerender builder");
 
     return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col"
         // prevent clicking from defocusing

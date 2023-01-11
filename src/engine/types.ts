@@ -32,7 +32,8 @@ export enum Rarity {
 export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RARITY: Rarity.FIVE_STARS };
 
 // 0 is explicitly no skill - don't use null!
-export type NULL_SKILL = 0;
+export const NULL_SKILL_ID = 0;
+type NULL_SKILL = typeof NULL_SKILL_ID;
 
 export type Unit = {
     idNum: number,

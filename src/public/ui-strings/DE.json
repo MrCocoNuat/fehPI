@@ -13,5 +13,7 @@
     "UNIT_FLAW": "Defizit",
     "UNIT_ASCENSION": "Vorteil",
 
+    "UNIT_SKILL_NONE": "Nichts",
+
     "SELECT_NO_OPTIONS": "NOT_TRANSLATED"
 }

@@ -33,7 +33,7 @@ const randomTraits: () => { asset: OptionalStat, flaw: OptionalStat, ascension: 
 const randomTeam: () => Team = () => randInt(2);
 
 const randomUnit: () => Unit = () => ({
-    idNum: randInt(800),
+    idNum: 1+randInt(890),
     rarity: randInt(5),
     level: 40, //randInt(40), // level adjustments are so poorly supported by others...
     merges: randInt(11),

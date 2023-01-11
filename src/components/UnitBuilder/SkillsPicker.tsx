@@ -49,7 +49,7 @@ export function SkillsPicker({
         const exclusives = fiveStarSkills.known.filter(skill => skill.exclusive).concat(fiveStarSkills.learnable.filter(skill => skill.exclusive));
     }
 
-    return <div className="flex">
+    return <div className="flex">{/*
         <FilterSelect id={"unit-weapon-skill"} className="w-80"
             value={{
                 value: currentCombatant.unit.weaponSkillId,
@@ -57,6 +57,6 @@ export function SkillsPicker({
                     ((weapon) => weapon ? weapon.name.value : ("..."))(allSkills.find(skill => skill.idNum === currentCombatant.unit.weaponSkillId))
             }}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-            options={[]} />
+        options={[]} />*/}
     </div>
 }

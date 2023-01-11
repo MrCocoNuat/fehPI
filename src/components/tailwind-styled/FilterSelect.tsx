@@ -15,18 +15,22 @@ import { LanguageContext } from "../../pages/testpage";
  but this makes keyboard navigation not cooperate with the mouse, so this is also a no go unless performance is so bad that it is necessary.
 */
 
-export function FilterSelect<optionType>({
+export type ValueAndLabel = { value: number, label: string };
+
+export function FilterSelect({
     id,
     value,
     onChange,
     options,
     className,
+    isLoading,
 }: {
     id: string,
-    value: optionType,
-    onChange: (choice: SingleValue<optionType>) => void,
-    options: optionType[],
+    value: ValueAndLabel,
+    onChange: (choice: SingleValue<ValueAndLabel>) => void,
+    options: ValueAndLabel[],
     className?: string,
+    isLoading?: boolean,
 }) {
     const selectedLanguage = useContext(LanguageContext);
     return <Select
@@ -37,6 +41,7 @@ export function FilterSelect<optionType>({
         onChange={onChange}
         noOptionsMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         options={options}
+        isLoading={isLoading}
         classNames={{
             // apply tailwind classes to some inner components
             menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-neutral-900 text-black dark:text-white",

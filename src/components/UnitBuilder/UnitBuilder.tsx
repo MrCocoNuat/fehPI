@@ -1,18 +1,28 @@
 import { useQuery } from "@apollo/client";
-import { useContext } from "react";
+import { Context, createContext, useContext, useState } from "react";
 import { statsFor } from "../../engine/stat-calculation"
 import { Combatant, constrainNumeric, MAX_LEVEL, MAX_MERGES, MAX_RARITY, MAX_SAFE_DRAGONFLOWERS, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, MIN_RARITY, Unit } from "../../engine/types";
-import { Language, MovementType, OptionalStat } from "../../pages/api/dao/types/dao-types";
+import { Language, MovementType, OptionalStat, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { GET_ALL_HERO_NAMES, GET_SINGLE_HERO } from "../api";
+import { AllHeroNames, AllSkillExclusivities, GET_ALL_HERO_NAMES, GET_ALL_SKILL_EXCLUSIVITIES, GET_SINGLE_HERO } from "../api";
 import { getAllEnumValues } from "enum-for";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { constrainNumericPropWhenMaxDragonflowersIs, ensureDragonflowerConsistency, LevelAndMergesPicker } from "./LevelAndMergesPicker";
 import { ensureTraitConsistency, TraitPicker } from "./TraitPicker";
+import { SkillsPicker } from "./SkillsPicker";
+
+
+type SelectedHeroProps = {
+    idNum: number,
+    movementType: MovementType,
+    weaponType: WeaponType,
+    skills: { known: { idNum: number, exclusive: boolean }[], learnable: { idNum: number, exclusive: boolean }[] }[],
+    maxDragonflowers: number
+}
 
 
 
-
+export const SelectedHeroContext = createContext(null as SelectedHeroProps | null);
 
 export function UnitBuilder({
     combatant,
@@ -22,6 +32,7 @@ export function UnitBuilder({
     updater: (newCombatant: Combatant) => void,
 }) {
     const selectedLanguage = useContext(LanguageContext);
+    const [selectedHero, updateSelectedHero] = useState(null as SelectedHeroProps | null);
 
     // call API a couple of times
     const { data: heroesData, loading: heroesLoading, error: heroesError } = useQuery(GET_ALL_HERO_NAMES, {
@@ -29,33 +40,34 @@ export function UnitBuilder({
             lang: Language[selectedLanguage],
         }
     });
-    // in particular, we need max dragonflowers for the unit
-    const { data: unitData, loading: unitLoading, error: unitError } = useQuery(GET_SINGLE_HERO, {
+    const { data: heroData, loading: heroLoading, error: heroError } = useQuery(GET_SINGLE_HERO, {
         variables: {
             idNum: combatant.unit.idNum,
         }
     })
+    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_EXCLUSIVITIES)
 
     // use API data to hydrate interface
-    let allHeroes: { idNum: number, name: { value: string }, epithet: { value: string } }[] = [];
-    let selectedHeroMaxDragonflowers: number;
-    let selectedHeroMovementType: MovementType | null;
-    if (!(heroesLoading || unitLoading)) {
+    let allHeroes: AllHeroNames = [];
+    let allSkills: AllSkillExclusivities = [];
+    if (!(heroesLoading || heroLoading || skillsLoading)) {
         allHeroes = heroesData.heroes;
-        const selectedHero = unitData.heroes[0];
-        selectedHeroMaxDragonflowers = selectedHero.maxDragonflowers;
-        selectedHeroMovementType = MovementType[selectedHero.movementType as keyof typeof MovementType];
+        allSkills = skillsData.skills;
+        const queriedHero = heroData.heroes[0];
+        if (selectedHero === null || queriedHero.idNum !== selectedHero.idNum) {
+            updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: MovementType[queriedHero.weaponType] });
+        }
     } else {
         // Still render a dehydrated view
         if (heroesError) console.error(heroesError);
-        selectedHeroMaxDragonflowers = MAX_SAFE_DRAGONFLOWERS;
-        selectedHeroMovementType = null;
+        if (heroError) console.error(heroError);
+        if (skillsError) console.error(skillsError);
     }
-    
+
     //TODO:- probably should be a useEffect instead
     const stats = statsFor(combatant.unit);
-    
-    const constrainNumericProp = constrainNumericPropWhenMaxDragonflowersIs(selectedHeroMaxDragonflowers);
+
+    const constrainNumericProp = constrainNumericPropWhenMaxDragonflowersIs(selectedHero?.maxDragonflowers ?? MAX_SAFE_DRAGONFLOWERS);
     const mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void = (prop, rawValue) => {
         const value = constrainNumericProp(prop, rawValue);
         const copyUnit = { ...combatant.unit, [prop]: value };
@@ -67,27 +79,24 @@ export function UnitBuilder({
 
     console.log("rerender");
 
-    return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col" onClick={(evt) => evt.stopPropagation()}>
-        <div className="flex">
-            {/*<UnitPortrait unit={combatant}></UnitPortrait>  there is already a portrait in the team section! */}
-            <div>
-                <form className="m-2 border-2 border-blue-500" onSubmit={(evt) => { evt.preventDefault(); }}>
-                    <div className="flex flex-col gap-1">
-                        <UnitAndRarityPicker currentCombatant={combatant} mergeChanges={mergeChanges} allHeroes={allHeroes} />
+    return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col"
+        // prevent clicking from defocusing
+        onClick={(evt) => evt.stopPropagation()}>
+        <SelectedHeroContext.Provider value={selectedHero}>
+            <form className="m-2 border-2 border-blue-500" onSubmit={(evt) => { evt.preventDefault(); }}>
+                <div className="flex flex-col gap-1">
+                    <UnitAndRarityPicker currentCombatant={combatant} mergeChanges={mergeChanges} allHeroes={allHeroes} />
 
-                        <LevelAndMergesPicker currentCombatant={combatant} mergeChanges={mergeChanges}
-                            selectedHeroProps={{ maxDragonflowers: selectedHeroMaxDragonflowers, movementType: selectedHeroMovementType }} />
+                    <LevelAndMergesPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
 
-                        <TraitPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
+                    <TraitPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
 
-                        <div>
+                    <div>{`stats: ${JSON.stringify(stats)}`}</div>
 
-                        </div>
-                    </div>
-                </form>
-                <div>{`stats: ${JSON.stringify(stats)}`}</div>
-            </div>
-        </div>
+                    <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} allSkills={allSkills} />
+                </div>
+            </form>
+        </SelectedHeroContext.Provider>
     </div>
 }
 

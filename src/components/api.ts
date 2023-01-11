@@ -1,9 +1,7 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
+import { MovementType, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
 
 export const apolloClient = new ApolloClient({
-    // when in dev mode, for some reason the server tries to make a query too
-    // but a relative URL obviously cannot be accessed by the server that does not know its own origin
-    // so when not in prod, just provide the whole local URL
     uri: "/api/graphql",
     cache: new InMemoryCache(), // wooo free caching
     assumeImmutableResults: true, // a real luxury
@@ -16,6 +14,7 @@ export const PING = gql`{
 
 export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
     heroes(idNums: [$idNum]){
+        idNum
         idTag
         imageUrl
         baseStats {
@@ -36,8 +35,19 @@ export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
         maxDragonflowers
         movementType
         weaponType
+        skills(rarities: FIVE_STARS){
+            known{
+                idNum
+                exclusive
+            }
+            learnable{
+                idNum
+                exclusive
+            }
+        }
     }
-}`;
+}
+`;
 
 export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLanguage!){
     heroes{
@@ -51,6 +61,24 @@ export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLangu
     }
 }
 `;
+export type AllHeroNames = { idNum: number, name: { value: string }, epithet: { value: string } }[];
+
+export const GET_ALL_SKILL_EXCLUSIVITIES = gql`query getAllSkillExclusivityCategory{
+    skills{
+        idNum
+        exclusive
+        category
+        weaponEquip
+        movementEquip
+    }
+}`
+export type AllSkillExclusivities = {
+    idNum: number,
+    exclusive: boolean,
+    category: SkillCategory,
+    weaponEquip: (keyof typeof WeaponType)[],
+    movementEquip: (keyof typeof MovementType)[],
+}[]
 
 export const GET_GROWTH_VECTORS = gql`query getGrowthVectors{
     growthVectors

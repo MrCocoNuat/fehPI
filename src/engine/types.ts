@@ -31,6 +31,9 @@ export enum Rarity {
 }
 export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RARITY: Rarity.FIVE_STARS };
 
+// 0 is explicitly no skill - don't use null!
+export type NULL_SKILL = 0;
+
 export type Unit = {
     idNum: number,
     rarity: Rarity,
@@ -42,7 +45,13 @@ export type Unit = {
     flaw: OptionalStat,
     ascension: OptionalStat,
 
-    // selected skills
+    weaponSkillId: number | NULL_SKILL,
+    assistSkillId: number | NULL_SKILL,
+    specialSkillId: number | NULL_SKILL,
+    passiveASkillId: number | NULL_SKILL,
+    passiveBSkillId: number | NULL_SKILL,
+    passiveCSkillId: number | NULL_SKILL,
+    passiveSSkillId: number | NULL_SKILL,
     // blessing
     //support
 }
@@ -56,12 +65,6 @@ export type Combatant = {
     team: Team,
     teamNumber: number,
     tileNumber?: number,
-    uid: symbol,
-
-    weaponSkillId: number | 0,
-    assistSkillId: number | 0,
-    specialSkillId: number | 0,
-    
 }
 
 export type CombatantTeam = Combatant[]

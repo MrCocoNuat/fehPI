@@ -6,8 +6,9 @@ export enum SkillCategory {
     PASSIVE_B,
     PASSIVE_C,
     PASSIVE_S,
-    REFINE_EFFECT,
-    BEAST_EFFECT,
+    // never use these
+    //REFINE_EFFECT,
+    //BEAST_EFFECT,
 };
 export type SkillCategoryName = keyof typeof SkillCategory;
 

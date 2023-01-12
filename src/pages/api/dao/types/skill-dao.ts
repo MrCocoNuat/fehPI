@@ -126,16 +126,9 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
     // This set **IS EXPECTED TO CHANGE** in the future and cannot be handled adequately by the Refine Engine.
 
     // Only want these categories, 
-    RELEVANT_SKILL_CATEGORIES = [
-        SkillCategory.WEAPON,
-        SkillCategory.ASSIST,
-        SkillCategory.SPECIAL,
-        SkillCategory.PASSIVE_A,
-        SkillCategory.PASSIVE_B,
-        SkillCategory.PASSIVE_C,
-        SkillCategory.PASSIVE_S
-    ] as const;
+    RELEVANT_SKILL_CATEGORIES = getAllEnumValues(SkillCategory);
     protected override acceptIf: (json: any) => boolean = (json) => {
+        // Only want some SkillCategories - others are rejected
         return this.RELEVANT_SKILL_CATEGORIES.includes(json.category);
     }
 

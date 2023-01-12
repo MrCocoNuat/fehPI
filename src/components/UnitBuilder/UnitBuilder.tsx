@@ -31,9 +31,15 @@ type SelectedHeroProps = {
     skills: { known: { id: number, exclusive: boolean }[], learnable: { idNum: number, exclusive: boolean }[] }[],
     maxDragonflowers: number
 }
+const defaultSelectedHeroProps : SelectedHeroProps = {
+    id: -1,
+    movementType: MovementType.INFANTRY,
+    weaponType: WeaponType.AXE,
+    skills: [],
+    maxDragonflowers: 5,
+}
 
-
-export const SelectedHeroContext = createContext(null as SelectedHeroProps | null);
+export const SelectedHeroContext = createContext(defaultSelectedHeroProps);
 
 export function UnitBuilder({
     combatant,
@@ -43,7 +49,7 @@ export function UnitBuilder({
     updater: (newCombatant: Combatant) => void,
 }) {
     const selectedLanguage = useContext(LanguageContext);
-    const [selectedHero, updateSelectedHero] = useState(null as SelectedHeroProps | null);
+    const [selectedHero, updateSelectedHero] = useState(defaultSelectedHeroProps);
 
     // call API a couple of times
 
@@ -56,8 +62,8 @@ export function UnitBuilder({
     // use API data to hydrate interface
     if (!(heroLoading)) {
         const queriedHero = heroData.heroes[0];
-        if (selectedHero === null || queriedHero.id !== selectedHero.id) {
-            updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: MovementType[queriedHero.weaponType] });
+        if (queriedHero.id !== selectedHero.id) {
+            updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: WeaponType[queriedHero.weaponType] });
         }
     } else {
         // Still render a dehydrated view

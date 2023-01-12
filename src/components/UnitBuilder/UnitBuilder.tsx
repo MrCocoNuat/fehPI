@@ -1,11 +1,10 @@
 import { useQuery } from "@apollo/client";
-import { Context, createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { statsFor } from "../../engine/stat-calculation"
-import { Combatant, constrainNumeric, MAX_LEVEL, MAX_MERGES, MAX_RARITY, MAX_SAFE_DRAGONFLOWERS, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, MIN_RARITY, Unit } from "../../engine/types";
-import { Language, MovementType, OptionalStat, WeaponType } from "../../pages/api/dao/types/dao-types";
+import { Combatant, MAX_SAFE_DRAGONFLOWERS, Unit } from "../../engine/types";
+import { MovementType, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { AllHeroNames, AllSkillExclusivities, GET_ALL_HERO_NAMES, GET_ALL_SKILL_NAMES_EXCLUSIVITIES, GET_SINGLE_HERO } from "../api";
-import { getAllEnumValues } from "enum-for";
+import { GET_SINGLE_HERO } from "../api";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { constrainNumericPropWhenMaxDragonflowersIs, ensureDragonflowerConsistency, LevelAndMergesPicker } from "./LevelAndMergesPicker";
 import { ensureTraitConsistency, TraitPicker } from "./TraitPicker";

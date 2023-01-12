@@ -1,6 +1,6 @@
 import { useLazyQuery, useQuery } from "@apollo/client"
 import { getAllEnumEntries } from "enum-for"
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { Options } from "react-select"
 import { Combatant, Rarity, Unit } from "../../engine/types"
 import { Language } from "../../pages/api/dao/types/dao-types"
@@ -38,20 +38,18 @@ export function UnitAndRarityPicker(
     const [getHeroNames] = useLazyQuery(GET_ALL_HERO_NAMES, {
         variables: { lang: Language[selectedLanguage] },
     });
-    const loadInitialOptions = async () => {
-        console.log("slow hero query");
+    const loadInitialOptions = useCallback(async () => {
         const queryResult = await getHeroNames();
         return (queryResult.data.heroes as { idNum: number, name: { value: string }, epithet: { value: string } }[])
             .map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
-    }
+    }, [selectedLanguage])
 
     console.log("rerender unitpicker");
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="w-80"
             value={currentCombatant.unit.idNum}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-            loadInitialOptions={loadInitialOptions}
-            otherDependencies={[selectedLanguage]} />
+            loadInitialOptions={loadInitialOptions} />
         <Select id="unit-rarity" className="w-18"
             value={currentCombatant.unit.rarity}
             onChange={(choice) => { mergeChanges("rarity", choice!.value) }}

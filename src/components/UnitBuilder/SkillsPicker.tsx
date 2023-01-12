@@ -1,10 +1,12 @@
-import { useQuery } from "@apollo/client";
-import { useContext } from "react";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { useCallback, useContext } from "react";
 import { Combatant, NULL_SKILL_ID, Unit } from "../../engine/types"
 import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { AllSkillExclusivities, GET_ALL_SKILL_NAMES_EXCLUSIVITIES } from "../api";
+import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { FilterSelect } from "../tailwind-styled/FilterSelect";
+import { ValueAndLabel } from "../tailwind-styled/Select";
 import { getUiStringResource } from "../ui-resources";
 import { SelectedHeroContext } from "./UnitBuilder";
 
@@ -26,6 +28,7 @@ function getAvailableInheritables(allSkills: AllSkillExclusivities, { weaponType
     return calculatedResult;
 }
 
+
 export function SkillsPicker({
     currentCombatant,
     mergeChanges,
@@ -36,12 +39,13 @@ export function SkillsPicker({
     const selectedLanguage = useContext(LanguageContext);
     const selectedHero = useContext(SelectedHeroContext);
 
-    const { data: skillsData, loading: skillsLoading, error: skillsError } = useQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
-        variables: {
-            lang: Language[selectedLanguage],
-        }
+    const [getSkills] = useLazyQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
+        variables: { lang: Language[selectedLanguage] }
     });
-    const allSkills = (skillsData?.skills ?? []) as AllSkillExclusivities;
+    const loadSkills = useCallback(async (killCategory: SkillCategory) => {
+        const queryResult = getSkills();
+        return () => [0];
+    })
 
     if (selectedHero !== null) {
         const inheritables = getAvailableInheritables(allSkills, selectedHero);
@@ -49,14 +53,11 @@ export function SkillsPicker({
         const exclusives = fiveStarSkills.known.filter(skill => skill.exclusive).concat(fiveStarSkills.learnable.filter(skill => skill.exclusive));
     }
 
-    return <div className="flex">{/*
-        <FilterSelect id={"unit-weapon-skill"} className="w-80"
-            value={{
-                value: currentCombatant.unit.weaponSkillId,
-                label: (currentCombatant.unit.weaponSkillId === NULL_SKILL_ID) ? (getUiStringResource(selectedLanguage, "UNIT_SKILL_NONE")) :
-                    ((weapon) => weapon ? weapon.name.value : ("..."))(allSkills.find(skill => skill.idNum === currentCombatant.unit.weaponSkillId))
-            }}
-            onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-        options={[]} />*/}
+
+    return <div className="flex">
+        <AsyncFilterSelect id={"unit-weapon-skill"} className="w-80"
+        value={currentCombatant.unit.weaponSkillId}
+        onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); } } 
+        loadInitialOptions={loadSkills(SkillCategory.WEAPON)}            />
     </div>
 }

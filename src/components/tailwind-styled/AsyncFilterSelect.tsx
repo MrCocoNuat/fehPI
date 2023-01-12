@@ -30,7 +30,7 @@ export function AsyncFilterSelect<ValueType>({
         loadInitialOptions().then(initialOptions => {
             setOptions(initialOptions);
         });
-    }, [value, ...(otherDependencies ?? [])])
+    }, [value, loadInitialOptions])
 
     return <FilterSelect id={id} className={className}
         value={options.length === 0? undefined : value}

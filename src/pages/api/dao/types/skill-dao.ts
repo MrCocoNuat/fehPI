@@ -34,10 +34,10 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                 );
                 return data;
             })
-        }
+    }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
-        const skillDefinition : SkillDefinition = {
+        const skillDefinition: SkillDefinition = {
             idNum: json.id_num,
             sortId: json.sort_id,
             idTag: json.id_tag,
@@ -92,7 +92,7 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
             case SkillCategory.PASSIVE_B:
             case SkillCategory.PASSIVE_C:
             case SkillCategory.PASSIVE_S:
-                const passiveSkillDefinition : PassiveSkillDefinition = {
+                const passiveSkillDefinition: PassiveSkillDefinition = {
                     ...skillDefinition,
                     // loaded in later
                     //TODO:- find some way to not break TS when doing this
@@ -155,9 +155,13 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
         })
     }
 
-    async getByIdNums(idNums: number[]) {
+    async getByIdNums(idNums: number[], filterCategories?: SkillCategory[] | null) {
         await this.initialization;
-        return this.getByIds(idNums);
+        const skills = this.getByIds(idNums);
+        if (filterCategories){
+            return skills.filter(skill => filterCategories.includes(skill.category));
+        }
+        return skills;
     }
 
     // NOTE!! idTags are not unique - e.g. Quick Riposte 3 as a PASSIVE_B and Quick Riposte 3 as a PASSIVE_S share the same idTag.
@@ -166,9 +170,13 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
         return this.getByKeys(idTags);
     }
 
-    async getAll() {
+    async getAll(filterCategories?: SkillCategory[] | null) {
         await this.initialization;
-        return this.getAllIds();
+        const skills = this.getAllIds();
+        if (filterCategories){
+            return skills.filter(skill => filterCategories.includes(skill.category));
+        }
+        return skills;
     }
 }
 

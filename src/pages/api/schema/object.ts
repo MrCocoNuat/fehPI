@@ -14,7 +14,7 @@ SkillDefinitionInterface.implement({
     description: "Details about a generic Skill",
     fields: (ofb) => ({
         // by choosing which fields to expose directly or resolve through a function
-        idNum: ofb.exposeInt("idNum", {
+        id: ofb.exposeInt("idNum", {
             nullable: false,
             description: "Unique numeric identifier",
         }),
@@ -207,7 +207,7 @@ export const HeroDefinitionObject = builder.objectRef<HeroDefinition>("HeroDefin
 HeroDefinitionObject.implement({
     description: "Details about a Hero",
     fields: (ofb) => ({
-        idNum: ofb.exposeInt("idNum", {
+        id: ofb.exposeInt("idNum", {
             nullable: false,
             description: "Unique numeric identifier",
         }),

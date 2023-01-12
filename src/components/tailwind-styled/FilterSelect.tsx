@@ -25,7 +25,7 @@ export function FilterSelect<ValueType>({
     isLoading,
 }: {
     id: string,
-    value: ValueType,
+    value?: ValueType,
     onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
     options: Options<ValueAndLabel<ValueType>>,
     className?: string,
@@ -33,7 +33,7 @@ export function FilterSelect<ValueType>({
 }) {
     const selectedLanguage = useContext(LanguageContext);
 
-    const valueAndLabel = options.find(option => option.value === value)!;
+    const valueAndLabel = value === undefined ? undefined : options.find(option => option.value === value)!;
     return <Select
         className={className}
         unstyled={false}

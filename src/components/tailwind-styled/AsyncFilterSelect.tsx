@@ -14,11 +14,11 @@ export function AsyncFilterSelect<ValueType>({
     onChange,
     loadInitialOptions,
     className,
-    otherDependencies: otherDeps,
+    otherDependencies,
 }: {
     id: string,
     // this should work more like HTML select, where you just give a value and the label is automatically applied!
-    value: ValueType,
+    value?: ValueType,
     onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
     loadInitialOptions: (() => Promise<ValueAndLabel<ValueType>[]>),
     className?: string,
@@ -30,10 +30,10 @@ export function AsyncFilterSelect<ValueType>({
         loadInitialOptions().then(initialOptions => {
             setOptions(initialOptions);
         });
-    }, [value, ...(otherDeps ?? [])])
+    }, [value, ...(otherDependencies ?? [])])
 
     return <FilterSelect id={id} className={className}
-        value={value}
+        value={options.length === 0? undefined : value}
         onChange={onChange}
         options={options}
         isLoading={options.length === 0}

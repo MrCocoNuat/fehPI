@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { BattlePane } from "../components/BattlePane";
-import { PING } from "../components/api";
+import { PING } from "../components/api-fragments";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
 import { createContext, useState } from "react";

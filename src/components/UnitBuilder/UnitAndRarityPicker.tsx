@@ -1,16 +1,25 @@
-import { useLazyQuery, useQuery } from "@apollo/client"
+import { gql, useLazyQuery, useQuery } from "@apollo/client"
 import { getAllEnumEntries } from "enum-for"
 import { useCallback, useContext, useEffect, useState } from "react"
 import { Options } from "react-select"
 import { Combatant, Rarity, Unit } from "../../engine/types"
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
-import { GET_ALL_HERO_NAMES } from "../api"
+import { HERO_NAME_FRAG } from "../api-fragments"
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
 import { Select } from "../tailwind-styled/Select"
 import { getUiStringResource } from "../ui-resources"
 
-
+const GET_ALL_HERO_NAMES = gql`
+    ${HERO_NAME_FRAG}
+    query getAllHeroNames($lang: OptionalLanguage!){
+        heroes{
+            id
+            ...HeroName
+        }
+    }
+`;
+type AllHeroNames = { id: number, name: { value: string }, epithet: { value: string } }[];
 
 const rarityStringResourceIds = {
     [Rarity.ONE_STAR]: "UNIT_RARITY_ONE",
@@ -40,8 +49,8 @@ export function UnitAndRarityPicker(
     });
     const loadInitialOptions = useCallback(async () => {
         const queryResult = await getHeroNames();
-        return (queryResult.data.heroes as { idNum: number, name: { value: string }, epithet: { value: string } }[])
-            .map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
+        return (queryResult.data.heroes as AllHeroNames)
+            .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
     }, [selectedLanguage])
 
     console.log("rerender unitpicker");

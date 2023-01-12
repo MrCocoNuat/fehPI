@@ -1,21 +1,34 @@
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { createContext, useContext, useState } from "react";
 import { statsFor } from "../../engine/stat-calculation"
 import { Combatant, MAX_SAFE_DRAGONFLOWERS, Unit } from "../../engine/types";
 import { MovementType, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { GET_SINGLE_HERO } from "../api";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { constrainNumericPropWhenMaxDragonflowersIs, ensureDragonflowerConsistency, LevelAndMergesPicker } from "./LevelAndMergesPicker";
 import { ensureTraitConsistency, TraitPicker } from "./TraitPicker";
 import { SkillsPicker } from "./SkillsPicker";
+import { HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON_FRAG } from "../api-fragments";
 
+
+const GET_SINGLE_HERO = gql`
+    ${HERO_FIVE_STAR_SKILLS_FRAG}
+    ${HERO_MOVEMENT_WEAPON_FRAG}
+    query getHero($id: Int!){
+        heroes(ids: [$id]){
+            id
+            maxDragonflowers
+            ...HeroFiveStarSkills
+            ...HeroMovementWeapon
+        }
+    }
+`;
 
 type SelectedHeroProps = {
-    idNum: number,
+    id: number,
     movementType: MovementType,
     weaponType: WeaponType,
-    skills: { known: { idNum: number, exclusive: boolean }[], learnable: { idNum: number, exclusive: boolean }[] }[],
+    skills: { known: { id: number, exclusive: boolean }[], learnable: { idNum: number, exclusive: boolean }[] }[],
     maxDragonflowers: number
 }
 
@@ -36,14 +49,15 @@ export function UnitBuilder({
 
     const { data: heroData, loading: heroLoading, error: heroError } = useQuery(GET_SINGLE_HERO, {
         variables: {
-            idNum: combatant.unit.idNum,
+            id: combatant.unit.idNum,
         }
     })
 
     // use API data to hydrate interface
     if (!(heroLoading)) {
         const queriedHero = heroData.heroes[0];
-        if (selectedHero === null || queriedHero.idNum !== selectedHero.idNum) {
+        if (selectedHero === null || queriedHero.id !== selectedHero.id) {
+            console.log("updating selected hero")
             updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: MovementType[queriedHero.weaponType] });
         }
     } else {
@@ -80,7 +94,7 @@ export function UnitBuilder({
 
                     <div>{`stats: ${JSON.stringify(stats)}`}</div>
 
-                    <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} />
+                   {/*  <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} /> */}
                 </div>
             </form>
         </SelectedHeroContext.Provider>

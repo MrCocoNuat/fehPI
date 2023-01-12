@@ -1,16 +1,36 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useCallback, useContext } from "react";
 import { Combatant, NULL_SKILL_ID, Unit } from "../../engine/types"
 import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { AllSkillExclusivities, GET_ALL_SKILL_NAMES_EXCLUSIVITIES } from "../api";
+import { SKILL_NAME_FRAG, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { FilterSelect } from "../tailwind-styled/FilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/Select";
 import { getUiStringResource } from "../ui-resources";
 import { SelectedHeroContext } from "./UnitBuilder";
 
-type SkillExclusivity = { idNum: number, exclusive: boolean };
+const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`
+    ${SKILL_RESTRICTIONS_FRAG}
+    ${SKILL_NAME_FRAG}
+    query getAllSkillExclusivityCategory($lang: OptionalLanguage!){
+        skills{
+            id
+            ...SkillRestrictions
+            ...SkillName
+        }
+    }
+`;
+console.log(GET_ALL_SKILL_NAMES_EXCLUSIVITIES);
+type AllSkillExclusivities = {
+    id: number,
+    exclusive: boolean,
+    category: SkillCategory,
+    weaponEquip: (keyof typeof WeaponType)[],
+    movementEquip: (keyof typeof MovementType)[],
+    name: { value: string },
+}[]
+
 
 const inheritablesCache: any = {};
 function getAvailableInheritables(allSkills: AllSkillExclusivities, { weaponType, movementType }: { weaponType: WeaponType, movementType: MovementType }) {
@@ -42,22 +62,22 @@ export function SkillsPicker({
     const [getSkills] = useLazyQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
         variables: { lang: Language[selectedLanguage] }
     });
-    const loadSkills = useCallback(async (killCategory: SkillCategory) => {
-        const queryResult = getSkills();
-        return () => [0];
-    })
+    // const loadSkills = useCallback(async (killCategory: SkillCategory) => {
+    //     const queryResult = getSkills();
+    //     return () => [0];
+    // })
 
-    if (selectedHero !== null) {
+   /*  if (selectedHero !== null) {
         const inheritables = getAvailableInheritables(allSkills, selectedHero);
         const fiveStarSkills = selectedHero.skills[0];
         const exclusives = fiveStarSkills.known.filter(skill => skill.exclusive).concat(fiveStarSkills.learnable.filter(skill => skill.exclusive));
-    }
+    } */
 
-
+/* 
     return <div className="flex">
         <AsyncFilterSelect id={"unit-weapon-skill"} className="w-80"
-        value={currentCombatant.unit.weaponSkillId}
-        onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); } } 
-        loadInitialOptions={loadSkills(SkillCategory.WEAPON)}            />
+            value={currentCombatant.unit.weaponSkillId}
+            onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); }}
+            loadInitialOptions={} />
     </div>
-}
+ */}

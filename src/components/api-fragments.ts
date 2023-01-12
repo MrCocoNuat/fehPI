@@ -12,11 +12,8 @@ export const PING = gql`{
     ping
   }`
 
-export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
-    heroes(idNums: [$idNum]){
-        idNum
-        idTag
-        imageUrl
+export const HERO_STATS_FRAG = gql`
+    fragment HeroStats on HeroDefinition {
         baseStats {
             hp
             atk
@@ -32,26 +29,35 @@ export const GET_SINGLE_HERO = gql`query getHero($idNum: Int!){
             res
         }
         baseVectorId
-        maxDragonflowers
+    }
+`
+
+export const HERO_MOVEMENT_WEAPON_FRAG = gql`
+    fragment HeroMovementWeapon on HeroDefinition {
         movementType
         weaponType
+    }
+`
+
+export const HERO_FIVE_STAR_SKILLS_FRAG = gql`
+    fragment HeroFiveStarSkills on HeroDefinition {
         skills(rarities: FIVE_STARS){
             known{
-                idNum
+                id
                 exclusive
+                category
             }
             learnable{
-                idNum
+              id
                 exclusive
+                category
             }
         }
     }
-}
-`;
+`
 
-export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLanguage!){
-    heroes{
-        idNum
+export const HERO_NAME_FRAG = gql`
+    fragment HeroName on HeroDefinition{    
         name(language: $lang){
             value
         }
@@ -59,31 +65,23 @@ export const GET_ALL_HERO_NAMES = gql`query getAllHeroNames($lang: OptionalLangu
             value
         }
     }
-}
-`;
-export type AllHeroNames = { idNum: number, name: { value: string }, epithet: { value: string } }[];
+`
 
-export const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`query getAllSkillExclusivityCategory($lang: OptionalLanguage!){
-    skills{
-        idNum
-        exclusive
-        category
-        weaponEquip
-        movementEquip
+export const SKILL_NAME_FRAG = gql`
+    fragment SkillName on SkillDefinition {
         name(language: $lang){
             value
         }
     }
-}`
-export type AllSkillExclusivities = {
-    idNum: number,
-    exclusive: boolean,
-    category: SkillCategory,
-    weaponEquip: (keyof typeof WeaponType)[],
-    movementEquip: (keyof typeof MovementType)[],
-    name: { value: string },
-}[]
+`
 
-export const GET_GROWTH_VECTORS = gql`query getGrowthVectors{
-    growthVectors
-}`;
+export const SKILL_RESTRICTIONS_FRAG = gql`
+    fragment SkillRestrictions on SkillDefinition {
+        exclusive
+        category
+        weaponEquip
+        movementEquip
+    }
+`
+
+

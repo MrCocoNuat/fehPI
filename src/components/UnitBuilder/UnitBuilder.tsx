@@ -57,7 +57,6 @@ export function UnitBuilder({
     if (!(heroLoading)) {
         const queriedHero = heroData.heroes[0];
         if (selectedHero === null || queriedHero.id !== selectedHero.id) {
-            console.log("updating selected hero")
             updateSelectedHero({ ...queriedHero, movementType: MovementType[queriedHero.movementType], weaponType: MovementType[queriedHero.weaponType] });
         }
     } else {
@@ -94,7 +93,7 @@ export function UnitBuilder({
 
                     <div>{`stats: ${JSON.stringify(stats)}`}</div>
 
-                   {/*  <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} /> */}
+                   { <SkillsPicker currentCombatant={combatant} mergeChanges={mergeChanges} />}
                 </div>
             </form>
         </SelectedHeroContext.Provider>

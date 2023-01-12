@@ -1,11 +1,11 @@
 import { gql, useLazyQuery, useQuery } from "@apollo/client"
 import { getAllEnumEntries } from "enum-for"
-import { useCallback, useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Options } from "react-select"
 import { Combatant, Rarity, Unit } from "../../engine/types"
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
-import { HERO_NAME_FRAG } from "../api-fragments"
+import { HERO_NAME, HERO_NAME_FRAG } from "../api-fragments"
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
 import { Select } from "../tailwind-styled/Select"
 import { getUiStringResource } from "../ui-resources"
@@ -15,7 +15,7 @@ const GET_ALL_HERO_NAMES = gql`
     query getAllHeroNames($lang: OptionalLanguage!){
         heroes{
             id
-            ...HeroName
+            ...${HERO_NAME}
         }
     }
 `;
@@ -47,8 +47,10 @@ export function UnitAndRarityPicker(
     const [getHeroNames] = useLazyQuery(GET_ALL_HERO_NAMES, {
         variables: { lang: Language[selectedLanguage] },
     });
-    const loadInitialOptions = useCallback(async () => {
+    const loadInitialOptions = useMemo(async () => {
         const queryResult = await getHeroNames();
+        console.log("slowquery for heroes");
+        //DEBUGLOG console.log(queryResult);
         return (queryResult.data.heroes as AllHeroNames)
             .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
     }, [selectedLanguage])
@@ -58,7 +60,7 @@ export function UnitAndRarityPicker(
         <AsyncFilterSelect id="unit-idNum" className="w-80"
             value={currentCombatant.unit.idNum}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-            loadInitialOptions={loadInitialOptions} />
+            loadOptions={loadInitialOptions} />
         <Select id="unit-rarity" className="w-18"
             value={currentCombatant.unit.rarity}
             onChange={(choice) => { mergeChanges("rarity", choice!.value) }}

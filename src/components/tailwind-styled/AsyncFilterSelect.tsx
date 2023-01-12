@@ -12,25 +12,23 @@ export function AsyncFilterSelect<ValueType>({
     id,
     value,
     onChange,
-    loadInitialOptions,
+    loadOptions,
     className,
-    otherDependencies,
 }: {
     id: string,
     // this should work more like HTML select, where you just give a value and the label is automatically applied!
     value?: ValueType,
     onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
-    loadInitialOptions: (() => Promise<ValueAndLabel<ValueType>[]>),
+    loadOptions: Promise<ValueAndLabel<ValueType>[]>,
     className?: string,
-    otherDependencies?: any[],
 }) {
     const [options, setOptions] = useState([] as ValueAndLabel<ValueType>[]);
     useEffect(() => {
         setOptions([]);
-        loadInitialOptions().then(initialOptions => {
+        loadOptions.then(initialOptions => {
             setOptions(initialOptions);
         });
-    }, [value, loadInitialOptions])
+    }, [value, loadOptions])
 
     return <FilterSelect id={id} className={className}
         value={options.length === 0? undefined : value}

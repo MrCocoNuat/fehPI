@@ -98,6 +98,7 @@ export const SKILL_RESTRICTIONS = "SkillRestrictions";
 export const SKILL_RESTRICTIONS_FRAG = gql`
     fragment ${SKILL_RESTRICTIONS} on SkillDefinition {
         exclusive
+        enemyOnly
         category
         weaponEquip
         movementEquip

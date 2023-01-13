@@ -49,7 +49,7 @@ export function UnitAndRarityPicker(
     });
     const loadInitialOptions = useMemo(async () => {
         const queryResult = (await getHeroNames()).data.heroes as AllHeroNames;
-        console.log("slowquery for heroes");
+        console.log("slowquery for heroes, result", queryResult[0].epithet.value);
         //DEBUGLOG console.log(queryResult);
         return queryResult
             .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))

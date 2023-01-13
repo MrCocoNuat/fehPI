@@ -1,7 +1,7 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
 import { filter } from "graphql-yoga";
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { Combatant, Unit } from "../../engine/types"
 import { heroDao } from "../../pages/api/dao/dao-registry";
 import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
@@ -33,15 +33,18 @@ type AllSkillExclusivities = {
 }[]
 
 
+
+
 const inheritablesCache: { [comboKey: number]: AllSkillExclusivities } = {};
 function legalInheritables(allSkills: AllSkillExclusivities, { weaponType, movementType }: { weaponType: WeaponType, movementType: MovementType }) {
     const cacheResult = inheritablesCache[movementType * 1000 + weaponType];
     if (cacheResult !== undefined) {
+        console.log("cache hit for", MovementType[movementType],WeaponType[weaponType], movementType*1000 + weaponType)
         return cacheResult;
     }
-    console.log("cache miss", movementType, weaponType, movementType * 1000 + weaponType)
     const weaponTypeKey = WeaponType[weaponType] as keyof typeof WeaponType;
     const movementTypeKey = MovementType[movementType] as keyof typeof MovementType;
+    console.log("cache miss", movementTypeKey, weaponTypeKey, movementType * 1000 + weaponType)
     const calculatedResult = allSkills
         .filter(skill => !skill.exclusive)
         .filter(skill => skill.weaponEquip.includes(weaponTypeKey))
@@ -60,53 +63,34 @@ export function SkillsPicker({
 }) {
     const selectedLanguage = useContext(LanguageContext);
     const selectedHero = useContext(SelectedHeroContext);
-    console.log("rendering skillpicker for", JSON.stringify(selectedHero))
+    console.log("rendering skillpicker")
 
     const [getSkills] = useLazyQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES, {
         variables: { lang: Language[selectedLanguage] }
     });
 
+    const getSkillsOfCategory = useCallback((skillCategory: SkillCategory) => (async () => {
+        console.log("computing skills for", SkillCategory[skillCategory]);
+        const queryResult = (await getSkills()).data.skills as AllSkillExclusivities;
+        const availableSkills = legalInheritables(queryResult, { weaponType: selectedHero.weaponType, movementType: selectedHero.movementType });
+        const skills = availableSkills
+            .filter(skill => SkillCategory[skill.category] === skillCategory)
+            .map(skill => ({ value: skill.id, label: skill.name.value }));
+        // push on NONE and PRFs
+        skills.push({ value: 0, label: "none" });
+        console.log(SkillCategory[skillCategory], `had ${skills.length} options`)
+        return skills;
+    }), [getSkills, selectedHero.weaponType, selectedHero.movementType, selectedLanguage]);
+
     const skillLoaders = {} as { [skillCategory in SkillCategory]: (Promise<ValueAndLabel<number>[]>) };
-    getAllEnumValues(SkillCategory).forEach(skillCategory =>
-        // STATICALLY defined loops never change, so this is ok
-        skillLoaders[skillCategory] = useMemo((
-            async () => {
-                console.log("computing skills for", SkillCategory[skillCategory]);
-                const queryResult = (await getSkills()).data.skills as AllSkillExclusivities;
-                const availableSkills = legalInheritables(queryResult, { weaponType: selectedHero!.weaponType, movementType: selectedHero!.movementType });
-                const skills = availableSkills
-                    .filter(skill => SkillCategory[skill.category] === skillCategory)
-                    .map(skill => ({ value: skill.id, label: skill.name.value }));
-                // push on NONE and PRFs
-                skills.push({ value: 0, label: "none" });
-                console.log(SkillCategory[skillCategory], `had ${skills.length} options`)
-                return skills;
-            }), [selectedHero?.id, selectedLanguage])
-    )
-
-    // const skillLoaders2: { [skillCategory in SkillCategory]: (Promise<ValueAndLabel<number>[]>) } = useMemo(() => {
-    //     const queryResult = (await getSkills()).data.skills as AllSkillExclusivities;
-    //     // initialise to empty {skillCategory: []}
-    //     const skillsByCategory = getAllEnumValues(SkillCategory)
-    //         .reduce(
-    //             (skillsByCategory, skillCategory) => ({ ...skillsByCategory, [skillCategory]: [] }),
-    //             {}
-    //         ) as { [skillCategory in SkillCategory]: ValueAndLabel<number>[] }
-    //     queryResult.forEach(skill => {
-    //         skillsByCategory[SkillCategory[skill.category]].push(
-    //             { value: skill.id, label: skill.name.value }
-    //         )
-    //     })
-    //     return skillsByCategory
-    // }, [selectedHero.id, selectedLanguage]
-    // )
-
-    /*  if (selectedHero !== null) {
-         const inheritables = getAvailableInheritables(allSkills, selectedHero);
-         const fiveStarSkills = selectedHero.skills[0];
-         const exclusives = fiveStarSkills.known.filter(skill => skill.exclusive).concat(fiveStarSkills.learnable.filter(skill => skill.exclusive));
-     } */
-
+    // rules of hooks!
+    skillLoaders[SkillCategory.WEAPON] = useMemo(getSkillsOfCategory(SkillCategory.WEAPON), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.ASSIST] = useMemo(getSkillsOfCategory(SkillCategory.ASSIST), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.SPECIAL] = useMemo(getSkillsOfCategory(SkillCategory.SPECIAL), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.PASSIVE_A] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_A), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.PASSIVE_B] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_B), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.PASSIVE_C] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_C), [selectedHero.id, selectedLanguage]) 
+    skillLoaders[SkillCategory.PASSIVE_S] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_S), [selectedHero.id, selectedLanguage]) 
 
     return <div className="flex flex-col">
         <AsyncFilterSelect id={"unit-weapon-skill"} className="w-80"

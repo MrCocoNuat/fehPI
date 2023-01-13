@@ -25,13 +25,11 @@ export function AsyncFilterSelect<ValueType>({
     const [options, setOptions] = useState([] as ValueAndLabel<ValueType>[]);
     useEffect(() => {
         setOptions([]);
-        loadOptions.then(initialOptions => {
-            setOptions(initialOptions);
-        });
+        loadOptions.then(initialOptions => setOptions(initialOptions));
     }, [value, loadOptions])
 
     return <FilterSelect id={id} className={className}
-        value={options.length === 0? undefined : value}
+        value={options.length === 0 ? undefined : value}
         onChange={onChange}
         options={options}
         isLoading={options.length === 0}

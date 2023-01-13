@@ -14,7 +14,8 @@ query getGrowthVectors{
 const GET_SINGLE_HERO = gql`
     ${HERO_STATS_FRAG}
     query getHero($id: Int!){
-        heroes(ids: [$id]){
+        heroes(idNums: [$id]){
+            idNum
             ...HeroStats
         }
     }

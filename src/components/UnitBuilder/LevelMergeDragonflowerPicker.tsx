@@ -17,22 +17,22 @@ const GET_MAX_DRAGONFLOWERS_MOVEMENT = gql`
     ${HERO_MAX_DRAGONFLOWERS_FRAG}
     ${HERO_MOVEMENT_WEAPON_FRAG}
     query getExclusiveSkillsMovementWeapon($heroId: Int!){
-        heroes(ids: [$heroId]){
-            id
+        heroes(idNums: [$heroId]){
+            idNum
             ${INCLUDE_FRAG(HERO_MOVEMENT_WEAPON)}
             ${INCLUDE_FRAG(HERO_MAX_DRAGONFLOWERS)}
         }
     }
 `
 type HeroMaxDragonflowersMovement = {
-    id: number,
+    idNum: number,
     maxDragonflowers: number,
     movementType: MovementType,
 }
 
 const mapHeroQuery = (response: any) => response.data.heroes.map((responseHero: any) =>
 ({
-    id: responseHero.id,
+    idNum: responseHero.idNum,
     maxDragonflowers: responseHero.maxDragonflowers,
     movementType: MovementType[responseHero.movementType],
 }))[0] as HeroMaxDragonflowersMovement;

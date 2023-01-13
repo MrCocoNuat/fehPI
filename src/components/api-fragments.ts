@@ -7,6 +7,14 @@ export const apolloClient = new ApolloClient({
         possibleTypes: {
             SkillDefinition: ["WeaponDefinition", "AssistDefinition", "SpecialDefinition", "PassiveSkillDefinition"]
         },
+        typePolicies:{
+            HeroDefinition:{
+                keyFields: ["idNum"],
+            },
+            SkillDefinition: {
+                keyFields: ["idNum"],
+            }
+        }
     }), // wooo free caching
     assumeImmutableResults: true, // a real luxury
 })
@@ -60,7 +68,7 @@ export const HERO_FIVE_STAR_SKILLS_FRAG = gql`
     fragment ${HERO_FIVE_STAR_SKILLS} on HeroDefinition {
         skills(rarities: FIVE_STARS){
             known{
-                id
+                idNum
                 exclusive
                 category
                 name(language: $lang){
@@ -68,7 +76,7 @@ export const HERO_FIVE_STAR_SKILLS_FRAG = gql`
                 }
             }
             learnable{
-              id
+                idNum
                 exclusive
                 category
                 name(language: $lang){

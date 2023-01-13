@@ -16,7 +16,7 @@ const GET_ALL_SKILL_RESTRICTIONS_AND_NAMES = gql`
     ${SKILL_NAME_FRAG}
     query getAllSkillsRestrictionsAndNames($lang: OptionalLanguage!){
         skills{      
-            id
+            idNum
             ...${SKILL_RESTRICTIONS}
             ...${SKILL_NAME}
         }
@@ -24,7 +24,7 @@ const GET_ALL_SKILL_RESTRICTIONS_AND_NAMES = gql`
 `;
 
 type SkillRestrictionsAndNames = {
-    id: number,
+    idNum: number,
     exclusive: boolean,
     enemyOnly: boolean,
     category: SkillCategory,
@@ -49,25 +49,24 @@ const GET_EXCLUSIVE_SKILLS_MOVEMENT_WEAPON = gql`
     ${HERO_FIVE_STAR_SKILLS_FRAG}
     ${HERO_MOVEMENT_WEAPON_FRAG}
     query getExclusiveSkillsMovementWeapon($heroId: Int!, $lang: OptionalLanguage!){
-        heroes(ids: [$heroId]){
-            id
+        heroes(idNums: [$heroId]){
+            idNum
             ...${HERO_FIVE_STAR_SKILLS}
             ...${HERO_MOVEMENT_WEAPON}
         }
     }
 `
 type HeroSkillsMovementWeapon = {
-    id: number,
+    idNum: number,
     movementType: MovementType,
     weaponType: WeaponType,
     skills: {
-        known: { id: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[],
-        learnable: { id: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[]
+        known: { idNum: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[],
+        learnable: { idNum: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[]
     },
 }
-
 const mapHeroQuery = (response: any) => response.data.heroes.map((responseHero: any) => ({
-    id: responseHero.id,
+    idNum: responseHero.idNum,
     movementType: MovementType[responseHero.movementType],
     weaponType: WeaponType[responseHero.weaponType],
     // and also extract the five star skills array element
@@ -113,15 +112,16 @@ const skillLoaderFor = async (
     const skillQueryResult = mapSkillsQuery(await skillsQuery())
     const heroQueryResult = mapHeroQuery(await heroQuery())
 
+
     const valuesAndLabels = [{ value: NONE_SKILL_ID, label: getUiStringResource(language, "UNIT_SKILL_NONE") }];
     return valuesAndLabels.concat(
         getExclusives(heroQueryResult)
             .filter(skill => skill.category === wantedCategory)
-            .map(skill => ({ value: skill.id, label: skill.name.value })),
+            .map(skill => ({ value: skill.idNum, label: skill.name.value })),
         skillQueryResult
             .filter(skill => skill.category === wantedCategory)
             .filter(skill => isLegalInheritable(skill, heroQueryResult))
-            .map(skill => ({ value: skill.id, label: skill.name.value }))
+            .map(skill => ({ value: skill.idNum, label: skill.name.value }))
     )
 }
 
@@ -150,7 +150,6 @@ export function SkillsPicker({
                 lang: OptionalLanguage[selectedLanguage],
             }
         });
-
 
     // rules of hooks!
     const [weaponSkillLoader, setWeaponSkillLoader] = useState(() => () => {

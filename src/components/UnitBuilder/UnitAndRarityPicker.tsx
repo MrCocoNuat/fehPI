@@ -17,12 +17,12 @@ const GET_ALL_HERO_NAMES = gql`
     ${HERO_NAME_FRAG}
     query getAllHeroNames($lang: OptionalLanguage!){
         heroes{
-            id
+            idNum
             ...${HERO_NAME}
         }
     }
 `;
-type AllHeroNames = { id: number, name: { value: string }, epithet: { value: string } }[];
+type AllHeroNames = { idNum: number, name: { value: string }, epithet: { value: string } }[];
 
 const mapHeroesQuery = (response: any) => response.data.heroes as AllHeroNames;
 
@@ -51,7 +51,7 @@ const heroesLoaderFor = async (
 
     const heroesQueryResult = mapHeroesQuery(await heroesQuery());
     const valuesAndLabels = heroesQueryResult
-        .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
+        .map(hero => ({ value: hero.idNum, label: `${hero.name.value}: ${hero.epithet.value}` }))
     return valuesAndLabels;
 }
 

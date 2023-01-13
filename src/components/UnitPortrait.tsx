@@ -6,7 +6,8 @@ import Image from "next/image";
 
 const GET_SINGLE_HERO = gql`
 query getHero($id: Int!){
-    heroes(ids: [$id]){
+    heroes(idNums: [$id]){
+        idNum
         idTag
         imageUrl
     }

@@ -1,21 +1,20 @@
-import { gql, useLazyQuery } from "@apollo/client";
-import { getAllEnumValues } from "enum-for";
-import { filter } from "graphql-yoga";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
 import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types"
-import { heroDao } from "../../pages/api/dao/dao-registry";
 import { Language, MovementType, OptionalLanguage, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
+import { HERO_FIVE_STAR_SKILLS, HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
-import { ValueAndLabel } from "../tailwind-styled/Select";
 import { getUiStringResource } from "../ui-resources";
-import { SelectedHeroContext } from "./UnitBuilder";
+import { SelectedHeroIdContext } from "./UnitBuilder";
 
-const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`
+// Query
+// ----------
+
+const GET_ALL_SKILL_RESTRICTIONS_AND_NAMES = gql`
     ${SKILL_RESTRICTIONS_FRAG}
     ${SKILL_NAME_FRAG}
-    query getAllSkillExclusivityCategory($lang: OptionalLanguage!){
+    query getAllSkillsRestrictionsAndNames($lang: OptionalLanguage!){
         skills{      
             id
             ...${SKILL_RESTRICTIONS}
@@ -24,7 +23,7 @@ const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`
     }
 `;
 
-type AllSkillExclusivities = {
+type SkillRestrictionsAndNames = {
     id: number,
     exclusive: boolean,
     enemyOnly: boolean,
@@ -34,31 +33,101 @@ type AllSkillExclusivities = {
     name: { value: string },
 }[]
 
+const mapSkillsQuery = (response: any) =>
+    response.data.skills.map((responseSkill: any) => ({
+        ...responseSkill,
+        // enum keys to enum values
+        category: SkillCategory[responseSkill.category],
+        weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
+        movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
+    })) as SkillRestrictionsAndNames;
 
-function getExclusives({ skills }: {
+// Query
+// ----------
+
+const GET_EXCLUSIVE_SKILLS_MOVEMENT_WEAPON = gql`
+    ${HERO_FIVE_STAR_SKILLS_FRAG}
+    ${HERO_MOVEMENT_WEAPON_FRAG}
+    query getExclusiveSkillsMovementWeapon($heroId: Int!, $lang: OptionalLanguage!){
+        heroes(ids: [$heroId]){
+            id
+            ...${HERO_FIVE_STAR_SKILLS}
+            ...${HERO_MOVEMENT_WEAPON}
+        }
+    }
+`
+type HeroSkillsMovementWeapon = {
+    id: number,
+    movementType: MovementType,
+    weaponType: WeaponType,
     skills: {
         known: { id: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[],
         learnable: { id: number, exclusive: boolean, category: SkillCategory, name: { value: string } }[]
     },
-}) {
+}
+
+const mapHeroQuery = (response: any) => response.data.heroes.map((responseHero: any) => ({
+    id: responseHero.id,
+    movementType: MovementType[responseHero.movementType],
+    weaponType: WeaponType[responseHero.weaponType],
+    // and also extract the five star skills array element
+    skills: {
+        known: responseHero.skills[0].known.map((skill: any) => ({ ...skill, category: SkillCategory[skill.category] })),
+        learnable: responseHero.skills[0].learnable.map((skill: any) => ({ ...skill, category: SkillCategory[skill.category] }))
+    }
+}))[0] as HeroSkillsMovementWeapon;
+
+
+// Helpers
+// ----------
+
+function getExclusives({ skills }: HeroSkillsMovementWeapon) {
     // TODO:- PRF EVOLUTIONS
     return [...skills.known, ...skills.learnable].filter(skill => skill.exclusive);
 }
 
-function isLegalInheritable(skill: {
-    exclusive: boolean,
-    enemyOnly: boolean,
-    weaponEquip: WeaponType[],
-    movementEquip: MovementType[]
-}, { weaponType, movementType }: {
-    weaponType: WeaponType, movementType: MovementType
-}) {
+function isLegalInheritable(
+    skill: {
+        exclusive: boolean,
+        enemyOnly: boolean,
+        weaponEquip: WeaponType[],
+        movementEquip: MovementType[]
+    },
+    { weaponType, movementType }: HeroSkillsMovementWeapon) {
     return (!skill.exclusive
         && !skill.enemyOnly
         && skill.weaponEquip.includes(weaponType)
         && skill.movementEquip.includes(movementType))
 }
 
+// Loader
+// ----------
+
+const skillLoaderFor = async (
+    skillsQuery: LazyQueryExecFunction<any, any>,
+    heroQuery: LazyQueryExecFunction<any, any>,
+    wantedCategory: SkillCategory,
+    language: Language
+) => {
+
+    const skillQueryResult = mapSkillsQuery(await skillsQuery())
+    const heroQueryResult = mapHeroQuery(await heroQuery())
+
+    const valuesAndLabels = [{ value: NONE_SKILL_ID, label: getUiStringResource(language, "UNIT_SKILL_NONE") }];
+    return valuesAndLabels.concat(
+        getExclusives(heroQueryResult)
+            .filter(skill => skill.category === wantedCategory)
+            .map(skill => ({ value: skill.id, label: skill.name.value })),
+        skillQueryResult
+            .filter(skill => skill.category === wantedCategory)
+            .filter(skill => isLegalInheritable(skill, heroQueryResult))
+            .map(skill => ({ value: skill.id, label: skill.name.value }))
+    )
+}
+
+
+// Component
+// ----------
 
 export function SkillsPicker({
     currentCombatant,
@@ -68,78 +137,66 @@ export function SkillsPicker({
     mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
 }) {
     const selectedLanguage = useContext(LanguageContext);
-    const selectedHero = useContext(SelectedHeroContext);
+    const selectedHeroId = useContext(SelectedHeroIdContext);
     console.log("rendering skillpicker")
 
-    const [getSkillsRequest] = useLazyQuery(GET_ALL_SKILL_NAMES_EXCLUSIVITIES,
+    const [skillQuery] = useLazyQuery(GET_ALL_SKILL_RESTRICTIONS_AND_NAMES,
         { variables: { lang: OptionalLanguage[selectedLanguage] } }
     );
+    const [heroQuery] = useLazyQuery(GET_EXCLUSIVE_SKILLS_MOVEMENT_WEAPON,
+        {
+            variables: {
+                heroId: selectedHeroId,
+                lang: OptionalLanguage[selectedLanguage],
+            }
+        });
 
-    const skillLoaderFor = async (wantedCategory: SkillCategory) => {
-        const queryResult = (await getSkillsRequest()).data.skills.map((responseSkill: any) => ({
-            ...responseSkill,
-            // enum keys to enum values
-            category: SkillCategory[responseSkill.category],
-            weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
-            movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
-        })) as AllSkillExclusivities;
-        const mapped = [{ value: NONE_SKILL_ID, label: getUiStringResource(selectedLanguage, "UNIT_SKILL_NONE") }];
-        return mapped.concat(
-            getExclusives(selectedHero)
-                .filter(skill => skill.category === wantedCategory)
-                .map(skill => ({ value: skill.id, label: skill.name.value })),
-            queryResult
-                .filter(skill => skill.category === wantedCategory)
-                .filter(skill => isLegalInheritable(skill, selectedHero))
-                .map(skill => ({ value: skill.id, label: skill.name.value }))
-        )
-    }
 
-    // rules of hooks
+    // rules of hooks!
     const [weaponSkillLoader, setWeaponSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.WEAPON);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.WEAPON, selectedLanguage);
     });
     const [assistSkillLoader, setAssistSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.ASSIST);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.ASSIST, selectedLanguage);
     });
     const [specialSkillLoader, setSpecialSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.SPECIAL);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.SPECIAL, selectedLanguage);
     });
     const [passiveASkillLoader, setPassiveASkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.PASSIVE_A);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_A, selectedLanguage);
     });
     const [passiveBSkillLoader, setPassiveBSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.PASSIVE_B);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_B, selectedLanguage);
     });
     const [passiveCSkillLoader, setPassiveCSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.PASSIVE_C);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_C, selectedLanguage);
     });
     const [passiveSSkillLoader, setPassiveSSkillLoader] = useState(() => () => {
-        return skillLoaderFor(SkillCategory.PASSIVE_S);
+        return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_S, selectedLanguage);
     });
     useEffect(() => {
         setWeaponSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.WEAPON);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.WEAPON, selectedLanguage);
         });
         setAssistSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.ASSIST);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.ASSIST, selectedLanguage);
         });
         setSpecialSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.SPECIAL);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.SPECIAL, selectedLanguage);
         });
         setPassiveASkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.PASSIVE_A);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_A, selectedLanguage);
         });
         setPassiveBSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.PASSIVE_B);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_B, selectedLanguage);
         });
         setPassiveCSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.PASSIVE_C);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_C, selectedLanguage);
         });
         setPassiveSSkillLoader(() => () => {
-            return skillLoaderFor(SkillCategory.PASSIVE_S);
+            return skillLoaderFor(skillQuery, heroQuery, SkillCategory.PASSIVE_S, selectedLanguage);
         });
-    }, [selectedLanguage, selectedHero.id]);
+    }, [selectedLanguage, selectedHeroId]);
 
 
     return <div className="flex flex-col">

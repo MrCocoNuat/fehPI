@@ -7,12 +7,14 @@ export function NumericInput({
     value,
     onChange,
     minMax,
+    disabled,
     className,
 }: {
     id: string,
     value: number,
-    onChange: ChangeEventHandler<HTMLInputElement>,
-    minMax?: { min?: number, max?: number },
+    onChange?: ChangeEventHandler<HTMLInputElement>,
+    minMax: { min?: number, max?: number },
+    disabled?: boolean,
     className?: string,
 }) {
     return <input
@@ -20,6 +22,7 @@ export function NumericInput({
         className={`${className} ${defaultCss}`}
         type="number"
         value={value}
+        disabled={disabled}
         min={minMax?.min}
         max={minMax?.max}
         onChange={onChange}></input>

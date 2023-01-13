@@ -16,8 +16,12 @@ export const PING = gql`{
     ping
   }`
 
+
+export const INCLUDE_FRAG = (fragmentName: string) => `...${fragmentName}`;
+
+export const HERO_STATS = "HeroStats";
 export const HERO_STATS_FRAG = gql`
-    fragment HeroStats on HeroDefinition {
+    fragment ${HERO_STATS} on HeroDefinition {
         baseStats {
             hp
             atk
@@ -36,15 +40,24 @@ export const HERO_STATS_FRAG = gql`
     }
 `
 
+export const HERO_MAX_DRAGONFLOWERS = "HeroMaxDragonflowers";
+export const HERO_MAX_DRAGONFLOWERS_FRAG = gql`
+    fragment ${HERO_MAX_DRAGONFLOWERS} on HeroDefinition {
+        maxDragonflowers
+    }
+`
+
+export const HERO_MOVEMENT_WEAPON = "HeroMovementWeapon";
 export const HERO_MOVEMENT_WEAPON_FRAG = gql`
-    fragment HeroMovementWeapon on HeroDefinition {
+    fragment ${HERO_MOVEMENT_WEAPON} on HeroDefinition {
         movementType
         weaponType
     }
 `
 
+export const HERO_FIVE_STAR_SKILLS = "HeroFiveStarSkills";
 export const HERO_FIVE_STAR_SKILLS_FRAG = gql`
-    fragment HeroFiveStarSkills on HeroDefinition {
+    fragment ${HERO_FIVE_STAR_SKILLS} on HeroDefinition {
         skills(rarities: FIVE_STARS){
             known{
                 id

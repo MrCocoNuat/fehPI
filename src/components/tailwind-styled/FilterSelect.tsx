@@ -1,7 +1,7 @@
-import { Options, SingleValue } from "react-select"
+import { Options, SelectInstance, SingleValue } from "react-select"
 import Select from "react-select";
 import { getUiStringResource } from "../ui-resources";
-import { useContext } from "react";
+import { MutableRefObject, RefObject, useContext, useRef } from "react";
 import { LanguageContext } from "../../pages/testpage";
 import { ValueAndLabel } from "./Select";
 
@@ -15,7 +15,7 @@ import { ValueAndLabel } from "./Select";
  Another strategy to increase scrollover speed is to replace the Option component with one that throws out onMouseMove and onMouseOver event handlers,
  but this makes keyboard navigation not cooperate with the mouse, so this is also a no go unless performance is so bad that it is necessary.
 */
-
+const BLANK = " ";
 export function FilterSelect<ValueType>({
     id,
     value,
@@ -42,6 +42,7 @@ export function FilterSelect<ValueType>({
         id={id}
         value={valueAndLabel}
         onChange={onChange}
+        placeholder={""}
         noOptionsMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         loadingMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_LOADING") as string}
         options={options}

@@ -37,7 +37,7 @@ export function getUiStringResource(language: Language, resouceId: keyof typeof 
 }
 
 
-export function dragonflowerImage(movementType: MovementType) {
+export function dragonflowerImage(movementType?: MovementType) {
     switch (movementType) {
         case MovementType.INFANTRY:
             return <Image src={"/icons/dragonflower/Dragonflower_I.webp"} alt={"DF-I"} fill={true} />;
@@ -47,6 +47,8 @@ export function dragonflowerImage(movementType: MovementType) {
             return <Image src={"/icons/dragonflower/Dragonflower_F.webp"} alt={"DF-F"} fill={true} />;
         case MovementType.CAVALRY:
             return <Image src={"/icons/dragonflower/Dragonflower_C.webp"} alt={"DF-C"} fill={true} />;
+        default:
+            return null;
     }
 }
 

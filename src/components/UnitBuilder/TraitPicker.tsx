@@ -6,6 +6,12 @@ import { LanguageContext } from "../../pages/testpage";
 import { Select } from "../tailwind-styled/Select";
 import { ascendantFloretImage, getUiStringResource } from "../ui-resources";
 
+// No Queries
+
+
+// Helpers
+// ----------
+
 const statStringResourceIds = {
     [OptionalStat.HP]: "UNIT_STAT_HP",
     [OptionalStat.ATK]: "UNIT_STAT_ATK",
@@ -17,6 +23,11 @@ const statStringResourceIds = {
 function statStringsForLanguage(language: Language) {
     return (stat: OptionalStat) => getUiStringResource(language, statStringResourceIds[stat]);
 }
+
+// No Loaders
+
+// Component
+// ---------
 
 export function TraitPicker({
     currentCombatant,
@@ -65,6 +76,11 @@ export function TraitPicker({
         </div>
     </div>
 }
+
+
+// Exports
+// ---------
+
 
 function pickANonNoneStat(...notEqualToAnyOfThese: OptionalStat[]) {
     // this is never called with enough excluded stats to get a undefined answer

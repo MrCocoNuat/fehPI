@@ -1,14 +1,17 @@
-import { gql, useLazyQuery, useQuery } from "@apollo/client"
+import { gql, LazyQueryExecFunction, useLazyQuery, useQuery } from "@apollo/client"
 import { getAllEnumEntries } from "enum-for"
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Options } from "react-select"
-import { Combatant, Rarity, Unit } from "../../engine/types"
+import { Combatant, constrainNumeric, MAX_RARITY, MIN_RARITY, Rarity, Unit } from "../../engine/types"
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
 import { HERO_NAME, HERO_NAME_FRAG } from "../api-fragments"
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
 import { Select } from "../tailwind-styled/Select"
 import { getUiStringResource } from "../ui-resources"
+
+// Query
+// ----------
 
 const GET_ALL_HERO_NAMES = gql`
     ${HERO_NAME_FRAG}
@@ -21,6 +24,12 @@ const GET_ALL_HERO_NAMES = gql`
 `;
 type AllHeroNames = { id: number, name: { value: string }, epithet: { value: string } }[];
 
+const mapHeroesQuery = (response: any) => response.data.heroes as AllHeroNames;
+
+
+// Helpers
+// ----------
+
 const rarityStringResourceIds = {
     [Rarity.ONE_STAR]: "UNIT_RARITY_ONE",
     [Rarity.TWO_STARS]: "UNIT_RARITY_TWO",
@@ -31,6 +40,24 @@ const rarityStringResourceIds = {
 function rarityStringForLanguage(langauge: Language) {
     return (rarity: Rarity) => getUiStringResource(langauge, rarityStringResourceIds[rarity]);
 }
+
+
+// Loader
+// ----------
+
+const heroesLoaderFor = async (
+    heroesQuery: LazyQueryExecFunction<any, any>,
+) => {
+
+    const heroesQueryResult = mapHeroesQuery(await heroesQuery());
+    const valuesAndLabels = heroesQueryResult
+        .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
+    return valuesAndLabels;
+}
+
+
+// Component
+// ----------
 
 export function UnitAndRarityPicker(
     {
@@ -44,21 +71,16 @@ export function UnitAndRarityPicker(
     const selectedLanguage = useContext(LanguageContext);
     const rarityString = rarityStringForLanguage(selectedLanguage);
 
-    const [getHeroNames] = useLazyQuery(GET_ALL_HERO_NAMES, {
+    const [heroesQuery] = useLazyQuery(GET_ALL_HERO_NAMES, {
         variables: { lang: Language[selectedLanguage] },
     });
 
-    const [loadHeroes, setLoadHeroes] = useState(() => async () => {
-        const queryResult = (await getHeroNames()).data.heroes as AllHeroNames;
-        return queryResult
-            .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
+
+    const [heroesLoader, setHeroesLoader] = useState(() => () => {
+        return heroesLoaderFor(heroesQuery)
     })
-    useEffect(() => setLoadHeroes(
-        () => async () => {
-            const queryResult = (await getHeroNames()).data.heroes as AllHeroNames;
-            return queryResult
-                .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
-        }
+    useEffect(() => setHeroesLoader(
+        () => () => heroesLoaderFor(heroesQuery)
     ), [selectedLanguage])
 
     console.log("rerender unitpicker");
@@ -66,10 +88,10 @@ export function UnitAndRarityPicker(
         <AsyncFilterSelect id="unit-idNum" className="w-80"
             value={currentCombatant.unit.idNum}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-            loadOptions={loadHeroes} />
+            loadOptions={heroesLoader} />
         <Select id="unit-rarity" className="w-18"
             value={currentCombatant.unit.rarity}
-            onChange={(choice) => { mergeChanges("rarity", choice!.value) }}
+            onChange={(choice) => { mergeChanges("rarity", constrainNumeric(choice!.value, MIN_RARITY, MAX_RARITY)) }}
             options={
                 getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))
             } />

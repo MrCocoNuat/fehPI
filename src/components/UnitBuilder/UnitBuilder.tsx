@@ -1,14 +1,10 @@
-import { gql, useQuery } from "@apollo/client";
-import { createContext, useContext, useState } from "react";
+import { createContext } from "react";
 import { statsFor } from "../../engine/stat-calculation"
-import { Combatant, MAX_SAFE_DRAGONFLOWERS, Unit } from "../../engine/types";
-import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
-import { LanguageContext } from "../../pages/testpage";
+import { Combatant, Unit } from "../../engine/types";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
 import { ensureTraitConsistency as ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { SkillsPicker } from "./SkillsPicker";
-import { HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON_FRAG } from "../api-fragments";
 
 
 
@@ -21,7 +17,7 @@ export function UnitBuilder({
     combatant: Combatant,
     updater: (newCombatant: Combatant) => void,
 }) {
-    const [selectedHeroId, updateSelectedHeroId] = useState(combatant.unit.idNum);
+    const selectedHeroId = combatant.unit.idNum; 
 
     //TODO:- probably should be a useEffect instead
     const stats = statsFor(combatant.unit);
@@ -31,7 +27,6 @@ export function UnitBuilder({
         ensureTraitValidity(copyUnit, prop);
         ensureDragonflowerValidity(copyUnit, prop);
 
-        if (prop === "idNum") updateSelectedHeroId(value as number);
         updater({ ...combatant, unit: copyUnit });
     }
 

@@ -50,11 +50,17 @@ export const HERO_FIVE_STAR_SKILLS_FRAG = gql`
                 id
                 exclusive
                 category
+                name(language: $lang){
+                    value
+                }
             }
             learnable{
               id
                 exclusive
                 category
+                name(language: $lang){
+                    value
+                }
             }
         }
     }

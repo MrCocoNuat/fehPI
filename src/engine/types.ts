@@ -32,8 +32,8 @@ export enum Rarity {
 export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RARITY: Rarity.FIVE_STARS };
 
 // 0 is explicitly no skill - don't use null!
-export const NULL_SKILL_ID = 0;
-type NULL_SKILL = typeof NULL_SKILL_ID;
+export const NONE_SKILL_ID = 0;
+type NONE_SKILL = typeof NONE_SKILL_ID;
 
 export type Unit = {
     idNum: number,
@@ -46,13 +46,13 @@ export type Unit = {
     flaw: OptionalStat,
     ascension: OptionalStat,
 
-    weaponSkillId: number | NULL_SKILL,
-    assistSkillId: number | NULL_SKILL,
-    specialSkillId: number | NULL_SKILL,
-    passiveASkillId: number | NULL_SKILL,
-    passiveBSkillId: number | NULL_SKILL,
-    passiveCSkillId: number | NULL_SKILL,
-    passiveSSkillId: number | NULL_SKILL,
+    weaponSkillId: number | NONE_SKILL,
+    assistSkillId: number | NONE_SKILL,
+    specialSkillId: number | NONE_SKILL,
+    passiveASkillId: number | NONE_SKILL,
+    passiveBSkillId: number | NONE_SKILL,
+    passiveCSkillId: number | NONE_SKILL,
+    passiveSSkillId: number | NONE_SKILL,
     // blessing
     //support
 }

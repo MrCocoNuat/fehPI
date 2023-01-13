@@ -25,6 +25,7 @@ export function AsyncFilterSelect<ValueType>({
     const [options, setOptions] = useState([] as ValueAndLabel<ValueType>[]);
     useEffect(() => {
         setOptions([]);
+        console.log(`AsyncFilterSelect with id ${id} refreshed options`)
         loadOptions.then(initialOptions => setOptions(initialOptions));
     }, [value, loadOptions])
 

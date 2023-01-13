@@ -15,7 +15,7 @@ export function UnitTeamComponent(
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
     }) {
-        
+
     return <div className="flex">{
         units.map((unit, i) => <UnitPortrait key={i} combatant={unit}
             clickHandler={(evt) => { evt.stopPropagation(); updateFocus({ focusType: FocusType.TEAM_UNIT, focusInfo: (team === Team.PLAYER) ? i : i + 7 }) }}

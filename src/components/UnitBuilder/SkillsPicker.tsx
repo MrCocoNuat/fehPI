@@ -2,13 +2,14 @@ import { gql, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
 import { filter } from "graphql-yoga";
 import { useCallback, useContext, useMemo } from "react";
-import { Combatant, Unit } from "../../engine/types"
+import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types"
 import { heroDao } from "../../pages/api/dao/dao-registry";
 import { Language, MovementType, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/Select";
+import { getUiStringResource } from "../ui-resources";
 import { SelectedHeroContext } from "./UnitBuilder";
 
 const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`
@@ -26,9 +27,9 @@ const GET_ALL_SKILL_NAMES_EXCLUSIVITIES = gql`
 type AllSkillExclusivities = {
     id: number,
     exclusive: boolean,
-    category: keyof typeof SkillCategory,
-    weaponEquip: (keyof typeof WeaponType)[],
-    movementEquip: (keyof typeof MovementType)[],
+    category: SkillCategory,
+    weaponEquip: WeaponType[],
+    movementEquip: MovementType[],
     name: { value: string },
 }[]
 
@@ -39,16 +40,14 @@ const inheritablesCache: { [comboKey: number]: AllSkillExclusivities } = {};
 function legalInheritables(allSkills: AllSkillExclusivities, { weaponType, movementType }: { weaponType: WeaponType, movementType: MovementType }) {
     const cacheResult = inheritablesCache[movementType * 1000 + weaponType];
     if (cacheResult !== undefined) {
-        console.log("cache hit for", MovementType[movementType],WeaponType[weaponType], movementType*1000 + weaponType)
+        console.log("cache hit for", MovementType[movementType], WeaponType[weaponType], movementType * 1000 + weaponType)
         return cacheResult;
     }
-    const weaponTypeKey = WeaponType[weaponType] as keyof typeof WeaponType;
-    const movementTypeKey = MovementType[movementType] as keyof typeof MovementType;
-    console.log("cache miss", movementTypeKey, weaponTypeKey, movementType * 1000 + weaponType)
+    console.log("cache miss", MovementType[movementType], WeaponType[weaponType], movementType * 1000 + weaponType)
     const calculatedResult = allSkills
         .filter(skill => !skill.exclusive)
-        .filter(skill => skill.weaponEquip.includes(weaponTypeKey))
-        .filter(skill => skill.movementEquip.includes(movementTypeKey));
+        .filter(skill => skill.weaponEquip.includes(weaponType))
+        .filter(skill => skill.movementEquip.includes(movementType));
     inheritablesCache[movementType * 1000 + weaponType] = calculatedResult;
     return calculatedResult;
 }
@@ -69,57 +68,75 @@ export function SkillsPicker({
         variables: { lang: Language[selectedLanguage] }
     });
 
-    const getSkillsOfCategory = useCallback((skillCategory: SkillCategory) => (async () => {
-        console.log("computing skills for", SkillCategory[skillCategory]);
-        const queryResult = (await getSkills()).data.skills as AllSkillExclusivities;
-        const availableSkills = legalInheritables(queryResult, { weaponType: selectedHero.weaponType, movementType: selectedHero.movementType });
-        const skills = availableSkills
-            .filter(skill => SkillCategory[skill.category] === skillCategory)
-            .map(skill => ({ value: skill.id, label: skill.name.value }));
-        // push on NONE and PRFs
-        skills.push({ value: 0, label: "none" });
-        console.log(SkillCategory[skillCategory], `had ${skills.length} options`)
-        return skills;
-    }), [getSkills, selectedHero.weaponType, selectedHero.movementType, selectedLanguage]);
+    const availableSkills = useMemo(() => getSkills()
+        .then(response => response.data.skills
+            .map((responseSkill: any) => ({
+                ...responseSkill,
+                // enum keys to enum values
+                category: SkillCategory[responseSkill.category],
+                weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
+                movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
+            })) as AllSkillExclusivities)
+        .then(allSkills => legalInheritables(allSkills, selectedHero))
+        .then(x => {console.log("skills re-memoed");return x;}),
+        [selectedHero.id, selectedLanguage])
 
-    const skillLoaders = {} as { [skillCategory in SkillCategory]: (Promise<ValueAndLabel<number>[]>) };
-    // rules of hooks!
-    skillLoaders[SkillCategory.WEAPON] = useMemo(getSkillsOfCategory(SkillCategory.WEAPON), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.ASSIST] = useMemo(getSkillsOfCategory(SkillCategory.ASSIST), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.SPECIAL] = useMemo(getSkillsOfCategory(SkillCategory.SPECIAL), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.PASSIVE_A] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_A), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.PASSIVE_B] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_B), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.PASSIVE_C] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_C), [selectedHero.id, selectedLanguage]) 
-    skillLoaders[SkillCategory.PASSIVE_S] = useMemo(getSkillsOfCategory(SkillCategory.PASSIVE_S), [selectedHero.id, selectedLanguage]) 
+    const NONE_SKILL_VALUE_AND_LABEL = { value: NONE_SKILL_ID, label: getUiStringResource(selectedLanguage, "UNIT_SKILL_NONE") };
+    const skillLoader: (desiredSkillCategory: SkillCategory) => (Promise<ValueAndLabel<number>[]>) = useCallback(async (desiredSkillCategory) => {
+        const skills = (await availableSkills)
+            // tack on skills exclusive to the hero,
+            // both known
+            .concat(selectedHero.skills.known
+                .filter(skill => skill.exclusive)
+                // and give them dummy weapon and movementEquip so they match type
+                .map(skill => ({ ...skill, weaponEquip: [], movementEquip: [] })))
+            // and learnable
+            .concat(selectedHero.skills.learnable
+                .filter(skill => skill.exclusive)
+                .map(skill => ({ ...skill, weaponEquip: [], movementEquip: [] })))
+            .filter(skill => skill.category === desiredSkillCategory)
+            .map(skill => ({ value: skill.id, label: skill.name.value }))
+        // finally add the None skill
+        skills.push(NONE_SKILL_VALUE_AND_LABEL);
+        return skills;
+    }, [selectedHero.id, selectedLanguage]);
+
+    const weaponSkillLoader = useMemo(() => skillLoader(SkillCategory.WEAPON), [selectedHero.id, selectedLanguage]);
+    const assistSkillLoader = useMemo(() => skillLoader(SkillCategory.ASSIST), [selectedHero.id, selectedLanguage]);
+    const specialSkillLoader = useMemo(() => skillLoader(SkillCategory.SPECIAL), [selectedHero.id, selectedLanguage]);
+    const passiveASkillLoader = useMemo(() => skillLoader(SkillCategory.PASSIVE_A), [selectedHero.id, selectedLanguage]);
+    const passiveBSkillLoader = useMemo(() => skillLoader(SkillCategory.PASSIVE_B), [selectedHero.id, selectedLanguage]);
+    const passiveCSkillLoader = useMemo(() => skillLoader(SkillCategory.PASSIVE_C), [selectedHero.id, selectedLanguage]);
+    const passiveSSkillLoader = useMemo(() => skillLoader(SkillCategory.PASSIVE_S), [selectedHero.id, selectedLanguage]);
 
     return <div className="flex flex-col">
         <AsyncFilterSelect id={"unit-weapon-skill"} className="w-80"
             value={currentCombatant.unit.weaponSkillId}
             onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.WEAPON]} />
+            loadOptions={weaponSkillLoader} />
         <AsyncFilterSelect id={"unit-assist-skill"} className="w-80"
             value={currentCombatant.unit.assistSkillId}
             onChange={(choice) => { mergeChanges("assistSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.ASSIST]} />
+            loadOptions={assistSkillLoader} />
         <AsyncFilterSelect id={"unit-special-skill"} className="w-80"
             value={currentCombatant.unit.specialSkillId}
             onChange={(choice) => { mergeChanges("specialSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.SPECIAL]} />
+            loadOptions={specialSkillLoader} />
         <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80"
             value={currentCombatant.unit.passiveASkillId}
             onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.PASSIVE_A]} />
+            loadOptions={passiveASkillLoader} />
         <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80"
-            value={currentCombatant.unit.passiveASkillId}
+            value={currentCombatant.unit.passiveBSkillId}
             onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.PASSIVE_B]} />
+            loadOptions={passiveBSkillLoader} />
         <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80"
-            value={currentCombatant.unit.passiveASkillId}
+            value={currentCombatant.unit.passiveCSkillId}
             onChange={(choice) => { mergeChanges("passiveCSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.PASSIVE_C]} />
+            loadOptions={passiveCSkillLoader} />
         <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80"
-            value={currentCombatant.unit.passiveASkillId}
+            value={currentCombatant.unit.passiveSSkillId}
             onChange={(choice) => { mergeChanges("passiveSSkillId", +choice!.value); }}
-            loadOptions={skillLoaders[SkillCategory.PASSIVE_S]} />
+            loadOptions={passiveSSkillLoader} />
     </div>
 }

@@ -47,20 +47,26 @@ export function UnitAndRarityPicker(
     const [getHeroNames] = useLazyQuery(GET_ALL_HERO_NAMES, {
         variables: { lang: Language[selectedLanguage] },
     });
-    const loadInitialOptions = useMemo(async () => {
+
+    const [loadHeroes, setLoadHeroes] = useState(() => async () => {
         const queryResult = (await getHeroNames()).data.heroes as AllHeroNames;
-        console.log("slowquery for heroes, result", queryResult[0].epithet.value);
-        //DEBUGLOG console.log(queryResult);
         return queryResult
             .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
-    }, [selectedLanguage])
+    })
+    useEffect(() => setLoadHeroes(
+        () => async () => {
+            const queryResult = (await getHeroNames()).data.heroes as AllHeroNames;
+            return queryResult
+                .map(hero => ({ value: hero.id, label: `${hero.name.value}: ${hero.epithet.value}` }))
+        }
+    ), [selectedLanguage])
 
     console.log("rerender unitpicker");
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="w-80"
             value={currentCombatant.unit.idNum}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
-            loadOptions={loadInitialOptions} />
+            loadOptions={loadHeroes} />
         <Select id="unit-rarity" className="w-18"
             value={currentCombatant.unit.rarity}
             onChange={(choice) => { mergeChanges("rarity", choice!.value) }}

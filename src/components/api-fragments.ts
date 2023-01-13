@@ -6,7 +6,7 @@ export const apolloClient = new ApolloClient({
     cache: new InMemoryCache({
         possibleTypes: {
             SkillDefinition: ["WeaponDefinition", "AssistDefinition", "SpecialDefinition", "PassiveSkillDefinition"]
-        }
+        },
     }), // wooo free caching
     assumeImmutableResults: true, // a real luxury
 })

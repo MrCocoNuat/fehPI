@@ -33,7 +33,9 @@ export function FilterSelect<ValueType>({
 }) {
     const selectedLanguage = useContext(LanguageContext);
 
-    const valueAndLabel = value === undefined ? undefined : options.find(option => option.value === value)!;
+    const valueAndLabel = value === undefined ?
+        undefined :
+        options.find(option => option.value === value)!;
     return <Select
         className={className}
         unstyled={false}

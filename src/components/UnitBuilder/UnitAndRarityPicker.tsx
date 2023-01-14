@@ -85,7 +85,7 @@ export function UnitAndRarityPicker(
 
     console.log("rerender unitpicker");
     return <div className="flex flex-row items-center gap-2">
-        <AsyncFilterSelect id="unit-idNum" className="w-80"
+        <AsyncFilterSelect id="unit-idNum" className="min-w-[320px] flex-1"
             value={currentCombatant.unit.idNum}
             onChange={(choice) => { mergeChanges("idNum", +choice!.value) }}
             loadOptions={heroesLoader} />

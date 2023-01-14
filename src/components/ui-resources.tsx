@@ -48,7 +48,7 @@ export function dragonflowerImage(movementType?: MovementType) {
         case MovementType.CAVALRY:
             return <Image src={"/icons/dragonflower/Dragonflower_C.webp"} alt={"DF-C"} fill={true} />;
         default:
-            return null;
+            return <></>;
     }
 }
 
@@ -57,10 +57,10 @@ export function ascendantFloretImage() {
 }
 
 const PassiveSkillCategoryLetter = {
-    [SkillCategory.PASSIVE_A]: <div className="text-xs text-red-500 relative bottom-0 right-0">A</div>,
-    [SkillCategory.PASSIVE_B]: <div className="text-xs text-green-500 relative bottom-0 right-0">B</div>,
-    [SkillCategory.PASSIVE_C]: <div className="text-xs text-blue-500 relative bottom-0 right-0">C</div>,
-    [SkillCategory.PASSIVE_S]: <div className="text-xs text-yellow-500 relative bottom-0 right-0">S</div>,
+    [SkillCategory.PASSIVE_A]: <div className="text-s text-red-500 absolute bottom-0 right-0 z-10">A</div>,
+    [SkillCategory.PASSIVE_B]: <div className="text-s text-green-500 absolute bottom-0 right-0 z-10">B</div>,
+    [SkillCategory.PASSIVE_C]: <div className="text-s text-blue-500 absolute bottom-0 right-0 z-10">C</div>,
+    [SkillCategory.PASSIVE_S]: <div className="text-s text-yellow-500 absolute bottom-0 right-0 z-10">S</div>,
 } as const;
 export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string) {
     switch (skillCategory) {
@@ -75,9 +75,9 @@ export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: strin
         case SkillCategory.PASSIVE_B:
         case SkillCategory.PASSIVE_C:
         case SkillCategory.PASSIVE_S:
-            return <div className="relative">
+            return <div className="relative w-8 aspect-square z-0">
                 {PassiveSkillCategoryLetter[skillCategory]}
-                <Image src={imageUrl ?? "/icons/misc/Null_Skill.webp"} alt={"Passive"} fill={true} />
+                <Image src={imageUrl ?? "/icons/misc/None_Skill.webp"} alt={"Passive"} fill={true} />
             </div >
         default:
             return <></>;

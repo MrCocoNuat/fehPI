@@ -100,18 +100,19 @@ export function LevelMergeDragonflowerPicker(
                 onChange={(evt) => mergeChanges("merges", constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES))} />
         </div>
         <div className="flex">
-            <label htmlFor="unit-dragonflowers">
+            <label htmlFor="unit-dragonflowers" className="flex items-center">
                 <div className="relative w-8 aspect-square">
                     {dragonflowerImage(currentHeroMovementType)}
                 </div>
+                <div>
+                    {getUiStringResource(selectedLanguage, "UNIT_DRAGONFLOWERS")}
+                </div>
             </label>
-            {/* <AsyncNumericInput className="w-16" id="unit-dragonflowers"
+            <AsyncNumericInput className="w-16" id="unit-dragonflowers"
                 loadMinMax={dragonflowerMinMaxLoader}
                 value={currentCombatant.unit.dragonflowers}
-                possiblyAsyncOnChange={heroQuery()
-                    .then((response) => ((evt) =>
-                        mergeChanges("dragonflowers",
-                            constrainNumeric(+evt.target.value, MIN_DRAGONFLOWERS, mapHeroQuery(response).maxDragonflowers))))} /> */}
+                // technically not constrained - but this is async so...
+                onChange={(evt) => mergeChanges("dragonflowers", +evt.target.value)} />
         </div>
     </div>
 }

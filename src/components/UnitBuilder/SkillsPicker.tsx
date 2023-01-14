@@ -5,7 +5,7 @@ import { Language, MovementType, OptionalLanguage, SkillCategory, WeaponType } f
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_FIVE_STAR_SKILLS, HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
-import { getUiStringResource } from "../ui-resources";
+import { getUiStringResource, skillCategoryIcon } from "../ui-resources";
 import { SelectedHeroIdContext } from "./UnitBuilder";
 
 // Query
@@ -199,33 +199,82 @@ export function SkillsPicker({
 
 
     return <div className="flex flex-col">
-        <AsyncFilterSelect id={"unit-weapon-skill"} className="w-80"
-            value={currentCombatant.unit.weaponSkillId}
-            onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); }}
-            loadOptions={weaponSkillLoader} />
-        <AsyncFilterSelect id={"unit-assist-skill"} className="w-80"
-            value={currentCombatant.unit.assistSkillId}
-            onChange={(choice) => { mergeChanges("assistSkillId", +choice!.value); }}
-            loadOptions={assistSkillLoader} />
-        <AsyncFilterSelect id={"unit-special-skill"} className="w-80"
-            value={currentCombatant.unit.specialSkillId}
-            onChange={(choice) => { mergeChanges("specialSkillId", +choice!.value); }}
-            loadOptions={specialSkillLoader} />
-        <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80"
-            value={currentCombatant.unit.passiveASkillId}
-            onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
-            loadOptions={passiveASkillLoader} />
-        <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80"
-            value={currentCombatant.unit.passiveBSkillId}
-            onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
-            loadOptions={passiveBSkillLoader} />
-        <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80"
-            value={currentCombatant.unit.passiveCSkillId}
-            onChange={(choice) => { mergeChanges("passiveCSkillId", +choice!.value); }}
-            loadOptions={passiveCSkillLoader} />
-        <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80"
-            value={currentCombatant.unit.passiveSSkillId}
-            onChange={(choice) => { mergeChanges("passiveSSkillId", +choice!.value); }}
-            loadOptions={passiveSSkillLoader} />
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.WEAPON)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
+                value={currentCombatant.unit.weaponSkillId}
+                onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); }}
+                loadOptions={weaponSkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.ASSIST)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-assist-skill"} className="w-80"
+                value={currentCombatant.unit.assistSkillId}
+                onChange={(choice) => { mergeChanges("assistSkillId", +choice!.value); }}
+                loadOptions={assistSkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.SPECIAL)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-special-skill"} className="w-80"
+                value={currentCombatant.unit.specialSkillId}
+                onChange={(choice) => { mergeChanges("specialSkillId", +choice!.value); }}
+                loadOptions={specialSkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.PASSIVE_A)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80"
+                value={currentCombatant.unit.passiveASkillId}
+                onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
+                loadOptions={passiveASkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.PASSIVE_B)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80"
+                value={currentCombatant.unit.passiveBSkillId}
+                onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
+                loadOptions={passiveBSkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.PASSIVE_C)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80"
+                value={currentCombatant.unit.passiveCSkillId}
+                onChange={(choice) => { mergeChanges("passiveCSkillId", +choice!.value); }}
+                loadOptions={passiveCSkillLoader} />
+        </div>
+        <div className="flex items-center">
+            <label htmlFor="unit-weapon-skill">
+                <div className="w-8 aspect-square relative m-1">
+                    {skillCategoryIcon(SkillCategory.PASSIVE_S)}
+                </div>
+            </label>
+            <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80"
+                value={currentCombatant.unit.passiveSSkillId}
+                onChange={(choice) => { mergeChanges("passiveSSkillId", +choice!.value); }}
+                loadOptions={passiveSSkillLoader} />
+        </div>
     </div>
 }

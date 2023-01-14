@@ -208,7 +208,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
                 value={currentCombatant.unit.weaponSkillId}
                 onChange={(choice) => { mergeChanges("weaponSkillId", +choice!.value); }}
-                loadOptions={weaponSkillLoader} />
+                loadOptions={weaponSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -219,7 +220,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-assist-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.assistSkillId}
                 onChange={(choice) => { mergeChanges("assistSkillId", +choice!.value); }}
-                loadOptions={assistSkillLoader} />
+                loadOptions={assistSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -230,7 +232,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-special-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.specialSkillId}
                 onChange={(choice) => { mergeChanges("specialSkillId", +choice!.value); }}
-                loadOptions={specialSkillLoader} />
+                loadOptions={specialSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -241,7 +244,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveASkillId}
                 onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
-                loadOptions={passiveASkillLoader} />
+                loadOptions={passiveASkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -252,7 +256,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveBSkillId}
                 onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
-                loadOptions={passiveBSkillLoader} />
+                loadOptions={passiveBSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -263,7 +268,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveCSkillId}
                 onChange={(choice) => { mergeChanges("passiveCSkillId", +choice!.value); }}
-                loadOptions={passiveCSkillLoader} />
+                loadOptions={passiveCSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -274,7 +280,8 @@ export function SkillsPicker({
             <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveSSkillId}
                 onChange={(choice) => { mergeChanges("passiveSSkillId", +choice!.value); }}
-                loadOptions={passiveSSkillLoader} />
+                loadOptions={passiveSSkillLoader}
+                syncValueWithLoadOptions={true} />
         </div>
     </div>
 }

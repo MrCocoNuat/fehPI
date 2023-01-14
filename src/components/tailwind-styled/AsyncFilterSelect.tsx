@@ -1,8 +1,5 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { GroupBase, Options, OptionsOrGroups, SelectInstance, SingleValue } from "react-select";
-import AsyncSelect from "react-select/async";
-import { LanguageContext } from "../../pages/testpage";
-import { getUiStringResource } from "../ui-resources";
+import { useEffect, useRef, useState } from "react";
+import { SingleValue } from "react-select";
 import { FilterSelect } from "./FilterSelect";
 import { ValueAndLabel } from "./Select";
 
@@ -23,13 +20,13 @@ export function AsyncFilterSelect<ValueType>({
     className?: string,
 }) {
     const [options, setOptions] = useState([] as ValueAndLabel<ValueType>[]);
-    const [isLoading, setLoading] = useState(true);
+    const isLoadingRef = useRef(true);
+
     useEffect(() => {
-        setLoading(true);
-        console.log("clearing id", id);
+        isLoadingRef.current = true;
         loadOptions().then(initialOptions => {
+            isLoadingRef.current = false;
             setOptions(initialOptions);
-            setLoading(false);
         });
     }, [loadOptions])
 
@@ -37,6 +34,7 @@ export function AsyncFilterSelect<ValueType>({
         value={value}
         onChange={onChange}
         options={options}
-        isLoading={isLoading}
+        isLoading={isLoadingRef.current}
+        isDisabled={isLoadingRef.current}
     />
 }

@@ -1,7 +1,7 @@
-import { Options, SelectInstance, SingleValue } from "react-select"
+import { Options, SingleValue } from "react-select"
 import Select from "react-select";
 import { getUiStringResource } from "../ui-resources";
-import { MutableRefObject, RefObject, useContext, useRef } from "react";
+import { useContext } from "react";
 import { LanguageContext } from "../../pages/testpage";
 import { ValueAndLabel } from "./Select";
 
@@ -23,6 +23,7 @@ export function FilterSelect<ValueType>({
     options,
     className,
     isLoading,
+    isDisabled,
 }: {
     id: string,
     value?: ValueType,
@@ -30,6 +31,7 @@ export function FilterSelect<ValueType>({
     options: Options<ValueAndLabel<ValueType>>,
     className?: string,
     isLoading?: boolean,
+    isDisabled?: boolean,
 }) {
     const selectedLanguage = useContext(LanguageContext);
 
@@ -47,6 +49,7 @@ export function FilterSelect<ValueType>({
         loadingMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_LOADING") as string}
         options={options}
         isLoading={isLoading}
+        isDisabled={isDisabled}
         classNames={{
             // apply tailwind classes to some inner components
             menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-neutral-900 text-black dark:text-white",

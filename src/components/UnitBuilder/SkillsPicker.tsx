@@ -216,7 +216,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.ASSIST)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-assist-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-assist-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.assistSkillId}
                 onChange={(choice) => { mergeChanges("assistSkillId", +choice!.value); }}
                 loadOptions={assistSkillLoader} />
@@ -227,7 +227,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.SPECIAL)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-special-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-special-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.specialSkillId}
                 onChange={(choice) => { mergeChanges("specialSkillId", +choice!.value); }}
                 loadOptions={specialSkillLoader} />
@@ -238,7 +238,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.PASSIVE_A)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveASkillId}
                 onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
                 loadOptions={passiveASkillLoader} />
@@ -249,7 +249,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.PASSIVE_B)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveBSkillId}
                 onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
                 loadOptions={passiveBSkillLoader} />
@@ -260,7 +260,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.PASSIVE_C)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveCSkillId}
                 onChange={(choice) => { mergeChanges("passiveCSkillId", +choice!.value); }}
                 loadOptions={passiveCSkillLoader} />
@@ -271,7 +271,7 @@ export function SkillsPicker({
                     {skillCategoryIcon(SkillCategory.PASSIVE_S)}
                 </div>
             </label>
-            <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80"
+            <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80 flex-1"
                 value={currentCombatant.unit.passiveSSkillId}
                 onChange={(choice) => { mergeChanges("passiveSSkillId", +choice!.value); }}
                 loadOptions={passiveSSkillLoader} />

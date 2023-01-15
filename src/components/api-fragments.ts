@@ -126,3 +126,9 @@ export const SKILL_RESTRICTIONS_FRAG = gql`
     }
 `
 
+export const SKILL_IMAGE_URL = "SkillImageUrl";
+export const SKILL_IMAGE_URL_FRAG = gql`
+    fragment ${SKILL_IMAGE_URL} on PassiveSkillDefinition {
+        imageUrl
+    }
+`

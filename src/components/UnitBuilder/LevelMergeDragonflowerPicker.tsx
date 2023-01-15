@@ -60,7 +60,7 @@ export function LevelMergeDragonflowerPicker(
         mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
     }
 ) {
-    console.log("rerender lmdf")
+    console.info("rerender lmdf")
     const selectedLanguage = useContext(LanguageContext);
     const selectedHeroId = useContext(SelectedHeroIdContext);
 
@@ -75,7 +75,6 @@ export function LevelMergeDragonflowerPicker(
     });
     const [currentHeroMovementType, setCurrentHeroMovementType] = useState(undefined as MovementType | undefined);
     useEffect(() => {
-        console.log("refresh lmdf")
         setDragonflowerMinMaxLoader(() => () => {
             return dragonflowerMinMaxLoaderFor(heroQuery);
         });

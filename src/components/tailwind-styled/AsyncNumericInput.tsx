@@ -24,7 +24,7 @@ export function AsyncNumericInput(
         className?: string,
     }
 ) {
-    console.log("rerender async numeric input")
+    console.info("rerender async numeric input id:",id)
 
     const [minMax, setMinMax] = useState({ min: undefined, max: undefined } as { min?: number, max?: number });
     const isLoadingRef = useRef(false);

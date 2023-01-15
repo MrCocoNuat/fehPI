@@ -147,9 +147,9 @@ export function SkillsPicker({
     currentCombatant: Combatant,
     mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
 }) {
+    console.info("rendering skillpicker")
     const selectedLanguage = useContext(LanguageContext);
     const selectedHeroId = useContext(SelectedHeroIdContext);
-    console.log("rendering skillpicker")
 
     const [skillQuery] = useLazyQuery(GET_ALL_SKILL_RESTRICTIONS_AND_NAMES,
         { variables: { lang: OptionalLanguage[selectedLanguage] } }

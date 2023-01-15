@@ -37,17 +37,17 @@ async function applyImageUrlStateSetter(
     skillId: number) {
     // skill id 0 for none skill is handled specially
     if (skillId === NONE_SKILL_ID) {
-        console.debug("setter", setter, "called with 0, setting undefined",)
+        //console.debug("setter", setter, "called with 0, setting undefined",)
         setter(undefined);
         return;
     }
-    console.debug("setter", setter, "called with", skillId)
+    //console.debug("setter", setter, "called with", skillId)
     const queryResult = mapQuery(await skillImageUrlQuery({
         variables: {
             id: skillId,
         }
     }));
-    console.debug("setter", setter, "called with", queryResult.imageUrl)
+    //console.debug("setter", setter, "called with", queryResult.imageUrl)
     setter(queryResult.imageUrl);
 }
 
@@ -106,10 +106,9 @@ export function PassivesPicker({
                 value={currentCombatant.unit.passiveASkillId}
                 onChange={(choice) => { mergeChanges("passiveASkillId", +choice!.value); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_A]}
-                syncValueWithLoadOptions={(value) => {
-                    console.log("a skill value:", value!);
+                syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(aSkillQuery, setASkillImageUrl, value!)
-                }} />
+                } />
         </div>
         <div className="flex items-center">
             <label htmlFor="unit-weapon-skill">
@@ -121,10 +120,8 @@ export function PassivesPicker({
                 value={currentCombatant.unit.passiveBSkillId}
                 onChange={(choice) => { mergeChanges("passiveBSkillId", +choice!.value); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_B]}
-                syncValueWithLoadOptions={(value) => {
-                    console.log("b skill value:", value!);
+                syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(bSkillQuery, setBSkillImageUrl, value!)
-                }
                 } />
         </div>
         <div className="flex items-center">

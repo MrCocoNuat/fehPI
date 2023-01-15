@@ -17,6 +17,7 @@ export function UnitBuilder({
     combatant: Combatant,
     updater: (newCombatant: Combatant) => void,
 }) {
+    console.info("rerender unit builder");
     const selectedHeroId = combatant.unit.idNum; 
 
     //TODO:- probably should be a useEffect instead
@@ -31,7 +32,6 @@ export function UnitBuilder({
     }
 
 
-    console.log("rerender builder");
 
     return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col"
         // prevent clicking from defocusing

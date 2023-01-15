@@ -67,7 +67,8 @@ export function UnitAndRarityPicker(
         currentCombatant: Combatant,
         mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
     }
-) {
+    ) {
+    console.info("rerender unitpicker");
     const selectedLanguage = useContext(LanguageContext);
     const rarityString = rarityStringForLanguage(selectedLanguage);
 
@@ -83,7 +84,6 @@ export function UnitAndRarityPicker(
         () => () => heroesLoaderFor(heroesQuery)
     ), [selectedLanguage])
 
-    console.log("rerender unitpicker");
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="min-w-[320px] flex-1"
             value={currentCombatant.unit.idNum}

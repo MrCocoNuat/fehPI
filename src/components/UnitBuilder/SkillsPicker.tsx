@@ -217,6 +217,7 @@ export function ensureSkillValidity(unit: Unit, justSetProp: keyof Unit) {
     switch (justSetProp) {
         case "idNum":
             unit.weaponSkillId = 0;
+            unit.weaponSkillBaseId = 0;
             unit.assistSkillId = 0;
             unit.specialSkillId = 0;
             unit.passiveASkillId = 0;

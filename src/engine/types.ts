@@ -47,6 +47,8 @@ export type Unit = {
     ascension: OptionalStat,
 
     weaponSkillId: number | NONE_SKILL,
+    // the refine base
+    weaponSkillBaseId : number | NONE_SKILL,
     assistSkillId: number | NONE_SKILL,
     specialSkillId: number | NONE_SKILL,
     passiveASkillId: number | NONE_SKILL,

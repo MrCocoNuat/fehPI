@@ -7,7 +7,7 @@ import { HERO_MAX_DRAGONFLOWERS, HERO_MAX_DRAGONFLOWERS_FRAG, HERO_MOVEMENT_WEAP
 import { AsyncNumericInput } from "../tailwind-styled/AsyncNumericInput";
 import { NumericInput } from "../tailwind-styled/NumericInput";
 import { dragonflowerImage, getUiStringResource } from "../ui-resources";
-import { SelectedHeroIdContext } from "./UnitBuilder";
+import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
 
 // Query
 // ----------
@@ -57,7 +57,7 @@ export function LevelMergeDragonflowerPicker(
         mergeChanges,
     }: {
         currentCombatant: Combatant,
-        mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
+        mergeChanges: MultiplePropMerger,
     }
 ) {
     console.info("rerender lmdf")
@@ -91,12 +91,12 @@ export function LevelMergeDragonflowerPicker(
             <NumericInput className="w-16" id="unit-level"
                 minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }}
                 value={currentCombatant.unit.level}
-                onChange={(evt) => mergeChanges("level", constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL))} />
+                onChange={(evt) => mergeChanges({ prop: "level", value: constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL) })} />
             <label htmlFor="unit-merges">+</label>
             <NumericInput className="w-16" id="unit-merges"
                 minMax={{ min: MIN_MERGES, max: MAX_MERGES }}
                 value={currentCombatant.unit.merges}
-                onChange={(evt) => mergeChanges("merges", constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES))} />
+                onChange={(evt) => mergeChanges({ prop: "merges", value: constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES) })} />
         </div>
         <div className="flex">
             <label htmlFor="unit-dragonflowers" className="flex items-center">
@@ -111,7 +111,7 @@ export function LevelMergeDragonflowerPicker(
                 loadMinMax={dragonflowerMinMaxLoader}
                 value={currentCombatant.unit.dragonflowers}
                 // technically not constrained - but this is async so...
-                onChange={(evt) => mergeChanges("dragonflowers", +evt.target.value)} />
+                onChange={(evt) => mergeChanges({ prop: "dragonflowers", value: +evt.target.value })} />
         </div>
     </div>
 }

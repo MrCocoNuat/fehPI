@@ -5,6 +5,7 @@ import { Language, OptionalStat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { Select } from "../tailwind-styled/Select";
 import { ascendantFloretImage, getUiStringResource } from "../ui-resources";
+import { MultiplePropMerger } from "./UnitBuilder";
 
 // No Queries
 
@@ -34,7 +35,7 @@ export function TraitPicker({
     mergeChanges,
 }: {
     currentCombatant: Combatant,
-    mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
+    mergeChanges: MultiplePropMerger,
 }) {
     const selectedLanguage = useContext(LanguageContext);
     const statString = statStringsForLanguage(selectedLanguage);
@@ -44,7 +45,7 @@ export function TraitPicker({
             <label htmlFor="unit-asset">{getUiStringResource(selectedLanguage, "UNIT_ASSET")}</label>
             <Select id="unit-asset" className="w-32"
                 value={currentCombatant.unit.asset}
-                onChange={(choice) => mergeChanges("asset", choice!.value)}
+                onChange={(choice) => mergeChanges({prop: "asset", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
                 } />
@@ -53,7 +54,7 @@ export function TraitPicker({
             <label htmlFor="unit-flaw">{getUiStringResource(selectedLanguage, "UNIT_FLAW")}</label>
             <Select id="unit-flaw" className="w-32"
                 value={currentCombatant.unit.flaw}
-                onChange={(choice) => mergeChanges("flaw", choice!.value)}
+                onChange={(choice) => mergeChanges({prop: "flaw", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
                 } />
@@ -69,7 +70,7 @@ export function TraitPicker({
             </label>
             <Select id="unit-ascension" className="w-32"
                 value={currentCombatant.unit.ascension}
-                onChange={(choice) => mergeChanges("ascension", choice!.value)}
+                onChange={(choice) => mergeChanges({prop: "ascension", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
                 } />

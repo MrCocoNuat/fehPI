@@ -10,6 +10,8 @@ import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
 
 export const SelectedHeroIdContext = createContext(-1);
 
+export type MultiplePropMerger = (...changes: {prop: keyof Unit, value: Unit[keyof Unit]}[]) => void;
+
 export function UnitBuilder({
     combatant,
     updater,
@@ -23,11 +25,14 @@ export function UnitBuilder({
     //TODO:- probably should be a useEffect instead
     const stats = statsFor(combatant.unit);
 
-    const mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void = (prop, value) => {
-        const copyUnit = { ...combatant.unit, [prop]: value };
-        ensureTraitValidity(copyUnit, prop);
-        ensureDragonflowerValidity(copyUnit, prop);
-        ensureSkillValidity(copyUnit, prop);
+    const mergeChanges: MultiplePropMerger = (...changes) => {
+        let copyUnit = { ...combatant.unit};
+        changes.forEach(({prop, value}) => {
+            copyUnit = {...copyUnit, [prop]: value};
+            ensureTraitValidity(copyUnit, prop);
+            ensureDragonflowerValidity(copyUnit, prop);
+            ensureSkillValidity(copyUnit, prop);
+        })
 
         updater({ ...combatant, unit: copyUnit });
     }

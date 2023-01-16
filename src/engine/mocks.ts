@@ -44,6 +44,7 @@ const randomUnit: () => Unit = () => ({
 
     // leave skills empty
     weaponSkillId: 0,
+    weaponSkillBaseId: 0,
     assistSkillId: 0,
     specialSkillId: 0,
     passiveASkillId: 0,

@@ -1,6 +1,6 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
 import { Language, ParameterPerStat, RefineType, SkillCategory, Stat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
@@ -8,10 +8,10 @@ import { INCLUDE_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragme
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { Select, ValueAndLabel } from "../tailwind-styled/Select";
 import { skillCategoryIcon, getUiStringResource, divineDewImage } from "../ui-resources";
+import { MultiplePropMerger } from "./UnitBuilder";
 
 
 // weapons need refine handling... and evolutions even though nobody is going to use those
-
 
 
 // Query
@@ -20,8 +20,8 @@ import { skillCategoryIcon, getUiStringResource, divineDewImage } from "../ui-re
 // unrefined weapons only!!
 const GET_WEAPON_REFINES = gql`
     ${WEAPON_REFINES_FRAG}
-    query getWeaponRefines($id: Int!){
-        skills(idNums: [$id]){
+    query getWeaponRefines($baseId: Int!){
+        skills(idNums: [$baseId]){
             idNum
             ${INCLUDE_FRAG(WEAPON_REFINES)}
         }
@@ -29,38 +29,16 @@ const GET_WEAPON_REFINES = gql`
 `
 
 type WeaponRefines = {
-    idNum: number,
-    refined: boolean,
-    refineType: RefineType,
-
-    refineBase: {
-        idNum: number,
-        refines: {
-            idNum: number,
-            refineType: RefineType,
-        }[],
-    } | null,
-
+    idNum: number
     refines: {
         idNum: number,
         refineType: RefineType,
     }[],
 }
 
-// uugghh
 const mapQuery = (json: any) => json.data.skills.map((queriedWeapon: any) => ({
     ...queriedWeapon,
-    // enum keys to values - all three places
-    refineType: RefineType[queriedWeapon.refineType],
-
-    refineBase: (queriedWeapon.refineBase === null) ? null : {
-        ...queriedWeapon.refineBase,
-        refines: queriedWeapon.refineBase.refines.map((queriedRefine: any) => ({
-            ...queriedRefine,
-            refineType: RefineType[queriedRefine.refineType],
-        })),
-    },
-
+    // enum keys to values
     refines: queriedWeapon.refines.map((queriedRefine: any) => ({
         ...queriedRefine,
         refineType: RefineType[queriedRefine.refineType],
@@ -74,16 +52,9 @@ async function getWeaponIds(
     refinesQuery: LazyQueryExecFunction<any, any>,
 ) {
     const queryResult = mapQuery(await refinesQuery());
-    console.log(refinesQuery());
     // id of the NONE-refined weapon
-    const refineBaseId = (queryResult.refined) ?
-        queryResult.refineBase!.idNum :
-        queryResult.idNum;
-    const refines = (queryResult.refined) ?
-        // grab the refines of the base:
-        queryResult.refineBase!.refines :
-        // grab the refines directly
-        queryResult.refines;
+    const refineBaseId = queryResult.idNum;
+    const refines = queryResult.refines;
 
     const result = { [RefineType.NONE]: refineBaseId } as { [refineType in RefineType]: number | undefined };
     refines.forEach(({ idNum, refineType }) => result[refineType] = idNum)
@@ -139,23 +110,30 @@ export function WeaponPicker({
     skillLoaders,
 }: {
     currentCombatant: Combatant,
-    mergeChanges: (prop: keyof Unit, value: Unit[typeof prop]) => void,
+    mergeChanges: MultiplePropMerger,
     skillLoaders: { [skillCategory in SkillCategory]: () => Promise<ValueAndLabel<number>[]> }
 }) {
     console.info("rerender weapon picker");
 
     const selectedLanguage = useContext(LanguageContext);
 
+    // the Select element needs value-syncing to prevent transient garbage 
+    // when the value is immediately updated but the options are not yet, so the value points to nothing
+    // If Select (not FilterSelect) gets more async uses then it is worth creating AsyncSelect standalone
+    // but for now just maintain a ref, which is updated only when:
+    //   onChange of the Select itself fires OR after the promise to update weaponIds is resolved
+    const syncedWeaponSkillIdRef = useRef(currentCombatant.unit.weaponSkillId);
+
     const [refinesQuery] = useLazyQuery(GET_WEAPON_REFINES, {
         variables: {
-            id: currentCombatant.unit.weaponSkillId,
+            baseId: currentCombatant.unit.weaponSkillBaseId,
         }
     })
 
     // this promise must resolve AFTER the value argument to the AsyncFilterSelect is calculated,
     // otherwise the sync will not happen correctly
     const a = useCallback(
-        (/*removeRefinedWeapons*/(skillLoaders[SkillCategory.WEAPON])), [skillLoaders]);
+        (removeRefinedWeapons(skillLoaders[SkillCategory.WEAPON])), [skillLoaders]);
 
     // the skill ids for each refine option of the currently selected weapon
     // the id with the NONE key is always present (there is always a refine base, even for none weapon 0), others can be undefined
@@ -163,20 +141,20 @@ export function WeaponPicker({
     const [weaponIds, setWeaponIds] = useState(NONE_WEAPON_IDS);
     useEffect(() => {
         const updater = async () => {
-            if (currentCombatant.unit.weaponSkillId === NONE_SKILL_ID) {
+            if (currentCombatant.unit.weaponSkillBaseId === NONE_SKILL_ID) {
+                syncedWeaponSkillIdRef.current = NONE_SKILL_ID;
                 setWeaponIds(NONE_WEAPON_IDS);
             } else {
-                setWeaponIds(await getWeaponIds(refinesQuery));
+                const weaponIds = await getWeaponIds(refinesQuery);
+                syncedWeaponSkillIdRef.current = currentCombatant.unit.weaponSkillId;
+                setWeaponIds(weaponIds);
             }
         }
         updater();
     },
-        // this dependency is a bit too fine - even switching between refines of the same weapon will trigger it
-        // however without modifying the base Unit object (e.g. with a weaponSkillBaseId) this is the best that can be done?
-        // in any case it is much better than missing required effects.
-        [currentCombatant.unit.weaponSkillId]);
+        [currentCombatant.unit.weaponSkillBaseId]);
 
-    console.debug("arg to AsyncFilterSelect", weaponIds[RefineType.NONE]);
+
     return <div className="flex gap-2">
         <div className="flex items-center flex-1">
             <label htmlFor="unit-weapon-skill">
@@ -186,9 +164,14 @@ export function WeaponPicker({
             </label>
 
             <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
-                value={currentCombatant.unit.weaponSkillId}
+                value={currentCombatant.unit.weaponSkillBaseId}
                 // onChange is OK, it can only change to unrefined weapons
-                onChange={(choice) => { console.debug("main selector changed to", choice!.value); mergeChanges("weaponSkillId", +choice!.value); }}
+                onChange={(choice) => {
+                    mergeChanges(
+                        { prop: "weaponSkillId", value: +choice!.value },
+                        { prop: "weaponSkillBaseId", value: +choice!.value }
+                    );
+                }}
                 loadOptions={a} // needs modification for evolutions
                 syncValueWithLoadOptions={true} />
         </div>
@@ -203,8 +186,13 @@ export function WeaponPicker({
                 </div>
             </label>
             <Select id={"unit-weapon-refine"} className="w-32"
-                value={undefined}
-                onChange={(choice) => { console.debug("refine selector changed to", choice!.value); mergeChanges("weaponSkillId", +choice!.value); }}
+                // manual syncing
+                value={syncedWeaponSkillIdRef.current}
+                // onChange cannot change base id (and cannot change weapon id to something not a refine of base id)
+                onChange={(choice) => {
+                    syncedWeaponSkillIdRef.current = choice!.value;
+                    mergeChanges({ prop: "weaponSkillId", value: +choice!.value });
+                }}
                 options={refineOptions(weaponIds, selectedLanguage)} />
         </div>
     </div>

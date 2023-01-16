@@ -135,17 +135,6 @@ export const PASSIVE_SKILL_IMAGE_URL_FRAG = gql`
 export const WEAPON_REFINES = "WeaponRefines";
 export const WEAPON_REFINES_FRAG = gql`
     fragment ${WEAPON_REFINES} on WeaponDefinition {
-        refined
-        refineType
-        
-        refineBase{
-            idNum
-            refines{
-                idNum
-                refineType
-            }
-        }
-
         refines{
             idNum
             refineType

@@ -71,7 +71,6 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                     refineStats: json.refine_stats,
                     // this needs to be loaded in later
                     refines: [],
-                    // some pretty ridiculous abuse of class_params...
                     refineType: classifyRefine(json),
                     category: category,
                 };
@@ -180,9 +179,9 @@ function classifyRefine(json: {
     class_params: ParameterPerStat,
     wep_equip: number,
     refine_sort_id: number,
+    refined: boolean,
 }) {
     const {
-        refine_stats,
         class_params,
         wep_equip,
         refine_sort_id,
@@ -190,12 +189,13 @@ function classifyRefine(json: {
 
     if (toWeaponTypeIdBitfield(wep_equip)[WeaponType.STAFF]) {
         // staff refines are NONE, DAZZLING, WRATHFUL
-        // prf refines seem to be distinguished by a non-zero class_params.hp, which indicates WRATHFUL (1) or DAZZLING (2)
-        if ((class_params[Stat.HP]) > 0) {
+        // prf non-refines seem to be distinguished by a non-zero class_params.hp, which indicates WRATHFUL (1) or DAZZLING (2)
+        // their refines are always EFFECT
+        if ((class_params[Stat.HP]) > 0 && (refine_sort_id) > 0) {
             return RefineType.EFFECT;
         }
-        // inheritable refines don't get the non-zero class_params.hp even if the refine provides WRATHFUL or DAZZLING,
-        // instead that value goes to refine_sort_id
+        // inheritables don't get the non-zero class_params.hp even if the refine provides WRATHFUL or DAZZLING,
+        // their refine effect is indicated solely by refine_sort_id
         switch (refine_sort_id) {
             case 0:
                 return RefineType.NONE;
@@ -208,178 +208,25 @@ function classifyRefine(json: {
                 throw new Error(`Could not classify staff refine with ${(json as any).id_tag} refine sort id: ${JSON.stringify(refine_sort_id)}`);
         }
     } else {
-        // non-staff refines are NONE, EFFECT, ATK/S/D/R
-        // complicated karnaughmap-based logic can probably simplify this
-        // but really, this style is more understandable :)
-        if (refine_stats[Stat.HP] >= 0
-            && refine_stats[Stat.ATK] === 0
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            // only HP boost or none at all
-            return RefineType.EFFECT;
-        }
-        if (refine_stats[Stat.HP] > 0
-            && refine_stats[Stat.ATK] >= 1
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            // ranged or melee brave ATK refine
-            return RefineType.ATK;
-        }
-        if (refine_stats[Stat.HP] > 0
-            && (refine_stats[Stat.ATK] <= 1)
-            && refine_stats[Stat.SPD] > 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.SPD;
-        }
-        if (refine_stats[Stat.HP] > 0
-            && (refine_stats[Stat.ATK] <= 1)
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] > 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.DEF;
-        }
-        if (refine_stats[Stat.HP] > 0
-            && (refine_stats[Stat.ATK] <= 1)
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] > 0) {
-            return RefineType.RES;
-        }
+        // non-staff refines are NONE, EFFECT, A/S/D/R
+        // and completely determined by the value of refine_sort_id
 
-        // some special cases (of course they have to exist) are handled below
-        // why so many daggers!
-
-        // deathly dagger
-        if (refine_stats[Stat.HP] === 0
-            && refine_stats[Stat.ATK] === 3
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.EFFECT;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 4
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.ATK;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 3
-            && refine_stats[Stat.SPD] === 2
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.SPD;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 3
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 3
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.DEF;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 3
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 3) {
-            return RefineType.RES;
-        }
-
-        // silver dagger +
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 5
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.ATK;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 4
-            && refine_stats[Stat.SPD] === 2
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.SPD;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 4
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 3
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.DEF;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 4
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 3) {
-            return RefineType.RES;
-        }
-
-        // rogue dagger
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 6
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.ATK;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 5
-            && refine_stats[Stat.SPD] === 2
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.SPD;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 5
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 3
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.DEF;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 5
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 3) {
-            return RefineType.RES;
-        }
-
-        // seashell
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 3
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.ATK;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 2
-            && refine_stats[Stat.SPD] === 2
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.SPD;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 2
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 3
-            && refine_stats[Stat.RES] === 0) {
-            return RefineType.DEF;
-        }
-        if (refine_stats[Stat.HP] === 2
-            && refine_stats[Stat.ATK] === 2
-            && refine_stats[Stat.SPD] === 0
-            && refine_stats[Stat.DEF] === 0
-            && refine_stats[Stat.RES] === 3) {
-            return RefineType.RES;
+        switch (refine_sort_id) {
+            case 0:
+                return RefineType.NONE;
+            case 1:
+                return RefineType.EFFECT;
+            case 101:
+                return RefineType.ATK;
+            case 102:
+                return RefineType.SPD;
+            case 103:
+                return RefineType.DEF;
+            case 104:
+                return RefineType.RES;
         }
 
         // uh oh - this should really never happen, unless the rules for refine stats change a lot
-        throw new Error(`Could not classify refine ${(json as any).id_tag} with refine stats: ${JSON.stringify(refine_stats)}`);
+        throw new Error(`Could not classify refine ${(json as any).id_tag} with refine sort id: ${refine_sort_id}`);
     }
 }

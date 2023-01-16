@@ -2,9 +2,9 @@ import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
-import { Language, ParameterPerStat, RefineType, SkillCategory, Stat } from "../../pages/api/dao/types/dao-types";
+import { Language, OptionalLanguage, ParameterPerStat, RefineType, SkillCategory, Stat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { INCLUDE_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
+import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { Select, ValueAndLabel } from "../tailwind-styled/Select";
 import { skillCategoryIcon, getUiStringResource, divineDewImage } from "../ui-resources";
@@ -45,6 +45,28 @@ const mapQuery = (json: any) => json.data.skills.map((queriedWeapon: any) => ({
     })),
 }))[0] as WeaponRefines;
 
+// Query 
+// ----------
+// only used to handle additional query for weapon evolutions
+
+const GET_SINGLE_SKILL_NAME = gql`
+    ${SKILL_NAME_FRAG}
+    query getEvolvedWeaponName($id: Int!, $lang: OptionalLanguage!){
+        skills(idNums: [$id]){
+            idNum
+            ${INCLUDE_FRAG(SKILL_NAME)}
+        }
+    }
+`
+type EvolvedWeaponName = {
+    idNum: number,
+    name: {
+        value: string,
+    }
+}
+
+const mapEvolvedWeaponQuery = (json: any) => json.data.skills[0] as EvolvedWeaponName;
+
 // Helper
 // ----------
 
@@ -69,11 +91,61 @@ async function getWeaponIds(
 const LOWEST_REFINED_WEAPON_ID = 0x10000000
 // so it is easy to remove all of them
 function removeRefinedWeapons(skillLoader: () => Promise<ValueAndLabel<number>[]>) {
-    return () => {
-        return skillLoader()
-            .then(valuesAndLabels =>
-                valuesAndLabels.filter(({ value }) => value < LOWEST_REFINED_WEAPON_ID)
-            );
+    return async () => {
+        const valuesAndLabels = await skillLoader();
+        return valuesAndLabels.filter(({ value }) => value < LOWEST_REFINED_WEAPON_ID);
+    }
+}
+
+// prf evolutions need to be included, the list is very small
+// another query is required to get their names, of course
+const evolutionIds = {
+    // Armads -> Berserk Armads
+    50: 867,
+    // Aura -> Dark Aura
+    99: 526,
+    // Durandal -> Blazing Durandal
+    17: 594,
+    // Excalibur -> Dark Excalibur
+    111: 539,
+    // Falchion (Awakening) -> Sealed Falchion
+    14: 905,
+    // Mystletainn -> Dark Mystletainn
+    388: 985,
+    // Naga -> Divine Naga
+    385: 674,
+    // Siegmund -> Flame Siegmund
+    383: 894,
+    // Tyrfing -> Divine Tyrfing
+    384: 671,
+} as { [id: number]: number | undefined };
+function includeExclusiveEvolutions(
+    skillLoader: () => Promise<ValueAndLabel<number>[]>,
+    evolvedWeaponQuery: LazyQueryExecFunction<any, any>,
+    language: Language
+) {
+    return async () => {
+        const valuesAndLabels = await skillLoader();
+        if (valuesAndLabels.length <= 1) {
+            // ??? better to be safe i guess
+            return valuesAndLabels;
+        }
+        // do any evolving weapons appear?
+        // we assume that prf weapons are placed at index 1, right after None.
+        //   not great to assume that but I will anyway - quicker than checking every entry
+        const evolvedId = evolutionIds[valuesAndLabels[1].value];
+        if (evolvedId !== undefined) {
+            // awkward control flow to get TS to narrow evolvedId down to number...
+            const queryResult = mapEvolvedWeaponQuery(await evolvedWeaponQuery({
+                variables: {
+                    lang: OptionalLanguage[language],
+                    id: evolvedId,
+                }
+            }));
+            // and stick it into index 2, right after its precursor
+            valuesAndLabels.splice(2, 0, { value: evolvedId, label: queryResult.name.value });
+        }
+        return await valuesAndLabels;
     }
 }
 
@@ -128,12 +200,20 @@ export function WeaponPicker({
         variables: {
             baseId: currentCombatant.unit.weaponSkillBaseId,
         }
-    })
+    });
+    // no vars here
+    const [evolvedWeaponsQuery] = useLazyQuery(GET_SINGLE_SKILL_NAME);
 
     // this promise must resolve AFTER the value argument to the AsyncFilterSelect is calculated,
     // otherwise the sync will not happen correctly
-    const a = useCallback(
-        (removeRefinedWeapons(skillLoaders[SkillCategory.WEAPON])), [skillLoaders]);
+    const adjustedWeaponSkillLoader = useCallback(
+        includeExclusiveEvolutions(
+            removeRefinedWeapons(
+                skillLoaders[SkillCategory.WEAPON]
+            ),
+            evolvedWeaponsQuery,
+            selectedLanguage
+        ), [skillLoaders]);
 
     // the skill ids for each refine option of the currently selected weapon
     // the id with the NONE key is always present (there is always a refine base, even for none weapon 0), others can be undefined
@@ -172,7 +252,7 @@ export function WeaponPicker({
                         { prop: "weaponSkillBaseId", value: +choice!.value }
                     );
                 }}
-                loadOptions={a} // needs modification for evolutions
+                loadOptions={adjustedWeaponSkillLoader} // needs modification for evolutions
                 syncValueWithLoadOptions={true} />
         </div>
 
@@ -197,17 +277,3 @@ export function WeaponPicker({
         </div>
     </div>
 }
-
-
-
-// flow:
-// receive weapon skill id, skillLoader for weapons containing both refined and unrefined weapons
-// .then skillloader to remove all refined weapons (with very high id)
-// query for that id
-// refined?
-// true:
-// find refine base id - that is value passed to weapon selector
-// find refines OF refine base id - detect refine type from stats - update state - get value/options passed to refine selector
-// false:
-// pass id directly to weapon selector, pass NONE to refine selector
-// find refines - detect refine type from stats - update state - 

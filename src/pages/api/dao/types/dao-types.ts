@@ -89,6 +89,17 @@ export interface SkillDefinition {
     movEquip: MovementTypeBitfield,
 }
 
+export enum RefineType {
+    NONE,
+    EFFECT,
+    ATK,
+    SPD,
+    DEF,
+    RES,
+    DAZZLING,
+    WRATHFUL,
+}
+
 export interface WeaponDefinition extends SkillDefinition {
     might: number,
     range: number,
@@ -97,6 +108,7 @@ export interface WeaponDefinition extends SkillDefinition {
     refineStats: ParameterPerStat,
     refines: string[],
     arcaneWeapon: boolean,
+    refineType: RefineType,
     category: SkillCategory.WEAPON, // always known
 }
 // not a complete guard, shifts responsibility to programmer to remember to actually define fields

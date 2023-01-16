@@ -1,5 +1,5 @@
 import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, HeroSkills, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
-import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum } from "./enum";
+import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum, RefineTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { heroDao, messageDao, skillDao } from "../dao/dao-registry";
@@ -128,6 +128,12 @@ WeaponDefinitionObject.implement({
             nullable: true,
             resolve: (weaponDefinition) => (weaponDefinition.refined ? weaponDefinition.refineStats : null),
             description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
+        }),
+        refineType: ofb.field({
+            type: RefineTypeEnum,
+            nullable: false,
+            resolve: (weaponDefinition) => weaponDefinition.refineType,
+            description: "The type of refine. Non-staff refines are NONE, EFFECT, or a stat. Staff refines are NONE, EFFECT, DAZZLING, or WRATHFUL. EFFECT refines are only applicable to exclusive weapons."
         }),
         refines: ofb.field({
             type: ofb.listRef(WeaponDefinitionObject, { nullable: false }),

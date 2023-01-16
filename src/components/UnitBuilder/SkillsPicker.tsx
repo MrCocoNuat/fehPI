@@ -208,3 +208,21 @@ export function SkillsPicker({
         />
     </div>
 }
+
+// Exports
+// ----------
+
+// skills need to be reset when the hero changes - they might not be equippable anymore
+export function ensureSkillValidity(unit: Unit, justSetProp: keyof Unit) {
+    switch (justSetProp) {
+        case "idNum":
+            unit.weaponSkillId = 0;
+            unit.assistSkillId = 0;
+            unit.specialSkillId = 0;
+            unit.passiveASkillId = 0;
+            unit.passiveBSkillId = 0;
+            unit.passiveCSkillId = 0;
+            unit.passiveSSkillId = 0;
+        default: //do nothing
+    }
+}

@@ -4,7 +4,7 @@ import { Combatant, Unit } from "../../engine/types";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
 import { ensureTraitConsistency as ensureTraitValidity, TraitPicker } from "./TraitPicker";
-import { SkillsPicker } from "./SkillsPicker";
+import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
 
 
 
@@ -27,6 +27,7 @@ export function UnitBuilder({
         const copyUnit = { ...combatant.unit, [prop]: value };
         ensureTraitValidity(copyUnit, prop);
         ensureDragonflowerValidity(copyUnit, prop);
+        ensureSkillValidity(copyUnit, prop);
 
         updater({ ...combatant, unit: copyUnit });
     }

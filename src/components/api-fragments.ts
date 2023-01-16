@@ -126,9 +126,29 @@ export const SKILL_RESTRICTIONS_FRAG = gql`
     }
 `
 
-export const SKILL_IMAGE_URL = "SkillImageUrl";
-export const SKILL_IMAGE_URL_FRAG = gql`
-    fragment ${SKILL_IMAGE_URL} on PassiveSkillDefinition {
+export const PASSIVE_SKILL_IMAGE_URL = "SkillImageUrl";
+export const PASSIVE_SKILL_IMAGE_URL_FRAG = gql`
+    fragment ${PASSIVE_SKILL_IMAGE_URL} on PassiveSkillDefinition {
         imageUrl
+    }
+`
+export const WEAPON_REFINES = "WeaponRefines";
+export const WEAPON_REFINES_FRAG = gql`
+    fragment ${WEAPON_REFINES} on WeaponDefinition {
+        refined
+        refineType
+        
+        refineBase{
+            idNum
+            refines{
+                idNum
+                refineType
+            }
+        }
+
+        refines{
+            idNum
+            refineType
+        }
     }
 `

@@ -56,6 +56,10 @@ export function ascendantFloretImage() {
     return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={""} fill={true} />
 }
 
+export function divineDewImage() {
+    return <Image src={"/icons/misc/Divine_Dew.webp"} alt={""} fill={true} />
+}
+
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-s font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
     [SkillCategory.PASSIVE_B]: <div className="text-s font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,

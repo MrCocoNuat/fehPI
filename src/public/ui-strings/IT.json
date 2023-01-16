@@ -5,7 +5,10 @@
     "UNIT_STAT_DEF": "Dif",
     "UNIT_STAT_RES": "Res",
     "UNIT_STAT_NONE": "Nessuno",
-
+    "UNIT_REFINE_EFFECT": "NOT_TRANSLATED",
+    "UNIT_REFINE_DAZZLING": "NOT_TRANSLATED",
+    "UNIT_REFINE_WRATHFUL": "NOT_TRANSLATED",
+    
     "UNIT_RARITY_ONE": "1★",
     "UNIT_RARITY_TWO": "2★",
     "UNIT_RARITY_THREE": "3★",
@@ -17,6 +20,7 @@
     "UNIT_ASSET": "Pregio",
     "UNIT_FLAW": "Difetto",
     "UNIT_ASCENSION": "Ascendi",
+    "UNIT_REFINE": "NOT_TRANSLATED",
 
     "UNIT_SKILL_NONE": "Niente",
 

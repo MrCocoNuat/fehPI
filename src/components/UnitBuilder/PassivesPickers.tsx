@@ -2,22 +2,24 @@ import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
 import { SkillCategory } from "../../pages/api/dao/types/dao-types";
-import { INCLUDE_FRAG, SKILL_IMAGE_URL, SKILL_IMAGE_URL_FRAG } from "../api-fragments";
+import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/Select";
 import { skillCategoryIcon } from "../ui-resources";
 
 // also responsible for rendering skill icons
 
+// where to put no arcane-prf rule?
+
 // Query
 // ----------
 
 const GET_SKILL_IMAGE_URL = gql`
-    ${SKILL_IMAGE_URL_FRAG}
+    ${PASSIVE_SKILL_IMAGE_URL_FRAG}
     query getSkillImageUrls($id: Int!){
         skills(idNums: [$id]){
             idNum
-            ${INCLUDE_FRAG(SKILL_IMAGE_URL)}
+            ${INCLUDE_FRAG(PASSIVE_SKILL_IMAGE_URL)}
         }
     }
 `

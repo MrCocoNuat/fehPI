@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ReactSelect from "react-select";
+import ReactSelect, { Options } from "react-select";
 import { SingleValue } from "react-select"
 import { LanguageContext } from "../../pages/testpage";
 import { getUiStringResource } from "../ui-resources";
@@ -14,9 +14,9 @@ export function Select<ValueType>({
     className,
 }: {
     id: string,
-    value: ValueType,
+    value?: ValueType,
     onChange: (choice: SingleValue<ValueAndLabel<ValueType>>) => void,
-    options: ValueAndLabel<ValueType>[],
+    options: Options<ValueAndLabel<ValueType>>,
     className?: string,
 }) {
     const selectedLanguage = useContext(LanguageContext);

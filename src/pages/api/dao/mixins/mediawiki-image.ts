@@ -1,6 +1,7 @@
 import { fchmod } from "fs";
+import { distinguishFalchions, fudgeEffectRefine } from "../../../../api-client/mediawiki/effect-refine-fudger";
 import { asciify } from "../../../../api-client/mediawiki/file-title";
-import { fudge } from "../../../../api-client/mediawiki/skill-name-fudger";
+import { fudgeSkillName } from "../../../../api-client/mediawiki/skill-name-fudger";
 import { messageDao } from "../dao-registry";
 import { fehWikiReader } from "../remote-data/remote-data";
 import { HeroDefinition, Language, PassiveSkillDefinition, SkillCategory, SkillDefinition, WeaponDefinition } from "../types/dao-types";
@@ -28,7 +29,7 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
         async populateSkillImageUrls(definitions: PassiveSkillDefinition[]) {
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
-            const fileTitles = messages.map(message => message.value).map(name => fudge(name)).map(name => `File:${asciify(name)}.png`);
+            const fileTitles = messages.map(message => message.value).map(name => fudgeSkillName(name)).map(name => `File:${asciify(name)}.png`);
             const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
 
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
@@ -38,7 +39,7 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
         async populateEffectRefineImageUrls(definitions: WeaponDefinition[]){
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
-            const fileTitles = messages.map(message => message.value).map(name => `File:${asciify(name)} W.png`);
+            const fileTitles = messages.map(message => distinguishFalchions(message)).map(name => fudgeEffectRefine(name)).map(name => `File:${asciify(name)} W.png`);
             const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
 
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);

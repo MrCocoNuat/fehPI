@@ -1,7 +1,7 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
-import { Combatant, constrainNumeric, MAX_LEVEL, MAX_MERGES, MAX_RARITY, MAX_SAFE_DRAGONFLOWERS, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, MIN_RARITY, Unit } from "../../engine/types";
-import { Language, MovementType } from "../../pages/api/dao/types/dao-types";
+import { constrainNumeric, MAX_LEVEL, MAX_MERGES, MIN_DRAGONFLOWERS, MIN_LEVEL, MIN_MERGES, Unit } from "../../engine/types";
+import { MovementType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_MAX_DRAGONFLOWERS, HERO_MAX_DRAGONFLOWERS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, INCLUDE_FRAG } from "../api-fragments";
 import { AsyncNumericInput } from "../tailwind-styled/AsyncNumericInput";

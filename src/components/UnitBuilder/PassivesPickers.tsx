@@ -1,6 +1,6 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
+import { NONE_SKILL_ID, Unit } from "../../engine/types";
 import { SkillCategory } from "../../pages/api/dao/types/dao-types";
 import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";

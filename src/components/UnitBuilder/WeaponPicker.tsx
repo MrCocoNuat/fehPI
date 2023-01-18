@@ -1,13 +1,13 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
 import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
-import { Language, OptionalLanguage, ParameterPerStat, RefineType, SkillCategory, Stat } from "../../pages/api/dao/types/dao-types";
+import { NONE_SKILL_ID, Unit } from "../../engine/types";
+import { Language, OptionalLanguage, RefineType, SkillCategory } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { Select, ValueAndLabel } from "../tailwind-styled/Select";
-import { skillCategoryIcon, getUiStringResource, divineDewImage, weaponRefineIcon } from "../ui-resources";
+import { getUiStringResource, divineDewImage, weaponRefineIcon } from "../ui-resources";
 import { MultiplePropMerger } from "./UnitBuilder";
 
 

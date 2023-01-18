@@ -1,6 +1,6 @@
 import { getAllEnumEntries, getAllEnumValues } from "enum-for";
 import { useContext } from "react";
-import { Combatant, Unit } from "../../engine/types";
+import { Unit } from "../../engine/types";
 import { Language, OptionalStat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { Select } from "../tailwind-styled/Select";
@@ -93,7 +93,7 @@ function pickANonNoneStat(...notEqualToAnyOfThese: OptionalStat[]) {
 // if asset is not none, then asset cannot be the same as flaw
 // if someone naughty tries to break these rules, set a DIFFERENT prop than the one they just changed to ensure consistency
 //   undoing the SAME change someone just made is kind of rude
-export function ensureTraitConsistency(unit: Unit, justSetTrait: keyof Unit) {
+export function ensureTraitValidity(unit: Unit, justSetTrait: keyof Unit) {
     const ascensionAssetError = (unit.asset !== OptionalStat.NONE && unit.ascension === unit.asset);
     const assetFlawError = (unit.asset !== OptionalStat.NONE && unit.asset === unit.flaw);
     const halfNormalizedError = (unit.asset === OptionalStat.NONE && unit.flaw !== OptionalStat.NONE) || (unit.flaw === OptionalStat.NONE && unit.asset !== OptionalStat.NONE)

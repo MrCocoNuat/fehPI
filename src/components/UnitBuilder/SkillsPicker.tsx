@@ -1,7 +1,7 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
 import { useContext, useEffect, useState } from "react";
-import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types"
+import { NONE_SKILL_ID, Unit } from "../../engine/types"
 import { Language, MovementType, OptionalLanguage, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_FIVE_STAR_SKILLS, HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
@@ -216,14 +216,14 @@ export function SkillsPicker({
 export function ensureSkillValidity(unit: Unit, justSetProp: keyof Unit) {
     switch (justSetProp) {
         case "idNum":
-            unit.weaponSkillId = 0;
-            unit.weaponSkillBaseId = 0;
-            unit.assistSkillId = 0;
-            unit.specialSkillId = 0;
-            unit.passiveASkillId = 0;
-            unit.passiveBSkillId = 0;
-            unit.passiveCSkillId = 0;
-            unit.passiveSSkillId = 0;
+            unit.weaponSkillId = NONE_SKILL_ID;
+            unit.weaponSkillBaseId = NONE_SKILL_ID;
+            unit.assistSkillId = NONE_SKILL_ID;
+            unit.specialSkillId = NONE_SKILL_ID;
+            unit.passiveASkillId = NONE_SKILL_ID;
+            unit.passiveBSkillId = NONE_SKILL_ID;
+            unit.passiveCSkillId = NONE_SKILL_ID;
+            unit.passiveSSkillId = NONE_SKILL_ID;
         default: //do nothing
     }
 }

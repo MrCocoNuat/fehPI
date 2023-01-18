@@ -4,10 +4,6 @@
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { NumericInput } from "./NumericInput";
 
-function isAsync(possiblyAsyncEventHandler: ChangeEventHandler<HTMLInputElement> | Promise<ChangeEventHandler<HTMLInputElement>>)
-    : possiblyAsyncEventHandler is Promise<ChangeEventHandler<HTMLInputElement>> {
-    return (possiblyAsyncEventHandler as ChangeEventHandler<HTMLInputElement>).apply === undefined;
-}
 
 export function AsyncNumericInput(
     {

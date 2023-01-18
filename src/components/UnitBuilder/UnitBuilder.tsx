@@ -3,7 +3,7 @@ import { statsFor } from "../../engine/stat-calculation"
 import { Combatant, Unit } from "../../engine/types";
 import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
-import { ensureTraitConsistency as ensureTraitValidity, TraitPicker } from "./TraitPicker";
+import { ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
 
 

@@ -141,3 +141,10 @@ export const WEAPON_REFINES_FRAG = gql`
         }
     }
 `
+
+export const WEAPON_IMAGE_URL = "WeaponImageUrl";
+export const WEAPON_IMAGE_URL_FRAG = gql`
+    fragment ${WEAPON_IMAGE_URL} on WeaponDefinition {
+        imageUrl
+    }
+`

@@ -58,11 +58,11 @@ async function applyImageUrlStateSetter(
 // ----------
 
 export function PassivesPicker({
-    currentCombatant,
+    currentUnit,
     mergeChanges,
     skillLoaders,
 }: {
-    currentCombatant: Combatant,
+    currentUnit: Unit,
     mergeChanges: MultiplePropMerger,
     skillLoaders: { [skillCategory in SkillCategory]: () => Promise<ValueAndLabel<number>[]> }
 }) {
@@ -106,7 +106,7 @@ export function PassivesPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.passiveASkillId}
+                value={currentUnit.passiveASkillId}
                 onChange={(choice) => { mergeChanges({prop: "passiveASkillId", value: +choice!.value}); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_A]}
                 syncValueWithLoadOptions={(value) =>
@@ -120,7 +120,7 @@ export function PassivesPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.passiveBSkillId}
+                value={currentUnit.passiveBSkillId}
                 onChange={(choice) => { mergeChanges({prop: "passiveBSkillId", value: +choice!.value}); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_B]}
                 syncValueWithLoadOptions={(value) =>
@@ -134,7 +134,7 @@ export function PassivesPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.passiveCSkillId}
+                value={currentUnit.passiveCSkillId}
                 onChange={(choice) => { mergeChanges({prop: "passiveCSkillId", value: +choice!.value}); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_C]}
                 syncValueWithLoadOptions={(value) =>
@@ -148,7 +148,7 @@ export function PassivesPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.passiveSSkillId}
+                value={currentUnit.passiveSSkillId}
                 onChange={(choice) => { mergeChanges({prop: "passiveSSkillId", value: +choice!.value}); }}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_S]}
                 syncValueWithLoadOptions={(value) =>

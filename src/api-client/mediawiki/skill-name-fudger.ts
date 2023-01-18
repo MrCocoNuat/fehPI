@@ -52,6 +52,6 @@ function initiateSealDeduplicator(name: string) {
     return `${initiateSealRename[stat]} Plus ${boost}`;
 }
 
-export function fudge(name: string){
+export function fudgeSkillName(name: string){
     return squadAceDeduplicator(initiateSealDeduplicator(name));
 }

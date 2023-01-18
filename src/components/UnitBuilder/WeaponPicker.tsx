@@ -1,13 +1,13 @@
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { getAllEnumValues } from "enum-for";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Combatant, NONE_SKILL_ID, Unit } from "../../engine/types";
 import { Language, OptionalLanguage, ParameterPerStat, RefineType, SkillCategory, Stat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
+import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
 import { Select, ValueAndLabel } from "../tailwind-styled/Select";
-import { skillCategoryIcon, getUiStringResource, divineDewImage } from "../ui-resources";
+import { skillCategoryIcon, getUiStringResource, divineDewImage, weaponRefineIcon } from "../ui-resources";
 import { MultiplePropMerger } from "./UnitBuilder";
 
 
@@ -47,7 +47,7 @@ const mapQuery = (json: any) => json.data.skills.map((queriedWeapon: any) => ({
 
 // Query 
 // ----------
-// only used to handle additional query for weapon evolutions
+// to handle weapon evolutions
 
 const GET_SINGLE_SKILL_NAME = gql`
     ${SKILL_NAME_FRAG}
@@ -67,6 +67,25 @@ type EvolvedWeaponName = {
 
 const mapEvolvedWeaponQuery = (json: any) => json.data.skills[0] as EvolvedWeaponName;
 
+// Query
+// ---------
+
+const GET_EFFECT_REFINE_IMAGE_URL = gql`
+    ${WEAPON_IMAGE_URL_FRAG}
+    query getEffectRefineImageUrl($id: Int!){
+        skills(idNums: [$id]){
+            idNum
+            ${INCLUDE_FRAG(WEAPON_IMAGE_URL)}
+        }
+    }
+`
+type EffectRefineImage = {
+    idNum: number,
+    imageUrl: string,
+}
+
+const mapEffectRefineImageQuery = (json: any) => json.data.skills[0] as EffectRefineImage;
+
 // Helper
 // ----------
 
@@ -81,6 +100,24 @@ async function getWeaponIds(
     const result = { [RefineType.NONE]: refineBaseId } as { [refineType in RefineType]: number | undefined };
     refines.forEach(({ idNum, refineType }) => result[refineType] = idNum)
     return result;
+}
+
+async function applyImageStateSetter(
+    weaponIds: { [refineType in RefineType]: number | undefined },
+    effectRefineImageQuery: LazyQueryExecFunction<any, any>,
+    setter: Dispatch<SetStateAction<JSX.Element>>,
+    skillId: number
+) {
+    // from the provided weaponIds map, figure out the reverse mapping - what refinetype is this id?
+    const refineType = +Object.entries(weaponIds).find(([refineTypeString, id]) => id === skillId)![0] as RefineType;
+    // not effect refine? skip the query
+    if (refineType !== RefineType.EFFECT) {
+        setter(weaponRefineIcon(refineType, undefined));
+        return;
+    }
+    // effect refines have unique icons
+    const queryResult = mapEffectRefineImageQuery(await effectRefineImageQuery({ variables: { id: skillId } }));
+    setter(weaponRefineIcon(RefineType.EFFECT, queryResult.imageUrl));
 }
 
 // Loaders
@@ -177,11 +214,11 @@ function refineOptions(weaponIds: { [refineType in RefineType]: number | undefin
 // ----------
 
 export function WeaponPicker({
-    currentCombatant,
+    currentUnit,
     mergeChanges,
     skillLoaders,
 }: {
-    currentCombatant: Combatant,
+    currentUnit: Unit,
     mergeChanges: MultiplePropMerger,
     skillLoaders: { [skillCategory in SkillCategory]: () => Promise<ValueAndLabel<number>[]> }
 }) {
@@ -194,15 +231,16 @@ export function WeaponPicker({
     // If Select (not FilterSelect) gets more async uses then it is worth creating AsyncSelect standalone
     // but for now just maintain a ref, which is updated only when:
     //   onChange of the Select itself fires OR after the promise to update weaponIds is resolved
-    const syncedWeaponSkillIdRef = useRef(currentCombatant.unit.weaponSkillId);
+    const syncedWeaponSkillIdRef = useRef(currentUnit.weaponSkillId);
 
     const [refinesQuery] = useLazyQuery(GET_WEAPON_REFINES, {
         variables: {
-            baseId: currentCombatant.unit.weaponSkillBaseId,
+            baseId: currentUnit.weaponSkillBaseId,
         }
     });
     // no vars here
     const [evolvedWeaponsQuery] = useLazyQuery(GET_SINGLE_SKILL_NAME);
+    const [effectRefineImageQuery] = useLazyQuery(GET_EFFECT_REFINE_IMAGE_URL);
 
     // this promise must resolve AFTER the value argument to the AsyncFilterSelect is calculated,
     // otherwise the sync will not happen correctly
@@ -215,36 +253,41 @@ export function WeaponPicker({
             selectedLanguage
         ), [skillLoaders]);
 
+    const [weaponIconImage, setWeaponIconImage] = useState(weaponRefineIcon(RefineType.NONE, undefined));
+
     // the skill ids for each refine option of the currently selected weapon
     // the id with the NONE key is always present (there is always a refine base, even for none weapon 0), others can be undefined
     const NONE_WEAPON_IDS = { [RefineType.NONE]: NONE_SKILL_ID } as { [refineType in RefineType]: number | undefined }
     const [weaponIds, setWeaponIds] = useState(NONE_WEAPON_IDS);
     useEffect(() => {
         const updater = async () => {
-            if (currentCombatant.unit.weaponSkillBaseId === NONE_SKILL_ID) {
+            if (currentUnit.weaponSkillBaseId === NONE_SKILL_ID) {
                 syncedWeaponSkillIdRef.current = NONE_SKILL_ID;
+                applyImageStateSetter(NONE_WEAPON_IDS, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
                 setWeaponIds(NONE_WEAPON_IDS);
             } else {
                 const weaponIds = await getWeaponIds(refinesQuery);
-                syncedWeaponSkillIdRef.current = currentCombatant.unit.weaponSkillId;
+                syncedWeaponSkillIdRef.current = currentUnit.weaponSkillId;
+                applyImageStateSetter(weaponIds, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
                 setWeaponIds(weaponIds);
             }
         }
         updater();
     },
-        [currentCombatant.unit.weaponSkillBaseId]);
+        [currentUnit.weaponSkillBaseId]);
+
 
 
     return <div className="flex gap-2">
         <div className="flex items-center flex-1">
             <label htmlFor="unit-weapon-skill">
                 <div className="w-8 aspect-square relative m-1">
-                    {skillCategoryIcon(SkillCategory.WEAPON)}
+                    {weaponIconImage}
                 </div>
             </label>
 
             <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
-                value={currentCombatant.unit.weaponSkillBaseId}
+                value={currentUnit.weaponSkillBaseId}
                 // onChange is OK, it can only change to unrefined weapons
                 onChange={(choice) => {
                     mergeChanges(
@@ -271,6 +314,7 @@ export function WeaponPicker({
                 // onChange cannot change base id (and cannot change weapon id to something not a refine of base id)
                 onChange={(choice) => {
                     syncedWeaponSkillIdRef.current = choice!.value;
+                    applyImageStateSetter(weaponIds, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
                     mergeChanges({ prop: "weaponSkillId", value: +choice!.value });
                 }}
                 options={refineOptions(weaponIds, selectedLanguage)} />

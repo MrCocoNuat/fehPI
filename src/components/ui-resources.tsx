@@ -1,4 +1,4 @@
-import { Language, MovementType, SkillCategory } from "../pages/api/dao/types/dao-types";
+import { Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -85,5 +85,27 @@ export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: strin
             </div >
         default:
             return <></>;
+    }
+}
+
+export function weaponRefineIcon(refineType: RefineType, imageUrl?: string) {
+    switch (refineType) {
+        case RefineType.NONE:
+            return skillCategoryIcon(SkillCategory.WEAPON); // just a weapon icon
+        case RefineType.EFFECT:
+            return <Image src={imageUrl!} alt={"AtkR"} fill={true} /> // provide the image url - these are unique
+        case RefineType.ATK:
+            return <Image src={"/icons/weapon-refine/Attack_Plus_W.webp"} alt={"AtkR"} fill={true} />
+        case RefineType.SPD:
+            return <Image src={"/icons/weapon-refine/Speed_Plus_W.webp"} alt={"SpdR"} fill={true} />
+        case RefineType.DEF:
+            return <Image src={"/icons/weapon-refine/Defense_Plus_W.webp"} alt={"DefR"} fill={true} />
+        case RefineType.RES:
+            return <Image src={"/icons/weapon-refine/Resistance_Plus_W.webp"} alt={"ResR"} fill={true} />
+        case RefineType.WRATHFUL:
+            return <Image src={"/icons/weapon-refine/Wrathful_Staff_W.webp"} alt={"WrathfulR"} fill={true} />
+        case RefineType.DAZZLING:
+            return <Image src={"/icons/weapon-refine/Dazzling_Staff_W.webp"} alt={"DazzlingR"} fill={true} />
+
     }
 }

@@ -53,10 +53,10 @@ const dragonflowerMinMaxLoaderFor = async (
 
 export function LevelMergeDragonflowerPicker(
     {
-        currentCombatant,
+        currentUnit,
         mergeChanges,
     }: {
-        currentCombatant: Combatant,
+        currentUnit: Unit,
         mergeChanges: MultiplePropMerger,
     }
 ) {
@@ -90,12 +90,12 @@ export function LevelMergeDragonflowerPicker(
             <label htmlFor="unit-level">{getUiStringResource(selectedLanguage, "UNIT_LEVEL")}</label>
             <NumericInput className="w-16" id="unit-level"
                 minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }}
-                value={currentCombatant.unit.level}
+                value={currentUnit.level}
                 onChange={(evt) => mergeChanges({ prop: "level", value: constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL) })} />
             <label htmlFor="unit-merges">+</label>
             <NumericInput className="w-16" id="unit-merges"
                 minMax={{ min: MIN_MERGES, max: MAX_MERGES }}
-                value={currentCombatant.unit.merges}
+                value={currentUnit.merges}
                 onChange={(evt) => mergeChanges({ prop: "merges", value: constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES) })} />
         </div>
         <div className="flex">
@@ -109,7 +109,7 @@ export function LevelMergeDragonflowerPicker(
             </label>
             <AsyncNumericInput className="w-16" id="unit-dragonflowers"
                 loadMinMax={dragonflowerMinMaxLoader}
-                value={currentCombatant.unit.dragonflowers}
+                value={currentUnit.dragonflowers}
                 // technically not constrained - but this is async so...
                 onChange={(evt) => mergeChanges({ prop: "dragonflowers", value: +evt.target.value })} />
         </div>

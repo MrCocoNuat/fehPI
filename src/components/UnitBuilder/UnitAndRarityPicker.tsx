@@ -62,10 +62,10 @@ const heroesLoaderFor = async (
 
 export function UnitAndRarityPicker(
     {
-        currentCombatant,
+        currentUnit,
         mergeChanges,
     }: {
-        currentCombatant: Combatant,
+        currentUnit: Unit,
         mergeChanges: MultiplePropMerger,
     }
     ) {
@@ -87,11 +87,11 @@ export function UnitAndRarityPicker(
 
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="min-w-[320px] flex-1"
-            value={currentCombatant.unit.idNum}
+            value={currentUnit.idNum}
             onChange={(choice) => { mergeChanges({prop: "idNum", value: +choice!.value}) }}
             loadOptions={heroesLoader} />
         <Select id="unit-rarity" className="w-18"
-            value={currentCombatant.unit.rarity}
+            value={currentUnit.rarity}
             onChange={(choice) => { mergeChanges({prop: "rarity", value: constrainNumeric(choice!.value, MIN_RARITY, MAX_RARITY)}) }}
             options={
                 getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))

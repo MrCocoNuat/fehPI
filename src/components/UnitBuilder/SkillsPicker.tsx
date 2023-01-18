@@ -141,10 +141,10 @@ const skillLoadersFor = (
 // ----------
 
 export function SkillsPicker({
-    currentCombatant,
+    currentUnit,
     mergeChanges,
 }: {
-    currentCombatant: Combatant,
+    currentUnit: Unit,
     mergeChanges: MultiplePropMerger,
 }) {
     console.info("rendering skillpicker")
@@ -173,7 +173,7 @@ export function SkillsPicker({
 
     return <div className="flex flex-col">
         <WeaponPicker
-            currentCombatant={currentCombatant}
+            currentUnit={currentUnit}
             mergeChanges={mergeChanges}
             skillLoaders={skillLoaders}
         />
@@ -184,8 +184,8 @@ export function SkillsPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-assist-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.assistSkillId}
-                onChange={(choice) => { mergeChanges({prop: "assistSkillId", value: +choice!.value}); }}
+                value={currentUnit.assistSkillId}
+                onChange={(choice) => { mergeChanges({ prop: "assistSkillId", value: +choice!.value }); }}
                 loadOptions={skillLoaders[SkillCategory.ASSIST]}
                 syncValueWithLoadOptions={true} />
         </div>
@@ -196,13 +196,13 @@ export function SkillsPicker({
                 </div>
             </label>
             <AsyncFilterSelect id={"unit-special-skill"} className="w-80 flex-1"
-                value={currentCombatant.unit.specialSkillId}
-                onChange={(choice) => { mergeChanges({prop: "specialSkillId", value: +choice!.value}); }}
+                value={currentUnit.specialSkillId}
+                onChange={(choice) => { mergeChanges({ prop: "specialSkillId", value: +choice!.value }); }}
                 loadOptions={skillLoaders[SkillCategory.SPECIAL]}
                 syncValueWithLoadOptions={true} />
         </div>
         <PassivesPickers
-            currentCombatant={currentCombatant}
+            currentUnit={currentUnit}
             mergeChanges={mergeChanges}
             skillLoaders={skillLoaders}
         />

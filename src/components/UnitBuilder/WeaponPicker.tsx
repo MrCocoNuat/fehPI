@@ -214,11 +214,11 @@ function refineOptions(weaponIds: { [refineType in RefineType]: number | undefin
 // ----------
 
 export function WeaponPicker({
-    currentCombatant,
+    currentUnit,
     mergeChanges,
     skillLoaders,
 }: {
-    currentCombatant: Combatant,
+    currentUnit: Unit,
     mergeChanges: MultiplePropMerger,
     skillLoaders: { [skillCategory in SkillCategory]: () => Promise<ValueAndLabel<number>[]> }
 }) {
@@ -231,11 +231,11 @@ export function WeaponPicker({
     // If Select (not FilterSelect) gets more async uses then it is worth creating AsyncSelect standalone
     // but for now just maintain a ref, which is updated only when:
     //   onChange of the Select itself fires OR after the promise to update weaponIds is resolved
-    const syncedWeaponSkillIdRef = useRef(currentCombatant.unit.weaponSkillId);
+    const syncedWeaponSkillIdRef = useRef(currentUnit.weaponSkillId);
 
     const [refinesQuery] = useLazyQuery(GET_WEAPON_REFINES, {
         variables: {
-            baseId: currentCombatant.unit.weaponSkillBaseId,
+            baseId: currentUnit.weaponSkillBaseId,
         }
     });
     // no vars here
@@ -261,20 +261,20 @@ export function WeaponPicker({
     const [weaponIds, setWeaponIds] = useState(NONE_WEAPON_IDS);
     useEffect(() => {
         const updater = async () => {
-            if (currentCombatant.unit.weaponSkillBaseId === NONE_SKILL_ID) {
+            if (currentUnit.weaponSkillBaseId === NONE_SKILL_ID) {
                 syncedWeaponSkillIdRef.current = NONE_SKILL_ID;
                 applyImageStateSetter(NONE_WEAPON_IDS, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
                 setWeaponIds(NONE_WEAPON_IDS);
             } else {
                 const weaponIds = await getWeaponIds(refinesQuery);
-                syncedWeaponSkillIdRef.current = currentCombatant.unit.weaponSkillId;
+                syncedWeaponSkillIdRef.current = currentUnit.weaponSkillId;
                 applyImageStateSetter(weaponIds, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
                 setWeaponIds(weaponIds);
             }
         }
         updater();
     },
-        [currentCombatant.unit.weaponSkillBaseId]);
+        [currentUnit.weaponSkillBaseId]);
 
 
 
@@ -287,7 +287,7 @@ export function WeaponPicker({
             </label>
 
             <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
-                value={currentCombatant.unit.weaponSkillBaseId}
+                value={currentUnit.weaponSkillBaseId}
                 // onChange is OK, it can only change to unrefined weapons
                 onChange={(choice) => {
                     mergeChanges(

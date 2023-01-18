@@ -31,10 +31,10 @@ function statStringsForLanguage(language: Language) {
 // ---------
 
 export function TraitPicker({
-    currentCombatant,
+    currentUnit,
     mergeChanges,
 }: {
-    currentCombatant: Combatant,
+    currentUnit: Unit,
     mergeChanges: MultiplePropMerger,
 }) {
     const selectedLanguage = useContext(LanguageContext);
@@ -44,7 +44,7 @@ export function TraitPicker({
         <div className="flex flex-col gap-1 items-center">
             <label htmlFor="unit-asset">{getUiStringResource(selectedLanguage, "UNIT_ASSET")}</label>
             <Select id="unit-asset" className="w-32"
-                value={currentCombatant.unit.asset}
+                value={currentUnit.asset}
                 onChange={(choice) => mergeChanges({prop: "asset", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
@@ -53,7 +53,7 @@ export function TraitPicker({
         <div className="flex flex-col gap-1 items-center">
             <label htmlFor="unit-flaw">{getUiStringResource(selectedLanguage, "UNIT_FLAW")}</label>
             <Select id="unit-flaw" className="w-32"
-                value={currentCombatant.unit.flaw}
+                value={currentUnit.flaw}
                 onChange={(choice) => mergeChanges({prop: "flaw", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))
@@ -69,7 +69,7 @@ export function TraitPicker({
                 </div>
             </label>
             <Select id="unit-ascension" className="w-32"
-                value={currentCombatant.unit.ascension}
+                value={currentUnit.ascension}
                 onChange={(choice) => mergeChanges({prop: "ascension", value: choice!.value})}
                 options={
                     getAllEnumEntries(OptionalStat).map(([key, value]) => ({ value: value, label: statString(value) }))

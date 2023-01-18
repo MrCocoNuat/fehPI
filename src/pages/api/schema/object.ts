@@ -2,7 +2,7 @@ import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpeci
 import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum, RefineTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
-import { heroDao, messageDao, skillDao } from "../dao/dao-registry";
+import { messageDao, skillDao } from "../dao/dao-registry";
 
 // From TypeScript Types, create ObjectRefs/InterfaceRefs
 export const SkillDefinitionInterface = builder.loadableInterfaceRef<SkillDefinition, string>("SkillDefinition", {
@@ -133,7 +133,7 @@ WeaponDefinitionObject.implement({
             type: RefineTypeEnum,
             nullable: false,
             resolve: (weaponDefinition) => weaponDefinition.refineType,
-            description: "The type of refine. Non-staff refines are NONE, EFFECT, or a stat. Staff refines are NONE, EFFECT, DAZZLING, or WRATHFUL. EFFECT refines are only applicable to exclusive weapons."
+            description: "The type of refine. Non-staff refines are NONE, EFFECT, or a stat. Staff refines are NONE, EFFECT, DAZZLING, or WRATHFUL."
         }),
         refines: ofb.field({
             type: ofb.listRef(WeaponDefinitionObject, { nullable: false }),

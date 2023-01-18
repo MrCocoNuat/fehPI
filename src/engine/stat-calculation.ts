@@ -1,10 +1,25 @@
 // takes a Unit and returns its stat tuple
 
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Stats } from "fs";
-import { GET_GROWTH_VECTORS, GET_SINGLE_HERO } from "../components/api";
+import { HERO_STATS_FRAG } from "../components/api-fragments";
 import { GrowthVectors, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
 import { Rarity, Unit } from "./types";
+
+const GET_GROWTH_VECTORS = gql`
+query getGrowthVectors{
+    growthVectors
+} `;
+
+const GET_SINGLE_HERO = gql`
+    ${HERO_STATS_FRAG}
+    query getHero($id: Int!){
+        heroes(idNums: [$id]){
+            idNum
+            ...HeroStats
+        }
+    }
+`;
 
 /*
 
@@ -279,7 +294,7 @@ export function basesFor(unit: Unit,
 
 export function statsFor(unit: Unit): ParameterPerStat | string {
     const { loading: gvLoading, error: gvError, data: gvData } = useQuery(GET_GROWTH_VECTORS);
-    const { loading: hLoading, error: hError, data: hData } = useQuery(GET_SINGLE_HERO, { variables: { idNum: unit.idNum } })
+    const { loading: hLoading, error: hError, data: hData } = useQuery(GET_SINGLE_HERO, { variables: { id: unit.idNum } })
 
     if (gvLoading || hLoading) return "Loading...";
     if (gvError || hError) return "error";
@@ -292,7 +307,7 @@ export function statsFor(unit: Unit): ParameterPerStat | string {
     // console.log(`bases: ${JSON.stringify(bases)}`);
     // console.log(`growths: ${JSON.stringify(growths)}`);
 
-    // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be +stat skills
+    // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be additional +stat effects
 
     // add bases and growths
     const stats = {

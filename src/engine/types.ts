@@ -1,5 +1,9 @@
 import { OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
 
+export function constrainNumeric(value: number, min: number, max: number) {
+    return (value > min) ? ((value < max) ? value : max) : min;
+}
+
 export enum Team {
     PLAYER, ENEMY,
 }
@@ -25,6 +29,11 @@ export enum Rarity {
     FOUR_STARS,
     FIVE_STARS,
 }
+export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RARITY: Rarity.FIVE_STARS };
+
+// 0 is explicitly no skill - don't use null!
+export const NONE_SKILL_ID = 0;
+type NONE_SKILL = typeof NONE_SKILL_ID;
 
 export type Unit = {
     idNum: number,
@@ -37,15 +46,28 @@ export type Unit = {
     flaw: OptionalStat,
     ascension: OptionalStat,
 
-    // traits and so on for stats
+    weaponSkillId: number | NONE_SKILL,
+    // the refine base
+    weaponSkillBaseId : number | NONE_SKILL,
+    assistSkillId: number | NONE_SKILL,
+    specialSkillId: number | NONE_SKILL,
+    passiveASkillId: number | NONE_SKILL,
+    passiveBSkillId: number | NONE_SKILL,
+    passiveCSkillId: number | NONE_SKILL,
+    passiveSSkillId: number | NONE_SKILL,
+    // blessing
+    //support
 }
+export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;
+export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as const;
+// max dragonflowers is dependent on the unit, but is always at least 5
+export const { MIN_DRAGONFLOWERS, MAX_SAFE_DRAGONFLOWERS } = { MIN_DRAGONFLOWERS: 0, MAX_SAFE_DRAGONFLOWERS: 5 } as const;
 
 export type Combatant = {
     unit: Unit,
     team: Team,
     teamNumber: number,
     tileNumber?: number,
-    uid: symbol,
 }
 
 export type CombatantTeam = Combatant[]

@@ -30,7 +30,7 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
             this.readOnlyIds = true;
             if (this.valuesArrayIds === undefined){
                 this.valuesArrayIds = Object.values(this.collectionIds);
-                console.log(`dao recorded ${this.valuesArrayIds.length} entries in getAll`);
+                console.debug(`dao recorded ${this.valuesArrayIds.length} entries in getAll`);
             }
             return this.valuesArrayIds;
         }

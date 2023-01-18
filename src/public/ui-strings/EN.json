@@ -1,0 +1,29 @@
+{
+    "UNIT_STAT_HP": "HP",
+    "UNIT_STAT_ATK": "Atk",
+    "UNIT_STAT_SPD": "Spd",
+    "UNIT_STAT_DEF": "Def",
+    "UNIT_STAT_RES": "Res",
+    "UNIT_STAT_NONE": "None",
+    "UNIT_REFINE_EFFECT": "Effect",
+    "UNIT_REFINE_DAZZLING": "Dazzling",
+    "UNIT_REFINE_WRATHFUL": "Wrathful",
+
+    "UNIT_RARITY_ONE": "1★",
+    "UNIT_RARITY_TWO": "2★",
+    "UNIT_RARITY_THREE": "3★",
+    "UNIT_RARITY_FOUR": "4★",
+    "UNIT_RARITY_FIVE": "5★",
+
+    "UNIT_LEVEL": "LV.",
+    "UNIT_DRAGONFLOWERS": "Dragonflowers",
+    "UNIT_ASSET": "Asset",
+    "UNIT_FLAW": "Flaw",
+    "UNIT_ASCENSION": "Ascension",
+    "UNIT_REFINE": "Refine",
+    
+    "UNIT_SKILL_NONE": "None",
+
+    "SELECT_NO_OPTIONS": "No options",
+    "SELECT_LOADING": "Loading..."
+}

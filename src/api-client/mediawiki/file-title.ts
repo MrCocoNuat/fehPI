@@ -52,13 +52,13 @@ const transliteration = {
 export function asciify(unicodeStr: string) {
 
     // These particular instances of "-" are transformed into " "???
-    // but others are not, like Follow-Up Rind or Anna: Wealth-Wisher
+    // but others are not, like Follow-Up Ring or Anna: Wealth-Wisher
     if (unicodeStr.startsWith("Null Follow-Up") ||
         unicodeStr.startsWith("Null C-Disrupt")
     ) unicodeStr = unicodeStr.replaceAll("-", " ");
 
     // in particular, the + character has 2 uses:
-    //   mythic remix Skills (and + inheritable weapons but they are unsupported) have a + at the end, need to be replaced with " Plus"
+    //   mythic remix Skills have a + at the end, need to be replaced with " Plus"
     //   Passive stat + have + in the middle and need to be replaced with "Plus " 
     unicodeStr = unicodeStr.replaceAll("+", (unicodeStr.endsWith("+")? " Plus" : "Plus "));
 

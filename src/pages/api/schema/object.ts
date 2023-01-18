@@ -1,5 +1,5 @@
-import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
-import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum } from "./enum";
+import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, HeroSkills, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
+import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum, RefineTypeEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../dao/dao-registry";
@@ -62,7 +62,7 @@ SkillDefinitionInterface.implement({
             type: SkillDefinitionInterface,
             nullable: true,
             resolve: (skillDefinition) => skillDefinition.nextSkill,
-            description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise",
+            description: "The next Skill in this Skill's inheritance tree if there is one, null otherwise. Note that if multiple Skills have this Skill as a prerequisite, only one will be here",
         }),
         exclusive: ofb.exposeBoolean("exclusive", {
             nullable: false,
@@ -79,7 +79,7 @@ SkillDefinitionInterface.implement({
             resolve: (skillDefinition) => skillDefinition.category,
             description: "The category of this Skill",
         }),
-        movEquip: ofb.field({
+        movementEquip: ofb.field({
             type: ofb.listRef(MovementTypeEnum, {
                 nullable: false
             }),
@@ -87,7 +87,7 @@ SkillDefinitionInterface.implement({
             resolve: (skillDefinition) => getAllEnumValues(MovementType).filter(movementType => skillDefinition.movEquip[movementType]),
             description: "The movement types that are allowed to equip this skill",
         }),
-        wepEquip: ofb.field({
+        weaponEquip: ofb.field({
             type: ofb.listRef(WeaponTypeEnum, {
                 nullable: false
             }),
@@ -129,6 +129,12 @@ WeaponDefinitionObject.implement({
             resolve: (weaponDefinition) => (weaponDefinition.refined ? weaponDefinition.refineStats : null),
             description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
         }),
+        refineType: ofb.field({
+            type: RefineTypeEnum,
+            nullable: false,
+            resolve: (weaponDefinition) => weaponDefinition.refineType,
+            description: "The type of refine. Non-staff refines are NONE, EFFECT, or a stat. Staff refines are NONE, EFFECT, DAZZLING, or WRATHFUL."
+        }),
         refines: ofb.field({
             type: ofb.listRef(WeaponDefinitionObject, { nullable: false }),
             nullable: false,
@@ -142,6 +148,10 @@ WeaponDefinitionObject.implement({
         refined: ofb.exposeBoolean("refined", {
             nullable: false,
             description: "Whether this Weapon is refined"
+        }),
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Skill's icon if it is a EFFECT-refined weapon. Null otherwise."
         })
     })
 })
@@ -252,13 +262,13 @@ HeroDefinitionObject.implement({
             resolve: (heroDefinition) => heroDefinition.dragonflowers.maxCount,
             description: "Maximum number of dragonflowers that can be applied to this Hero",
         }),
-        wepType: ofb.field({
+        weaponType: ofb.field({
             type: WeaponTypeEnum,
             nullable: false,
             resolve: (heroDefinition) => (heroDefinition.weaponType),
             description: "The Hero's weapon type",
         }),
-        movType: ofb.field({
+        movementType: ofb.field({
             type: MovementTypeEnum,
             nullable: false,
             resolve: (heroDefinition) => (heroDefinition.movementType),
@@ -299,21 +309,52 @@ HeroDefinitionObject.implement({
             description: "The games that this Hero is considered to be from"
         }),
         skills: ofb.field({
-            type: ofb.listRef(SkillDefinitionInterface, {
+            type: ofb.listRef(HeroSkillsObject, {
                 nullable: true
             }),
             nullable: false,
             args: {
-                rarity: ofb.arg({
-                    //TODO:- Much better to 1. give a list 2. constrain this to an Enum
-                    type: "Int",
+                rarities: ofb.arg({
+                    type: ofb.arg.listRef(RarityEnum, {
+                        required: true
+                    }),
                     required: true,
                 })
             },
-            resolve: (heroDefinition, { rarity }) => heroDefinition.skills[rarity - 1],
-            description: "The Skills that this Hero learns at each rarity. This is unfinished and pretty janky."
+            resolve: (heroDefinition, { rarities }) =>
+                rarities
+                    .map(rarity => heroDefinition.skills[rarity])
+                    .map(fourteenSkillsList => ({
+                        // come on ts please know that something passing through filter nonnull is not null...
+                        known: fourteenSkillsList.slice(0, 6).filter(skill => skill !== null) as string[],
+                        learnable: fourteenSkillsList.slice(6).filter(skill => skill !== null) as string[]
+                    })),
+            description: "The Skills that this Hero knows and can learn at each rarity or higher"
         })
     }),
+})
+
+const HeroSkillsObject = builder.objectRef<HeroSkills>("HeroSkills");
+HeroSkillsObject.implement({
+    description: "The Skills a Hero knows and can learn at a particular rarity or higher",
+    fields: (ofb) => ({
+        known: ofb.field({
+            type: ofb.listRef(SkillDefinitionInterface, {
+                nullable: false
+            }),
+            nullable: false,
+            resolve: (heroSkills) => heroSkills.known,
+            description: "The Skills a Hero knows at a particular rarity or higher. There is at most one of each SkillCategory"
+        }),
+        learnable: ofb.field({
+            type: ofb.listRef(SkillDefinitionInterface, {
+                nullable: false
+            }),
+            nullable: false,
+            resolve: (heroSkills) => heroSkills.learnable,
+            description: "The Skills a Hero can at a particular rarity or higher. There can be more than one of each SkillCategory, e.g. Legendary/Mythic remix skills"
+        }),
+    })
 })
 
 

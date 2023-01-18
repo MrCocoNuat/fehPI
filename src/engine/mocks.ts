@@ -33,7 +33,7 @@ const randomTraits: () => { asset: OptionalStat, flaw: OptionalStat, ascension: 
 const randomTeam: () => Team = () => randInt(2);
 
 const randomUnit: () => Unit = () => ({
-    idNum: randInt(800),
+    idNum: 1+randInt(890),
     rarity: randInt(5),
     level: 40, //randInt(40), // level adjustments are so poorly supported by others...
     merges: randInt(11),
@@ -42,6 +42,15 @@ const randomUnit: () => Unit = () => ({
 
     ...randomTraits(),
 
+    // leave skills empty
+    weaponSkillId: 0,
+    weaponSkillBaseId: 0,
+    assistSkillId: 0,
+    specialSkillId: 0,
+    passiveASkillId: 0,
+    passiveBSkillId: 0,
+    passiveCSkillId: 0,
+    passiveSSkillId: 0
 });
 
 const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({
@@ -56,14 +65,14 @@ export const generateTeams: () => { [team in Team]: CombatantTeam } = () => {
     // assign the team members randomly to tiles
     const fourteenTileNumbers: number[] = [];
     const pool = new Array(NUM_TILES).fill(0).map((_, i) => i);
-    for (let i = 0; i < NUM_TEAMS*NUM_TEAM_MEMBERS; i++) {
+    for (let i = 0; i < NUM_TEAMS * NUM_TEAM_MEMBERS; i++) {
         const choice = pool.splice(randInt(pool.length), 1)[0];
         fourteenTileNumbers.push(choice);
     }
 
     return {
         [Team.PLAYER]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.PLAYER, i, fourteenTileNumbers[i])),
-        [Team.ENEMY]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.ENEMY, i, fourteenTileNumbers[i+NUM_TEAM_MEMBERS]))
+        [Team.ENEMY]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.ENEMY, i, fourteenTileNumbers[i + NUM_TEAM_MEMBERS]))
     }
 }
 

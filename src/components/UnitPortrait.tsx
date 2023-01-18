@@ -1,15 +1,24 @@
-import { useQuery } from "@apollo/client"
+import { gql, useQuery } from "@apollo/client"
 import loadConfig from "next/dist/server/config"
 import { MouseEventHandler, useEffect } from "react";
 import { Team, Combatant } from "../engine/types";
-import { GET_SINGLE_HERO } from "./api"
 import Image from "next/image";
+
+const GET_SINGLE_HERO = gql`
+query getHero($id: Int!){
+    heroes(idNums: [$id]){
+        idNum
+        idTag
+        imageUrl
+    }
+}
+`;
 
 const sizeCss = "w-[50px] sm:w-[80px] md:w-[100px] lg:w-[120px] xl:w-[150px] 2xl:w-[100px] aspect-square";
 const sizeNextStr = "(max-width )"
 
 export function UnitPortrait(
-    props : {
+    props: {
         combatant?: Combatant,
         clickHandler?: MouseEventHandler,
         mouseEnterHandler?: MouseEventHandler,
@@ -17,7 +26,7 @@ export function UnitPortrait(
     }) {
     return (props.combatant) ?
         <Portrait combatant={props.combatant} {...props} />
-        : <BlankPortrait {...props}/>;
+        : <BlankPortrait {...props} />;
 }
 
 
@@ -35,7 +44,7 @@ function Portrait(
         mouseLeaveHandler?: MouseEventHandler,
     }) {
 
-    const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { idNum: combatant.unit.idNum} });
+    const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { id: combatant.unit.idNum } });
 
     if (loading) return <div className={`${sizeCss} border-blue-900 border-2`}
         onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>...</div>
@@ -44,13 +53,15 @@ function Portrait(
         return <p className={sizeCss}> error </p>;
     }
 
-    const { imageUrl } = data.heroes[0];
+    const imageUrl = data.heroes[0].imageUrl;
+    const altText = `${Team[combatant.team][0]} - ${data.heroes[0].idTag}`;
+
     const teamBackgroundColorCss = (combatant.team === Team.PLAYER) ? "bg-blue-300" : "bg-red-300";
     // here just fake some tapped data
     const tappedImageCss = (Math.random() > 0.8) ? "grayscale" : "";
     return <div className={`border-blue-900 border-2 text-center ${teamBackgroundColorCss} ${sizeCss} relative`}
         onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
-        <Image className={`${tappedImageCss}`} src={imageUrl} alt={`${Team[combatant.team][0]} - ${data.heroes[0].idTag}`} fill={true} />
+        <Image className={`${tappedImageCss}`} src={imageUrl} alt={altText} fill={true} />
     </div>
 }
 

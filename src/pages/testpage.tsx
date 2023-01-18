@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { BattlePane } from "../components/BattlePane";
-import { PING } from "../components/api";
+import { PING } from "../components/api-fragments";
 import { useQuery } from "@apollo/client";
 import { TopBar } from "../components/TopBar";
 import { createContext, useState } from "react";
@@ -18,7 +18,7 @@ export default function TestComponent(props: { user: any }) {
     if (error) return <p>Error : {error.message}</p>;
 
     console.log(`Check console for "SENTINEL" strings, leaking server-side information`);
-    console.log(`graphql reply: ${JSON.stringify(data)}`);
+    console.log(`ping graphql reply: ${JSON.stringify(data)}`);
 
     //LANG-
     return <>
@@ -40,6 +40,6 @@ export default function TestComponent(props: { user: any }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    console.log("SENTINEL - client side means leak: STATIC PROPS");
+    console.error("SENTINEL - client side means leak: STATIC PROPS");
     return { props: { user: "dummy" } };
 }

@@ -1,0 +1,29 @@
+{
+    "UNIT_STAT_HP": "PV",
+    "UNIT_STAT_ATK": "Atq.",
+    "UNIT_STAT_SPD": "Vel.",
+    "UNIT_STAT_DEF": "Def.",
+    "UNIT_STAT_RES": "Res.",
+    "UNIT_STAT_NONE": "Nada",
+    "UNIT_REFINE_EFFECT": "NOT_TRANSLATED",
+    "UNIT_REFINE_DAZZLING": "NOT_TRANSLATED",
+    "UNIT_REFINE_WRATHFUL": "NOT_TRANSLATED",
+    
+    "UNIT_RARITY_ONE": "1★",
+    "UNIT_RARITY_TWO": "2★",
+    "UNIT_RARITY_THREE": "3★",
+    "UNIT_RARITY_FOUR": "4★",
+    "UNIT_RARITY_FIVE": "5★",
+    
+    "UNIT_LEVEL": "Niv.",
+    "UNIT_DRAGONFLOWERS": "Dracoflores",
+    "UNIT_ASSET": "Fuerte",
+    "UNIT_FLAW": "Débil",
+    "UNIT_ASCENSION": "Florecer",
+    "UNIT_REFINE": "NOT_TRANSLATED",
+
+    "UNIT_SKILL_NONE": "Nada",
+
+    "SELECT_NO_OPTIONS": "NOT_TRANSLATED",
+    "SELECT_LOADING": "NOT_TRANSLATED"
+}

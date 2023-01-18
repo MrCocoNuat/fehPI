@@ -1,4 +1,4 @@
-import { assertIsPassiveSkillDefinition, assertIsWeaponDefinition, AssistDefinition, MovementType, MovementTypeBitfield, PassiveSkillDefinition, SkillCategory, SkillDefinition, SpecialDefinition, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
+import { assertIsPassiveSkillDefinition, assertIsWeaponDefinition, AssistDefinition, MovementType, MovementTypeBitfield, ParameterPerStat, PassiveSkillDefinition, RefineType, SkillCategory, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
@@ -34,10 +34,19 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                 );
                 return data;
             })
-        }
+            .then(async data => {
+                await this.populateEffectRefineImageUrls(
+                    data.filter(skillDefinition =>
+                        assertIsWeaponDefinition(skillDefinition)
+                        && skillDefinition.refineType === RefineType.EFFECT
+                    ) as WeaponDefinition[]
+                );
+                return data;
+            })
+    }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {
-        const skillDefinition : SkillDefinition = {
+        const skillDefinition: SkillDefinition = {
             idNum: json.id_num,
             sortId: json.sort_id,
             idTag: json.id_tag,
@@ -71,6 +80,7 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                     refineStats: json.refine_stats,
                     // this needs to be loaded in later
                     refines: [],
+                    refineType: classifyRefine(json),
                     category: category,
                 };
                 return weaponDefinition;
@@ -92,7 +102,7 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
             case SkillCategory.PASSIVE_B:
             case SkillCategory.PASSIVE_C:
             case SkillCategory.PASSIVE_S:
-                const passiveSkillDefinition : PassiveSkillDefinition = {
+                const passiveSkillDefinition: PassiveSkillDefinition = {
                     ...skillDefinition,
                     // loaded in later
                     //TODO:- find some way to not break TS when doing this
@@ -105,37 +115,10 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
         }
     }
 
-    // What about removing stat-refine weapons (that are not staves)?
-    //   Almost all inheritable + and all arcane weapons have 4 stat refines, and any prf weapon that has a special effect refine also has 4 stat refines. 
-    //   Don't store those pointless SkillDefinitions to save around 11246 - () entries.
-    // 
-    //   Any stat refined weapon has (refined: true), an hp boost, and a boost to one other stat:
-    //
-    //   Melee        Ranged
-    //   3 5/2,3,4,4  0 2/1,2,3,3    (special:hp hp/atk,spd,def,res)
-    //
-    //   Special effect refines have only the lower hp boost. Thus stat refines can be distinguished by (refined: true) and a nonzero non-hp boost.
-    //
-    // There are many exceptions to these rules:
-    //   Bravery inheritables do not get refines at all
-    //   Melee bravery prfs (with refines) get 5/1,3,4,4 instead
-    //   Ranged bravery prfs 
-    //   Silver inheritables and inheritables like Wo Dao, Wo Gun get 1 additional atk on all 4 stat refines
-    //   Certain prf weapons can "evolve" into other prfs entirely, which themselves may be refinable.
-    //   Certain inheritables can "evolve" into other inheritables (but they are inheritable anyway so who cares)
-    // This set **IS EXPECTED TO CHANGE** in the future and cannot be handled adequately by the Refine Engine.
-
     // Only want these categories, 
-    RELEVANT_SKILL_CATEGORIES = [
-        SkillCategory.WEAPON,
-        SkillCategory.ASSIST,
-        SkillCategory.SPECIAL,
-        SkillCategory.PASSIVE_A,
-        SkillCategory.PASSIVE_B,
-        SkillCategory.PASSIVE_C,
-        SkillCategory.PASSIVE_S
-    ] as const;
+    RELEVANT_SKILL_CATEGORIES = getAllEnumValues(SkillCategory);
     protected override acceptIf: (json: any) => boolean = (json) => {
+        // Only want some SkillCategories - others are rejected
         return this.RELEVANT_SKILL_CATEGORIES.includes(json.category);
     }
 
@@ -155,9 +138,13 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
         })
     }
 
-    async getByIdNums(idNums: number[]) {
+    async getByIdNums(idNums: number[], filterCategories?: SkillCategory[] | null) {
         await this.initialization;
-        return this.getByIds(idNums);
+        const skills = this.getByIds(idNums);
+        if (filterCategories) {
+            return skills.filter(skill => filterCategories.includes(skill.category));
+        }
+        return skills;
     }
 
     // NOTE!! idTags are not unique - e.g. Quick Riposte 3 as a PASSIVE_B and Quick Riposte 3 as a PASSIVE_S share the same idTag.
@@ -166,9 +153,13 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
         return this.getByKeys(idTags);
     }
 
-    async getAll() {
+    async getAll(filterCategories?: SkillCategory[] | null) {
         await this.initialization;
-        return this.getAllIds();
+        const skills = this.getAllIds();
+        if (filterCategories) {
+            return skills.filter(skill => filterCategories.includes(skill.category));
+        }
+        return skills;
     }
 }
 
@@ -189,4 +180,62 @@ function toMovementTypeIdBitfield(movementTypeBitvector: number): MovementTypeBi
     });
 
     return bitfield;
+}
+
+
+function classifyRefine(json: {
+    refine_stats: ParameterPerStat,
+    class_params: ParameterPerStat,
+    wep_equip: number,
+    refine_sort_id: number,
+    refined: boolean,
+}) {
+    const {
+        class_params,
+        wep_equip,
+        refine_sort_id,
+    } = json;
+
+    if (toWeaponTypeIdBitfield(wep_equip)[WeaponType.STAFF]) {
+        // staff refines are NONE, DAZZLING, WRATHFUL
+        // prf non-refines seem to be distinguished by a non-zero class_params.hp, which indicates WRATHFUL (1) or DAZZLING (2)
+        // their refines are always EFFECT
+        if ((class_params[Stat.HP]) > 0 && (refine_sort_id) > 0) {
+            return RefineType.EFFECT;
+        }
+        // inheritables don't get the non-zero class_params.hp even if the refine provides WRATHFUL or DAZZLING,
+        // their refine effect is indicated solely by refine_sort_id
+        switch (refine_sort_id) {
+            case 0:
+                return RefineType.NONE;
+            case 1:
+                return RefineType.WRATHFUL;
+            case 2:
+                return RefineType.DAZZLING;
+            default:
+                // uh oh - did the rules change?
+                throw new Error(`Could not classify staff refine with ${(json as any).id_tag} refine sort id: ${JSON.stringify(refine_sort_id)}`);
+        }
+    } else {
+        // non-staff refines are NONE, EFFECT, A/S/D/R
+        // and completely determined by the value of refine_sort_id
+
+        switch (refine_sort_id) {
+            case 0:
+                return RefineType.NONE;
+            case 1:
+                return RefineType.EFFECT;
+            case 101:
+                return RefineType.ATK;
+            case 102:
+                return RefineType.SPD;
+            case 103:
+                return RefineType.DEF;
+            case 104:
+                return RefineType.RES;
+        }
+
+        // uh oh - this should really never happen, unless the rules for refine stats change a lot
+        throw new Error(`Could not classify refine ${(json as any).id_tag} with refine sort id: ${refine_sort_id}`);
+    }
 }

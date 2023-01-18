@@ -3,7 +3,7 @@ import { asciify } from "../../../../api-client/mediawiki/file-title";
 import { fudge } from "../../../../api-client/mediawiki/skill-name-fudger";
 import { messageDao } from "../dao-registry";
 import { fehWikiReader } from "../remote-data/remote-data";
-import { HeroDefinition, Language, PassiveSkillDefinition, SkillCategory, SkillDefinition } from "../types/dao-types";
+import { HeroDefinition, Language, PassiveSkillDefinition, SkillCategory, SkillDefinition, WeaponDefinition } from "../types/dao-types";
 import { DaoConstructor } from "./dao";
 
 // specifically for getting image urls from mediawiki
@@ -29,6 +29,16 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
             const fileTitles = messages.map(message => message.value).map(name => fudge(name)).map(name => `File:${asciify(name)}.png`);
+            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
+
+            definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
+            return definitions;
+        }
+
+        async populateEffectRefineImageUrls(definitions: WeaponDefinition[]){
+            const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
+
+            const fileTitles = messages.map(message => message.value).map(name => `File:${asciify(name)} W.png`);
             const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
 
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);

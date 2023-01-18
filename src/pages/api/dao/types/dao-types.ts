@@ -109,6 +109,7 @@ export interface WeaponDefinition extends SkillDefinition {
     refines: string[],
     arcaneWeapon: boolean,
     refineType: RefineType,
+    imageUrl?: string, // present for effect refines, which have unique icons
     category: SkillCategory.WEAPON, // always known
 }
 // not a complete guard, shifts responsibility to programmer to remember to actually define fields

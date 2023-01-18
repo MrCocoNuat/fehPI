@@ -148,6 +148,10 @@ WeaponDefinitionObject.implement({
         refined: ofb.exposeBoolean("refined", {
             nullable: false,
             description: "Whether this Weapon is refined"
+        }),
+        imageUrl: ofb.exposeString("imageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Skill's icon if it is a EFFECT-refined weapon. Null otherwise."
         })
     })
 })

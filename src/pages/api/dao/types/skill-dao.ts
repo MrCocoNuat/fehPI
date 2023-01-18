@@ -34,6 +34,15 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                 );
                 return data;
             })
+            .then(async data => {
+                await this.populateEffectRefineImageUrls(
+                    data.filter(skillDefinition =>
+                        assertIsWeaponDefinition(skillDefinition)
+                        && skillDefinition.refineType === RefineType.EFFECT
+                    ) as WeaponDefinition[]
+                );
+                return data;
+            })
     }
 
     protected override toValueType: (json: any) => SkillDefinition = (json) => {

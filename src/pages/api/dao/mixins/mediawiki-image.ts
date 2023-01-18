@@ -18,11 +18,16 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
             const epithets = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.epithetId));
             // zip these up
             const messageStrings = definitions.map((definition, i) => `${names[i].value} ${epithets[i].value}`);
-            // TODO:- support resplendency
-            const fileTitles = messageStrings.map(messageString => `File:${asciify(messageString)} Face FC.webp`);
-            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
 
+            const fileTitles = messageStrings.map(messageString => `File:${asciify(messageString)} Face FC.webp`);
+            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles, true);
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
+
+            // a lot of these will not exist
+            const resplendentFileTitles = messageStrings.map(messageString => `File:${asciify(messageString)} Resplendent Face FC.webp`);
+            const resplendentImageUrls = await fehWikiReader.queryImageUrls(resplendentFileTitles, false);
+            definitions.forEach((definition, i) => definition.resplendentImageUrl = resplendentImageUrls[i]);
+
             return definitions;
         }
 
@@ -30,7 +35,7 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
             const fileTitles = messages.map(message => message.value).map(name => fudgeSkillName(name)).map(name => `File:${asciify(name)}.png`);
-            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
+            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles, true);
 
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
             return definitions;
@@ -40,7 +45,7 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
             const fileTitles = messages.map(message => distinguishFalchions(message)).map(name => fudgeEffectRefine(name)).map(name => `File:${asciify(name)} W.png`);
-            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles);
+            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles, true);
 
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
             return definitions;

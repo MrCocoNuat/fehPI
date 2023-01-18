@@ -204,7 +204,8 @@ export interface HeroDefinition {
     // importantly, heroes can equip Skills that are (not exclusive) OR (appear in this collection)
     skills: [SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity, SkillsPerRarity],
 
-    imageUrl: string;
+    imageUrl: string,
+    resplendentImageUrl?: string,
 }
 
 

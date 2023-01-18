@@ -4,6 +4,7 @@ import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
+import { stringify } from "querystring";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
@@ -52,6 +53,7 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
 
             //TODO:- again, do this without breaking TS 
             imageUrl: null! as string,
+            resplendentImageUrl: undefined,
         }
     }
     

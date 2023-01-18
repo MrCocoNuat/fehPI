@@ -254,8 +254,17 @@ HeroDefinitionObject.implement({
             description: "The Message holding the epithet of the Hero. Provide a NONE Language argument if you just want the key."
         }),
         imageUrl: ofb.exposeString("imageUrl", {
-            nullable: true,
+            nullable: false,
             description: "FEH wiki URL of an image of this Hero's face. Other images are not supported at the moment.",
+        }),
+        resplendentExists: ofb.boolean({
+            nullable: false,
+            resolve: (heroDefinition) => heroDefinition.resplendentImageUrl !== undefined, // ok a bit hacky but this info isn't actually exposed...?
+            description: "Whether a resplendent outfit exists for this Hero",
+        }),
+        resplendentImageUrl: ofb.exposeString("resplendentImageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Hero's face in their resplendent outfit. Other images are not supported at the moment."
         }),
         maxDragonflowers: ofb.int({
             nullable: false,

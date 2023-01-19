@@ -5,8 +5,8 @@ import { constrainNumeric, MAX_RARITY, MIN_RARITY, Rarity, Unit } from "../../en
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
 import { HERO_NAME, HERO_NAME_FRAG } from "../api-fragments"
-import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
-import { Select } from "../tailwind-styled/Select"
+import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect"
+import { Select } from "../tailwind-styled/sync/Select"
 import { getUiStringResource } from "../ui-resources"
 import { MultiplePropMerger } from "./UnitBuilder"
 

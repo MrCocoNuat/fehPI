@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Unit } from "../../engine/types";
 import { Language, OptionalStat } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
-import { Select } from "../tailwind-styled/Select";
+import { Select } from "../tailwind-styled/sync/Select";
 import { ascendantFloretImage, getUiStringResource } from "../ui-resources";
 import { MultiplePropMerger } from "./UnitBuilder";
 

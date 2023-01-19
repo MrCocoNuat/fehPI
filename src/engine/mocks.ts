@@ -50,7 +50,9 @@ const randomUnit: () => Unit = () => ({
     passiveASkillId: 0,
     passiveBSkillId: 0,
     passiveCSkillId: 0,
-    passiveSSkillId: 0
+    passiveSSkillId: 0,
+
+    resplendent: false,
 });
 
 const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({

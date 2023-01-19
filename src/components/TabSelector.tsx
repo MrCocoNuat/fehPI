@@ -1,5 +1,5 @@
 import { getAllEnumEntries, getAllEnumKeys, getAllEnumValues } from "enum-for";
-import { Button } from "./tailwind-styled/Button";
+import { Button } from "./tailwind-styled/sync/Button";
 
 
 export enum Tab {

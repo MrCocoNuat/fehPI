@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { NONE_SKILL_ID, Unit } from "../../engine/types";
 import { SkillCategory } from "../../pages/api/dao/types/dao-types";
 import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG } from "../api-fragments";
-import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
-import { ValueAndLabel } from "../tailwind-styled/Select";
+import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
+import { ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { skillCategoryIcon } from "../ui-resources";
 import { MultiplePropMerger } from "./UnitBuilder";
 

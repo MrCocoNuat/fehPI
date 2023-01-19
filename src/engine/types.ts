@@ -56,7 +56,10 @@ export type Unit = {
     passiveCSkillId: number | NONE_SKILL,
     passiveSSkillId: number | NONE_SKILL,
     // blessing
+    
     //support
+    // bonus
+    resplendent: boolean,
 }
 export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;
 export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as const;

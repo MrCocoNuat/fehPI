@@ -99,6 +99,21 @@ export const HERO_NAME_FRAG = gql`
     }
 `
 
+export const HERO_IMAGE_URL = "HeroImageUrl";
+export const HERO_IMAGE_URL_FRAG = gql`
+    fragment ${HERO_IMAGE_URL} on HeroDefinition{
+        imageUrl
+        resplendentImageUrl
+    }
+`
+
+export const HERO_RESPLENDENT = "HeroResplendent";
+export const HERO_RESPLENDENT_FRAG = gql`
+    fragment ${HERO_RESPLENDENT} on HeroDefinition{
+        resplendentExists
+    }
+`
+
 /*
 !!!
 In Apollo Client,

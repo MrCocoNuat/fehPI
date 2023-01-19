@@ -4,8 +4,9 @@ import { constrainNumeric, MAX_LEVEL, MAX_MERGES, MIN_DRAGONFLOWERS, MIN_LEVEL, 
 import { MovementType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_MAX_DRAGONFLOWERS, HERO_MAX_DRAGONFLOWERS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, INCLUDE_FRAG } from "../api-fragments";
-import { AsyncNumericInput } from "../tailwind-styled/AsyncNumericInput";
-import { NumericInput } from "../tailwind-styled/NumericInput";
+import { AsyncNumericInput } from "../tailwind-styled/async/AsyncNumericInput";
+import { NumericInput } from "../tailwind-styled/sync/NumericInput";
+
 import { dragonflowerImage, getUiStringResource } from "../ui-resources";
 import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
 

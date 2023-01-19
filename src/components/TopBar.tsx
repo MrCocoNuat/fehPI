@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Language } from "../pages/api/dao/types/dao-types";
 
 import { MoonIcon, SunIcon, LanguageIcon } from "@heroicons/react/24/solid";
-import { Button } from "./tailwind-styled/Button";
+import { Button } from "./tailwind-styled/sync/Button";
 
 // this is NOT a ui string resource - it is tied to FEH's languages (e.g. USES !== EUES)
 const languageNames = {

@@ -1,8 +1,8 @@
 import { Options, SingleValue } from "react-select"
 import Select from "react-select";
-import { getUiStringResource } from "../ui-resources";
+import { getUiStringResource } from "../../ui-resources";
 import { useContext } from "react";
-import { LanguageContext } from "../../pages/testpage";
+import { LanguageContext } from "../../../pages/testpage";
 import { ValueAndLabel } from "./Select";
 
 /*

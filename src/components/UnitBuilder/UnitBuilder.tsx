@@ -5,6 +5,7 @@ import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
 import { ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
+import { BlessingAndMorePickers } from "./BlessingAndMorePickers";
 
 
 
@@ -51,7 +52,9 @@ export function UnitBuilder({
 
                     <TraitPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
 
-                    {<SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />}
+                    <SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+
+                    <BlessingAndMorePickers currentUnit={combatant.unit} mergeChanges={mergeChanges} />
                 </div>
             </form>
 

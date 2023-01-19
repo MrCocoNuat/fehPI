@@ -1,6 +1,6 @@
 import { Nunito } from "@next/font/google";
 import { OptionalStat, Stat } from "../pages/api/dao/types/dao-types";
-import { BattleMap, BattleTile, Combatant, CombatantTeam, Team, Unit } from "./types";
+import { BattleMap, BattleTile, Combatant, CombatantTeam, NONE_BLESSING, SummonerSupportLevel, Team, Unit } from "./types";
 
 const NUM_TILES = 48;
 const NUM_TEAM_MEMBERS = 7;
@@ -52,7 +52,10 @@ const randomUnit: () => Unit = () => ({
     passiveCSkillId: 0,
     passiveSSkillId: 0,
 
+    conferredBlessing: NONE_BLESSING,
+    summonerSupport: SummonerSupportLevel.NONE,
     resplendent: false,
+    bonusUnit: false,
 });
 
 const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({

@@ -8,7 +8,7 @@ import { HERO_RESPLENDENT, HERO_RESPLENDENT_FRAG, INCLUDE_FRAG } from "../api-fr
 import { AsyncCheckbox } from "../tailwind-styled/async/AsyncCheckbox";
 import { Checkbox } from "../tailwind-styled/sync/Checkbox";
 import { getUiStringResource, resplendentIcon } from "../ui-resources";
-import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
+import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 
 // blessings
 // resplendent
@@ -17,9 +17,9 @@ import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
 // Query 
 // ----------
 
-const GET_HERO_BLESSING_RESPLENDENT = gql`
+const GET_HERO_RESPLENDENT = gql`
     ${HERO_RESPLENDENT_FRAG}
-    query getHeroBlessingResplendent($heroId: Int!){
+    query getHeroResplendent($heroId: Int!){
         heroes(idNums: [$heroId]){
             idNum
             ${INCLUDE_FRAG(HERO_RESPLENDENT)}
@@ -45,7 +45,7 @@ async function isDisabledLoader(resplendentQuery: LazyQueryExecFunction<any, any
 // Component
 // ----------
 
-export function BlessingAndMorePickers({
+export function BonusResplendentPickers({
     currentUnit,
     mergeChanges,
 }: {
@@ -56,7 +56,7 @@ export function BlessingAndMorePickers({
     const selectedLanguage = useContext(LanguageContext);
     const selectedHeroId = useContext(SelectedHeroIdContext);
 
-    const [resplendentQuery] = useLazyQuery(GET_HERO_BLESSING_RESPLENDENT,
+    const [resplendentQuery] = useLazyQuery(GET_HERO_RESPLENDENT,
         {
             variables: {
                 heroId: selectedHeroId,
@@ -85,8 +85,12 @@ export function BlessingAndMorePickers({
                 loadDisabled={disabledLoader}
                 onChange={(evt) => mergeChanges({ prop: "resplendent", value: evt.target.checked })} /> */}
             <Checkbox id="unit-resplendent"
-            checked={currentUnit.resplendent} 
-            onChange={(evt) => mergeChanges({ prop: "resplendent", value: evt.target.checked })}/>
+                checked={currentUnit.resplendent}
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "resplendent", value: evt.target.checked }))} />
+        </div>
+
+        <div className="">
+
         </div>
     </div>
 }
@@ -97,6 +101,7 @@ function ensureBlessingResplendentValidity(unit: Unit, justSetProp: keyof Unit) 
     switch (justSetProp) {
         case "idNum":
             // not all heroes have resplendent outfits
+            // we allow them to still get the stat bonus if user wants, but wipe it anyway 
             unit.resplendent = false;
         // it is unnecessary to set blessing to NONE,
         // legendary and mythic heroes will be correctly indicated by this same component

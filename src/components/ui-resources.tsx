@@ -1,4 +1,4 @@
-import { Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -11,6 +11,7 @@ import frStrings from "../public/ui-strings/FR.json"
 import itStrings from "../public/ui-strings/IT.json"
 import jaStrings from "../public/ui-strings/JA.json"
 import zhStrings from "../public/ui-strings/ZH.json"
+import { NONE_BLESSING } from "../engine/types";
 
 
 const stringsForLanguage = {
@@ -114,3 +115,31 @@ export function weaponRefineIcon(refineType: RefineType, imageUrl?: string) {
     }
 }
 
+
+export function conferredBlessingIcon(blessingSeason: BlessingSeason | typeof NONE_BLESSING) {
+    switch (blessingSeason) {
+        case NONE_BLESSING:
+            return <></>; // nothing to show!
+        case BlessingSeason.FIRE:
+            return <Image src={"/icons/blessing-season/Icon_Season_Fire.webp"} alt={"Fire"} fill={true} />;
+        case BlessingSeason.WATER:
+            return <Image src={"/icons/blessing-season/Icon_Season_Water.webp"} alt={"Water"} fill={true} />;
+        case BlessingSeason.WIND:
+            return <Image src={"/icons/blessing-season/Icon_Season_Wind.webp"} alt={"Wind"} fill={true} />;
+        case BlessingSeason.EARTH:
+            return <Image src={"/icons/blessing-season/Icon_Season_Earth.webp"} alt={"Earth"} fill={true} />;
+        case BlessingSeason.LIGHT:
+            return <Image src={"/icons/blessing-season/Icon_Season_Light.webp"} alt={"Light"} fill={true} />;
+        case BlessingSeason.DARK:
+            return <Image src={"/icons/blessing-season/Icon_Season_Dark.webp"} alt={"Dark"} fill={true} />;
+        case BlessingSeason.ANIMA:
+            return <Image src={"/icons/blessing-season/Icon_Season_Anima.webp"} alt={"Anima"} fill={true} />;
+        case BlessingSeason.ASTRA:
+            return <Image src={"/icons/blessing-season/Icon_Season_Astra.webp"} alt={"Astra"} fill={true} />;
+    }
+}
+
+// a pair of images, one for the season and one for the effect
+export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect) {
+
+}

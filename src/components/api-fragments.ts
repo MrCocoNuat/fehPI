@@ -115,6 +115,17 @@ export const HERO_RESPLENDENT_FRAG = gql`
     }
 `
 
+export const HERO_HONOR_BLESSING = "HeroHonorBlessing";
+export const HERO_HONOR_BLESSING_FRAG = gql`
+    fragment ${HERO_HONOR_BLESSING} on HeroDefinition{
+        honorType
+        ... on BlessedHeroDefinition {
+            blessingEffect
+            blessingSeason
+        }
+    }
+`
+
 /*
 !!!
 In Apollo Client,

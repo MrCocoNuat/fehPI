@@ -9,6 +9,7 @@
     "UNIT_REFINE_DAZZLING": "NOT_TRANSLATED",
     "UNIT_REFINE_WRATHFUL": "NOT_TRANSLATED",
     "UNIT_RESPLENDENT": "NOT_TRANSLATED",
+    "UNIT_BLESSING": "Segen",
 
 
     "UNIT_RARITY_ONE": "1★",
@@ -23,8 +24,18 @@
     "UNIT_FLAW": "Defizit",
     "UNIT_ASCENSION": "Vorteil",
     "UNIT_REFINE": "NOT_TRANSLATED",
-
+    
     "UNIT_SKILL_NONE": "Nichts",
+
+    "BLESSING_NONE": "Nichts",
+    "BLESSING_FIRE": "Feuer",
+    "BLESSING_WATER": "Wasser",
+    "BLESSING_WIND": "Wind",
+    "BLESSING_EARTH": "Erd",
+    "BLESSING_LIGHT": "Licht",
+    "BLESSING_DARK": "Dunkel",
+    "BLESSING_ASTRA": "Astra",
+    "BLESSING_ANIMA": "Anima",
 
     "SELECT_NO_OPTIONS": "NOT_TRANSLATED",
     "SELECT_LOADING": "NOT_TRANSLATED"

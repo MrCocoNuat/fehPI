@@ -6,7 +6,7 @@ import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG } f
 import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { skillCategoryIcon } from "../ui-resources";
-import { MultiplePropMerger } from "./UnitBuilder";
+import { MultiplePropMerger, someSingleProp } from "./UnitBuilder";
 
 // also responsible for rendering skill icons
 
@@ -107,7 +107,7 @@ export function PassivesPicker({
             </label>
             <AsyncFilterSelect id={"unit-passive-a-skill"} className="w-80 flex-1"
                 value={currentUnit.passiveASkillId}
-                onChange={(choice) => { mergeChanges({prop: "passiveASkillId", value: +choice!.value}); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "passiveASkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_A]}
                 syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(aSkillQuery, setASkillImageUrl, value!)
@@ -121,7 +121,7 @@ export function PassivesPicker({
             </label>
             <AsyncFilterSelect id={"unit-passive-b-skill"} className="w-80 flex-1"
                 value={currentUnit.passiveBSkillId}
-                onChange={(choice) => { mergeChanges({prop: "passiveBSkillId", value: +choice!.value}); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "passiveBSkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_B]}
                 syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(bSkillQuery, setBSkillImageUrl, value!)
@@ -135,7 +135,7 @@ export function PassivesPicker({
             </label>
             <AsyncFilterSelect id={"unit-passive-c-skill"} className="w-80 flex-1"
                 value={currentUnit.passiveCSkillId}
-                onChange={(choice) => { mergeChanges({prop: "passiveCSkillId", value: +choice!.value}); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "passiveCSkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_C]}
                 syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(cSkillQuery, setCSkillImageUrl, value!)
@@ -149,7 +149,7 @@ export function PassivesPicker({
             </label>
             <AsyncFilterSelect id={"unit-passive-s-skill"} className="w-80 flex-1"
                 value={currentUnit.passiveSSkillId}
-                onChange={(choice) => { mergeChanges({prop: "passiveSSkillId", value: +choice!.value}); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "passiveSSkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.PASSIVE_S]}
                 syncValueWithLoadOptions={(value) =>
                     applyImageUrlStateSetter(sSkillQuery, setSSkillImageUrl, value!)

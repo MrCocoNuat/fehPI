@@ -8,7 +8,7 @@ import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_IMAGE_URL, WEAPON_IMA
 import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
 import { Select, ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { getUiStringResource, divineDewImage, weaponRefineIcon } from "../ui-resources";
-import { MultiplePropMerger } from "./UnitBuilder";
+import { MultiplePropMerger, someSingleProp } from "./UnitBuilder";
 
 
 // weapons need refine handling... and evolutions even though nobody is going to use those
@@ -291,8 +291,8 @@ export function WeaponPicker({
                 // onChange is OK, it can only change to unrefined weapons
                 onChange={(choice) => {
                     mergeChanges(
-                        { prop: "weaponSkillId", value: +choice!.value },
-                        { prop: "weaponSkillBaseId", value: +choice!.value }
+                        someSingleProp({ prop: "weaponSkillId", value: +choice!.value }),
+                        someSingleProp({ prop: "weaponSkillBaseId", value: +choice!.value }),
                     );
                 }}
                 loadOptions={adjustedWeaponSkillLoader} // needs modification for evolutions
@@ -315,7 +315,7 @@ export function WeaponPicker({
                 onChange={(choice) => {
                     syncedWeaponSkillIdRef.current = choice!.value;
                     applyImageStateSetter(weaponIds, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
-                    mergeChanges({ prop: "weaponSkillId", value: +choice!.value });
+                    mergeChanges(someSingleProp({ prop: "weaponSkillId", value: +choice!.value }));
                 }}
                 options={refineOptions(weaponIds, selectedLanguage)} />
         </div>

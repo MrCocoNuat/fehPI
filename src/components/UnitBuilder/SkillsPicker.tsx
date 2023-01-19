@@ -9,7 +9,7 @@ import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { getUiStringResource, skillCategoryIcon } from "../ui-resources";
 import { PassivesPicker as PassivesPickers } from "./PassivesPickers";
-import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
+import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 import { WeaponPicker } from "./WeaponPicker";
 
 // Query
@@ -185,7 +185,7 @@ export function SkillsPicker({
             </label>
             <AsyncFilterSelect id={"unit-assist-skill"} className="w-80 flex-1"
                 value={currentUnit.assistSkillId}
-                onChange={(choice) => { mergeChanges({ prop: "assistSkillId", value: +choice!.value }); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "assistSkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.ASSIST]}
                 syncValueWithLoadOptions={true} />
         </div>
@@ -197,7 +197,7 @@ export function SkillsPicker({
             </label>
             <AsyncFilterSelect id={"unit-special-skill"} className="w-80 flex-1"
                 value={currentUnit.specialSkillId}
-                onChange={(choice) => { mergeChanges({ prop: "specialSkillId", value: +choice!.value }); }}
+                onChange={(choice) => mergeChanges(someSingleProp({ prop: "specialSkillId", value: +choice!.value }))}
                 loadOptions={skillLoaders[SkillCategory.SPECIAL]}
                 syncValueWithLoadOptions={true} />
         </div>

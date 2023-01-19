@@ -1,4 +1,4 @@
-import { HonorCategory, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPerStat, Series, SeriesBitfield, assertIsBlessedHeroDefinition } from "./dao-types";
+import { HonorType, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPerStat, Series, SeriesBitfield, assertIsBlessedHeroDefinition } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
@@ -54,7 +54,7 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
             imageUrl: null! as string,
             resplendentImageUrl: undefined,
 
-            honorCategory: classifyHonor(json),
+            honorType: classifyHonor(json),
         }
 
         switch (true) {
@@ -97,19 +97,19 @@ const LEGENDARY_SEASONS = [
 
 function classifyHonor(json: any) {
     if (json.legendary === null) {
-        return HonorCategory.NONE;
+        return HonorType.NONE;
     } else {
         switch (json.legendary.kind) {
             case 1: // legend mythic
-                return (LEGENDARY_SEASONS.includes(json.legendary.element)) ? HonorCategory.LEGENDARY : HonorCategory.MYTHIC;
+                return (LEGENDARY_SEASONS.includes(json.legendary.element)) ? HonorType.LEGENDARY : HonorType.MYTHIC;
             case 2:
-                return HonorCategory.DUO;
+                return HonorType.DUO;
             case 3:
-                return HonorCategory.HARMONIC;
+                return HonorType.HARMONIC;
             case 4:
-                return HonorCategory.ASCENDED;
+                return HonorType.ASCENDED;
             case 5:
-                return HonorCategory.REARMED;
+                return HonorType.REARMED;
             default:
                 throw new Error(`unexpected legendary.kind ${JSON.stringify(json.legendary)}`);
         }
@@ -125,14 +125,14 @@ function classifyBlessing(legendary: any) {
         throw new Error(`classifyBlessing called on not legend/mythic, ${JSON.stringify(legendary)}`)
     }
     const blessingSeason: BlessingSeason = legendary.element;
-    const blessingCategory = LEGENDARY_SEASONS.includes(legendary.element) ? HonorCategory.LEGENDARY : HonorCategory.MYTHIC;
+    const blessingCategory = LEGENDARY_SEASONS.includes(legendary.element) ? HonorType.LEGENDARY : HonorType.MYTHIC;
     const pack = packClassifyBlessing.bind(undefined, blessingSeason);
 
     const extraSlot: boolean = legendary.ae_extra;
     const pairUp: boolean = legendary.pair_up;
     const bonusStats: ParameterPerStat = legendary.bonus_effect;
     // only very specific bonus stat combinations are admissible, anything else must be a mistake
-    if (blessingCategory === HonorCategory.LEGENDARY) {
+    if (blessingCategory === HonorType.LEGENDARY) {
         if (bonusStats.hp !== 3) {
             throw new Error(`illegal legendary unit bonus stats ${JSON.stringify(legendary)}, hp not 3`);
         }

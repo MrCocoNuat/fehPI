@@ -181,7 +181,7 @@ export enum Stat {
     RES = "res"
 };
 
-export enum HonorCategory {
+export enum HonorType {
     NONE,
     LEGENDARY,
     MYTHIC,
@@ -252,7 +252,7 @@ export interface HeroDefinition {
     imageUrl: string,
     resplendentImageUrl?: string,
 
-    honorCategory: HonorCategory,
+    honorType: HonorType,
 }
 
 // legendary and mythic Honors specifically
@@ -261,7 +261,7 @@ export interface BlessedHeroDefinition extends HeroDefinition {
     blessingEffect: BlessingEffect,
 }
 export function assertIsBlessedHeroDefinition(heroDefinition: HeroDefinition): heroDefinition is BlessedHeroDefinition {
-    return heroDefinition.honorCategory === HonorCategory.LEGENDARY || heroDefinition.honorCategory === HonorCategory.MYTHIC;
+    return heroDefinition.honorType === HonorType.LEGENDARY || heroDefinition.honorType === HonorType.MYTHIC;
 }
 
 

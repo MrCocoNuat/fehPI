@@ -181,6 +181,51 @@ export enum Stat {
     RES = "res"
 };
 
+export enum HonorCategory {
+    NONE,
+    LEGENDARY,
+    MYTHIC,
+    DUO,
+    HARMONIC,
+    ASCENDED,
+    REARMED,
+    // please IS never create more or allow a hero to be more than one
+}
+
+
+// for legendary/mythic
+export enum BlessingSeason {
+    // legendary
+    FIRE = 1,
+    WATER,
+    WIND,
+    EARTH,
+    // mythic
+    LIGHT,
+    DARK,
+    ASTRA,
+    ANIMA,
+}
+export enum BlessingEffect{
+    // both
+    ATK,
+    SPD,
+    DEF,
+    RES,
+    // valid for legendary only
+    PAIR_UP,
+    ATK_PAIR_UP,
+    SPD_PAIR_UP,
+    DEF_PAIR_UP,
+    RES_PAIR_UP,
+    // valid for mythic only
+    ATK_EXTRA,
+    SPD_EXTRA,
+    DEF_EXTRA,
+    RES_EXTRA,
+}
+
+
 export interface HeroDefinition {
     idNum: number,
     sortValue: number,
@@ -206,6 +251,17 @@ export interface HeroDefinition {
 
     imageUrl: string,
     resplendentImageUrl?: string,
+
+    honorCategory: HonorCategory,
+}
+
+// legendary and mythic Honors specifically
+export interface BlessedHeroDefinition extends HeroDefinition {
+    blessingSeason: BlessingSeason,
+    blessingEffect: BlessingEffect,
+}
+export function assertIsBlessedHeroDefinition(heroDefinition: HeroDefinition): heroDefinition is BlessedHeroDefinition {
+    return heroDefinition.honorCategory === HonorCategory.LEGENDARY || heroDefinition.honorCategory === HonorCategory.MYTHIC;
 }
 
 

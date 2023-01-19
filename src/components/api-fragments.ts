@@ -5,7 +5,8 @@ export const apolloClient = new ApolloClient({
     uri: "/api/graphql",
     cache: new InMemoryCache({
         possibleTypes: {
-            SkillDefinition: ["WeaponDefinition", "AssistDefinition", "SpecialDefinition", "PassiveSkillDefinition"]
+            SkillDefinition: ["WeaponDefinition", "AssistDefinition", "SpecialDefinition", "PassiveSkillDefinition"],
+            HeroDefinition: ["BlessedHeroDefinition", "OrdinaryHeroDefinition"],
         },
         typePolicies:{
             HeroDefinition:{

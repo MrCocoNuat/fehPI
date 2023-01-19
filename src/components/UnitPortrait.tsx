@@ -83,6 +83,9 @@ function Portrait(
     const srcUrl = (combatant.unit.resplendent) ?
         queryResults.resplendentImageUrl ?? queryResults.imageUrl :
         queryResults.imageUrl;
+    console.log(data);
+    console.log(queryResults);
+    console.log("image src is", srcUrl)
 
     const teamBackgroundColorCss = (combatant.team === Team.PLAYER) ? "bg-blue-300" : "bg-red-300";
     // here just fake some tapped data

@@ -25,6 +25,7 @@
     "UNIT_ASCENSION": "Erleuchteten",
     "UNIT_REFINE": "NOT_TRANSLATED",
     "UNIT_BONUS": "Bonushelden",
+    "UNIT_SUMMONER_SUPPORT" : "Beschwörerhilfe",
 
     "UNIT_SKILL_NONE": "Nichts",
 
@@ -40,6 +41,12 @@
 
     "HONOR_LEGENDARY": "Legendäre",
     "HONOR_MYTHIC": "Mythische",
+
+    "SUPPORT_NONE" : "NOT_TRANSLATED",
+    "SUPPORT_C": "NOT_TRANSLATED",
+    "SUPPORT_B": "NOT_TRANSLATED",
+    "SUPPORT_A": "NOT_TRANSLATED",
+    "SUPPORT_S": "NOT_TRANSLATED",
 
     "SELECT_NO_OPTIONS": "NOT_TRANSLATED",
     "SELECT_LOADING": "NOT_TRANSLATED"

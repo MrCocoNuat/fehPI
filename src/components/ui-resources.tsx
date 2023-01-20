@@ -11,7 +11,7 @@ import frStrings from "../public/ui-strings/FR.json"
 import itStrings from "../public/ui-strings/IT.json"
 import jaStrings from "../public/ui-strings/JA.json"
 import zhStrings from "../public/ui-strings/ZH.json"
-import { NONE_BLESSING } from "../engine/types";
+import { NONE_BLESSING, SupportLevel } from "../engine/types";
 
 
 const stringsForLanguage = {
@@ -214,4 +214,21 @@ function blessingEffectIcon(blessingEffect: BlessingEffect) {
 // a pair of images, one for the season and one for the effect
 export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect): [JSX.Element, JSX.Element] {
     return [innateBlessingSeasonIcon(blessingSeason, blessingEffect), blessingEffectIcon(blessingEffect)];
+}
+
+
+export function summonerSupportIcon(summonerSupportLevel: SupportLevel) {
+    switch (summonerSupportLevel) {
+        case SupportLevel.NONE:
+            // don't really want to GIMP an empty icon so just 
+            return <></>
+        case SupportLevel.C_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_C.webp"} alt={"C"} fill={true} />;
+        case SupportLevel.B_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_B.webp"} alt={"B"} fill={true} />;
+        case SupportLevel.A_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_A.webp"} alt={"A"} fill={true} />;
+        case SupportLevel.S_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_S.webp"} alt={"S"} fill={true} />;
+    }
 }

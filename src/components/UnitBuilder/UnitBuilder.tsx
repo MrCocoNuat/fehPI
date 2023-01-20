@@ -7,6 +7,7 @@ import { ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
 import { BonusResplendentPickers, ensureBonusResplendentValidity } from "./BonusResplendentPickers";
 import { BlessingPicker, ensureBlessingValidity } from "./BlessingPicker";
+import { ensureSummonerSupportValidity, SummonerSupportPicker } from "./SummonerSupportPicker.";
 
 
 
@@ -14,9 +15,9 @@ export const SelectedHeroIdContext = createContext(-1);
 
 // Existential Generics in TS
 // thanks jcalz, https://stackoverflow.com/a/65129942
-type SingleProp<P extends keyof Unit> = {prop: P, value: Unit[P]};
+type SingleProp<P extends keyof Unit> = { prop: P, value: Unit[P] };
 type SomeSingleProp = <R>(cb: <P extends keyof Unit>(singlePropMerger: SingleProp<P>) => R) => R;
-export const someSingleProp = <P extends keyof Unit,>(singlePropMerger: SingleProp<P>) : SomeSingleProp => cb => cb(singlePropMerger);
+export const someSingleProp = <P extends keyof Unit,>(singlePropMerger: SingleProp<P>): SomeSingleProp => cb => cb(singlePropMerger);
 
 export type MultiplePropMerger = (...changes: SomeSingleProp[]) => void;
 
@@ -37,11 +38,13 @@ export function UnitBuilder({
         let copyUnit = { ...combatant.unit };
         changes.forEach(someSingleProp => someSingleProp(singleProp => {
             copyUnit = { ...copyUnit, [singleProp.prop]: singleProp.value };
+            // beginning to think there is a better way to do this...
             ensureTraitValidity(copyUnit, singleProp.prop);
             ensureDragonflowerValidity(copyUnit, singleProp.prop);
             ensureSkillValidity(copyUnit, singleProp.prop);
             ensureBlessingValidity(copyUnit, singleProp.prop);
             ensureBonusResplendentValidity(copyUnit, singleProp.prop);
+            ensureSummonerSupportValidity(copyUnit, singleProp.prop)
         }))
 
         updater({ ...combatant, unit: copyUnit });
@@ -63,6 +66,7 @@ export function UnitBuilder({
                     <SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
 
                     <BlessingPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <SummonerSupportPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
 
                     <BonusResplendentPickers currentUnit={combatant.unit} mergeChanges={mergeChanges} />
                 </div>

@@ -38,7 +38,7 @@ type NONE_SKILL = typeof NONE_SKILL_ID;
 // 0 is explicitly no blessing
 export const NONE_BLESSING = 0;
 
-export enum SummonerSupportLevel {
+export enum SupportLevel {
     NONE,
     C_SUPPORT,
     B_SUPPORT,
@@ -71,7 +71,7 @@ export type Unit = {
     conferredBlessing: BlessingSeason | typeof NONE_BLESSING, 
 
     //support
-    summonerSupport: SummonerSupportLevel,
+    summonerSupport: SupportLevel,
 
     bonusHero: boolean,
     resplendent: boolean,

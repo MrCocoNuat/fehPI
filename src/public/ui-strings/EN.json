@@ -24,6 +24,7 @@
     "UNIT_ASCENSION": "Ascension",
     "UNIT_REFINE": "Refine",
     "UNIT_BONUS": "Bonus Hero",
+    "UNIT_SUMMONER_SUPPORT" : "Summoner Support",
 
     "UNIT_SKILL_NONE": "None",
 
@@ -39,6 +40,12 @@
 
     "HONOR_LEGENDARY": "Legendary",
     "HONOR_MYTHIC": "Mythic",
+
+    "SUPPORT_NONE" : "None",
+    "SUPPORT_C": "C Support",
+    "SUPPORT_B": "B Support",
+    "SUPPORT_A": "A Support",
+    "SUPPORT_S": "S Support",
 
     "SELECT_NO_OPTIONS": "No options",
     "SELECT_LOADING": "Loading..."

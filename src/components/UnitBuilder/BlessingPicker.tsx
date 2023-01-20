@@ -97,8 +97,8 @@ export function BlessingPicker({
     return <>
 
         {alreadyBlessed(selectedHeroDetails) && <div className="flex items-center m-1">
-            {blessingIcons(selectedHeroDetails.blessingSeason!, selectedHeroDetails.blessingEffect!).map(image =>
-                <div className="w-8 aspect-square relative"> {image} </div>)}
+            {blessingIcons(selectedHeroDetails.blessingSeason!, selectedHeroDetails.blessingEffect!).map((image, i) =>
+                <div className="w-8 aspect-square relative" key={i}> {image} </div>)}
             {getUiStringResource(selectedLanguage, (selectedHeroDetails.honorType === HonorType.LEGENDARY) ? "HONOR_LEGENDARY" : "HONOR_MYTHIC")}
         </div>}
 

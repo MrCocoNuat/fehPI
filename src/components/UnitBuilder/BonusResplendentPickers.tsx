@@ -7,7 +7,7 @@ import { LanguageContext } from "../../pages/testpage";
 import { HERO_RESPLENDENT, HERO_RESPLENDENT_FRAG, INCLUDE_FRAG } from "../api-fragments";
 import { AsyncCheckbox } from "../tailwind-styled/async/AsyncCheckbox";
 import { Checkbox } from "../tailwind-styled/sync/Checkbox";
-import { getUiStringResource, resplendentIcon } from "../ui-resources";
+import { getUiStringResource, orbImage, resplendentIcon } from "../ui-resources";
 import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 
 // blessings
@@ -89,8 +89,16 @@ export function BonusResplendentPickers({
                 onChange={(evt) => mergeChanges(someSingleProp({ prop: "resplendent", value: evt.target.checked }))} />
         </div>
 
-        <div className="">
-
+        <div className="flex gap-2">
+        <label htmlFor="unit-bonus" className="flex items-center">
+                <div className="w-8 aspect-square relative m-1">
+                    {orbImage()}
+                </div>
+                {getUiStringResource(selectedLanguage, "UNIT_BONUS")}
+            </label>
+            <Checkbox id="unit-bonus"
+                checked={currentUnit.bonusUnit}
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "bonusUnit", value: evt.target.checked }))} />
         </div>
     </div>
 }

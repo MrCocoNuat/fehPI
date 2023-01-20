@@ -65,6 +65,10 @@ export function resplendentIcon() {
     return <Image src={"/icons/misc/Icon_GodWear.webp"} alt={""} fill={true} />
 }
 
+export function orbImage() {
+    return <Image src={"/icons/misc/Orb.webp"} alt={""} fill={true} />
+}
+
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-s font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
     [SkillCategory.PASSIVE_B]: <div className="text-s font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,
@@ -149,65 +153,65 @@ const EXTRA_SLOT_BLESSING_EFFECTS = [
 function innateBlessingSeasonIcon(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect) {
     switch (blessingSeason) {
         case BlessingSeason.FIRE:
-            return <Image src={"/icons/blessing-season/Legendary_Effect_Fire.webp"} alt={"Fire"} fill={true} />;
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Fire.webp"} alt={"Fire"} fill={true} key={"season"} />;
         case BlessingSeason.WATER:
-            return <Image src={"/icons/blessing-season/Legendary_Effect_Water.webp"} alt={"Water"} fill={true} />;
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Water.webp"} alt={"Water"} fill={true} key={"season"} />;
         case BlessingSeason.WIND:
-            return <Image src={"/icons/blessing-season/Legendary_Effect_Wind.webp"} alt={"Wind"} fill={true} />;
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Wind.webp"} alt={"Wind"} fill={true} key={"season"} />;
         case BlessingSeason.EARTH:
-            return <Image src={"/icons/blessing-season/Legendary_Effect_Earth.webp"} alt={"Earth"} fill={true} />;
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Earth.webp"} alt={"Earth"} fill={true} key={"season"} />;
 
         // mythic extra-slots have a different icon
         case BlessingSeason.LIGHT:
             return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
-                <Image src={"/icons/blessing-season/Mythic_Effect_Light_02.webp"} alt={"Light"} fill={true} /> :
-                <Image src={"/icons/blessing-season/Mythic_Effect_Light.webp"} alt={"Light"} fill={true} />;
+                <Image src={"/icons/blessing-season/Mythic_Effect_Light_02.webp"} alt={"Light"} fill={true} key={"season"} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Light.webp"} alt={"Light"} fill={true} key={"season"} />;
         case BlessingSeason.DARK:
             return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
-                <Image src={"/icons/blessing-season/Mythic_Effect_Dark_02.webp"} alt={"Dark"} fill={true} /> :
-                <Image src={"/icons/blessing-season/Mythic_Effect_Dark.webp"} alt={"Dark"} fill={true} />;
+                <Image src={"/icons/blessing-season/Mythic_Effect_Dark_02.webp"} alt={"Dark"} fill={true} key={"season"} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Dark.webp"} alt={"Dark"} fill={true} key={"season"} />;
         case BlessingSeason.ANIMA:
             return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
-                <Image src={"/icons/blessing-season/Mythic_Effect_Anima_02.webp"} alt={"Anima"} fill={true} /> :
-                <Image src={"/icons/blessing-season/Mythic_Effect_Anima.webp"} alt={"Anima"} fill={true} />;
+                <Image src={"/icons/blessing-season/Mythic_Effect_Anima_02.webp"} alt={"Anima"} fill={true} key={"season"} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Anima.webp"} alt={"Anima"} fill={true} key={"season"} />;
         case BlessingSeason.ASTRA:
             return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
-                <Image src={"/icons/blessing-season/Mythic_Effect_Astra_02.webp"} alt={"Astra"} fill={true} /> :
-                <Image src={"/icons/blessing-season/Mythic_Effect_Astra.webp"} alt={"Astra"} fill={true} />;
+                <Image src={"/icons/blessing-season/Mythic_Effect_Astra_02.webp"} alt={"Astra"} fill={true} key={"season"} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Astra.webp"} alt={"Astra"} fill={true} key={"season"} />;
     }
 }
 
 function blessingEffectIcon(blessingEffect: BlessingEffect) {
     switch (blessingEffect) {
         case BlessingEffect.ATK:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk.webp"} alt={"Atk"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk.webp"} alt={"Atk"} fill={true} key={"effect"} />;
         case BlessingEffect.ATK_PAIR_UP:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_Btl.webp"} alt={"AtkPairup"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_Btl.webp"} alt={"AtkPairup"} fill={true} key={"effect"} />;
         case BlessingEffect.ATK_EXTRA:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_02.webp"} alt={"AtkExtra"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_02.webp"} alt={"AtkExtra"} fill={true} key={"effect"} />;
         case BlessingEffect.SPD:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd.webp"} alt={"Spd"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd.webp"} alt={"Spd"} fill={true} key={"effect"} />;
         case BlessingEffect.SPD_PAIR_UP:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_Btl.webp"} alt={"SpdPairup"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_Btl.webp"} alt={"SpdPairup"} fill={true} key={"effect"} />;
         case BlessingEffect.SPD_EXTRA:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_02.webp"} alt={"SpdExtra"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_02.webp"} alt={"SpdExtra"} fill={true} key={"effect"} />;
         case BlessingEffect.DEF:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Def.webp"} alt={"Def"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def.webp"} alt={"Def"} fill={true} key={"effect"} />;
         case BlessingEffect.DEF_PAIR_UP:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_Btl.webp"} alt={"DefPairup"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_Btl.webp"} alt={"DefPairup"} fill={true} key={"effect"} />;
         case BlessingEffect.DEF_EXTRA:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_02.webp"} alt={"DefExtra"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_02.webp"} alt={"DefExtra"} fill={true} key={"effect"} />;
         case BlessingEffect.RES:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Res.webp"} alt={"Res"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res.webp"} alt={"Res"} fill={true} key={"effect"} />;
         case BlessingEffect.RES_PAIR_UP:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_Btl.webp"} alt={"ResPairup"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_Btl.webp"} alt={"ResPairup"} fill={true} key={"effect"} />;
         case BlessingEffect.RES_EXTRA:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_02.webp"} alt={"ResExtra"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_02.webp"} alt={"ResExtra"} fill={true} key={"effect"} />;
         case BlessingEffect.PAIR_UP:
-            return <Image src={"/icons/blessing-effect/Ally_Boost_Btl.webp"} alt={"Pairup"} fill={true} />;
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Btl.webp"} alt={"Pairup"} fill={true} key={"effect"} />;
     }
 }
 // a pair of images, one for the season and one for the effect
-export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect) : [JSX.Element, JSX.Element] {
+export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect): [JSX.Element, JSX.Element] {
     return [innateBlessingSeasonIcon(blessingSeason, blessingEffect), blessingEffectIcon(blessingEffect)];
 }

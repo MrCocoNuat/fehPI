@@ -22,9 +22,10 @@
     "UNIT_DRAGONFLOWERS": "Drachenblumen",
     "UNIT_ASSET": "Vorzug",
     "UNIT_FLAW": "Defizit",
-    "UNIT_ASCENSION": "Vorteil",
+    "UNIT_ASCENSION": "Erleuchteten",
     "UNIT_REFINE": "NOT_TRANSLATED",
-    
+    "UNIT_BONUS": "Bonushelden",
+
     "UNIT_SKILL_NONE": "Nichts",
 
     "BLESSING_NONE": "Nichts",

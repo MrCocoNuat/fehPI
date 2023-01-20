@@ -102,10 +102,15 @@ export function BlessingPicker({
             {getUiStringResource(selectedLanguage, (selectedHeroDetails.honorType === HonorType.LEGENDARY) ? "HONOR_LEGENDARY" : "HONOR_MYTHIC")}
         </div>}
 
-        {!alreadyBlessed(selectedHeroDetails) && <div className="flex items-center">
-            <div className="w-8 aspect-square relative m-1">
-                {conferredBlessingIcon(currentUnit.conferredBlessing)}
-            </div>
+        {!alreadyBlessed(selectedHeroDetails) && <div className="flex items-center gap-2">
+            <label htmlFor="unit-conferred-blessing" className="flex items-center">
+                <div className="w-8 aspect-square relative m-1">
+                    {conferredBlessingIcon(currentUnit.conferredBlessing)}
+                </div>
+                <div>
+                    {getUiStringResource(selectedLanguage, "UNIT_BLESSING")}
+                </div>
+            </label>
             <Select id={"unit-conferred-blessing"} className={"w-32"}
                 onChange={(choice) => mergeChanges(someSingleProp({ prop: "conferredBlessing", value: +choice!.value }))}
                 value={currentUnit.conferredBlessing}

@@ -36,6 +36,9 @@
     "BLESSING_ASTRA": "Astra",
     "BLESSING_ANIMA": "Anima",
 
+    "HONOR_LEGENDARY": "Legendary",
+    "HONOR_MYTHIC": "Mythic",
+
     "SELECT_NO_OPTIONS": "No options",
     "SELECT_LOADING": "Loading..."
 }

@@ -9,7 +9,7 @@ import { BlessingEffect, BlessingSeason, HonorType } from "../../pages/api/dao/t
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_HONOR_BLESSING, HERO_HONOR_BLESSING_FRAG, INCLUDE_FRAG } from "../api-fragments";
 import { Select, ValueAndLabel } from "../tailwind-styled/sync/Select";
-import { conferredBlessingIcon, getUiStringResource } from "../ui-resources";
+import { blessingIcons, conferredBlessingIcon, getUiStringResource } from "../ui-resources";
 import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 
 // Query 
@@ -36,7 +36,7 @@ const mapQuery = (json: any) => json.data.heroes.map((queriedHero: any) => ({
     ...queriedHero,
     honorType: HonorType[queriedHero.honorType],
     blessingEffect: (queriedHero.blessingEffect === undefined) ? undefined : BlessingEffect[queriedHero.blessingEffect],
-    BlessingSeason: (queriedHero.blessingSeason === undefined) ? undefined : BlessingSeason[queriedHero.blessingSeason]
+    blessingSeason: (queriedHero.blessingSeason === undefined) ? undefined : BlessingSeason[queriedHero.blessingSeason]
 }))[0] as HeroHonorBlessing;
 
 
@@ -95,12 +95,18 @@ export function BlessingPicker({
 
     // render icons, and a selectbox if this hero can change blessings
     return <>
-        {alreadyBlessed(selectedHeroDetails) && <div>already blessed</div>}
+
+        {alreadyBlessed(selectedHeroDetails) && <div className="flex items-center m-1">
+            {blessingIcons(selectedHeroDetails.blessingSeason!, selectedHeroDetails.blessingEffect!).map(image =>
+                <div className="w-8 aspect-square relative"> {image} </div>)}
+            {getUiStringResource(selectedLanguage, (selectedHeroDetails.honorType === HonorType.LEGENDARY) ? "HONOR_LEGENDARY" : "HONOR_MYTHIC")}
+        </div>}
+
         {!alreadyBlessed(selectedHeroDetails) && <div className="flex items-center">
             <div className="w-8 aspect-square relative m-1">
                 {conferredBlessingIcon(currentUnit.conferredBlessing)}
             </div>
-            <Select id={"unit-conferred-blessing"}
+            <Select id={"unit-conferred-blessing"} className={"w-32"}
                 onChange={(choice) => mergeChanges(someSingleProp({ prop: "conferredBlessing", value: +choice!.value }))}
                 value={currentUnit.conferredBlessing}
                 options={NONE_BLESSING_OPTION_ARRAY

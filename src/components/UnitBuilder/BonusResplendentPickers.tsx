@@ -2,7 +2,7 @@
 
 import { gql, LazyQueryExecFunction, useLazyQuery } from "@apollo/client";
 import { ChangeEvent, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Unit } from "../../engine/types";
+import { NONE_BLESSING, Unit } from "../../engine/types";
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_RESPLENDENT, HERO_RESPLENDENT_FRAG, INCLUDE_FRAG } from "../api-fragments";
 import { AsyncCheckbox } from "../tailwind-styled/async/AsyncCheckbox";
@@ -90,29 +90,29 @@ export function BonusResplendentPickers({
         </div>
 
         <div className="flex gap-2">
-        <label htmlFor="unit-bonus" className="flex items-center">
+            <label htmlFor="unit-bonus" className="flex items-center">
                 <div className="w-8 aspect-square relative m-1">
                     {orbImage()}
                 </div>
                 {getUiStringResource(selectedLanguage, "UNIT_BONUS")}
             </label>
             <Checkbox id="unit-bonus"
-                checked={currentUnit.bonusUnit}
-                onChange={(evt) => mergeChanges(someSingleProp({ prop: "bonusUnit", value: evt.target.checked }))} />
+                checked={currentUnit.bonusHero}
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "bonusHero", value: evt.target.checked }))} />
         </div>
     </div>
 }
 
 // Exports
 // ----------
-function ensureBlessingResplendentValidity(unit: Unit, justSetProp: keyof Unit) {
+export function ensureBonusResplendentValidity(unit: Unit, justSetProp: keyof Unit) {
     switch (justSetProp) {
         case "idNum":
             // not all heroes have resplendent outfits
             // we allow them to still get the stat bonus if user wants, but wipe it anyway 
             unit.resplendent = false;
-        // it is unnecessary to set blessing to NONE,
-        // legendary and mythic heroes will be correctly indicated by this same component
-        // and all other heroes can be blessed arbitrarily            
+            // same for bonus hero
+            unit.bonusHero = false;
+
     }
 }

@@ -73,7 +73,7 @@ export type Unit = {
     //support
     summonerSupport: SummonerSupportLevel,
 
-    bonusUnit: boolean,
+    bonusHero: boolean,
     resplendent: boolean,
 }
 export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;

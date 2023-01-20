@@ -5,8 +5,8 @@ import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
 import { ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
-import { BonusResplendentPickers } from "./BonusResplendentPickers";
-import { BlessingPicker } from "./BlessingPicker";
+import { BonusResplendentPickers, ensureBonusResplendentValidity } from "./BonusResplendentPickers";
+import { BlessingPicker, ensureBlessingValidity } from "./BlessingPicker";
 
 
 
@@ -40,6 +40,8 @@ export function UnitBuilder({
             ensureTraitValidity(copyUnit, singleProp.prop);
             ensureDragonflowerValidity(copyUnit, singleProp.prop);
             ensureSkillValidity(copyUnit, singleProp.prop);
+            ensureBlessingValidity(copyUnit, singleProp.prop);
+            ensureBonusResplendentValidity(copyUnit, singleProp.prop);
         }))
 
         updater({ ...combatant, unit: copyUnit });

@@ -55,7 +55,7 @@ const randomUnit: () => Unit = () => ({
     conferredBlessing: NONE_BLESSING,
     summonerSupport: SummonerSupportLevel.NONE,
     resplendent: false,
-    bonusUnit: false,
+    bonusHero: false,
 });
 
 const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({

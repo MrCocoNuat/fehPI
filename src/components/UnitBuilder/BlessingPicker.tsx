@@ -123,3 +123,17 @@ export function BlessingPicker({
         </div>}
     </>
 }
+
+// Exports
+// ---------
+
+export function ensureBlessingValidity(unit: Unit, justSetProp: keyof Unit) {
+    switch (justSetProp) {
+        case "idNum":
+            // it is unnecessary to set blessing to NONE,
+            // legendary and mythic heroes will be correctly indicated by this same component
+            // and all other heroes can be blessed arbitrarily 
+            // do it anyway           
+            unit.conferredBlessing = NONE_BLESSING;
+    }
+}

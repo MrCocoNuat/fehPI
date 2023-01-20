@@ -97,7 +97,7 @@ export function BlessingPicker({
     return <>
         {alreadyBlessed(selectedHeroDetails) && <div>already blessed</div>}
         {!alreadyBlessed(selectedHeroDetails) && <div className="flex items-center">
-            <div className="w-8 aspect-square relative">
+            <div className="w-8 aspect-square relative m-1">
                 {conferredBlessingIcon(currentUnit.conferredBlessing)}
             </div>
             <Select id={"unit-conferred-blessing"}

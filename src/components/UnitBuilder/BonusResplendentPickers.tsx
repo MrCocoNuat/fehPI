@@ -75,7 +75,7 @@ export function BonusResplendentPickers({
     return <div className="flex justify-between">
         <div className="flex gap-2">
             <label htmlFor="unit-resplendent" className="flex items-center">
-                <div className="w-8 aspect-square relative">
+                <div className="w-8 aspect-square relative m-1">
                     {resplendentIcon()}
                 </div>
                 {getUiStringResource(selectedLanguage, "UNIT_RESPLENDENT")}

@@ -1,5 +1,5 @@
 import { growthVectorDao, heroDao, messageDao, skillDao } from "../dao/dao-registry";
-import { SkillDefinitionInterface, HeroDefinitionObject, MessageObject } from "./object";
+import { SkillDefinitionInterface, HeroDefinitionInterface, MessageObject } from "./object";
 import { builder } from "./schema-builder";
 import { LanguageEnum, OptionalLanguageEnum, SkillCategoryEnum } from "./enum";
 import { Language, OptionalLanguage } from "../dao/types/dao-types";
@@ -56,7 +56,7 @@ export const setQueries = () => {
                 required: false
             }),
         },
-        type: qfb.listRef(HeroDefinitionObject, { nullable: true }),
+        type: qfb.listRef(HeroDefinitionInterface, { nullable: true }),
         nullable: false,
         resolve: async (parent, { idNums }) => (await (idNums ? heroDao.getByIdNums(idNums) : heroDao.getAll())),
     }))

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SingleValue } from "react-select";
-import { FilterSelect } from "./FilterSelect";
-import { ValueAndLabel } from "./Select";
+import { FilterSelect } from "../sync/FilterSelect";
+import { ValueAndLabel } from "../sync/Select";
 
 // react-select's own async functionality is insufficient for me - need more precise control of isLoading
 

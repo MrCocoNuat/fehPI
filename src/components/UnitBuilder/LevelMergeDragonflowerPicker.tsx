@@ -4,10 +4,11 @@ import { constrainNumeric, MAX_LEVEL, MAX_MERGES, MIN_DRAGONFLOWERS, MIN_LEVEL, 
 import { MovementType } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { HERO_MAX_DRAGONFLOWERS, HERO_MAX_DRAGONFLOWERS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, INCLUDE_FRAG } from "../api-fragments";
-import { AsyncNumericInput } from "../tailwind-styled/AsyncNumericInput";
-import { NumericInput } from "../tailwind-styled/NumericInput";
+import { AsyncNumericInput } from "../tailwind-styled/async/AsyncNumericInput";
+import { NumericInput } from "../tailwind-styled/sync/NumericInput";
+
 import { dragonflowerImage, getUiStringResource } from "../ui-resources";
-import { MultiplePropMerger, SelectedHeroIdContext } from "./UnitBuilder";
+import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 
 // Query
 // ----------
@@ -91,12 +92,12 @@ export function LevelMergeDragonflowerPicker(
             <NumericInput className="w-16" id="unit-level"
                 minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }}
                 value={currentUnit.level}
-                onChange={(evt) => mergeChanges({ prop: "level", value: constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL) })} />
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "level", value: constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL) }))} />
             <label htmlFor="unit-merges">+</label>
             <NumericInput className="w-16" id="unit-merges"
                 minMax={{ min: MIN_MERGES, max: MAX_MERGES }}
                 value={currentUnit.merges}
-                onChange={(evt) => mergeChanges({ prop: "merges", value: constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES) })} />
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "merges", value: constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES) }))} />
         </div>
         <div className="flex">
             <label htmlFor="unit-dragonflowers" className="flex items-center">
@@ -111,7 +112,7 @@ export function LevelMergeDragonflowerPicker(
                 loadMinMax={dragonflowerMinMaxLoader}
                 value={currentUnit.dragonflowers}
                 // technically not constrained - but this is async so...
-                onChange={(evt) => mergeChanges({ prop: "dragonflowers", value: +evt.target.value })} />
+                onChange={(evt) => mergeChanges(someSingleProp({ prop: "dragonflowers", value: +evt.target.value }))} />
         </div>
     </div>
 }

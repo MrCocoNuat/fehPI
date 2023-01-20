@@ -1,5 +1,5 @@
-import { assertIsAssistDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, HeroDefinition, HeroSkills, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
-import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum, RefineTypeEnum } from "./enum";
+import { assertIsAssistDefinition, assertIsBlessedHeroDefinition, assertIsPassiveSkillDefinition, assertIsSpecialDefinition, assertIsWeaponDefinition, AssistDefinition, BlessedHeroDefinition, BlessingEffect, HeroDefinition, HeroSkills, Language, Message, MovementType, OptionalLanguage, ParameterPerStat, PassiveSkillDefinition, Series, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType } from "../dao/types/dao-types";
+import { OptionalLanguageEnum, MovementTypeEnum, SeriesEnum, SkillCategoryEnum, WeaponTypeEnum, RarityEnum, RefineTypeEnum, HonorTypeEnum, BlessingSeasonEnum, BlessingEffectEnum } from "./enum";
 import { builder } from "./schema-builder";
 import { getAllEnumValues } from "enum-for";
 import { messageDao, skillDao } from "../dao/dao-registry";
@@ -213,8 +213,8 @@ export const ParameterPerStatObject = builder.objectRef<ParameterPerStat>("Param
         })
     })
 
-export const HeroDefinitionObject = builder.objectRef<HeroDefinition>("HeroDefinition");
-HeroDefinitionObject.implement({
+export const HeroDefinitionInterface = builder.interfaceRef<HeroDefinition>("HeroDefinition");
+HeroDefinitionInterface.implement({
     description: "Details about a Hero",
     fields: (ofb) => ({
         idNum: ofb.exposeInt("idNum", {
@@ -254,8 +254,17 @@ HeroDefinitionObject.implement({
             description: "The Message holding the epithet of the Hero. Provide a NONE Language argument if you just want the key."
         }),
         imageUrl: ofb.exposeString("imageUrl", {
-            nullable: true,
+            nullable: false,
             description: "FEH wiki URL of an image of this Hero's face. Other images are not supported at the moment.",
+        }),
+        resplendentExists: ofb.boolean({
+            nullable: false,
+            resolve: (heroDefinition) => heroDefinition.resplendentImageUrl !== undefined, // ok a bit hacky but this info isn't actually exposed...?
+            description: "Whether a resplendent outfit exists for this Hero",
+        }),
+        resplendentImageUrl: ofb.exposeString("resplendentImageUrl", {
+            nullable: true,
+            description: "FEH wiki URL of an image of this Hero's face in their resplendent outfit. Other images are not supported at the moment."
         }),
         maxDragonflowers: ofb.int({
             nullable: false,
@@ -330,6 +339,12 @@ HeroDefinitionObject.implement({
                         learnable: fourteenSkillsList.slice(6).filter(skill => skill !== null) as string[]
                     })),
             description: "The Skills that this Hero knows and can learn at each rarity or higher"
+        }),
+        honorType: ofb.field({
+            type: HonorTypeEnum,
+            nullable: false,
+            resolve: (heroDefinition) => heroDefinition.honorType,
+            description: "The Honor this Hero has (Legendary, Mythic, Duo, Harmonic, Ascended, Rearmed, etc.)"
         })
     }),
 })
@@ -355,6 +370,35 @@ HeroSkillsObject.implement({
             description: "The Skills a Hero can at a particular rarity or higher. There can be more than one of each SkillCategory, e.g. Legendary/Mythic remix skills"
         }),
     })
+})
+
+const BlessedHeroDefinitionObject = builder.objectRef<BlessedHeroDefinition>("BlessedHeroDefinition");
+BlessedHeroDefinitionObject.implement({
+    description: "Details about a Legendary or Mythic Hero",
+    interfaces: [HeroDefinitionInterface],
+    isTypeOf: (value) => (assertIsBlessedHeroDefinition(value as HeroDefinition)),
+    fields: (ofb) => ({
+        blessingSeason: ofb.field({
+            type: BlessingSeasonEnum,
+            nullable: false,
+            resolve: (blessedHeroDefinition) => blessedHeroDefinition.blessingSeason,
+            description: "The Season that this Blessed Hero's blessing takes effect in",
+        }),
+        blessingEffect: ofb.field({
+            type: BlessingEffectEnum,
+            nullable: false,
+            resolve: (blessedHeroDefinition) => blessedHeroDefinition.blessingEffect,
+            description: "The effect of this Blessed Hero's blessing on a team",
+        })
+    }),
+})
+
+const OrdinaryHeroDefinitionObject = builder.objectRef<HeroDefinition>("OrdinaryHeroDefinition");
+OrdinaryHeroDefinitionObject.implement({
+    description: "Details about a non-Legendary and non-Mythic Hero",
+    interfaces: [HeroDefinitionInterface],
+    isTypeOf: (value) => (!assertIsBlessedHeroDefinition(value as HeroDefinition)),
+    // no additional fields
 })
 
 

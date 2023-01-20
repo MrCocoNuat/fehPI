@@ -1,4 +1,4 @@
-import { OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
+import { BlessingSeason, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
 
 export function constrainNumeric(value: number, min: number, max: number) {
     return (value > min) ? ((value < max) ? value : max) : min;
@@ -35,6 +35,17 @@ export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RAR
 export const NONE_SKILL_ID = 0;
 type NONE_SKILL = typeof NONE_SKILL_ID;
 
+// 0 is explicitly no blessing
+export const NONE_BLESSING = 0;
+
+export enum SupportLevel {
+    NONE,
+    C_SUPPORT,
+    B_SUPPORT,
+    A_SUPPORT,
+    S_SUPPORT,
+}
+
 export type Unit = {
     idNum: number,
     rarity: Rarity,
@@ -55,8 +66,15 @@ export type Unit = {
     passiveBSkillId: number | NONE_SKILL,
     passiveCSkillId: number | NONE_SKILL,
     passiveSSkillId: number | NONE_SKILL,
-    // blessing
+    
+    // blessing - only applicable to non-blessed heroes
+    conferredBlessing: BlessingSeason | typeof NONE_BLESSING, 
+
     //support
+    summonerSupport: SupportLevel,
+
+    bonusHero: boolean,
+    resplendent: boolean,
 }
 export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;
 export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as const;

@@ -5,10 +5,10 @@ import { constrainNumeric, MAX_RARITY, MIN_RARITY, Rarity, Unit } from "../../en
 import { Language } from "../../pages/api/dao/types/dao-types"
 import { LanguageContext } from "../../pages/testpage"
 import { HERO_NAME, HERO_NAME_FRAG } from "../api-fragments"
-import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect"
-import { Select } from "../tailwind-styled/Select"
+import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect"
+import { Select } from "../tailwind-styled/sync/Select"
 import { getUiStringResource } from "../ui-resources"
-import { MultiplePropMerger } from "./UnitBuilder"
+import { MultiplePropMerger, someSingleProp } from "./UnitBuilder"
 
 // Query
 // ----------
@@ -87,11 +87,11 @@ export function UnitAndRarityPicker(
     return <div className="flex flex-row items-center gap-2">
         <AsyncFilterSelect id="unit-idNum" className="min-w-[320px] flex-1"
             value={currentUnit.idNum}
-            onChange={(choice) => { mergeChanges({prop: "idNum", value: +choice!.value}) }}
+            onChange={(choice) => { mergeChanges(someSingleProp({prop: "idNum", value: +choice!.value})) }}
             loadOptions={heroesLoader} />
         <Select id="unit-rarity" className="w-18"
             value={currentUnit.rarity}
-            onChange={(choice) => { mergeChanges({prop: "rarity", value: constrainNumeric(choice!.value, MIN_RARITY, MAX_RARITY)}) }}
+            onChange={(choice) => { mergeChanges(someSingleProp({prop: "rarity", value: constrainNumeric(choice!.value, MIN_RARITY, MAX_RARITY)})) }}
             options={
                 getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))
             } />

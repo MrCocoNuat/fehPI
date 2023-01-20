@@ -37,8 +37,8 @@ export class MediaWikiReader {
     }
 
     // return results ordered!
-    async queryImageUrls(fileTitles: string[]) {
-
+    // mustExist just controls error logging, that's it
+    async queryImageUrls(fileTitles: string[], mustExist: boolean) {
         // batch up
         const batchSize = 50;
         const batches: string[][] = [];
@@ -51,18 +51,20 @@ export class MediaWikiReader {
         // each goes through
         // MUST REMEMBER - forEach does not support async/await !!
         for (const batch of batches) {
-            const batchJson= await fetch(this.IMAGE_URL_QUERY_FACTORY(batch)).then(data => data.json()) as MediaWikiResponse;
+            const batchJson = await fetch(this.IMAGE_URL_QUERY_FACTORY(batch)).then(data => data.json()) as MediaWikiResponse;
             // associate the resulting urls with their file title for later retrieval
             Object.values(batchJson.query.pages).forEach(({ title, imageinfo }) => {
                 // !!! The title property is returned with spaces, not underscores!
-                if (imageinfo === undefined){
+                if (imageinfo === undefined) {
                     //uh oh
-                    console.error(`MediaWiki returned missing for title ${title}`);
-                    return;   
+                    if (mustExist) {
+                        console.error(`MediaWiki returned missing for title ${title}`);
+                    }
+                    return;
                 }
                 const url = imageinfo[0].url;
                 // we do not care about revisions, just get one
-                imageUrlsByFileTitles[title] = url.slice(0,url.indexOf("revision"));
+                imageUrlsByFileTitles[title] = url.slice(0, url.indexOf("revision"));
             });
         }
         // return results in the order requested

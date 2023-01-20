@@ -5,10 +5,10 @@ import { NONE_SKILL_ID, Unit } from "../../engine/types";
 import { Language, OptionalLanguage, RefineType, SkillCategory } from "../../pages/api/dao/types/dao-types";
 import { LanguageContext } from "../../pages/testpage";
 import { INCLUDE_FRAG, SKILL_NAME, SKILL_NAME_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG, WEAPON_REFINES, WEAPON_REFINES_FRAG } from "../api-fragments";
-import { AsyncFilterSelect } from "../tailwind-styled/AsyncFilterSelect";
-import { Select, ValueAndLabel } from "../tailwind-styled/Select";
+import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
+import { Select, ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { getUiStringResource, divineDewImage, weaponRefineIcon } from "../ui-resources";
-import { MultiplePropMerger } from "./UnitBuilder";
+import { MultiplePropMerger, someSingleProp } from "./UnitBuilder";
 
 
 // weapons need refine handling... and evolutions even though nobody is going to use those
@@ -286,13 +286,13 @@ export function WeaponPicker({
                 </div>
             </label>
 
-            <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[320px] flex-1"
+            <AsyncFilterSelect id={"unit-weapon-skill"} className="min-w-[200px] flex-1"
                 value={currentUnit.weaponSkillBaseId}
                 // onChange is OK, it can only change to unrefined weapons
                 onChange={(choice) => {
                     mergeChanges(
-                        { prop: "weaponSkillId", value: +choice!.value },
-                        { prop: "weaponSkillBaseId", value: +choice!.value }
+                        someSingleProp({ prop: "weaponSkillId", value: +choice!.value }),
+                        someSingleProp({ prop: "weaponSkillBaseId", value: +choice!.value }),
                     );
                 }}
                 loadOptions={adjustedWeaponSkillLoader} // needs modification for evolutions
@@ -315,7 +315,7 @@ export function WeaponPicker({
                 onChange={(choice) => {
                     syncedWeaponSkillIdRef.current = choice!.value;
                     applyImageStateSetter(weaponIds, effectRefineImageQuery, setWeaponIconImage, syncedWeaponSkillIdRef.current);
-                    mergeChanges({ prop: "weaponSkillId", value: +choice!.value });
+                    mergeChanges(someSingleProp({ prop: "weaponSkillId", value: +choice!.value }));
                 }}
                 options={refineOptions(weaponIds, selectedLanguage)} />
         </div>

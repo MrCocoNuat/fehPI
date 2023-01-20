@@ -8,6 +8,8 @@
     "UNIT_REFINE_EFFECT": "Effect",
     "UNIT_REFINE_DAZZLING": "Dazzling",
     "UNIT_REFINE_WRATHFUL": "Wrathful",
+    "UNIT_RESPLENDENT": "Resplendent",
+    "UNIT_BLESSING": "Blessing",
 
     "UNIT_RARITY_ONE": "1★",
     "UNIT_RARITY_TWO": "2★",
@@ -21,8 +23,29 @@
     "UNIT_FLAW": "Flaw",
     "UNIT_ASCENSION": "Ascension",
     "UNIT_REFINE": "Refine",
-    
+    "UNIT_BONUS": "Bonus Hero",
+    "UNIT_SUMMONER_SUPPORT" : "Summoner Support",
+
     "UNIT_SKILL_NONE": "None",
+
+    "BLESSING_NONE": "None",
+    "BLESSING_FIRE": "Fire",
+    "BLESSING_WATER": "Water",
+    "BLESSING_WIND": "Wind",
+    "BLESSING_EARTH": "Earth",
+    "BLESSING_LIGHT": "Light",
+    "BLESSING_DARK": "Dark",
+    "BLESSING_ASTRA": "Astra",
+    "BLESSING_ANIMA": "Anima",
+
+    "HONOR_LEGENDARY": "Legendary",
+    "HONOR_MYTHIC": "Mythic",
+
+    "SUPPORT_NONE" : "None",
+    "SUPPORT_C": "C Support",
+    "SUPPORT_B": "B Support",
+    "SUPPORT_A": "A Support",
+    "SUPPORT_S": "S Support",
 
     "SELECT_NO_OPTIONS": "No options",
     "SELECT_LOADING": "Loading..."

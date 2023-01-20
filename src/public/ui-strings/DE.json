@@ -8,6 +8,9 @@
     "UNIT_REFINE_EFFECT": "NOT_TRANSLATED",
     "UNIT_REFINE_DAZZLING": "NOT_TRANSLATED",
     "UNIT_REFINE_WRATHFUL": "NOT_TRANSLATED",
+    "UNIT_RESPLENDENT": "NOT_TRANSLATED",
+    "UNIT_BLESSING": "Segen",
+
 
     "UNIT_RARITY_ONE": "1★",
     "UNIT_RARITY_TWO": "2★",
@@ -19,10 +22,31 @@
     "UNIT_DRAGONFLOWERS": "Drachenblumen",
     "UNIT_ASSET": "Vorzug",
     "UNIT_FLAW": "Defizit",
-    "UNIT_ASCENSION": "Vorteil",
+    "UNIT_ASCENSION": "Erleuchteten",
     "UNIT_REFINE": "NOT_TRANSLATED",
+    "UNIT_BONUS": "Bonushelden",
+    "UNIT_SUMMONER_SUPPORT" : "Beschwörerhilfe",
 
     "UNIT_SKILL_NONE": "Nichts",
+
+    "BLESSING_NONE": "Nichts",
+    "BLESSING_FIRE": "Feuer",
+    "BLESSING_WATER": "Wasser",
+    "BLESSING_WIND": "Wind",
+    "BLESSING_EARTH": "Erd",
+    "BLESSING_LIGHT": "Licht",
+    "BLESSING_DARK": "Dunkel",
+    "BLESSING_ASTRA": "Astra",
+    "BLESSING_ANIMA": "Anima",
+
+    "HONOR_LEGENDARY": "Legendäre",
+    "HONOR_MYTHIC": "Mythische",
+
+    "SUPPORT_NONE" : "NOT_TRANSLATED",
+    "SUPPORT_C": "NOT_TRANSLATED",
+    "SUPPORT_B": "NOT_TRANSLATED",
+    "SUPPORT_A": "NOT_TRANSLATED",
+    "SUPPORT_S": "NOT_TRANSLATED",
 
     "SELECT_NO_OPTIONS": "NOT_TRANSLATED",
     "SELECT_LOADING": "NOT_TRANSLATED"

@@ -5,12 +5,21 @@ import { UnitAndRarityPicker } from "./UnitAndRarityPicker";
 import { ensureDragonflowerValidity, LevelMergeDragonflowerPicker } from "./LevelMergeDragonflowerPicker";
 import { ensureTraitValidity, TraitPicker } from "./TraitPicker";
 import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
+import { BonusResplendentPickers, ensureBonusResplendentValidity } from "./BonusResplendentPickers";
+import { BlessingPicker, ensureBlessingValidity } from "./BlessingPicker";
+import { ensureSummonerSupportValidity, SummonerSupportPicker } from "./SummonerSupportPicker.";
 
 
 
 export const SelectedHeroIdContext = createContext(-1);
 
-export type MultiplePropMerger = (...changes: { prop: keyof Unit, value: Unit[keyof Unit] }[]) => void;
+// Existential Generics in TS
+// thanks jcalz, https://stackoverflow.com/a/65129942
+type SingleProp<P extends keyof Unit> = { prop: P, value: Unit[P] };
+type SomeSingleProp = <R>(cb: <P extends keyof Unit>(singlePropMerger: SingleProp<P>) => R) => R;
+export const someSingleProp = <P extends keyof Unit,>(singlePropMerger: SingleProp<P>): SomeSingleProp => cb => cb(singlePropMerger);
+
+export type MultiplePropMerger = (...changes: SomeSingleProp[]) => void;
 
 export function UnitBuilder({
     combatant,
@@ -27,16 +36,19 @@ export function UnitBuilder({
 
     const mergeChanges: MultiplePropMerger = (...changes) => {
         let copyUnit = { ...combatant.unit };
-        changes.forEach(({ prop, value }) => {
-            copyUnit = { ...copyUnit, [prop]: value };
-            ensureTraitValidity(copyUnit, prop);
-            ensureDragonflowerValidity(copyUnit, prop);
-            ensureSkillValidity(copyUnit, prop);
-        })
+        changes.forEach(someSingleProp => someSingleProp(singleProp => {
+            copyUnit = { ...copyUnit, [singleProp.prop]: singleProp.value };
+            // beginning to think there is a better way to do this...
+            ensureTraitValidity(copyUnit, singleProp.prop);
+            ensureDragonflowerValidity(copyUnit, singleProp.prop);
+            ensureSkillValidity(copyUnit, singleProp.prop);
+            ensureBlessingValidity(copyUnit, singleProp.prop);
+            ensureBonusResplendentValidity(copyUnit, singleProp.prop);
+            ensureSummonerSupportValidity(copyUnit, singleProp.prop)
+        }))
 
         updater({ ...combatant, unit: copyUnit });
     }
-
 
 
     return <div className="flex-grow self-stretch border-2 border-yellow-900 flex flex-col"
@@ -51,7 +63,12 @@ export function UnitBuilder({
 
                     <TraitPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
 
-                    {<SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />}
+                    <SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+
+                    <BlessingPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <SummonerSupportPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+
+                    <BonusResplendentPickers currentUnit={combatant.unit} mergeChanges={mergeChanges} />
                 </div>
             </form>
 

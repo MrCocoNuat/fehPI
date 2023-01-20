@@ -1,4 +1,4 @@
-import { Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -11,6 +11,7 @@ import frStrings from "../public/ui-strings/FR.json"
 import itStrings from "../public/ui-strings/IT.json"
 import jaStrings from "../public/ui-strings/JA.json"
 import zhStrings from "../public/ui-strings/ZH.json"
+import { NONE_BLESSING, SupportLevel } from "../engine/types";
 
 
 const stringsForLanguage = {
@@ -60,6 +61,14 @@ export function divineDewImage() {
     return <Image src={"/icons/misc/Divine_Dew.webp"} alt={""} fill={true} />
 }
 
+export function resplendentIcon() {
+    return <Image src={"/icons/misc/Icon_GodWear.webp"} alt={""} fill={true} />
+}
+
+export function orbImage() {
+    return <Image src={"/icons/misc/Orb.webp"} alt={""} fill={true} />
+}
+
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-s font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
     [SkillCategory.PASSIVE_B]: <div className="text-s font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,
@@ -107,5 +116,119 @@ export function weaponRefineIcon(refineType: RefineType, imageUrl?: string) {
         case RefineType.DAZZLING:
             return <Image src={"/icons/weapon-refine/Dazzling_Staff_W.webp"} alt={"DazzlingR"} fill={true} />
 
+    }
+}
+
+
+export function conferredBlessingIcon(blessingSeason: BlessingSeason | typeof NONE_BLESSING) {
+    switch (blessingSeason) {
+        case NONE_BLESSING:
+            return <Image src={"/icons/blessing-season/Icon_Season_None.webp"} alt={"None"} fill={true} />;
+        case BlessingSeason.FIRE:
+            return <Image src={"/icons/blessing-season/Icon_Season_Fire.webp"} alt={"Fire"} fill={true} />;
+        case BlessingSeason.WATER:
+            return <Image src={"/icons/blessing-season/Icon_Season_Water.webp"} alt={"Water"} fill={true} />;
+        case BlessingSeason.WIND:
+            return <Image src={"/icons/blessing-season/Icon_Season_Wind.webp"} alt={"Wind"} fill={true} />;
+        case BlessingSeason.EARTH:
+            return <Image src={"/icons/blessing-season/Icon_Season_Earth.webp"} alt={"Earth"} fill={true} />;
+        case BlessingSeason.LIGHT:
+            return <Image src={"/icons/blessing-season/Icon_Season_Light.webp"} alt={"Light"} fill={true} />;
+        case BlessingSeason.DARK:
+            return <Image src={"/icons/blessing-season/Icon_Season_Dark.webp"} alt={"Dark"} fill={true} />;
+        case BlessingSeason.ANIMA:
+            return <Image src={"/icons/blessing-season/Icon_Season_Anima.webp"} alt={"Anima"} fill={true} />;
+        case BlessingSeason.ASTRA:
+            return <Image src={"/icons/blessing-season/Icon_Season_Astra.webp"} alt={"Astra"} fill={true} />;
+    }
+}
+
+const EXTRA_SLOT_BLESSING_EFFECTS = [
+    BlessingEffect.ATK_EXTRA,
+    BlessingEffect.SPD_EXTRA,
+    BlessingEffect.DEF_EXTRA,
+    BlessingEffect.RES_EXTRA,
+] as readonly BlessingEffect[];
+
+function innateBlessingSeasonIcon(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect) {
+    switch (blessingSeason) {
+        case BlessingSeason.FIRE:
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Fire.webp"} alt={"Fire"} fill={true} />;
+        case BlessingSeason.WATER:
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Water.webp"} alt={"Water"} fill={true} />;
+        case BlessingSeason.WIND:
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Wind.webp"} alt={"Wind"} fill={true} />;
+        case BlessingSeason.EARTH:
+            return <Image src={"/icons/blessing-season/Legendary_Effect_Earth.webp"} alt={"Earth"} fill={true} />;
+
+        // mythic extra-slots have a different icon
+        case BlessingSeason.LIGHT:
+            return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
+                <Image src={"/icons/blessing-season/Mythic_Effect_Light_02.webp"} alt={"Light"} fill={true} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Light.webp"} alt={"Light"} fill={true} />;
+        case BlessingSeason.DARK:
+            return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
+                <Image src={"/icons/blessing-season/Mythic_Effect_Dark_02.webp"} alt={"Dark"} fill={true} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Dark.webp"} alt={"Dark"} fill={true} />;
+        case BlessingSeason.ANIMA:
+            return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
+                <Image src={"/icons/blessing-season/Mythic_Effect_Anima_02.webp"} alt={"Anima"} fill={true} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Anima.webp"} alt={"Anima"} fill={true} />;
+        case BlessingSeason.ASTRA:
+            return EXTRA_SLOT_BLESSING_EFFECTS.includes(blessingEffect) ?
+                <Image src={"/icons/blessing-season/Mythic_Effect_Astra_02.webp"} alt={"Astra"} fill={true} /> :
+                <Image src={"/icons/blessing-season/Mythic_Effect_Astra.webp"} alt={"Astra"} fill={true} />;
+    }
+}
+
+function blessingEffectIcon(blessingEffect: BlessingEffect) {
+    switch (blessingEffect) {
+        case BlessingEffect.ATK:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk.webp"} alt={"Atk"} fill={true} />;
+        case BlessingEffect.ATK_PAIR_UP:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_Btl.webp"} alt={"AtkPairup"} fill={true} />;
+        case BlessingEffect.ATK_EXTRA:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Atk_02.webp"} alt={"AtkExtra"} fill={true} />;
+        case BlessingEffect.SPD:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd.webp"} alt={"Spd"} fill={true} />;
+        case BlessingEffect.SPD_PAIR_UP:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_Btl.webp"} alt={"SpdPairup"} fill={true} />;
+        case BlessingEffect.SPD_EXTRA:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Spd_02.webp"} alt={"SpdExtra"} fill={true} />;
+        case BlessingEffect.DEF:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def.webp"} alt={"Def"} fill={true} />;
+        case BlessingEffect.DEF_PAIR_UP:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_Btl.webp"} alt={"DefPairup"} fill={true} />;
+        case BlessingEffect.DEF_EXTRA:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Def_02.webp"} alt={"DefExtra"} fill={true} />;
+        case BlessingEffect.RES:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res.webp"} alt={"Res"} fill={true} />;
+        case BlessingEffect.RES_PAIR_UP:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_Btl.webp"} alt={"ResPairup"} fill={true} />;
+        case BlessingEffect.RES_EXTRA:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Res_02.webp"} alt={"ResExtra"} fill={true} />;
+        case BlessingEffect.PAIR_UP:
+            return <Image src={"/icons/blessing-effect/Ally_Boost_Btl.webp"} alt={"Pairup"} fill={true} />;
+    }
+}
+// a pair of images, one for the season and one for the effect
+export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: BlessingEffect): [JSX.Element, JSX.Element] {
+    return [innateBlessingSeasonIcon(blessingSeason, blessingEffect), blessingEffectIcon(blessingEffect)];
+}
+
+
+export function summonerSupportIcon(summonerSupportLevel: SupportLevel) {
+    switch (summonerSupportLevel) {
+        case SupportLevel.NONE:
+            // don't really want to GIMP an empty icon so just 
+            return <></>
+        case SupportLevel.C_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_C.webp"} alt={"C"} fill={true} />;
+        case SupportLevel.B_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_B.webp"} alt={"B"} fill={true} />;
+        case SupportLevel.A_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_A.webp"} alt={"A"} fill={true} />;
+        case SupportLevel.S_SUPPORT:
+            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_S.webp"} alt={"S"} fill={true} />;
     }
 }

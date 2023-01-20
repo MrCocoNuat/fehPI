@@ -2,7 +2,7 @@
 // AsyncNumericInput lets you asynchronously load min and max, which are like options for NumericInput
 
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
-import { NumericInput } from "./NumericInput";
+import { NumericInput } from "../sync/NumericInput";
 
 
 export function AsyncNumericInput(
@@ -20,7 +20,7 @@ export function AsyncNumericInput(
         className?: string,
     }
 ) {
-    console.info("rerender async numeric input id:",id)
+    console.info("rerender async numeric input id:", id)
 
     const [minMax, setMinMax] = useState({ min: undefined, max: undefined } as { min?: number, max?: number });
     const isLoadingRef = useRef(false);
@@ -28,8 +28,8 @@ export function AsyncNumericInput(
     useEffect(() => {
         isLoadingRef.current = true;
         loadMinMax()
+            .then(minMax => {isLoadingRef.current = false; return minMax})
             .then(minMax => setMinMax(minMax))
-            .then(() => isLoadingRef.current = false);
     }, [loadMinMax]);
 
     return <NumericInput

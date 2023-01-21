@@ -4,11 +4,12 @@ import { BattleDuelComponent } from "./BattleDuel";
 import { Seeker } from "./Seeker";
 import { Tab, TabSelector } from "./TabSelector";
 
-import { UnitTeamComponent } from "./UnitTeam";
+import { UnitTeam } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
-import { Combatant, Team } from "../engine/types";
+import { Combatant, Affiliation, emptyArmy } from "../engine/types";
 import { generateBattleMap, generateTeams } from "../engine/mocks";
 import { UnitBuilder } from "./UnitBuilder/UnitBuilder";
+import { empty } from "@apollo/client";
 
 export enum FocusType {
     TILE,
@@ -17,71 +18,67 @@ export enum FocusType {
     NONE,
 }
 export type Focus = {
-    focusType: FocusType,
-    focusInfo: any // right now always number
+    type: FocusType,
+    info: any
 }
 
-const {[Team.PLAYER]: basePlayerTeam, [Team.ENEMY]: baseEnemyTeam} = generateTeams();
+const {[Affiliation.PLAYER]: basePlayerTeam, [Affiliation.ENEMY]: baseEnemyTeam} = generateTeams();
 const baseBattleMap = generateBattleMap();
 
 export function BattlePane(props: any) {
     const [selectedTab, updateSelectedTab] = useState(Tab.STATUS);
-    const [focus, updateFocus] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
-    const [hover, updateHoverDisabled] = useState({ focusType: FocusType.NONE, focusInfo: undefined } as Focus);
+    const [focus, updateFocus] = useState({ type: FocusType.NONE, info: undefined } as Focus);
+    const [hover, updateHoverDisabled] = useState({ type: FocusType.NONE, info: undefined } as Focus);
     const updateHover = () => {};
 
-    const [playerTeam, updatePlayerTeam] = useState(basePlayerTeam);
-    const [enemyTeam, updateEnemyTeam] = useState(baseEnemyTeam);
+    const [armies, setArmies] = useState({[Affiliation.PLAYER]: emptyArmy(), [Affiliation.ENEMY]: emptyArmy()})
     const [battleTiles, updateBattleTiles] = useState(baseBattleMap);
 
-    function getCombatant({focusType, focusInfo} : Focus) {
-        switch (focusType) {
+    function getCombatant({type, info} : Focus) {
+        switch (type) {
             //case FocusType.TILE_UNIT:
              //   return battleTiles[focusInfo].combatant;
             case FocusType.TEAM_UNIT:
-                return (focusInfo < 7)?
-                playerTeam[focusInfo] :
-                enemyTeam[focusInfo - 7]
+                return armies[info.affiliation as Affiliation].combatants[info.teamNumber];
             default:
                 return undefined;
         }
     }
-    function updateCombatant(team: Team, teamNumber: number, newCombatant : Combatant){
-        const [selectedTeam, selectedUpdate] = (team === Team.PLAYER)? [playerTeam,updatePlayerTeam] : [enemyTeam, updateEnemyTeam];
-        const copy = [...selectedTeam];
-        copy[teamNumber] = newCombatant;
-        selectedUpdate(copy);
+    function updateCombatant(affiliation: Affiliation, teamNumber: number, newCombatant : Combatant){
+        const copy = {...armies};
+        copy[affiliation].combatants[teamNumber] = newCombatant;
+        setArmies(copy);
     }
 
     const focusCombatant = getCombatant(focus);
 
     return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5"
         // any click not stopped will bubble here and clear the focus
-        onClick={(evt) => { evt.stopPropagation(); updateFocus({ focusType: FocusType.NONE, focusInfo: undefined }) }}>
+        onClick={(evt) => { evt.stopPropagation(); updateFocus({ type: FocusType.NONE, info: undefined }) }}>
 
         <div className="flex justify-center">
             <div className="flex flex-initial flex-col">
 
                 <div className="absolute top-12">
-                    Focus: {FocusType[focus.focusType]} param: {focus.focusInfo} -
-                    Hover: {FocusType[hover.focusType]} param: {hover.focusInfo}
+                    Focus: {FocusType[focus.type]} param: {JSON.stringify(focus.info)} -
+                    Hover: {FocusType[hover.type]} param: {JSON.stringify(hover.info)}
                 </div>
                 <Seeker></Seeker>
-                <BattleMapComponent tiles={battleTiles} allCombatants={playerTeam.concat(enemyTeam)} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
+                <BattleMapComponent tiles={battleTiles} armies={armies} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
             </div>
         </div>
         <div className="flex-initial flex flex-col">
             <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>
-            <UnitTeamComponent units={playerTeam} updateFocus={updateFocus} updateHover={updateHover} team={Team.PLAYER}></UnitTeamComponent>
-            <UnitTeamComponent units={enemyTeam} updateFocus={updateFocus} updateHover={updateHover} team={Team.ENEMY}></UnitTeamComponent>
-            {(selectedTab === Tab.STATUS) && focus.focusType === FocusType.NONE && <>
+            <UnitTeam team={armies[Affiliation.PLAYER]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.PLAYER}></UnitTeam>
+            <UnitTeam team={armies[Affiliation.ENEMY]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.ENEMY}></UnitTeam>
+            {(selectedTab === Tab.STATUS) && focus.type === FocusType.NONE && <>
                 <BattleDuelComponent></BattleDuelComponent>
             </>}
-            {(selectedTab === Tab.HISTORY) && focus.focusType === FocusType.NONE && <>
+            {(selectedTab === Tab.HISTORY) && focus.type === FocusType.NONE && <>
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
-            {(focus.focusType === FocusType.TILE_UNIT || focus.focusType === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
-                <UnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focusCombatant.team, focusCombatant.teamNumber, newCombatant)}></UnitBuilder>
+            {(focus.type === FocusType.TILE_UNIT || focus.type === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
+                <UnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focus.info.affiliation, focus.info.teamNumber, newCombatant)}></UnitBuilder>
             </>}
         </div>
     </div>

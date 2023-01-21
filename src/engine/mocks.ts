@@ -1,6 +1,6 @@
 import { Nunito } from "@next/font/google";
 import { OptionalStat, Stat } from "../pages/api/dao/types/dao-types";
-import { BattleMap, BattleTile, Combatant, CombatantTeam, NONE_BLESSING, SupportLevel, Team, Unit } from "./types";
+import { BattleMap, BattleTile, Combatant, Army, NONE_BLESSING, SupportLevel, Affiliation, Unit } from "./types";
 
 const NUM_TILES = 48;
 const NUM_TEAM_MEMBERS = 7;
@@ -30,10 +30,10 @@ const randomTraits: () => { asset: OptionalStat, flaw: OptionalStat, ascension: 
     }
     return traits;
 }
-const randomTeam: () => Team = () => randInt(2);
+
 
 const randomUnit: () => Unit = () => ({
-    idNum: 1+randInt(890),
+    idNum: 1 + randInt(893),
     rarity: randInt(5),
     level: 40, //randInt(40), // level adjustments are so poorly supported by others...
     merges: randInt(11),
@@ -58,15 +58,14 @@ const randomUnit: () => Unit = () => ({
     bonusHero: false,
 });
 
-const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({
+const randomCombatant: (team: Affiliation, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({
     team: team,
     unit: randomUnit(),
     tileNumber: tileNumber,
     teamNumber: teamNumber,
-    uid: Symbol("combatant uid"),
 });
 
-export const generateTeams: () => { [team in Team]: CombatantTeam } = () => {
+export const generateTeams: () => { [affiliation in Affiliation]: Army } = () => {
     // assign the team members randomly to tiles
     const fourteenTileNumbers: number[] = [];
     const pool = new Array(NUM_TILES).fill(0).map((_, i) => i);
@@ -76,8 +75,14 @@ export const generateTeams: () => { [team in Team]: CombatantTeam } = () => {
     }
 
     return {
-        [Team.PLAYER]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.PLAYER, i, fourteenTileNumbers[i])),
-        [Team.ENEMY]: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Team.ENEMY, i, fourteenTileNumbers[i + NUM_TEAM_MEMBERS]))
+        [Affiliation.PLAYER]: {
+            combatants: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Affiliation.PLAYER, i, fourteenTileNumbers[i])),
+            allySupports: [],
+        },
+        [Affiliation.ENEMY]: {
+            combatants: new Array(NUM_TEAM_MEMBERS).fill(0).map((_, i) => randomCombatant(Affiliation.ENEMY, i, fourteenTileNumbers[i + NUM_TEAM_MEMBERS])),
+            allySupports: [],
+        }
     }
 }
 

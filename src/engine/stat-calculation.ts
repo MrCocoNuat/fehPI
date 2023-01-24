@@ -1,25 +1,8 @@
 // takes a Unit and returns its stat tuple
 
-import { gql, useQuery } from "@apollo/client";
-import { Stats } from "fs";
-import { HERO_STATS_FRAG } from "../components/api-fragments";
+import { StatSource, StatsPerSource } from "../components/UnitBuilder/StatDisplay";
 import { GrowthVectors, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
 import { Rarity, Unit } from "./types";
-
-const GET_GROWTH_VECTORS = gql`
-query getGrowthVectors{
-    growthVectors
-} `;
-
-const GET_SINGLE_HERO = gql`
-    ${HERO_STATS_FRAG}
-    query getHero($id: Int!){
-        heroes(idNums: [$id]){
-            idNum
-            ...HeroStats
-        }
-    }
-`;
 
 /*
 
@@ -109,8 +92,8 @@ function rarityAdjustedGrowthRates(rarity: Rarity, growthRates: ParameterPerStat
 /*
  For purposes of stat ordering in merges/dragonflowers, ascensions do not count
 */
-function traitAdjustedBasesWithoutAscension(unit : Unit, baseStats: ParameterPerStat){
-    return traitAdjustedBases({...unit, ascension: OptionalStat.NONE}, baseStats);
+function traitAdjustedBasesWithoutAscension(unit: Unit, baseStats: ParameterPerStat) {
+    return traitAdjustedBases({ ...unit, ascension: OptionalStat.NONE }, baseStats);
 }
 
 /*
@@ -194,7 +177,7 @@ function dragonflowerBonuses({ dragonflowers }: Unit, orderedAllStats: Stat[]) {
     const bonuses: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 }
 
     // optimize here, very common branch
-    if (dragonflowers % 5 === 0) {
+    if (dragonflowers % 5 === 0 && dragonflowers >= 0) {
         orderedAllStats.forEach(stat => bonuses[stat] += dragonflowers / 5);
         return bonuses;
     }
@@ -253,7 +236,7 @@ function growthFor(
     return growth;
 }
 
-export function growthsFor(unit: Unit,
+function growthsFor(unit: Unit,
     hero: {
         baseStats: ParameterPerStat,
         growthRates: ParameterPerStat,
@@ -273,50 +256,43 @@ export function growthsFor(unit: Unit,
     return growths;
 }
 
-export function basesFor(unit: Unit,
-    { baseStats: baseStats3Stars }:
-        { baseStats: ParameterPerStat }
-) {
-    const adjustedBases = traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars));
 
-    if (!(unit.merges === 0 && unit.dragonflowers === 0)) {
-        // Need to order stats solely on traits at 5*, which is equivalent to ordering at 3*
-        const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
-        const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
+// Exports
+// ---------
 
-        const mergeBonus = mergeBonuses(unit, orderedAllStats);
-        const dragonflowerBonus = dragonflowerBonuses(unit, orderedAllStats);
+// always the same
+const ZERO_STATS = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 } as const;
+const RESPLENDENT_STATS = { [OptionalStat.HP]: 2, [OptionalStat.ATK]: 2, [OptionalStat.SPD]: 2, [OptionalStat.DEF]: 2, [OptionalStat.RES]: 2 } as const;
+const BONUS_HERO_STATS = { [OptionalStat.HP]: 10, [OptionalStat.ATK]: 4, [OptionalStat.SPD]: 4, [OptionalStat.DEF]: 4, [OptionalStat.RES]: 4 } as const;
 
-        orderedAllStats.forEach(stat => adjustedBases[stat] += (mergeBonus[stat] + dragonflowerBonus[stat]));
-    }
-    return adjustedBases;
-}
 
-export function statsFor(unit: Unit): ParameterPerStat | string {
-    const { loading: gvLoading, error: gvError, data: gvData } = useQuery(GET_GROWTH_VECTORS);
-    const { loading: hLoading, error: hError, data: hData } = useQuery(GET_SINGLE_HERO, { variables: { id: unit.idNum } })
+export async function statsFor(
+    unit: Unit,
+    heroStatsPromise: Promise<{
+        heroes: [{
+            baseStats: ParameterPerStat,
+            growthRates: ParameterPerStat,
+            baseVectorId: number,
+        }]
+    }>,
+    growthVectorsPromise: Promise<{ growthVectors: GrowthVectors[] }>,
+): Promise<StatsPerSource> {
 
-    if (gvLoading || hLoading) return "Loading...";
-    if (gvError || hError) return "error";
+    const hero = (await heroStatsPromise).heroes[0];
+    const { baseStats: baseStats3Stars } = hero;
+    const growthVectors = (await growthVectorsPromise).growthVectors;
 
-    const hero = hData.heroes[0];
+    const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
+    const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
 
-    const growths = growthsFor(unit, hero, gvData.growthVectors as GrowthVectors[]);
-    const bases = basesFor(unit, hero);
-
-    // console.log(`bases: ${JSON.stringify(bases)}`);
-    // console.log(`growths: ${JSON.stringify(growths)}`);
-
-    // resplendent, sumsupport, blessings, bonusunit are not dependent on the unit and so considered to be additional +stat effects
-
-    // add bases and growths
-    const stats = {
-        hp: bases.hp + growths.hp,
-        atk: bases.atk + growths.atk,
-        spd: bases.spd + growths.spd,
-        def: bases.def + growths.def,
-        res: bases.res + growths.res,
+    return {
+        [StatSource.BASE]: traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars)),
+        [StatSource.GROWTH]: growthsFor(unit, hero, growthVectors),
+        [StatSource.MERGE]: mergeBonuses(unit, orderedAllStats),
+        [StatSource.DRAGONFLOWER]: dragonflowerBonuses(unit, orderedAllStats),
+        [StatSource.RESPLENDENT]: unit.resplendent ? RESPLENDENT_STATS : ZERO_STATS,
+        [StatSource.BONUS_HERO]: unit.bonusHero ? BONUS_HERO_STATS : ZERO_STATS,
+        [StatSource.BLESSING]: ZERO_STATS, // need team - other branch
+        [StatSource.SKILLS]: ZERO_STATS, // need skill engine, at least CONTINUOUS hook
     };
-
-    return stats;
 }

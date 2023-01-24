@@ -11,6 +11,11 @@
     "UNIT_RESPLENDENT": "Resplendent",
     "UNIT_BLESSING": "Blessing",
 
+    "STAT_SOURCE_BASE": "Bases",
+    "STAT_SOURCE_GROWTH": "Growths",
+    "STAT_SOURCE_MERGE": "Merges",
+    "STAT_SOURCE_SKILL": "Skills",
+
     "UNIT_RARITY_ONE": "1★",
     "UNIT_RARITY_TWO": "2★",
     "UNIT_RARITY_THREE": "3★",

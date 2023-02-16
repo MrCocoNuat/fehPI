@@ -8,6 +8,7 @@ import { ensureSkillValidity, SkillsPicker } from "./SkillsPicker";
 import { BonusResplendentPickers, ensureBonusResplendentValidity } from "./BonusResplendentPickers";
 import { BlessingPicker, ensureBlessingValidity } from "./BlessingPicker";
 import { ensureSummonerSupportValidity, SummonerSupportPicker } from "./SummonerSupportPicker.";
+import { StatDisplay } from "./StatDisplay";
 
 
 
@@ -30,9 +31,6 @@ export function UnitBuilder({
 }) {
     console.info("rerender unit builder");
     const selectedHeroId = combatant.unit.idNum;
-
-    //TODO:- probably should be a useEffect instead
-    const stats = statsFor(combatant.unit);
 
     const mergeChanges: MultiplePropMerger = (...changes) => {
         let copyUnit = { ...combatant.unit };
@@ -69,10 +67,11 @@ export function UnitBuilder({
                     <SummonerSupportPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
 
                     <BonusResplendentPickers currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+
+                    <StatDisplay currentUnit={combatant.unit} />
                 </div>
             </form>
 
-            <div>{`stats: ${JSON.stringify(stats)}`}</div>
         </SelectedHeroIdContext.Provider>
     </div>
 }

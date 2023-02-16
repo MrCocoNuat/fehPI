@@ -86,6 +86,10 @@ export type Combatant = {
     team: Team,
     teamNumber: number,
     tileNumber?: number,
+    
+    tapped: boolean,
+    calculatedStats: ParameterPerStat,
+    currentHp: number,
 }
 
 export type CombatantTeam = Combatant[]

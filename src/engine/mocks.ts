@@ -1,5 +1,6 @@
 import { Nunito } from "@next/font/google";
 import { OptionalStat, Stat } from "../pages/api/dao/types/dao-types";
+import { statsFor } from "./stat-calculation";
 import { BattleMap, BattleTile, Combatant, CombatantTeam, NONE_BLESSING, SupportLevel, Team, Unit } from "./types";
 
 const NUM_TILES = 48;
@@ -63,7 +64,10 @@ const randomCombatant: (team: Team, teamNumber: number, tileNumber: number) => C
     unit: randomUnit(),
     tileNumber: tileNumber,
     teamNumber: teamNumber,
-    uid: Symbol("combatant uid"),
+
+    tapped: false,
+    calculatedStats: {hp:-99,atk:-99,spd:-99,def:-99,res:-99}, // temp
+    currentHp: 999,
 });
 
 export const generateTeams: () => { [team in Team]: CombatantTeam } = () => {

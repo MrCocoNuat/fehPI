@@ -48,5 +48,7 @@
     "SUPPORT_S": "S Support",
 
     "SELECT_NO_OPTIONS": "No options",
-    "SELECT_LOADING": "Loading..."
+    "SELECT_LOADING": "Loading...",
+
+    "UI_ADD_UNIT": "Add Unit"
 }

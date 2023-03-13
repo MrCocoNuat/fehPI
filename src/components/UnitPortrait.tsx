@@ -1,9 +1,12 @@
 import { gql, useQuery } from "@apollo/client"
-import { MouseEventHandler, ReactNode } from "react";
+import { MouseEventHandler, ReactNode, useContext } from "react";
 import { Affiliation, Combatant, Unit } from "../engine/types";
 import Image from "next/image";
 import { HERO_IMAGE_URL, HERO_IMAGE_URL_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, INCLUDE_FRAG } from "./api-fragments";
 import { MovementType, WeaponType } from "../pages/api/dao/types/dao-types";
+import { getUiStringResource } from "./ui-resources";
+import { LanguageContext } from "../pages/testpage";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 // Query
 // ----------
@@ -127,4 +130,18 @@ export function BlankPortrait(
         No unit
     </div>
 
+}
+
+export function AddUnitPortrait({
+    clickHandler
+}: {
+    clickHandler?: MouseEventHandler
+}) {
+
+    const language = useContext(LanguageContext);
+
+    return <div className={`border-blue-900 border-2 text-center ${sizeCss} flex flex-col justify-center`}
+        onClick={clickHandler}>
+        <PlusIcon className="w-8 md:w-12 aspect-square self-center" />
+    </div>
 }

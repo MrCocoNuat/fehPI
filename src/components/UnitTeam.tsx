@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Combatant, Army, Affiliation, initUnit } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
-import { UnitPortrait } from "./UnitPortrait";
+import { AddUnitPortrait, UnitPortrait } from "./UnitPortrait";
 
 export function UnitTeam(
     {
@@ -24,7 +24,7 @@ export function UnitTeam(
                 mouseLeaveHandler={() => updateHover({ type: FocusType.NONE, info: undefined })}
             />)
         }
-        <UnitPortrait
+        <AddUnitPortrait
             clickHandler={(evt) => team.combatants.push({ unit: initUnit() })} />
     </div>
 }

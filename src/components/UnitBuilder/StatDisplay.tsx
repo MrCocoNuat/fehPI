@@ -74,5 +74,6 @@ export function StatDisplay({
         [currentUnit]);
 
     // if state is undefined, just show ... everywhere
-    return <>{JSON.stringify(stats)}</>
+    return <></>
+    //return <div>{JSON.stringify(stats)}</div>
 }

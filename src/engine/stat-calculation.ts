@@ -4,6 +4,8 @@ import { StatSource, StatsPerSource } from "../components/UnitBuilder/StatDispla
 import { GrowthVectors, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
 import { Rarity, Unit } from "./types";
 
+// TODO: Adjust stat calculation to remove bad assumptions (growth rate > 100% is possible, hp is always prioritized when merge/dfing)
+
 /*
 
 How to calculate stats of a Unit:

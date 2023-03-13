@@ -42,7 +42,8 @@ export function UnitBuilder({
             ensureSkillValidity(copyUnit, singleProp.prop);
             ensureBlessingValidity(copyUnit, singleProp.prop);
             ensureBonusResplendentValidity(copyUnit, singleProp.prop);
-            ensureSummonerSupportValidity(copyUnit, singleProp.prop)
+            ensureSummonerSupportValidity(copyUnit, singleProp.prop);
+            //TODO: stat calculation directly here? Not in stat-display! need to save it int ocombatant
         }))
 
         updater({ ...combatant, unit: copyUnit });

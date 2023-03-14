@@ -115,7 +115,14 @@ export const initUnit : () => Unit = () => ({
 export type Combatant = {
     unit: Unit,
     tileNumber?: number,
+    uid: number,
 }
+
+let combatantNextUid = 0;
+export const initCombatant : () => Combatant = () => ({
+    unit: initUnit(),
+    uid: combatantNextUid++,
+})
 
 // symmetric, 2 hero ids
 // Importantly, unlike Summoner Support that is Unit-scoped,

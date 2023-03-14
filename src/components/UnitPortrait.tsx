@@ -6,7 +6,7 @@ import { HERO_IMAGE_URL, HERO_IMAGE_URL_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMEN
 import { MovementType, WeaponType } from "../pages/api/dao/types/dao-types";
 import { getUiStringResource } from "./ui-resources";
 import { LanguageContext } from "../pages/testpage";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { UserPlusIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 // Query
 // ----------
@@ -91,8 +91,10 @@ function Portrait(
 
     const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { id: unit.idNum } });
 
-    if (loading) return <div className={`${sizeCss} border-blue-900 border-2`}
-        onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>...</div>
+    if (loading) return <div className={`${sizeCss} border-blue-900 border-2 flex flex-col justify-center`}
+        onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
+            <EllipsisHorizontalIcon className="w-8 md:w-12 aspect-square self-center" />
+        </div>
     if (error) {
         console.error(error);
         return <p className={sizeCss}> error </p>;
@@ -106,7 +108,8 @@ function Portrait(
 
 
     // here just fake some tapped data
-    const tappedImageCss = (Math.random() > 0.8) ? "grayscale" : "";
+    const tappedImageCss = (Math.random() > 1) ? "grayscale" : "";
+    
     return <div className={`border-blue-900 border-2 text-center ${sizeCss} relative`}
         onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
         <Image className={`${tappedImageCss}`} src={srcUrl} alt={altText} fill={true} />
@@ -142,6 +145,6 @@ export function AddUnitPortrait({
 
     return <div className={`border-blue-900 border-2 text-center ${sizeCss} flex flex-col justify-center`}
         onClick={clickHandler}>
-        <PlusIcon className="w-8 md:w-12 aspect-square self-center" />
+        <UserPlusIcon className="w-8 md:w-12 aspect-square self-center" />
     </div>
 }

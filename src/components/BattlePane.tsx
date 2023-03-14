@@ -22,7 +22,7 @@ export type Focus = {
     info: any
 }
 
-const {[Affiliation.PLAYER]: basePlayerTeam, [Affiliation.ENEMY]: baseEnemyTeam} = generateTeams();
+//const {[Affiliation.PLAYER]: basePlayerTeam, [Affiliation.ENEMY]: baseEnemyTeam} = generateTeams();
 const baseBattleMap = generateBattleMap();
 
 export function BattlePane(props: any) {
@@ -69,8 +69,8 @@ export function BattlePane(props: any) {
         </div>
         <div className="flex-initial flex flex-col">
             <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>
-            <UnitTeam team={armies[Affiliation.PLAYER]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.PLAYER}></UnitTeam>
-            <UnitTeam team={armies[Affiliation.ENEMY]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.ENEMY}></UnitTeam>
+            <UnitTeam team={armies[Affiliation.PLAYER]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.PLAYER} writable={true}></UnitTeam>
+            <UnitTeam team={armies[Affiliation.ENEMY]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.ENEMY} writable={true}></UnitTeam>
             {(selectedTab === Tab.STATUS) && focus.type === FocusType.NONE && <>
                 <BattleDuelComponent></BattleDuelComponent>
             </>}

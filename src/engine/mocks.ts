@@ -63,6 +63,8 @@ const randomCombatant: (team: Affiliation, teamNumber: number, tileNumber: numbe
     unit: randomUnit(),
     tileNumber: tileNumber,
     teamNumber: teamNumber,
+    // deprecated, not unique
+    uid: -1,
 });
 
 export const generateTeams: () => { [affiliation in Affiliation]: Army } = () => {

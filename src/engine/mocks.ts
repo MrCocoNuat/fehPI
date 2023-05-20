@@ -58,14 +58,16 @@ const randomUnit: () => Unit = () => ({
     bonusHero: false,
 });
 
-const randomCombatant: (team: Affiliation, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => ({
+const randomCombatant: (team: Affiliation, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => {
+    throw Error("attempted invocation of deprecated randomCombatant (toKillId 715870286)");
+    return ({
     team: team,
     unit: randomUnit(),
     tileNumber: tileNumber,
     teamNumber: teamNumber,
     // deprecated, not unique
     uid: -1,
-});
+})};
 
 export const generateTeams: () => { [affiliation in Affiliation]: Army } = () => {
     // assign the team members randomly to tiles

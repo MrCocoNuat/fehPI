@@ -1,4 +1,7 @@
+import { Unica_One } from "@next/font/google";
 import { BlessingSeason, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
+import { statsFor, sumUp } from "./stat-calculation";
+import { v4 as uuidv4 } from 'uuid';
 
 export function constrainNumeric(value: number, min: number, max: number) {
     return (value > min) ? ((value < max) ? value : max) : min;
@@ -81,7 +84,7 @@ export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as c
 // max dragonflowers is dependent on the unit, but is always at least 5
 export const { MIN_DRAGONFLOWERS, MAX_SAFE_DRAGONFLOWERS } = { MIN_DRAGONFLOWERS: 0, MAX_SAFE_DRAGONFLOWERS: 5 } as const;
 
-export const initUnit : () => Unit = () => ({
+export const initUnit: () => Unit = () => ({
     idNum: 1,
     rarity: Rarity.FIVE_STARS,
     level: 40,
@@ -114,18 +117,27 @@ export const initUnit : () => Unit = () => ({
 
 export type Combatant = {
     unit: Unit,
-    tileNumber?: number,
+    uuid: String,
     
-    tapped: boolean,
-    calculatedStats: ParameterPerStat,
-    currentHp: number,
+    // this should be shown during creation, but not included here until in combat
+    //tileNumber?: number,
+    //calculatedStats: ParameterPerStat,
+    // These belong only in battle
+    //tapped: boolean,
+    //currentHp: number,
 }
 
-let combatantNextUid = 0;
-export const initCombatant : () => Combatant = () => ({
-    unit: initUnit(),
-    uid: combatantNextUid++,
-})
+export const initCombatant: () => Promise<Combatant> = async () => {
+    const unit = initUnit();
+    //const calculatedStats = sumUp(await statsFor(unit));
+    return {
+        unit: unit,
+        tapped: false,
+      //  calculatedStats: calculatedStats,
+        uuid: uuidv4(),
+      //  currentHp: calculatedStats.hp,
+    }
+}
 
 // symmetric, 2 hero ids
 // Importantly, unlike Summoner Support that is Unit-scoped,
@@ -136,8 +148,8 @@ export type Army = {
     combatants: Combatant[],
     allySupports: AllySupportPair[],
 }
-export const emptyArmy: () => Army = () => ({combatants:[], allySupports:[]});
-export type Armies = {[affiliation in Affiliation] : Army};
+export const emptyArmy: () => Army = () => ({ combatants: [], allySupports: [] });
+export type Armies = { [affiliation in Affiliation]: Army };
 
 export type BattleTile = {
     terrain: Terrain,

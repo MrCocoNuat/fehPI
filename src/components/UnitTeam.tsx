@@ -23,7 +23,7 @@ export function UnitTeam(
         <div className="flex">
             {
                 team.combatants.map((combatant, i) =>
-                    <div className="relative" key={`combatant-${combatant.uid}`}>
+                    <div className="relative" key={`combatant-${combatant.uuid}`}>
                         <UnitPortrait unit={combatant.unit} affiliation={affiliation}
                             clickHandler={(evt) => {
                                 evt.stopPropagation();
@@ -44,9 +44,9 @@ export function UnitTeam(
         </div>
         <div>
             {writable && <AddUnitPortrait
-                clickHandler={(evt) => {
+                clickHandler={async (evt) => {
                     evt.stopPropagation();
-                    team.combatants.push(initCombatant());
+                    team.combatants.push(await initCombatant());
                     updateFocus({ type: FocusType.TEAM_UNIT, info: { affiliation, teamNumber: team.combatants.length - 1 } });
                 }} />
             }

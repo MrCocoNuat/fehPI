@@ -1,6 +1,7 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { MovementType, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
 
+// directly imported when used outside of components (in engines)
 export const apolloClient = new ApolloClient({
     uri: "/api/graphql",
     cache: new InMemoryCache({

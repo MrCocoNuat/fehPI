@@ -62,15 +62,16 @@ const randomUnit: () => Unit = () => ({
 const randomCombatant: (team: Affiliation, teamNumber: number, tileNumber: number) => Combatant = (team, teamNumber, tileNumber) => {
     throw Error("attempted invocation of deprecated randomCombatant (toKillId 715870286)");
     return ({
-    team: team,
-    unit: randomUnit(),
-    tileNumber: tileNumber,
-    teamNumber: teamNumber,
-
-    tapped: false,
-    calculatedStats: {hp:-99,atk:-99,spd:-99,def:-99,res:-99}, // temp
-    currentHp: 999,
-});
+        team: team,
+        unit: randomUnit(),
+        tileNumber: tileNumber,
+        teamNumber: teamNumber,
+        uuid: "",
+        tapped: false,
+        calculatedStats: { hp: -99, atk: -99, spd: -99, def: -99, res: -99 }, // temp
+        currentHp: 999,
+    });
+}
 
 export const generateTeams: () => { [affiliation in Affiliation]: Army } = () => {
     // assign the team members randomly to tiles

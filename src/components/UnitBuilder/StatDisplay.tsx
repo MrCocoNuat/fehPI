@@ -10,20 +10,6 @@ import { HERO_STATS, HERO_STATS_FRAG, INCLUDE_FRAG } from "../api-fragments";
 // Query 
 // ----------
 
-const GET_GROWTH_VECTORS = gql`
-query getGrowthVectors{
-    growthVectors
-} `;
-
-const GET_SINGLE_HERO = gql`
-    ${HERO_STATS_FRAG}
-    query getHero($id: Int!){
-        heroes(idNums: [$id]){
-            idNum
-            ${INCLUDE_FRAG(HERO_STATS)}
-        }
-    }
-`;
 
 
 export enum StatSource {
@@ -58,14 +44,12 @@ export function StatDisplay({
 }: {
     currentUnit: Unit,
 }) {
-    const [growthVectorQuery] = useLazyQuery(GET_GROWTH_VECTORS);
-    const [heroStatsQuery] = useLazyQuery(GET_SINGLE_HERO, { variables: { id: currentUnit.idNum } })
 
     const [stats, setStats] = useState(undefined as StatsPerSource | undefined);
 
     useEffect(() => {
         const update = async () => {
-            const stats = await statsFor(currentUnit, heroStatsQuery().then(query => query.data), growthVectorQuery().then(query => query.data));
+            const stats = await statsFor(currentUnit);
             setStats(stats);
         }
         update();

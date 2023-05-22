@@ -1,8 +1,32 @@
 // takes a Unit and returns its stat tuple
 
+import { gql, useApolloClient } from "@apollo/client";
 import { StatSource, StatsPerSource } from "../components/UnitBuilder/StatDisplay";
+import { HERO_STATS, HERO_STATS_FRAG, INCLUDE_FRAG, apolloClient } from "../components/api-fragments";
 import { GrowthVectors, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types";
 import { Rarity, Unit } from "./types";
+import { getAllEnumEntries, getAllEnumKeys, getAllEnumValues } from "enum-for";
+import { ParameterPerStatObject } from "../pages/api/schema/object";
+import { copyFile } from "fs";
+
+// Query
+//--------
+
+const GET_GROWTH_VECTORS = gql`
+query getGrowthVectors{
+    growthVectors
+} `;
+
+const GET_SINGLE_HERO = gql`
+    ${HERO_STATS_FRAG}
+    query getHero($id: Int!){
+        heroes(idNums: [$id]){
+            idNum
+            ${INCLUDE_FRAG(HERO_STATS)}
+        }
+    }
+`;
+
 
 // TODO: Adjust stat calculation to remove bad assumptions (growth rate > 100% is possible, hp is always prioritized when merge/dfing)
 
@@ -270,19 +294,12 @@ const BONUS_HERO_STATS = { [OptionalStat.HP]: 10, [OptionalStat.ATK]: 4, [Option
 
 export async function statsFor(
     unit: Unit,
-    heroStatsPromise: Promise<{
-        heroes: [{
-            baseStats: ParameterPerStat,
-            growthRates: ParameterPerStat,
-            baseVectorId: number,
-        }]
-    }>,
-    growthVectorsPromise: Promise<{ growthVectors: GrowthVectors[] }>,
 ): Promise<StatsPerSource> {
 
-    const hero = (await heroStatsPromise).heroes[0];
+    // no state management, not a component!
+    const hero = (await apolloClient.query({ query: GET_SINGLE_HERO, variables: {id: unit.idNum} })).data.heroes[0];
     const { baseStats: baseStats3Stars } = hero;
-    const growthVectors = (await growthVectorsPromise).growthVectors;
+    const growthVectors = (await apolloClient.query({ query: GET_GROWTH_VECTORS })).data.growthVectors;
 
     const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
     const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
@@ -297,4 +314,17 @@ export async function statsFor(
         [StatSource.BLESSING]: ZERO_STATS, // need team - other branch
         [StatSource.SKILLS]: ZERO_STATS, // need skill engine, at least CONTINUOUS hook
     };
+}
+
+export function sumUp(statsPerSource: StatsPerSource): ParameterPerStat {
+    return getAllEnumValues(StatSource).reduce((summedStats, currentSource) => {
+        getAllEnumValues(Stat).reduce((summedStats, currentStat) => 
+        {
+            summedStats[currentStat] += statsPerSource[currentSource][currentStat]; 
+            return summedStats
+        }, summedStats);
+        return summedStats;
+    }, 
+    { [Stat.HP]: 0, [Stat.ATK]: 0, [Stat.SPD]: 0, [Stat.DEF]: 0, [Stat.RES]: 0 })
+
 }

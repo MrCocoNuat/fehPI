@@ -4,7 +4,7 @@ export function constrainNumeric(value: number, min: number, max: number) {
     return (value > min) ? ((value < max) ? value : max) : min;
 }
 
-export enum Team {
+export enum Affiliation {
     PLAYER, ENEMY,
 }
 
@@ -59,16 +59,16 @@ export type Unit = {
 
     weaponSkillId: number | NONE_SKILL,
     // the refine base
-    weaponSkillBaseId : number | NONE_SKILL,
+    weaponSkillBaseId: number | NONE_SKILL,
     assistSkillId: number | NONE_SKILL,
     specialSkillId: number | NONE_SKILL,
     passiveASkillId: number | NONE_SKILL,
     passiveBSkillId: number | NONE_SKILL,
     passiveCSkillId: number | NONE_SKILL,
     passiveSSkillId: number | NONE_SKILL,
-    
+
     // blessing - only applicable to non-blessed heroes
-    conferredBlessing: BlessingSeason | typeof NONE_BLESSING, 
+    conferredBlessing: BlessingSeason | typeof NONE_BLESSING,
 
     //support
     summonerSupport: SupportLevel,
@@ -81,14 +81,60 @@ export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as c
 // max dragonflowers is dependent on the unit, but is always at least 5
 export const { MIN_DRAGONFLOWERS, MAX_SAFE_DRAGONFLOWERS } = { MIN_DRAGONFLOWERS: 0, MAX_SAFE_DRAGONFLOWERS: 5 } as const;
 
+export const initUnit : () => Unit = () => ({
+    idNum: 1,
+    rarity: Rarity.FIVE_STARS,
+    level: 40,
+    merges: 0,
+    dragonflowers: 0,
+
+    asset: OptionalStat.NONE,
+    flaw: OptionalStat.NONE,
+    ascension: OptionalStat.NONE,
+
+    weaponSkillId: NONE_SKILL_ID,
+    // the refine base
+    weaponSkillBaseId: NONE_SKILL_ID,
+    assistSkillId: NONE_SKILL_ID,
+    specialSkillId: NONE_SKILL_ID,
+    passiveASkillId: NONE_SKILL_ID,
+    passiveBSkillId: NONE_SKILL_ID,
+    passiveCSkillId: NONE_SKILL_ID,
+    passiveSSkillId: NONE_SKILL_ID,
+
+    // blessing - only applicable to non-blessed heroes
+    conferredBlessing: NONE_BLESSING,
+
+    //support
+    summonerSupport: SupportLevel.NONE,
+
+    bonusHero: false,
+    resplendent: false,
+})
+
 export type Combatant = {
     unit: Unit,
-    team: Team,
-    teamNumber: number,
     tileNumber?: number,
+    uid: number,
 }
 
-export type CombatantTeam = Combatant[]
+let combatantNextUid = 0;
+export const initCombatant : () => Combatant = () => ({
+    unit: initUnit(),
+    uid: combatantNextUid++,
+})
+
+// symmetric, 2 hero ids
+// Importantly, unlike Summoner Support that is Unit-scoped,
+// Ally Support is Hero-scoped! (i.e. all copies of Anna: Combatant in an Army share an ally support)
+export type AllySupportPair = [number, number];
+
+export type Army = {
+    combatants: Combatant[],
+    allySupports: AllySupportPair[],
+}
+export const emptyArmy: () => Army = () => ({combatants:[], allySupports:[]});
+export type Armies = {[affiliation in Affiliation] : Army};
 
 export type BattleTile = {
     terrain: Terrain,
@@ -98,7 +144,7 @@ export type BattleMap = BattleTile[]
 
 export type BattleContext = {
     combatantTeams: {
-        [team in Team]: CombatantTeam
+        [team in Affiliation]: Army
     },
     battleMap: BattleMap,
 }

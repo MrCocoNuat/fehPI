@@ -1,4 +1,4 @@
-import { BattleContext, Combatant } from "./types";
+import { BattleContext, Combatant } from "../types";
 
 export function duel(battleContext: BattleContext, initiator: Combatant, opponent: Combatant){
     checkErrorConditions(battleContext,initiator,opponent)
@@ -13,6 +13,6 @@ function checkErrorConditions(battleContext: BattleContext, initiator: Combatant
     if (opponent.currentHp === 0)
         throw new Error("opponent is dead");
 
-    if (initiator.team === opponent.team)
-        throw new Error("duel between combatants of same team not allowed");
+    // if (initiator.team === opponent.team)
+    //     throw new Error("duel between combatants of same team not allowed");
 }

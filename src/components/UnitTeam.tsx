@@ -1,5 +1,5 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
-import { Combatant, Team, Affiliation, initUnit,  } from "../engine/types";
+import { Combatant, Team, Affiliation, initUnit, } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
 import { AddUnitPortrait, UnitPortrait } from "./UnitPortrait";
 import { UserMinusIcon } from "@heroicons/react/24/solid";
@@ -10,13 +10,13 @@ export function UnitTeam(
         team,
         updateFocus,
         updateHover,
-        writable,
+        updater,
     }: {
         affiliation: Affiliation,
-        team: Team,
+        team: Team, //TODO: this never changes team itself, which can make React-ing hard?
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
-        writable?: boolean,
+        updater?: (newTeam: Team) => void,
     }) {
 
     return <div className="flex">
@@ -32,10 +32,13 @@ export function UnitTeam(
                             mouseEnterHandler={() => updateHover({ type: FocusType.TEAM_UNIT, info: (affiliation === Affiliation.PLAYER) ? i : i + 7 })}
                             mouseLeaveHandler={() => updateHover({ type: FocusType.NONE, info: undefined })}
                         />
-                        {writable && <RemoveUnitButton
+                        {updater && <RemoveUnitButton
                             clickHandler={(evt) => {
                                 evt.stopPropagation();
-                                team.units.splice(i, 1);
+                                // shallow copy ok
+                                const copy = { ...team };
+                                copy.units.splice(i, 1);
+                                updater(copy);
                                 updateFocus({ type: FocusType.NONE, info: undefined });
                             }} />}
                     </div>
@@ -43,10 +46,12 @@ export function UnitTeam(
             }
         </div>
         <div>
-            {writable && <AddUnitPortrait
+            {updater && <AddUnitPortrait
                 clickHandler={(evt) => {
                     evt.stopPropagation();
-                    team.units.push(initUnit());
+                    const copy = { ...team };
+                    copy.units.push(initUnit());
+                    updater(copy);
                     updateFocus({ type: FocusType.TEAM_UNIT, info: { affiliation, teamNumber: team.units.length - 1 } });
                 }} />
             }

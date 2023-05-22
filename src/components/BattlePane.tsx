@@ -6,7 +6,7 @@ import { Tab, TabSelector } from "./TabSelector";
 
 import { UnitTeam } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
-import { Combatant, Affiliation, emptyTeam, Unit } from "../engine/types";
+import { Combatant, Affiliation, emptyTeam, Unit, Team } from "../engine/types";
 import { generateBattleMap, generateTeams } from "../engine/mocks";
 import { UnitBuilder } from "./UnitBuilder/UnitBuilder";
 import { empty } from "@apollo/client";
@@ -32,7 +32,7 @@ export function BattlePane(props: any) {
     const [hover, updateHoverDisabled] = useState({ type: FocusType.NONE, info: undefined } as Focus);
     const updateHover = () => {};
 
-    const [armies, setArmies] = useState({[Affiliation.PLAYER]: emptyTeam(), [Affiliation.ENEMY]: emptyTeam()})
+    const [teams, setTeams] = useState({[Affiliation.PLAYER]: emptyTeam(), [Affiliation.ENEMY]: emptyTeam()})
     const [battleTiles, updateBattleTiles] = useState(baseBattleMap);
 
     function getUnit({type, info} : Focus) {
@@ -40,15 +40,20 @@ export function BattlePane(props: any) {
             //case FocusType.TILE_UNIT:
              //   return battleTiles[focusInfo].combatant;
             case FocusType.TEAM_UNIT:
-                return armies[info.affiliation as Affiliation].units[info.teamNumber];
+                return teams[info.affiliation as Affiliation].units[info.teamNumber];
             default:
                 return undefined;
         }
     }
     function updateUnit(affiliation: Affiliation, teamNumber: number, newUnit : Unit){
-        const copy = {...armies};
+        const copy = {...teams};
         copy[affiliation].units[teamNumber] = newUnit;
-        setArmies(copy);
+        setTeams(copy);
+    }
+    function updateTeam(affiliation: Affiliation, newTeam: Team){
+        const copy = {...teams};
+        copy[affiliation] = newTeam;
+        setTeams(copy);
     }
 
     const focusUnit = getUnit(focus);
@@ -65,15 +70,15 @@ export function BattlePane(props: any) {
                     Hover: {FocusType[hover.type]} param: {JSON.stringify(hover.info)}
                 </div>
                 <Seeker></Seeker>
-                <BattleMapComponent tiles={battleTiles} armies={armies} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
+                <BattleMapComponent tiles={battleTiles} armies={teams} updateFocus={updateFocus} updateHover={updateHover}></BattleMapComponent>
             </div>
         </div>
         <div className="flex-initial flex flex-col">
             <TabSelector selectedTab={selectedTab} updateSelectedTab={updateSelectedTab}></TabSelector>
-            <UnitTeam team={armies[Affiliation.PLAYER]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.PLAYER} writable={true}></UnitTeam>
-            <UnitTeam team={armies[Affiliation.ENEMY]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.ENEMY} writable={true}></UnitTeam>
+            <UnitTeam team={teams[Affiliation.PLAYER]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.PLAYER} updater={(team) => updateTeam(Affiliation.PLAYER, team)}></UnitTeam>
+            <UnitTeam team={teams[Affiliation.ENEMY]} updateFocus={updateFocus} updateHover={updateHover} affiliation={Affiliation.ENEMY} updater={(team) => updateTeam(Affiliation.ENEMY, team)}></UnitTeam>
             {(selectedTab === Tab.STATUS) && focus.type === FocusType.NONE && <>
-                <BattleDuelComponent></BattleDuelComponent>
+                <BattleDuelComponent teams={teams}></BattleDuelComponent>
             </>}
             {(selectedTab === Tab.HISTORY) && focus.type === FocusType.NONE && <>
                 <BattleHistoryComponent></BattleHistoryComponent>

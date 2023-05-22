@@ -155,10 +155,6 @@ export type Team = {
 export const emptyTeam: () => Team = () => ({ units: [], allySupports: [] });
 export type Teams = { [affiliation in Affiliation]: Team };
 
-export type BattleTile = {
-    terrain: Terrain,
-}
-
 export type Army = {
     combatants: Combatant[],
     allySupports: AllySupportPair[],
@@ -168,11 +164,14 @@ export const toArmy: (team : Team) => Promise<Army> = async (team) => ({
     allySupports: team.allySupports,
 })
 
+export type BattleTile = {
+    terrain: Terrain,
+}
 export type BattleMap = BattleTile[]
 
 export type BattleContext = {
-    teams: {
-        [affiliation in Affiliation]: Team
+    armies: {
+        [affiliation in Affiliation]: Army
     },
     battleMap: BattleMap,
 }

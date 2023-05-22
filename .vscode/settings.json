@@ -12,5 +12,8 @@
 
     "files.associations": {
         "*.css": "tailwindcss"
-    }
+    },
+    "conventionalCommits.scopes": [
+        "battle engine"
+    ]
 }

@@ -1,10 +1,12 @@
 import { gql, useQuery } from "@apollo/client"
-import loadConfig from "next/dist/server/config"
-import { MouseEventHandler, useEffect } from "react";
-import { Team, Combatant } from "../engine/types";
+import { MouseEventHandler, ReactNode, useContext } from "react";
+import { Affiliation, Combatant, Unit } from "../engine/types";
 import Image from "next/image";
 import { HERO_IMAGE_URL, HERO_IMAGE_URL_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, INCLUDE_FRAG } from "./api-fragments";
 import { MovementType, WeaponType } from "../pages/api/dao/types/dao-types";
+import { getUiStringResource } from "./ui-resources";
+import { LanguageContext } from "../pages/testpage";
+import { UserPlusIcon, EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 // Query
 // ----------
@@ -44,50 +46,71 @@ const sizeNextStr = "(max-width )"
 
 export function UnitPortrait(
     props: {
-        combatant?: Combatant,
+        affiliation?: Affiliation,
+        unit?: Unit,
         clickHandler?: MouseEventHandler,
         mouseEnterHandler?: MouseEventHandler,
         mouseLeaveHandler?: MouseEventHandler,
     }) {
-    return (props.combatant) ?
-        <Portrait combatant={props.combatant} {...props} />
-        : <BlankPortrait {...props} />;
+    return <AffiliationBackground affiliation={props.affiliation}>
+        {(props.unit) ?
+            <Portrait unit={props.unit} {...props} />
+            : <BlankPortrait {...props} />}
+    </AffiliationBackground>
+}
+
+
+const UNDEFINED_AFFILIATION = "undef";
+// colors!
+const backgroundCss = {
+    [UNDEFINED_AFFILIATION]: "",
+    [Affiliation.PLAYER]: "bg-blue-300",
+    [Affiliation.ENEMY]: "bg-red-300",
+} as const;
+function AffiliationBackground({ affiliation, children }: { affiliation?: Affiliation, children: ReactNode }) {
+    const affiliationKey = affiliation ?? UNDEFINED_AFFILIATION;
+    return <div className={`${sizeCss} ${backgroundCss[affiliationKey]}`}>
+        {children}
+    </div>
 }
 
 
 //TODO:- should this handle team background? probably not
 function Portrait(
     {
-        combatant,
+        unit,
         clickHandler,
         mouseEnterHandler,
         mouseLeaveHandler
     }: {
-        combatant: Combatant,
+        unit: Unit,
         clickHandler?: MouseEventHandler,
         mouseEnterHandler?: MouseEventHandler,
         mouseLeaveHandler?: MouseEventHandler,
     }) {
 
-    const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { id: combatant.unit.idNum } });
+    const { loading, error, data } = useQuery(GET_SINGLE_HERO, { variables: { id: unit.idNum } });
 
-    if (loading) return <div className={`${sizeCss} border-blue-900 border-2`}
-        onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>...</div>
+    if (loading) return <div className={`${sizeCss} border-blue-900 border-2 flex flex-col justify-center`}
+        onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
+            <EllipsisHorizontalIcon className="w-8 md:w-12 aspect-square self-center" />
+        </div>
     if (error) {
         console.error(error);
         return <p className={sizeCss}> error </p>;
     }
 
-    const altText = `${Team[combatant.team][0]} - ${data.heroes[0].idTag}`;
+    const altText = data.heroes[0].idTag;
     const queryResults = mapQuery(data);
-    const srcUrl = (combatant.unit.resplendent) ?
+    const srcUrl = (unit.resplendent) ?
         queryResults.resplendentImageUrl ?? queryResults.imageUrl :
         queryResults.imageUrl;
 
-    const teamBackgroundColorCss = (combatant.team === Team.PLAYER) ? "bg-blue-300" : "bg-red-300";
+
     // here just fake some tapped data
-    const tappedImageCss = (Math.random() > 0.8) ? "grayscale" : "";
-    return <div className={`border-blue-900 border-2 text-center ${teamBackgroundColorCss} ${sizeCss} relative`}
+    const tappedImageCss = (Math.random() > 1) ? "grayscale" : "";
+    
+    return <div className={`border-blue-900 border-2 text-center ${sizeCss} relative`}
         onClick={clickHandler} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
         <Image className={`${tappedImageCss}`} src={srcUrl} alt={altText} fill={true} />
     </div>
@@ -110,4 +133,18 @@ export function BlankPortrait(
         No unit
     </div>
 
+}
+
+export function AddUnitPortrait({
+    clickHandler
+}: {
+    clickHandler?: MouseEventHandler
+}) {
+
+    const language = useContext(LanguageContext);
+
+    return <div className={`border-blue-900 border-2 text-center ${sizeCss} flex flex-col justify-center`}
+        onClick={clickHandler}>
+        <UserPlusIcon className="w-8 md:w-12 aspect-square self-center" />
+    </div>
 }

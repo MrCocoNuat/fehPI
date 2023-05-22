@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { BattleMap, Combatant, Terrain } from "../engine/types";
+import { BattleMap, Combatant, Army, Affiliation, Terrain, Armies } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
 import { BattleTileComponent } from "./BattleTile";
 
@@ -7,22 +7,24 @@ import { BattleTileComponent } from "./BattleTile";
 export function BattleMapComponent(
     {
         tiles,
-        allCombatants,
+        armies,
         updateFocus,
         updateHover
     }: {
         tiles: BattleMap,
-        allCombatants : Combatant[],
+        armies : Armies,
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
     }) {
 
+    const allCombatants = Object.values(armies).reduce((accum, currentTeam) => accum.concat(currentTeam.combatants), [] as Combatant[]);
+
     return <div className="grid grid-cols-6">
         {tiles.map((tile, i) =>
-            <BattleTileComponent key={i} battleUnit={allCombatants.some(combatant => combatant.tileNumber === i)? allCombatants.filter(combatant => combatant.tileNumber === i)[0]: undefined} terrain={tile.terrain}
-                clickHandlerWith={(focusType: FocusType) => (evt) => { evt.stopPropagation(); updateFocus({ focusType: focusType, focusInfo: i }) }}
-                mouseEnterHandler={() => updateHover({ focusType: FocusType.TILE_UNIT, focusInfo: i })}
-                mouseLeaveHandler={() => updateHover({ focusType: FocusType.NONE, focusInfo: undefined })}
+            <BattleTileComponent key={i} battleUnit={allCombatants.find(combatant => combatant.tileNumber === i)} terrain={tile.terrain}
+                clickHandlerWith={(focusType: FocusType) => (evt) => { evt.stopPropagation(); updateFocus({ type: focusType, info: i }) }}
+                mouseEnterHandler={() => updateHover({ type: FocusType.TILE_UNIT, info: i })}
+                mouseLeaveHandler={() => updateHover({ type: FocusType.NONE, info: undefined })}
             />)}
     </div>;
 }

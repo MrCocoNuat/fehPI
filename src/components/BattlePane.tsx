@@ -10,6 +10,7 @@ import { Combatant, Affiliation, emptyTeam, Unit } from "../engine/types";
 import { generateBattleMap, generateTeams } from "../engine/mocks";
 import { UnitBuilder } from "./UnitBuilder/UnitBuilder";
 import { empty } from "@apollo/client";
+import { StatDisplay } from "./UnitBuilder/StatDisplay";
 
 export enum FocusType {
     TILE,

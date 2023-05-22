@@ -2,7 +2,7 @@
 
 import { gql, useLazyQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { statsFor } from "../../engine/stat-calculation";
+import { statsFor, sumUp } from "../../engine/stat-calculation";
 import { Unit } from "../../engine/types";
 import { ParameterPerStat } from "../../pages/api/dao/types/dao-types";
 import { HERO_STATS, HERO_STATS_FRAG, INCLUDE_FRAG } from "../api-fragments";
@@ -58,6 +58,6 @@ export function StatDisplay({
         [currentUnit]);
 
     // if state is undefined, just show ... everywhere
-    return <></>
-    //return <div>{JSON.stringify(stats)}</div>
+    if (stats === undefined) return <>...</>
+    return <div>{JSON.stringify(sumUp(stats))}</div>
 }

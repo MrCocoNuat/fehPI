@@ -175,6 +175,7 @@ function rarityAdjustedBases(rarity: Rarity, baseStats3Stars: ParameterPerStat) 
 /*
  If there are merges and no flaw, add 1 to the 3 highest base stats.
  For each merge, add 1 to the next 2 stats, in ordered sequence, wrapping when necessary. 10 merges applies +4 to all stats.
+ Note that HP is always considered first in the list, even if it is not the highest
 */
 function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
     const bonuses: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 }
@@ -198,6 +199,7 @@ function mergeBonuses(unit: Unit, orderedAllStats: Stat[]) {
 
 /*
   For each dragonflower, add 1 to the next stat, in ordered sequence, wrapping when necessary. Each 5 dragonflowers applies +1 to all stats.
+   Note that HP is always considered first in the list, even if it is not the highest
 */
 function dragonflowerBonuses({ dragonflowers }: Unit, orderedAllStats: Stat[]) {
     const bonuses: ParameterPerStat = { [OptionalStat.HP]: 0, [OptionalStat.ATK]: 0, [OptionalStat.SPD]: 0, [OptionalStat.DEF]: 0, [OptionalStat.RES]: 0 }
@@ -233,28 +235,34 @@ function growthFor(
     if (unit.level === 1) {
         return 0;
     }
+    
+    let growth = 0;
+    // is handling the 0% gv 01100000 11001111 10111010 01100001 01110001 necessary?
 
-    // is handling the 0% gv 01100000 11001111 10111010 01100001 01110001 or > 100% gvs necessary?
-    // The minimum growth rate is 25% and maximum is 80%, so no 
+    // adjusted growths can now exceed 100%, handle this
+    if (adjustedGrowthRate > 100){
+        // each 100% of growth is a guaranteed point per level, so start with that value
+        growth += Math.floor(adjustedGrowthRate/100)*(unit.level - 1);
+    }
 
     // rarity adjusted growth rate
-    const totalGrowth = closeEnoughFloor(39 / 100 * adjustedGrowthRate);
+    const level1To40Growth = closeEnoughFloor(39 / 100 * (adjustedGrowthRate % 100));
 
     // very very likely branch, so optimize here:
     if (unit.level === 40) {
-        return totalGrowth;
+        return level1To40Growth + growth;
     }
     // prevent negative values from messing up (a % b)
     const statSpecificOffsets = { [OptionalStat.HP]: -35 + 64, [OptionalStat.ATK]: -28 + 64, [OptionalStat.SPD]: -21 + 64, [OptionalStat.DEF]: -14 + 64, [OptionalStat.RES]: -7 + 64 } as const;
     const gvid = closeEnoughFloor(3 * (baseStat + 1) + statSpecificOffsets[stat] + adjustedGrowthRate + baseVectorId) % 64;
+    // adjusted growth rates in excess of 100 are NOT taken mod 100 here!
 
     // cast from a string, this is around 39+2 bits so still safe to represent as a double
     // but turn into a bigint because we want bitshifting
     // js is pretty ridiculous not supporting integer types, like come on!
-    const growthVector = BigInt(growthVectors[totalGrowth][gvid]);
+    const growthVector = BigInt(growthVectors[level1To40Growth][gvid]);
 
     // find the hamming weight of the subvector
-    let growth = 0;
     const one = BigInt(0x1);
     for (let i = BigInt(2); i <= unit.level; i++) {
         growth += Number((growthVector >> i) & one);
@@ -302,13 +310,13 @@ export async function statsFor(
     const growthVectors = (await apolloClient.query({ query: GET_GROWTH_VECTORS })).data.growthVectors;
 
     const traitAdjustedOnlyBases = traitAdjustedBasesWithoutAscension(unit, baseStats3Stars);
-    const orderedAllStats = orderBaseStatsDescending(allStats, traitAdjustedOnlyBases);
+    const orderedAllStatsWithHpFirst = [Stat.HP].concat(orderBaseStatsDescending(nonHpStats, traitAdjustedOnlyBases));
 
     return {
         [StatSource.BASE]: traitAdjustedBases(unit, rarityAdjustedBases(unit.rarity, baseStats3Stars)),
         [StatSource.GROWTH]: growthsFor(unit, hero, growthVectors),
-        [StatSource.MERGE]: mergeBonuses(unit, orderedAllStats),
-        [StatSource.DRAGONFLOWER]: dragonflowerBonuses(unit, orderedAllStats),
+        [StatSource.MERGE]: mergeBonuses(unit, orderedAllStatsWithHpFirst),
+        [StatSource.DRAGONFLOWER]: dragonflowerBonuses(unit, orderedAllStatsWithHpFirst),
         [StatSource.RESPLENDENT]: unit.resplendent ? RESPLENDENT_STATS : ZERO_STATS,
         [StatSource.BONUS_HERO]: unit.bonusHero ? BONUS_HERO_STATS : ZERO_STATS,
         [StatSource.BLESSING]: ZERO_STATS, // need team - other branch

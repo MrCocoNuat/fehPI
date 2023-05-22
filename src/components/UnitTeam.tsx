@@ -1,5 +1,5 @@
 import { Dispatch, MouseEventHandler, SetStateAction } from "react";
-import { Combatant, Army, Affiliation, initUnit, initCombatant } from "../engine/types";
+import { Combatant, Team, Affiliation, initUnit,  } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
 import { AddUnitPortrait, UnitPortrait } from "./UnitPortrait";
 import { UserMinusIcon } from "@heroicons/react/24/solid";
@@ -13,7 +13,7 @@ export function UnitTeam(
         writable,
     }: {
         affiliation: Affiliation,
-        team: Army,
+        team: Team,
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
         writable?: boolean,
@@ -22,9 +22,9 @@ export function UnitTeam(
     return <div className="flex">
         <div className="flex">
             {
-                team.combatants.map((combatant, i) =>
-                    <div className="relative" key={`combatant-${combatant.uuid}`}>
-                        <UnitPortrait unit={combatant.unit} affiliation={affiliation}
+                team.units.map((unit, i) =>
+                    <div className="relative" key={`combatant-${unit.uuid}`}>
+                        <UnitPortrait unit={unit} affiliation={affiliation}
                             clickHandler={(evt) => {
                                 evt.stopPropagation();
                                 updateFocus({ type: FocusType.TEAM_UNIT, info: { affiliation, teamNumber: i } })
@@ -35,7 +35,7 @@ export function UnitTeam(
                         {writable && <RemoveUnitButton
                             clickHandler={(evt) => {
                                 evt.stopPropagation();
-                                team.combatants.splice(i, 1);
+                                team.units.splice(i, 1);
                                 updateFocus({ type: FocusType.NONE, info: undefined });
                             }} />}
                     </div>
@@ -44,10 +44,10 @@ export function UnitTeam(
         </div>
         <div>
             {writable && <AddUnitPortrait
-                clickHandler={async (evt) => {
+                clickHandler={(evt) => {
                     evt.stopPropagation();
-                    team.combatants.push(await initCombatant());
-                    updateFocus({ type: FocusType.TEAM_UNIT, info: { affiliation, teamNumber: team.combatants.length - 1 } });
+                    team.units.push(initUnit());
+                    updateFocus({ type: FocusType.TEAM_UNIT, info: { affiliation, teamNumber: team.units.length - 1 } });
                 }} />
             }
         </div>

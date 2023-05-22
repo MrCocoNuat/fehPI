@@ -23,17 +23,17 @@ export const someSingleProp = <P extends keyof Unit,>(singlePropMerger: SinglePr
 export type MultiplePropMerger = (...changes: SomeSingleProp[]) => void;
 
 export function UnitBuilder({
-    combatant,
+    unit,
     updater,
 }: {
-    combatant: Combatant,
-    updater: (newCombatant: Combatant) => void,
+    unit: Unit,
+    updater: (newUnit: Unit) => void,
 }) {
     console.info("rerender unit builder");
-    const selectedHeroId = combatant.unit.idNum;
+    const selectedHeroId = unit.idNum;
 
     const mergeChanges: MultiplePropMerger = (...changes) => {
-        let copyUnit = { ...combatant.unit };
+        let copyUnit = { ...unit };
         changes.forEach(someSingleProp => someSingleProp(singleProp => {
             copyUnit = { ...copyUnit, [singleProp.prop]: singleProp.value };
             // beginning to think there is a better way to do this...
@@ -46,7 +46,7 @@ export function UnitBuilder({
             //TODO: stat calculation directly here? Not in stat-display! need to save it int ocombatant
         }))
 
-        updater({ ...combatant, unit: copyUnit });
+        updater(copyUnit);
     }
 
 
@@ -56,20 +56,20 @@ export function UnitBuilder({
         <SelectedHeroIdContext.Provider value={selectedHeroId}>
             <form className="m-2 border-2 border-blue-500" onSubmit={(evt) => { evt.preventDefault(); }}>
                 <div className="flex flex-col gap-1">
-                    <UnitAndRarityPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <UnitAndRarityPicker currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <LevelMergeDragonflowerPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <LevelMergeDragonflowerPicker currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <TraitPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <TraitPicker currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <SkillsPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <SkillsPicker currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <BlessingPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
-                    <SummonerSupportPicker currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <BlessingPicker currentUnit={unit} mergeChanges={mergeChanges} />
+                    <SummonerSupportPicker currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <BonusResplendentPickers currentUnit={combatant.unit} mergeChanges={mergeChanges} />
+                    <BonusResplendentPickers currentUnit={unit} mergeChanges={mergeChanges} />
 
-                    <StatDisplay currentUnit={combatant.unit} />
+                    <StatDisplay currentUnit={unit} />
                 </div>
             </form>
 

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { BattleMap, Combatant, Army, Affiliation, Terrain, Armies } from "../engine/types";
+import { BattleMap, Combatant, Team, Affiliation, Terrain, Teams } from "../engine/types";
 import { Focus, FocusType } from "./BattlePane";
 import { BattleTileComponent } from "./BattleTile";
 
@@ -12,12 +12,12 @@ export function BattleMapComponent(
         updateHover
     }: {
         tiles: BattleMap,
-        armies : Armies,
+        armies : Teams,
         updateFocus: Dispatch<SetStateAction<Focus>>,
         updateHover: Dispatch<SetStateAction<Focus>>,
     }) {
 
-    const allCombatants = Object.values(armies).reduce((accum, currentTeam) => accum.concat(currentTeam.combatants), [] as Combatant[]);
+    const allCombatants = Object.values(armies).reduce((accum, currentTeam) => accum.concat(currentTeam.units), [] as Combatant[]);
 
     return <div className="grid grid-cols-6">
         {tiles.map((tile, i) =>

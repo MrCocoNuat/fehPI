@@ -6,7 +6,7 @@ import { Tab, TabSelector } from "./TabSelector";
 
 import { UnitTeam } from "./UnitTeam";
 import { BattleHistoryComponent } from "./BattleHistory";
-import { Combatant, Affiliation, emptyArmy } from "../engine/types";
+import { Combatant, Affiliation, emptyTeam, Unit } from "../engine/types";
 import { generateBattleMap, generateTeams } from "../engine/mocks";
 import { UnitBuilder } from "./UnitBuilder/UnitBuilder";
 import { empty } from "@apollo/client";
@@ -31,26 +31,26 @@ export function BattlePane(props: any) {
     const [hover, updateHoverDisabled] = useState({ type: FocusType.NONE, info: undefined } as Focus);
     const updateHover = () => {};
 
-    const [armies, setArmies] = useState({[Affiliation.PLAYER]: emptyArmy(), [Affiliation.ENEMY]: emptyArmy()})
+    const [armies, setArmies] = useState({[Affiliation.PLAYER]: emptyTeam(), [Affiliation.ENEMY]: emptyTeam()})
     const [battleTiles, updateBattleTiles] = useState(baseBattleMap);
 
-    function getCombatant({type, info} : Focus) {
+    function getUnit({type, info} : Focus) {
         switch (type) {
             //case FocusType.TILE_UNIT:
              //   return battleTiles[focusInfo].combatant;
             case FocusType.TEAM_UNIT:
-                return armies[info.affiliation as Affiliation].combatants[info.teamNumber];
+                return armies[info.affiliation as Affiliation].units[info.teamNumber];
             default:
                 return undefined;
         }
     }
-    function updateCombatant(affiliation: Affiliation, teamNumber: number, newCombatant : Combatant){
+    function updateUnit(affiliation: Affiliation, teamNumber: number, newUnit : Unit){
         const copy = {...armies};
-        copy[affiliation].combatants[teamNumber] = newCombatant;
+        copy[affiliation].units[teamNumber] = newUnit;
         setArmies(copy);
     }
 
-    const focusCombatant = getCombatant(focus);
+    const focusUnit = getUnit(focus);
 
     return <div className="flex flex-col 2xl:flex-row gap-2 2xl:gap-5 border-2 border-green-900 p-2 2xl:p-5"
         // any click not stopped will bubble here and clear the focus
@@ -77,8 +77,8 @@ export function BattlePane(props: any) {
             {(selectedTab === Tab.HISTORY) && focus.type === FocusType.NONE && <>
                 <BattleHistoryComponent></BattleHistoryComponent>
             </>}
-            {(focus.type === FocusType.TILE_UNIT || focus.type === FocusType.TEAM_UNIT) && focusCombatant !== undefined && <>
-                <UnitBuilder combatant={focusCombatant} updater={(newCombatant: Combatant) => updateCombatant(focus.info.affiliation, focus.info.teamNumber, newCombatant)}></UnitBuilder>
+            {(focus.type === FocusType.TILE_UNIT || focus.type === FocusType.TEAM_UNIT) && focusUnit !== undefined && <>
+                <UnitBuilder unit={focusUnit} updater={(newUnit: Unit) => updateUnit(focus.info.affiliation, focus.info.teamNumber, newUnit)}></UnitBuilder>
             </>}
         </div>
     </div>

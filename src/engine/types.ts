@@ -50,7 +50,9 @@ export enum SupportLevel {
 }
 
 export type Unit = {
-    idNum: number,
+    uuid: String,
+
+    idNum: number, // of the Hero that this unit is a copy of!
     rarity: Rarity,
     level: number,
     merges: number,
@@ -84,7 +86,11 @@ export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as c
 // max dragonflowers is dependent on the unit, but is always at least 5
 export const { MIN_DRAGONFLOWERS, MAX_SAFE_DRAGONFLOWERS } = { MIN_DRAGONFLOWERS: 0, MAX_SAFE_DRAGONFLOWERS: 5 } as const;
 
+
+// Units are instantiations of Heroes (i.e. a Team can have 4 different Anna: Commander, each is a distinct Unit)
 export const initUnit: () => Unit = () => ({
+    uuid: uuidv4(),
+
     idNum: 1,
     rarity: Rarity.FIVE_STARS,
     level: 40,
@@ -115,51 +121,58 @@ export const initUnit: () => Unit = () => ({
     resplendent: false,
 })
 
+// Once in battle, a Combatant is constructed from each Unit. Combatants have properties that matter only in battle, like tileNumber for map placement etc.
 export type Combatant = {
     unit: Unit,
-    uuid: String,
-    
-    // this should be shown during creation, but not included here until in combat
-    //tileNumber?: number,
-    //calculatedStats: ParameterPerStat,
+    tileNumber?: number,
+
+    // this should be shown during creation, but not included here until in combat? on Commit
+    calculatedStats: ParameterPerStat,
     // These belong only in battle
-    //tapped: boolean,
-    //currentHp: number,
+    tapped: boolean,
+    currentHp: number,
 }
 
-export const initCombatant: () => Promise<Combatant> = async () => {
-    const unit = initUnit();
-    //const calculatedStats = sumUp(await statsFor(unit));
+export const toCombatant: (unit: Unit) => Promise<Combatant> = async (unit) => {
+    const calculatedStats = sumUp(await statsFor(unit));
     return {
         unit: unit,
         tapped: false,
-      //  calculatedStats: calculatedStats,
-        uuid: uuidv4(),
-      //  currentHp: calculatedStats.hp,
+        calculatedStats: calculatedStats,
+        currentHp: calculatedStats.hp,
     }
 }
 
 // symmetric, 2 hero ids
 // Importantly, unlike Summoner Support that is Unit-scoped,
-// Ally Support is Hero-scoped! (i.e. all copies of Anna: Combatant in an Army share an ally support)
+// Ally Support is Hero-scoped! (i.e. all copies of Anna: Commander in an Army share an ally support)
 export type AllySupportPair = [number, number];
 
-export type Army = {
-    combatants: Combatant[],
+export type Team = {
+    units: Unit[],
     allySupports: AllySupportPair[],
 }
-export const emptyArmy: () => Army = () => ({ combatants: [], allySupports: [] });
-export type Armies = { [affiliation in Affiliation]: Army };
+export const emptyTeam: () => Team = () => ({ units: [], allySupports: [] });
+export type Teams = { [affiliation in Affiliation]: Team };
 
 export type BattleTile = {
     terrain: Terrain,
 }
 
+export type Army = {
+    combatants: Combatant[],
+    allySupports: AllySupportPair[],
+}
+export const toArmy: (team : Team) => Promise<Army> = async (team) => ({
+    combatants: await Promise.all(team.units.map(async unit => toCombatant(unit))),
+    allySupports: team.allySupports,
+})
+
 export type BattleMap = BattleTile[]
 
 export type BattleContext = {
-    combatantTeams: {
-        [team in Affiliation]: Army
+    teams: {
+        [affiliation in Affiliation]: Team
     },
     battleMap: BattleMap,
 }

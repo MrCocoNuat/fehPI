@@ -72,7 +72,8 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
             case SkillCategory.WEAPON:
                 const weaponDefinition: WeaponDefinition = {
                     ...skillDefinition,
-                    might: json.might,
+                    // I choose to EXCLUDE weapon refine atk boosts from might - this is not what is normally displayed!
+                    might: json.might - (json.refine_stats?.[Stat.ATK] ?? 0), 
                     range: json.range,
                     arcaneWeapon: json.arcane_weapon,
                     refined: json.refined,

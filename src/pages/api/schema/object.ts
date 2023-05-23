@@ -111,7 +111,7 @@ WeaponDefinitionObject.implement({
     fields: (ofb) => ({
         might: ofb.exposeInt("might", {
             nullable: false,
-            description: "The inherent offensive power of this Weapon. Note that this includes any boost to ATK from a refine.",
+            description: "The inherent offensive power of this Weapon. Note that this excludes any boost to ATK from a refine.",
         }),
         range: ofb.exposeInt("range", {
             nullable: false,
@@ -127,7 +127,7 @@ WeaponDefinitionObject.implement({
             type: ParameterPerStatObject,
             nullable: true,
             resolve: (weaponDefinition) => (weaponDefinition.refined ? weaponDefinition.refineStats : null),
-            description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might includes any boost to ATK listed here."
+            description: "If this Weapon is refined, the stats conferred by the refine. Null otherwise. Note that refined weapon might excludes any boost to ATK listed here."
         }),
         refineType: ofb.field({
             type: RefineTypeEnum,

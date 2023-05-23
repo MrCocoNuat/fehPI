@@ -73,6 +73,7 @@ export function asciify(unicodeStr: string) {
         .replaceAll(")", "")
         .replaceAll(`'`, ``)
         .replaceAll(`"`, ``)
+        .replaceAll("·", "")
     return unicodeStr;
 }
 

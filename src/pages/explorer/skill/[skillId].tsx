@@ -3,8 +3,9 @@ import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WE
 import { gql, useLazyQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { MovementType, MovementTypeBitfield, OptionalLanguage, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
+import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
 import { LanguageContext } from "../../_app";
+import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
 
 const GET_SKILL_IMAGE_URL = gql`
 query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
@@ -27,6 +28,7 @@ query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
         }
         ... on WeaponDefinition{
             weaponImageUrl : imageUrl
+            refineType
         }
     }
 }`
@@ -50,6 +52,7 @@ export type SkillQueryResult = {
     imageUrl?: string,
     weaponImageUrl?: string,
 
+    refineType?: RefineType,
 }
 
 const mapQuery = (response: any) => response.data.skills.map((responseSkill: any) => ({
@@ -57,7 +60,7 @@ const mapQuery = (response: any) => response.data.skills.map((responseSkill: any
     category: SkillCategory[responseSkill.category],
     weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
     movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
-
+    refineType: (responseSkill.refineType === undefined)? undefined : RefineType[responseSkill.refineType],
 }))[0] as SkillQueryResult;
 
 export default function SkillExplorer() {
@@ -71,14 +74,14 @@ export default function SkillExplorer() {
         const update = async () => {
             const result = mapQuery(await skillImageQuery());
             //setSkillImageUrl(result.imageUrl ?? result.weaponImageUrl);
+            console.log("skillid effect");
             setSkillQueryResult(result);
         };
         update();
     }, [])
 
-    return <div>
-        skill explorer: id {router.query.skillId}
-        {skillQueryResult?.imageUrl && <Image src={skillQueryResult.imageUrl} alt={`Icon of skill ${skillId}`} width={60} height={60} />}
-        {skillQueryResult?.weaponImageUrl && <Image src={skillQueryResult.weaponImageUrl} alt={`Icon of weapon refine ${skillId}`} width={60} height={60} />}
-    </div>
+    if (skillQueryResult === undefined){
+        return <>...</>
+    }
+    return <SkillDetails skillDetails={skillQueryResult}/>
 }

@@ -6,11 +6,11 @@ import { useContext, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
 import { NONE_BLESSING, Unit } from "../../engine/types";
 import { BlessingEffect, BlessingSeason, HonorType } from "../../pages/api/dao/types/dao-types";
-import { LanguageContext } from "../../pages/testpage";
 import { HERO_HONOR_BLESSING, HERO_HONOR_BLESSING_FRAG, INCLUDE_FRAG } from "../api-fragments";
 import { Select, ValueAndLabel } from "../tailwind-styled/sync/Select";
 import { blessingIcons, conferredBlessingIcon, getUiStringResource } from "../ui-resources";
 import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
+import { LanguageContext } from "../../pages/_app";
 
 // Query 
 // ---------

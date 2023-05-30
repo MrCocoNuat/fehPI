@@ -3,7 +3,6 @@ import { getAllEnumValues } from "enum-for";
 import { useContext, useEffect, useState } from "react";
 import { NONE_SKILL_ID, Unit } from "../../engine/types"
 import { Language, MovementType, OptionalLanguage, SkillCategory, WeaponType } from "../../pages/api/dao/types/dao-types";
-import { LanguageContext } from "../../pages/testpage";
 import { HERO_FIVE_STAR_SKILLS, HERO_FIVE_STAR_SKILLS_FRAG, HERO_MOVEMENT_WEAPON, HERO_MOVEMENT_WEAPON_FRAG, SKILL_NAME, SKILL_NAME_FRAG, SKILL_RESTRICTIONS, SKILL_RESTRICTIONS_FRAG } from "../api-fragments";
 import { AsyncFilterSelect } from "../tailwind-styled/async/AsyncFilterSelect";
 import { ValueAndLabel } from "../tailwind-styled/sync/Select";
@@ -11,6 +10,7 @@ import { getUiStringResource, skillCategoryIcon } from "../ui-resources";
 import { PassivesPicker as PassivesPickers } from "./PassivesPickers";
 import { MultiplePropMerger, SelectedHeroIdContext, someSingleProp } from "./UnitBuilder";
 import { WeaponPicker } from "./WeaponPicker";
+import { LanguageContext } from "../../pages/_app";
 
 // Query
 // ----------

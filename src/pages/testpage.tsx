@@ -7,11 +7,9 @@ import { TopBar } from "../components/TopBar";
 import { createContext, useState } from "react";
 import { Language } from "./api/dao/types/dao-types";
 
-export const LanguageContext = createContext(Language.USEN);
 
 export default function TestComponent(props: { user: any }) {
 
-    const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN); // yeah yeah US defaultism... 
 
     const { loading, data, error } = useQuery(PING);
     if (loading) return <p>Loading...</p>;
@@ -22,20 +20,19 @@ export default function TestComponent(props: { user: any }) {
 
     //LANG-
     return <>
-        <LanguageContext.Provider value={currentLanguage}>
+        
             <Head>
                 <title>Turnwheel</title>
                 <meta name="description" content="turnwheel" />
             </Head>
 
-            <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />
+            
 
             <main className="">
                 <div className="flex justify-center">
                     <BattlePane></BattlePane>
                 </div>
             </main>
-        </LanguageContext.Provider>
     </>
 }
 

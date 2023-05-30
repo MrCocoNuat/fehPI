@@ -1,4 +1,4 @@
-import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, SkillCategory } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -75,7 +75,8 @@ const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_C]: <div className="text-s font-semibold text-blue-500 absolute bottom-[-6px] right-[-3px] z-10">C</div>,
     [SkillCategory.PASSIVE_S]: <div className="text-s font-semibold text-yellow-500 absolute bottom-[-6px] right-[-3px] z-10">S</div>,
 } as const;
-export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string) {
+export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string, excludePassiveLetter?: boolean) {
+    const exclude = excludePassiveLetter ?? false;
     switch (skillCategory) {
         case SkillCategory.WEAPON:
             return <Image src={"/icons/skill-category/FEH_Skill_Offense.webp"} alt={"Weapon"} fill={true} />
@@ -88,9 +89,36 @@ export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: strin
         case SkillCategory.PASSIVE_B:
         case SkillCategory.PASSIVE_C:
         case SkillCategory.PASSIVE_S:
-            return <div className="relative w-8 aspect-square z-0">
-                {PassiveSkillCategoryLetter[skillCategory]}
+            return <div className="relative aspect-square z-0">
+                {!exclude && PassiveSkillCategoryLetter[skillCategory]}
                 <Image src={imageUrl ?? "/icons/misc/None_Skill.webp"} alt={"Passive"} fill={true} />
+            </div >
+        default:
+            return <></>;
+    }
+}
+
+const LargePassiveSkillCategoryLetter = {
+    [SkillCategory.PASSIVE_A]: <div className="text-3xl font-semibold text-red-500 absolute bottom-0 right-0 z-10">A</div>,
+    [SkillCategory.PASSIVE_B]: <div className="text-3xl font-semibold text-green-500 absolute bottom-0 right-0 z-10">B</div>,
+    [SkillCategory.PASSIVE_C]: <div className="text-3xl font-semibold text-blue-500 absolute bottom-0 right-0 z-10">C</div>,
+    [SkillCategory.PASSIVE_S]: <div className="text-3xl font-semibold text-yellow-500 absolute bottom-0 right-0 z-10">S</div>,
+} as const;
+export function largeSkillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string, excludePassiveLetter?: boolean) {
+    const exclude = excludePassiveLetter ?? false;
+    switch (skillCategory) {
+        case SkillCategory.WEAPON:
+        case SkillCategory.ASSIST:
+        case SkillCategory.SPECIAL:
+            return skillCategoryIcon(skillCategory, imageUrl, excludePassiveLetter);
+
+        case SkillCategory.PASSIVE_A:
+        case SkillCategory.PASSIVE_B:
+        case SkillCategory.PASSIVE_C:
+        case SkillCategory.PASSIVE_S:
+            return <div className="relative aspect-square z-0">
+                {!exclude && LargePassiveSkillCategoryLetter[skillCategory]}
+                {skillCategoryIcon(skillCategory, imageUrl, true)}
             </div >
         default:
             return <></>;
@@ -230,5 +258,71 @@ export function summonerSupportIcon(summonerSupportLevel: SupportLevel) {
             return <Image src={"/icons/summoner-support/Icon_Support_Summoner_A.webp"} alt={"A"} fill={true} />;
         case SupportLevel.S_SUPPORT:
             return <Image src={"/icons/summoner-support/Icon_Support_Summoner_S.webp"} alt={"S"} fill={true} />;
+    }
+}
+
+export function movementTypeIcon(movementType: MovementType) {
+    switch (movementType) {
+        case MovementType.ARMORED:
+            return <Image src={"/icons/movement-type/Icon_Move_Armored.webp"} alt={"Armored"} fill={true} />;
+        case MovementType.CAVALRY:
+            return <Image src={"/icons/movement-type/Icon_Move_Cavalry.webp"} alt={"Cavalry"} fill={true} />;
+        case MovementType.FLYING:
+            return <Image src={"/icons/movement-type/Icon_Move_Flying.webp"} alt={"Flying"} fill={true} />;
+        case MovementType.INFANTRY:
+            return <Image src={"/icons/movement-type/Icon_Move_Infantry.webp"} alt={"Infantry"} fill={true} />;
+    }
+}
+
+export function weaponTypeIcon(weaponType: WeaponType) {
+    switch (weaponType) {
+        case WeaponType.BLUE_BEAST:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Beast.webp"} alt={"BLUE_BEAST"} fill={true} />;
+        case WeaponType.BLUE_BOW:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Bow.webp"} alt={"BLUE_BOW"} fill={true} />;
+        case WeaponType.BLUE_BREATH:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Breath.webp"} alt={"BLUE_BREATH"} fill={true} />;
+        case WeaponType.BLUE_DAGGER:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Dagger.webp"} alt={"BLUE_DAGGER"} fill={true} />;
+        case WeaponType.LANCE:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Lance.webp"} alt={"LANCE"} fill={true} />;
+        case WeaponType.BLUE_TOME:
+            return <Image src={"/icons/weapon-type/Icon_Class_Blue_Tome.webp"} alt={"BLUE_TOME"} fill={true} />;
+        case WeaponType.GREEN_BEAST:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Beast.webp"} alt={"GREEN_BEAST"} fill={true} />;
+        case WeaponType.GREEN_BOW:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Bow.webp"} alt={"GREEN_BOW"} fill={true} />;
+        case WeaponType.GREEN_BREATH:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Breath.webp"} alt={"GREEN_BREATH"} fill={true} />;
+        case WeaponType.GREEN_DAGGER:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Dagger.webp"} alt={"GREEN_DAGGER"} fill={true} />;
+        case WeaponType.AXE:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Axe.webp"} alt={"AXE"} fill={true} />;
+        case WeaponType.GREEN_TOME:
+            return <Image src={"/icons/weapon-type/Icon_Class_Green_Tome.webp"} alt={"GREEN_TOME"} fill={true} />;
+        case WeaponType.COLORLESS_BEAST:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Beast.webp"} alt={"COLORLESS_BEAST"} fill={true} />;
+        case WeaponType.COLORLESS_BOW:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Bow.webp"} alt={"COLORLESS_BOW"} fill={true} />;
+        case WeaponType.COLORLESS_BREATH:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Breath.webp"} alt={"COLORLESS_BREATH"} fill={true} />;
+        case WeaponType.COLORLESS_DAGGER:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Dagger.webp"} alt={"COLORLESS_DAGGER"} fill={true} />;
+        case WeaponType.STAFF:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Staff.webp"} alt={"STAFF"} fill={true} />;
+        case WeaponType.COLORLESS_TOME:
+            return <Image src={"/icons/weapon-type/Icon_Class_Colorless_Tome.webp"} alt={"COLORLESS_TOME"} fill={true} />;
+        case WeaponType.RED_BEAST:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Beast.webp"} alt={"RED_BEAST"} fill={true} />;
+        case WeaponType.RED_BOW:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Bow.webp"} alt={"RED_BOW"} fill={true} />;
+        case WeaponType.RED_BREATH:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Breath.webp"} alt={"RED_BREATH"} fill={true} />;
+        case WeaponType.RED_DAGGER:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Dagger.webp"} alt={"RED_DAGGER"} fill={true} />;
+        case WeaponType.SWORD:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Sword.webp"} alt={"SWORD"} fill={true} />;
+        case WeaponType.RED_TOME:
+            return <Image src={"/icons/weapon-type/Icon_Class_Red_Tome.webp"} alt={"RED_TOME"} fill={true} />;
     }
 }

@@ -55,5 +55,8 @@
     "SELECT_NO_OPTIONS": "No options",
     "SELECT_LOADING": "Loading...",
 
-    "UI_ADD_UNIT": "Add Unit"
+    "UI_ADD_UNIT": "Add Unit",
+
+    "SKILL_EXCLUSIVE": "PRF",
+    "SKILL_ENEMY_ONLY": "Enemy Only"
 }

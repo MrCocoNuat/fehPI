@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG } from "../../../components/api-fragments";
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
@@ -55,9 +55,10 @@ export type SkillQueryResult = {
     refineType?: RefineType,
 }
 
-const mapQuery = (response: any) => response.data.skills.map((responseSkill: any) => ({
+const mapQuery = (data: any) => data.skills.map((responseSkill: any) => ({
     ...responseSkill,
     category: SkillCategory[responseSkill.category],
+    desc: {value: responseSkill.desc.value.replace("\n"," ")},
     weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
     movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
     refineType: (responseSkill.refineType === undefined)? undefined : RefineType[responseSkill.refineType],
@@ -68,20 +69,17 @@ export default function SkillExplorer() {
     const router = useRouter();
     const skillId = +(router.query.skillId as String);
 
-    const [skillQueryResult, setSkillQueryResult] = useState(undefined as SkillQueryResult | undefined);
-    const [skillImageQuery] = useLazyQuery(GET_SKILL_IMAGE_URL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
-    useEffect(() => {
-        const update = async () => {
-            const result = mapQuery(await skillImageQuery());
-            //setSkillImageUrl(result.imageUrl ?? result.weaponImageUrl);
-            console.log("skillid effect");
-            setSkillQueryResult(result);
-        };
-        update();
-    }, [])
+    const {loading, error, data} = useQuery(GET_SKILL_IMAGE_URL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
 
-    if (skillQueryResult === undefined){
+    if (loading){
         return <>...</>
     }
-    return <SkillDetails skillDetails={skillQueryResult}/>
+    if (error){
+        return "error";
+    }
+
+    const skillQueryResult = mapQuery(data);
+    return <div className="flex flex-row justify-center border-2 border-purple-600">
+        <SkillDetails skillDetails={skillQueryResult}/>
+    </div>
 }

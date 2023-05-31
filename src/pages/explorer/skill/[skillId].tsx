@@ -23,12 +23,54 @@ query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
         category
         weaponEquip
         movementEquip
+        nextSkill{
+            idNum
+            name(language: $language){
+                value
+            }  
+            ... on PassiveSkillDefinition{
+                imageUrl
+            }
+            ... on WeaponDefinition{
+                weaponImageUrl : imageUrl
+                refineType
+            }
+        }
+        prerequisites{
+            idNum
+            name(language: $language){
+                value
+            }  
+            ... on PassiveSkillDefinition{
+                imageUrl
+            }
+            ... on WeaponDefinition{
+                weaponImageUrl : imageUrl
+                refineType
+            }
+        }
         ... on PassiveSkillDefinition{
             imageUrl
         }
         ... on WeaponDefinition{
             weaponImageUrl : imageUrl
             refineType
+            refines{
+                idNum
+                weaponImageUrl: imageUrl
+                name(language: $language){
+                    value
+                }  
+                refineType
+            }
+            refineBase{
+                idNum
+                weaponImageUrl: imageUrl
+                name(language: $language){
+                    value
+                }
+                refineType
+            }
         }
     }
 }`
@@ -37,10 +79,14 @@ export type SkillQueryResult = {
     idNum: number
     idTag: string,
     name: { value: String },
-    desc: { value: String },
+    desc: { value?: String },
 
-    //prerequisites: string[],
-    //nextSkill: string | null,
+    prerequisites: {
+        idNum: number, name: { value: string }, imageUrl?: string, weaponImageUrl?: string
+    }[],
+    nextSkill?: {
+        idNum: number, name: { value: string }, imageUrl?: string, weaponImageUrl?: string
+    },
 
     exclusive: boolean,
     enemyOnly: boolean,
@@ -53,15 +99,31 @@ export type SkillQueryResult = {
     weaponImageUrl?: string,
 
     refineType?: RefineType,
+    refines?: {
+        idNum: number, weaponImageUrl: String, name: { value: string }, refineType: RefineType
+    }[],
+    refineBase?: {
+        idNum: number, weaponImageUrl: String, name: { value: string }, refineType: RefineType
+    },
 }
 
 const mapQuery = (data: any) => data.skills.map((responseSkill: any) => ({
     ...responseSkill,
     category: SkillCategory[responseSkill.category],
-    desc: {value: responseSkill.desc.value.replace("\n"," ")},
+    desc: { value: responseSkill.desc?.value?.replace("\n", " ") },
     weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
     movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
-    refineType: (responseSkill.refineType === undefined)? undefined : RefineType[responseSkill.refineType],
+    refineType: (responseSkill.refineType == undefined) ? undefined : RefineType[responseSkill.refineType],
+
+    refines: (responseSkill.refines == undefined) ? undefined : responseSkill.refines.map((weapon: any) => ({
+        ...weapon,
+        refineType: RefineType[weapon.refineType]
+    })),
+    refineBase: (responseSkill.refineBase == undefined) ? undefined : [responseSkill.refineBase].map((weapon: any) => ({
+        ...weapon,
+        refineType: RefineType[weapon.refineType]
+    }))[0],
+
 }))[0] as SkillQueryResult;
 
 export default function SkillExplorer() {
@@ -69,17 +131,17 @@ export default function SkillExplorer() {
     const router = useRouter();
     const skillId = +(router.query.skillId as String);
 
-    const {loading, error, data} = useQuery(GET_SKILL_IMAGE_URL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
+    const { loading, error, data } = useQuery(GET_SKILL_IMAGE_URL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
 
-    if (loading){
+    if (loading) {
         return <>...</>
     }
-    if (error){
+    if (error) {
         return "error";
     }
 
     const skillQueryResult = mapQuery(data);
     return <div className="flex flex-row justify-center border-2 border-purple-600">
-        <SkillDetails skillDetails={skillQueryResult}/>
+        <SkillDetails skillDetails={skillQueryResult} />
     </div>
 }

@@ -130,7 +130,7 @@ export function weaponRefineIcon(refineType: RefineType, imageUrl?: string) {
         case RefineType.NONE:
             return skillCategoryIcon(SkillCategory.WEAPON); // just a weapon icon
         case RefineType.EFFECT:
-            return <Image src={imageUrl!} alt={"AtkR"} fill={true} /> // provide the image url - these are unique
+            return <Image src={imageUrl!} alt={"EffectR"} fill={true} /> // provide the image url - these are unique
         case RefineType.ATK:
             return <Image src={"/icons/weapon-refine/Attack_Plus_W.webp"} alt={"AtkR"} fill={true} />
         case RefineType.SPD:

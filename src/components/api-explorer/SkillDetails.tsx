@@ -18,13 +18,13 @@ export function WeaponDetailsMini(skill: { weaponImageUrl?: string, name: { valu
 
 function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     return <div className="border-2 border-blue-200 flex flex-col items-center">
-        {skillDetails.refineBase !== undefined &&
+        {skillDetails.refineBase !== undefined && //TODO: lang
             <div className="border-2 border-blue-200 flex flex-col items-center">
-                <div>Refine Base</div>
+                <div>Refine Base</div> 
                 {WeaponDetailsMini(skillDetails.refineBase)}
             </div>
         }
-        {skillDetails.refines && skillDetails.refines.length > 0 &&
+        {skillDetails.refines && skillDetails.refines.length > 0 &&  //TODO: lang
             <div className="border-2 border-blue-200 flex flex-col items-center">
                 <div>Refines</div>
                 {skillDetails.refines.map((refine) => WeaponDetailsMini(refine))}
@@ -42,8 +42,8 @@ export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: stri
     </div>
 }
 
-function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
-    return (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) && <div className="grid grid-cols-2">
+function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  //TODO: lang
+    return (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) && <div className="grid grid-cols-2"> 
         <div className="border-2 border-blue-200 flex flex-col items-center">
             <div>Prerequisites</div>
             {skillDetails.prerequisites.map((prereq) => SkillDetailsMini({ ...prereq, category: skillDetails.category }))}
@@ -53,7 +53,7 @@ function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryRes
             {skillDetails.nextSkill != undefined && SkillDetailsMini({ ...skillDetails.nextSkill, category: skillDetails.category })}
         </div>
     </div>
-}
+}  //TODO: lang
 
 export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
@@ -62,8 +62,8 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
 
     return <div className="border-2 border-red-500 flex flex-col w-[600px]">
         <div className="flex flex-row justify-center align-center border-2 border-green-500 gap-1">
-            <div className="flex flex-col">
-                <div className="aspect-square w-24 relative">
+            <div className="flex flex-col items-center">
+                <div className="aspect-square w-16 relative">
                     {(skillDetails.refineType !== undefined) ?
                         weaponRefineIcon(skillDetails.refineType, skillDetails.weaponImageUrl)
                         : largeSkillCategoryIcon(skillDetails.category, skillDetails.imageUrl)}

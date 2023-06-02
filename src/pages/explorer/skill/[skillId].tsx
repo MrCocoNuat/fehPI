@@ -78,8 +78,8 @@ query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
 export type SkillQueryResult = {
     idNum: number
     idTag: string,
-    name: { value: String },
-    desc: { value?: String },
+    name: { value: string },
+    desc: { value?: string },
 
     prerequisites: {
         idNum: number, name: { value: string }, imageUrl?: string, weaponImageUrl?: string
@@ -100,10 +100,10 @@ export type SkillQueryResult = {
 
     refineType?: RefineType,
     refines?: {
-        idNum: number, weaponImageUrl: String, name: { value: string }, refineType: RefineType
+        idNum: number, weaponImageUrl: string, name: { value: string }, refineType: RefineType
     }[],
     refineBase?: {
-        idNum: number, weaponImageUrl: String, name: { value: string }, refineType: RefineType
+        idNum: number, weaponImageUrl: string, name: { value: string }, refineType: RefineType
     },
 }
 

@@ -11,7 +11,7 @@ export function Checkbox({
     onChange: ChangeEventHandler<HTMLInputElement>,
     disabled?: boolean,
 }) {
-    return <input id="unit-resplendent" type="checkbox"
+    return <input id={id} type="checkbox"
         checked={checked}
         disabled={disabled}
         onChange={onChange} />

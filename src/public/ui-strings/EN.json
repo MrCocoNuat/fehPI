@@ -59,5 +59,8 @@
 
     "SKILL_EXCLUSIVE": "PRF",
     "SKILL_ENEMY_ONLY": "Enemy Only",
-    "SKILL_ARCANE": "Arcane"
+    "SKILL_ARCANE": "Arcane",
+
+    "SEARCH_PLACEHOLDER_NAME_ID": "Search by name or id",
+    "SEARCH_REFINE": "Show Weapon Refines"
 }

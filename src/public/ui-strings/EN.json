@@ -58,5 +58,6 @@
     "UI_ADD_UNIT": "Add Unit",
 
     "SKILL_EXCLUSIVE": "PRF",
-    "SKILL_ENEMY_ONLY": "Enemy Only"
+    "SKILL_ENEMY_ONLY": "Enemy Only",
+    "SKILL_ARCANE": "Arcane"
 }

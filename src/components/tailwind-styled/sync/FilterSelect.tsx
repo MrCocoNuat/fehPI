@@ -2,8 +2,8 @@ import { Options, SingleValue } from "react-select"
 import Select from "react-select";
 import { getUiStringResource } from "../../ui-resources";
 import { useContext } from "react";
-import { LanguageContext } from "../../../pages/testpage";
 import { ValueAndLabel } from "./Select";
+import { LanguageContext } from "../../../pages/_app";
 
 /*
  react-select is not known for having great performance with lists of any significant length (as in >100)

@@ -1,6 +1,5 @@
 import { Unica_One } from "@next/font/google";
 import { BlessingSeason, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
-import { statsFor, sumUp } from "./stat-calculation";
 import { v4 as uuidv4 } from 'uuid';
 
 export function constrainNumeric(value: number, min: number, max: number) {
@@ -134,13 +133,7 @@ export type Combatant = {
 }
 
 export const toCombatant: (unit: Unit) => Promise<Combatant> = async (unit) => {
-    const calculatedStats = sumUp(await statsFor(unit));
-    return {
-        unit: unit,
-        tapped: false,
-        calculatedStats: calculatedStats,
-        currentHp: calculatedStats.hp,
-    }
+    throw new Error();
 }
 
 // symmetric, 2 hero ids

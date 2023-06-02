@@ -88,6 +88,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
                 <div className="">{skillDetails.idTag}</div>
                 {(skillDetails.exclusive) && <div className="border-2 border-yellow-500 text-yellow-600 font-bold">{getUiStringResource(selectedLanguage, "SKILL_EXCLUSIVE")}</div>}
                 {(skillDetails.enemyOnly) && <div className="border-2 border-yellow-500 text-red-600 font-bold">{getUiStringResource(selectedLanguage, "SKILL_ENEMY_ONLY")}</div>}
+                {(skillDetails.arcaneWeapon) && <div className="border-2 border-yellow-500 text-purple-600 font-bold">{getUiStringResource(selectedLanguage, "SKILL_ARCANE")}</div>}
                 <div>
                     {skillDetails.desc.value != undefined && skillDetails.desc.value}
                 </div>

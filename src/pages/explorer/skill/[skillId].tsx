@@ -54,6 +54,7 @@ query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
         }
         ... on WeaponDefinition{
             weaponImageUrl : imageUrl
+            arcaneWeapon
             refineType
             refines{
                 idNum
@@ -99,6 +100,7 @@ export type SkillQueryResult = {
     weaponImageUrl?: string,
 
     refineType?: RefineType,
+    arcaneWeapon?: boolean,
     refines?: {
         idNum: number, weaponImageUrl: string, name: { value: string }, refineType: RefineType
     }[],

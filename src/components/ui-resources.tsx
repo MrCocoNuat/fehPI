@@ -11,7 +11,6 @@ import frStrings from "../public/ui-strings/FR.json"
 import itStrings from "../public/ui-strings/IT.json"
 import jaStrings from "../public/ui-strings/JA.json"
 import zhStrings from "../public/ui-strings/ZH.json"
-import { NONE_BLESSING, SupportLevel } from "../engine/types";
 
 
 const stringsForLanguage = {
@@ -148,10 +147,8 @@ export function weaponRefineIcon(refineType: RefineType, imageUrl?: string) {
 }
 
 
-export function conferredBlessingIcon(blessingSeason: BlessingSeason | typeof NONE_BLESSING) {
+export function conferredBlessingIcon(blessingSeason: BlessingSeason) {
     switch (blessingSeason) {
-        case NONE_BLESSING:
-            return <Image src={"/icons/blessing-season/Icon_Season_None.webp"} alt={"None"} fill={true} />;
         case BlessingSeason.FIRE:
             return <Image src={"/icons/blessing-season/Icon_Season_Fire.webp"} alt={"Fire"} fill={true} />;
         case BlessingSeason.WATER:
@@ -244,22 +241,6 @@ export function blessingIcons(blessingSeason: BlessingSeason, blessingEffect: Bl
     return [innateBlessingSeasonIcon(blessingSeason, blessingEffect), blessingEffectIcon(blessingEffect)];
 }
 
-
-export function summonerSupportIcon(summonerSupportLevel: SupportLevel) {
-    switch (summonerSupportLevel) {
-        case SupportLevel.NONE:
-            // don't really want to GIMP an empty icon so just 
-            return <></>
-        case SupportLevel.C_SUPPORT:
-            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_C.webp"} alt={"C"} fill={true} />;
-        case SupportLevel.B_SUPPORT:
-            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_B.webp"} alt={"B"} fill={true} />;
-        case SupportLevel.A_SUPPORT:
-            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_A.webp"} alt={"A"} fill={true} />;
-        case SupportLevel.S_SUPPORT:
-            return <Image src={"/icons/summoner-support/Icon_Support_Summoner_S.webp"} alt={"S"} fill={true} />;
-    }
-}
 
 export function movementTypeIcon(movementType: MovementType) {
     switch (movementType) {

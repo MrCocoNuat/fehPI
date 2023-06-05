@@ -62,5 +62,7 @@
     "SKILL_ARCANE": "Arcane",
 
     "SEARCH_PLACEHOLDER_NAME_ID": "Search by name or id",
-    "SEARCH_REFINE": "Show Weapon Refines"
+    "SEARCH_REFINE": "Show Weapon Refines",
+
+    "HERO_REFRESHER": "Refresher"
 }

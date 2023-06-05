@@ -7,8 +7,8 @@ import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, Skill
 import { LanguageContext } from "../../_app";
 import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
 
-const GET_SKILL_IMAGE_URL = gql`
-query getSkillImageUrls($id: Int!, $language: OptionalLanguage!){
+const GET_SKILL_DETAIL = gql`
+query getSkillDetail($id: Int!, $language: OptionalLanguage!){
     skills(idNums: [$id]){
         idNum
         idTag
@@ -133,7 +133,7 @@ export default function SkillExplorer() {
     const router = useRouter();
     const skillId = +(router.query.skillId as String);
 
-    const { loading, error, data } = useQuery(GET_SKILL_IMAGE_URL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
+    const { loading, error, data } = useQuery(GET_SKILL_DETAIL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
 
     if (loading) {
         return <>...</>

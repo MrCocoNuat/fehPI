@@ -58,8 +58,6 @@ function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryRes
 export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
 
-    const skillId = skillDetails.idNum;
-
     return <div className="border-2 border-red-500 flex flex-col w-[600px]">
         <div className="flex flex-row justify-center align-center border-2 border-green-500 gap-1">
             <div className="flex flex-col items-center">

@@ -44,7 +44,7 @@ export type HeroQueryResult = {
 
     movementType: MovementType,
     weaponType: WeaponType,
-    origins: Series,
+    origins: Series[],
     refresher: boolean,
 
     maxDragonflowers: number,
@@ -55,7 +55,7 @@ const mapQuery = (data: any) => data.heroes.map((responseHero: any) => ({
     ...responseHero,
     movementType: MovementType[responseHero.movementType],
     weaponType: WeaponType[responseHero.weaponType],
-    origins: Series[responseHero.origins],
+    origins: responseHero.origins.map((series: SeriesName) => Series[series]),
 }))[0] as HeroQueryResult;
 
 export default function SkillExplorer() {

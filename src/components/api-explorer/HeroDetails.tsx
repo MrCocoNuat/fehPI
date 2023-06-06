@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
-import { getUiStringResource, movementTypeIcon, weaponTypeIcon } from "../ui-resources";
+import { getUiStringResource, getUiStringResourceForSeries, movementTypeIcon, weaponTypeIcon } from "../ui-resources";
+import { Series } from "../../pages/api/dao/types/dao-types";
 
 export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
@@ -31,7 +32,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
             <div className="border-2 border-blue-500 flex flex-col">
                 <div className="text-2xl">{`${heroDetails.name.value} - ${heroDetails.epithet.value} (${heroDetails.idNum})`}</div>
                 <div className="">{heroDetails.idTag}</div>
-                <div>Origins</div>
+                <div>{heroDetails.origins.map(series => getUiStringResourceForSeries(selectedLanguage, series)).join(" & ")}</div>
                 {(heroDetails.refresher) && <div className="border-2 border-yellow-500 text-green-600 font-bold">{getUiStringResource(selectedLanguage, "HERO_REFRESHER")}</div>}
             </div>
         </div>

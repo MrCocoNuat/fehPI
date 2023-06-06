@@ -57,6 +57,22 @@
 
     "UI_ADD_UNIT": "Add Unit",
 
+    "SERIES_ARCHANEA": "Shadow Dragon / (New) Mystery",
+    "SERIES_VALENTIA": "Echoes",
+    "SERIES_JUGDRAL": "Genealogy of the Holy War",
+    "SERIES_THRACIA": "Thracia 776",
+    "SERIES_ELIBE_1": "The Binding Blade",
+    "SERIES_ELIBE_2": "The Blazing Blade",
+    "SERIES_MAGVEL": "The Sacred Stones",
+    "SERIES_TELLIUS_1": "Path of Radiance",
+    "SERIES_TELLIUS_2": "Radiant Dawn",
+    "SERIES_AWAKENING": "Awakening",
+    "SERIES_FATES": "Fates",
+    "SERIES_FODLAN": "Three Houses / Three Hopes",
+    "SERIES_ELYOS": "Engage",
+    "SERIES_ZENITH": "Heroes",
+    "SERIES_TOKYO": "Tokyo Mirage Sessions ♯FE Encore",
+
     "SKILL_EXCLUSIVE": "PRF",
     "SKILL_ENEMY_ONLY": "Enemy Only",
     "SKILL_ARCANE": "Arcane",

@@ -65,6 +65,7 @@ export enum Series {
     AWAKENING,
     FATES,
     THREE_HOUSES,
+    ENGAGE,
     TOKYO_MIRAGE_SESSIONS,
 };
 export type SeriesName = keyof typeof Series;

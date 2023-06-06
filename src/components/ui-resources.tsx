@@ -1,4 +1,4 @@
-import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, Series, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -306,4 +306,26 @@ export function weaponTypeIcon(weaponType: WeaponType) {
         case WeaponType.RED_TOME:
             return <Image src={"/icons/weapon-type/Icon_Class_Red_Tome.webp"} alt={"RED_TOME"} fill={true} />;
     }
+}
+
+
+const stringsForSeries = {
+    [Series.SHADOW_DRAGON_AND_NEW_MYSTERY]: "SERIES_ARCHANEA",
+    [Series.ECHOES]: "SERIES_VALENTIA",
+    [Series.GENEALOGY_OF_THE_HOLY_WAR]: "SERIES_JUGDRAL",
+    [Series.THRACIA_776]: "SERIES_THRACIA",
+    [Series.BINDING_BLADE]: "SERIES_ELIBE_1",
+    [Series.BLAZING_BLADE]: "SERIES_ELIBE_2",
+    [Series.SACRED_STONES]: "SERIES_MAGVEL",
+    [Series.PATH_OF_RADIANCE]: "SERIES_TELLIUS_1",
+    [Series.RADIANT_DAWN]: "SERIES_TELLIUS_2",
+    [Series.AWAKENING]: "SERIES_AWAKENING",
+    [Series.FATES]: "SERIES_FATES",
+    [Series.THREE_HOUSES]: "SERIES_FODLAN",
+    [Series.ENGAGE]: "SERIES_ELYOS",
+    [Series.HEROES]: "SERIES_ZENITH",
+    [Series.TOKYO_MIRAGE_SESSIONS]: "SERIES_TOKYO"
+} as const;
+export function getUiStringResourceForSeries(language: Language, series: Series){
+    return getUiStringResource(language, stringsForSeries[series]);
 }

@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
-import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, weaponTypeIcon } from "../ui-resources";
+import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, resplendentIcon, weaponTypeIcon } from "../ui-resources";
 import { HonorType, Series } from "../../pages/api/dao/types/dao-types";
+import { Checkbox } from "../tailwind-styled/sync/Checkbox";
 
 
 function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
@@ -29,15 +30,28 @@ function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
 export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
 
+    const [useResplendent, setUseResplendent] = useState(false);
+    if (useResplendent && !heroDetails.resplendentExists) {
+        setUseResplendent(false);
+    }
+
     return <div className="border-2 border-red-500 flex flex-col w-[600px]">
         <div className="flex flex-row justify-center align-center border-2 border-green-500 gap-1">
             <div className="flex flex-col items-center">
                 <div className="aspect-square w-24 relative">
-                    <Image src={heroDetails.imageUrl} alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
+                    <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
+                        alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
                 </div>
-                <div>
-                    Resp switch
-                </div>
+                {heroDetails.resplendentExists && <div className="flex flex-row">
+                    <Checkbox id="use-resplendent" checked={useResplendent}
+                        onChange={evt => setUseResplendent(evt.target.checked)} />
+                    <label htmlFor="use-resplendent">
+                        <div className="relative w-8 aspect-square">
+                            {resplendentIcon()}
+                        </div>
+                    </label>
+
+                </div>}
                 <div className="flex flex-row">
                     <div className="relative w-6 aspect-square">
                         {movementTypeIcon(heroDetails.movementType)}
@@ -47,7 +61,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                     </div>
                 </div>
                 <div>
-                    <HeroHonor heroDetails={heroDetails}/>
+                    <HeroHonor heroDetails={heroDetails} />
                 </div>
             </div>
             <div className="border-2 border-blue-500 flex flex-col">

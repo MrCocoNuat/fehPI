@@ -1,4 +1,4 @@
-import { BlessingEffect, BlessingSeason, Language, MovementType, RefineType, Series, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, HonorType, Language, MovementType, RefineType, Series, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -53,19 +53,19 @@ export function dragonflowerImage(movementType?: MovementType) {
 }
 
 export function ascendantFloretImage() {
-    return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={""} fill={true} />
+    return <Image src={"/icons/misc/Icon_FlowerBud_L.webp"} alt={"ascended"} fill={true} />
 }
 
 export function divineDewImage() {
-    return <Image src={"/icons/misc/Divine_Dew.webp"} alt={""} fill={true} />
+    return <Image src={"/icons/misc/Divine_Dew.webp"} alt={"divine dew"} fill={true} />
 }
 
 export function resplendentIcon() {
-    return <Image src={"/icons/misc/Icon_GodWear.webp"} alt={""} fill={true} />
+    return <Image src={"/icons/misc/Icon_GodWear.webp"} alt={"resplendent"} fill={true} />
 }
 
 export function orbImage() {
-    return <Image src={"/icons/misc/Orb.webp"} alt={""} fill={true} />
+    return <Image src={"/icons/misc/Orb.webp"} alt={"orb"} fill={true} />
 }
 
 const PassiveSkillCategoryLetter = {
@@ -308,6 +308,22 @@ export function weaponTypeIcon(weaponType: WeaponType) {
     }
 }
 
+export function honorTypeIcon(honorType: HonorType) {
+    switch (honorType) {
+        case HonorType.NONE:
+            return;
+        case HonorType.ASCENDED:
+            return ascendantFloretImage();
+        case HonorType.REARMED:
+            return <Image src={"/Icon_Arcane_Weapon.png"} alt={"rearmed"} fill={true} />;
+        case HonorType.DUO:
+            return <Image src={"/icons/misc/Icon_Hero_Type_Duo.png"} alt={"duo"} fill={true} />;
+        case HonorType.HARMONIC:
+            return <Image src={"/icons/misc/Icon_Hero_Type_Harmonic.png"} alt={"duo"} fill={true} />;
+        default:
+            return;
+    }
+}
 
 const stringsForSeries = {
     [Series.SHADOW_DRAGON_AND_NEW_MYSTERY]: "SERIES_ARCHANEA",
@@ -326,6 +342,6 @@ const stringsForSeries = {
     [Series.HEROES]: "SERIES_ZENITH",
     [Series.TOKYO_MIRAGE_SESSIONS]: "SERIES_TOKYO"
 } as const;
-export function getUiStringResourceForSeries(language: Language, series: Series){
+export function getUiStringResourceForSeries(language: Language, series: Series) {
     return getUiStringResource(language, stringsForSeries[series]);
 }

@@ -2,8 +2,29 @@ import { useContext } from "react";
 import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
-import { getUiStringResource, getUiStringResourceForSeries, movementTypeIcon, weaponTypeIcon } from "../ui-resources";
-import { Series } from "../../pages/api/dao/types/dao-types";
+import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, weaponTypeIcon } from "../ui-resources";
+import { HonorType, Series } from "../../pages/api/dao/types/dao-types";
+
+
+function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
+    switch (heroDetails.honorType) {
+        case HonorType.NONE:
+            return <></>
+        case HonorType.DUO:
+        case HonorType.HARMONIC:
+        case HonorType.ASCENDED:
+        case HonorType.REARMED:
+            return <div className="w-8 aspect-square relative">
+                {honorTypeIcon(heroDetails.honorType)}
+            </div>
+        case HonorType.LEGENDARY:
+        case HonorType.MYTHIC:
+            return <div className="flex flex-row">
+                {blessingIcons(heroDetails.blessingSeason!, heroDetails.blessingEffect!).map((image, i) =>
+                    <div className="w-8 aspect-square relative" key={i}> {image} </div>)}
+            </div>
+    }
+}
 
 export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
@@ -26,7 +47,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                     </div>
                 </div>
                 <div>
-                    Honor
+                    <HeroHonor heroDetails={heroDetails}/>
                 </div>
             </div>
             <div className="border-2 border-blue-500 flex flex-col">

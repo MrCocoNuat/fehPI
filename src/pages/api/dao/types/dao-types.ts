@@ -175,12 +175,17 @@ export enum OptionalStat {
     NONE = "none",
 }
 export enum Stat {
-    HP = "hp",
-    ATK = "atk",
-    SPD = "spd",
-    DEF = "def",
-    RES = "res"
+    HP = OptionalStat.HP,
+    ATK = OptionalStat.ATK,
+    SPD = OptionalStat.SPD,
+    DEF = OptionalStat.DEF,
+    RES = OptionalStat.RES
 };
+export const StatEnumValues = [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
+// getting only enum keys or values of a string enum is not fun
+export function sameStats(s1 :Stat|OptionalStat, s2 : Stat|OptionalStat){
+    return s1 as OptionalStat === s2 as OptionalStat
+}
 
 export enum HonorType {
     NONE,

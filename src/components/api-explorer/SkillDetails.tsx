@@ -59,7 +59,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
     const selectedLanguage = useContext(LanguageContext);
 
     return <div className="border-2 border-red-500 flex flex-col w-[600px]">
-        <div className="flex flex-row justify-center align-center border-2 border-green-500 gap-1">
+        <div className="flex flex-row justify-center items-center border-2 border-green-500 gap-1">
             <div className="flex flex-col items-center">
                 <div className="aspect-square w-16 relative">
                     {(skillDetails.refineType !== undefined) ?

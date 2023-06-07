@@ -1,4 +1,4 @@
-import { BlessingEffect, BlessingSeason, HonorType, Language, MovementType, RefineType, Series, SkillCategory, WeaponType } from "../pages/api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, HonorType, Language, MovementType, OptionalStat, RefineType, Series, SkillCategory, Stat, WeaponType } from "../pages/api/dao/types/dao-types";
 import Image from "next/image";
 
 
@@ -11,6 +11,7 @@ import frStrings from "../public/ui-strings/FR.json"
 import itStrings from "../public/ui-strings/IT.json"
 import jaStrings from "../public/ui-strings/JA.json"
 import zhStrings from "../public/ui-strings/ZH.json"
+import { Rarity } from "../engine/types";
 
 
 const stringsForLanguage = {
@@ -319,7 +320,7 @@ export function honorTypeIcon(honorType: HonorType) {
         case HonorType.DUO:
             return <Image src={"/icons/misc/Icon_Hero_Type_Duo.png"} alt={"duo"} fill={true} />;
         case HonorType.HARMONIC:
-            return <Image src={"/icons/misc/Icon_Hero_Type_Harmonic.png"} alt={"duo"} fill={true} />;
+            return <Image src={"/icons/misc/Icon_Hero_Type_Harmonic.png"} alt={"harmonic"} fill={true} />;
         default:
             return;
     }
@@ -344,4 +345,32 @@ const stringsForSeries = {
 } as const;
 export function getUiStringResourceForSeries(language: Language, series: Series) {
     return getUiStringResource(language, stringsForSeries[series]);
+}
+
+
+const rarityStringResourceIds = {
+    [Rarity.ONE_STAR]: "UNIT_RARITY_ONE",
+    [Rarity.TWO_STARS]: "UNIT_RARITY_TWO",
+    [Rarity.THREE_STARS]: "UNIT_RARITY_THREE",
+    [Rarity.FOUR_STARS]: "UNIT_RARITY_FOUR",
+    [Rarity.FIVE_STARS]: "UNIT_RARITY_FIVE",
+} as const;
+export function rarityStringForLanguage(langauge: Language) {
+    return (rarity: Rarity) => getUiStringResource(langauge, rarityStringResourceIds[rarity]);
+}
+const statStringResourceIds = {
+    [OptionalStat.HP]: "UNIT_STAT_HP",
+    [OptionalStat.ATK]: "UNIT_STAT_ATK",
+    [OptionalStat.SPD]: "UNIT_STAT_SPD",
+    [OptionalStat.DEF]: "UNIT_STAT_DEF",
+    [OptionalStat.RES]: "UNIT_STAT_RES",
+    [OptionalStat.NONE]: "UNIT_STAT_NONE",
+    [Stat.HP]: "UNIT_STAT_HP",
+    [Stat.ATK]: "UNIT_STAT_ATK",
+    [Stat.SPD]: "UNIT_STAT_SPD",
+    [Stat.DEF]: "UNIT_STAT_DEF",
+    [Stat.RES]: "UNIT_STAT_RES",
+} as const;
+export function statStringsForLanguage(language: Language) {
+    return (stat: OptionalStat | Stat) => getUiStringResource(language, statStringResourceIds[stat]);
 }

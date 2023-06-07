@@ -1,6 +1,7 @@
 import { Unica_One } from "@next/font/google";
-import { BlessingSeason, OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
+import { OptionalStat, ParameterPerStat, Stat } from "../pages/api/dao/types/dao-types"
 import { v4 as uuidv4 } from 'uuid';
+import { Unit } from "./Unit";
 
 export function constrainNumeric(value: number, min: number, max: number) {
     return (value > min) ? ((value < max) ? value : max) : min;
@@ -35,7 +36,7 @@ export const { MIN_RARITY, MAX_RARITY } = { MIN_RARITY: Rarity.ONE_STAR, MAX_RAR
 
 // 0 is explicitly no skill - don't use null!
 export const NONE_SKILL_ID = 0;
-type NONE_SKILL = typeof NONE_SKILL_ID;
+export type NONE_SKILL = typeof NONE_SKILL_ID;
 
 // 0 is explicitly no blessing
 export const NONE_BLESSING = 0;
@@ -48,38 +49,6 @@ export enum SupportLevel {
     S_SUPPORT,
 }
 
-export type Unit = {
-    uuid: String,
-
-    idNum: number, // of the Hero that this unit is a copy of!
-    rarity: Rarity,
-    level: number,
-    merges: number,
-    dragonflowers: number,
-
-    asset: OptionalStat,
-    flaw: OptionalStat,
-    ascension: OptionalStat,
-
-    weaponSkillId: number | NONE_SKILL,
-    // the refine base
-    weaponSkillBaseId: number | NONE_SKILL,
-    assistSkillId: number | NONE_SKILL,
-    specialSkillId: number | NONE_SKILL,
-    passiveASkillId: number | NONE_SKILL,
-    passiveBSkillId: number | NONE_SKILL,
-    passiveCSkillId: number | NONE_SKILL,
-    passiveSSkillId: number | NONE_SKILL,
-
-    // blessing - only applicable to non-blessed heroes
-    conferredBlessing: BlessingSeason | typeof NONE_BLESSING,
-
-    //support
-    summonerSupport: SupportLevel,
-
-    bonusHero: boolean,
-    resplendent: boolean,
-}
 export const { MIN_LEVEL, MAX_LEVEL } = { MIN_LEVEL: 1, MAX_LEVEL: 40 } as const;
 export const { MIN_MERGES, MAX_MERGES } = { MIN_MERGES: 0, MAX_MERGES: 10 } as const;
 // max dragonflowers is dependent on the unit, but is always at least 5

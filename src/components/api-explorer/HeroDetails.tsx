@@ -5,6 +5,7 @@ import Image from "next/image";
 import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, resplendentIcon, weaponTypeIcon } from "../ui-resources";
 import { HonorType, Series } from "../../pages/api/dao/types/dao-types";
 import { Checkbox } from "../tailwind-styled/sync/Checkbox";
+import { StatCalculator } from "./StatCalculator";
 
 
 function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
@@ -35,8 +36,8 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
         setUseResplendent(false);
     }
 
-    return <div className="border-2 border-red-500 flex flex-col w-[600px]">
-        <div className="flex flex-row justify-center align-center border-2 border-green-500 gap-1">
+    return <div className="border-2 border-red-500 flex flex-col w-[600px] h-[600px]">
+        <div className="flex flex-row justify-center items-center border-2 border-green-500 gap-1">
             <div className="flex flex-col items-center">
                 <div className="aspect-square w-24 relative">
                     <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
@@ -72,7 +73,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
             </div>
         </div>
         <div>
-            Stat calculator
+            <StatCalculator heroIdNum={heroDetails.idNum} useResplendent maxDragonflowers={heroDetails.maxDragonflowers} movementType={heroDetails.movementType} />
         </div>
     </div>
 }

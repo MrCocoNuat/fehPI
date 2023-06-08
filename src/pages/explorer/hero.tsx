@@ -67,9 +67,8 @@ export default function HeroExplorer() {
                         evt.stopPropagation();
                         setFilterText(evt.target.value.toLowerCase());
                     }} />
-
             </div>
-            <div className="w-[1200px] grid grid-cols-4 border-2 border-blue-500">
+            <div className="w-[1200px] grid grid-cols-4 border-2 border-blue-500 gap-2">
                 {heroQueryResult.map((hero) =>
                     <HeroDetailsMini hero={hero} />
                 )}

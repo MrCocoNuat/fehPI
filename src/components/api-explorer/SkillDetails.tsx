@@ -12,7 +12,10 @@ export function WeaponDetailsMini(skill: { weaponImageUrl?: string, name: { valu
         <div className="aspect-square w-8 relative">
             {weaponRefineIcon(skill.refineType, skill.weaponImageUrl)}
         </div>
-        <Link href={`/explorer/skill/${skill.idNum}`} className="text-s">{`${skill.name.value} (${skill.idNum})`}</Link>
+        <Link href={`/explorer/skill/${skill.idNum}`} className="flex flex-row gap-2">
+            <div>{`${skill.name?.value}`}</div>
+            <div className="text-sm">{`(${skill.idNum})`}</div>
+        </Link>
     </div>
 }
 
@@ -20,7 +23,7 @@ function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     return <div className="border-2 border-blue-200 flex flex-col items-center">
         {skillDetails.refineBase !== undefined && //TODO: lang
             <div className="border-2 border-blue-200 flex flex-col items-center">
-                <div>Refine Base</div> 
+                <div>Refine Base</div>
                 {WeaponDetailsMini(skillDetails.refineBase)}
             </div>
         }
@@ -38,12 +41,15 @@ export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: stri
         <div className="aspect-square w-8 relative">
             {skillCategoryIcon(skill.category, skill.imageUrl)}
         </div>
-        <Link href={`/explorer/skill/${skill.idNum}`} className="text-s">{`${skill.name?.value} (${skill.idNum})`}</Link>
+        <Link href={`/explorer/skill/${skill.idNum}`} className="flex flex-row gap-2">
+            <div>{`${skill.name?.value}`}</div>
+            <div className="text-sm">{`(${skill.idNum})`}</div>
+        </Link>
     </div>
 }
 
 function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  //TODO: lang
-    return (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) && <div className="grid grid-cols-2"> 
+    return (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) && <div className="grid grid-cols-2">
         <div className="border-2 border-blue-200 flex flex-col items-center">
             <div>Prerequisites</div>
             {skillDetails.prerequisites.map((prereq) => SkillDetailsMini({ ...prereq, category: skillDetails.category }))}

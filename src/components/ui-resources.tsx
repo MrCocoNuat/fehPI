@@ -70,10 +70,10 @@ export function orbImage() {
 }
 
 const PassiveSkillCategoryLetter = {
-    [SkillCategory.PASSIVE_A]: <div className="text-s font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
-    [SkillCategory.PASSIVE_B]: <div className="text-s font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,
-    [SkillCategory.PASSIVE_C]: <div className="text-s font-semibold text-blue-500 absolute bottom-[-6px] right-[-3px] z-10">C</div>,
-    [SkillCategory.PASSIVE_S]: <div className="text-s font-semibold text-yellow-500 absolute bottom-[-6px] right-[-3px] z-10">S</div>,
+    [SkillCategory.PASSIVE_A]: <div className="text-sm font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
+    [SkillCategory.PASSIVE_B]: <div className="text-sm font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,
+    [SkillCategory.PASSIVE_C]: <div className="text-sm font-semibold text-blue-500 absolute bottom-[-6px] right-[-3px] z-10">C</div>,
+    [SkillCategory.PASSIVE_S]: <div className="text-sm font-semibold text-yellow-500 absolute bottom-[-6px] right-[-3px] z-10">S</div>,
 } as const;
 export function skillCategoryIcon(skillCategory: SkillCategory, imageUrl?: string, excludePassiveLetter?: boolean) {
     const exclude = excludePassiveLetter ?? false;

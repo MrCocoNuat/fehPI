@@ -42,7 +42,10 @@ export function HeroDetailsMini({ hero }: {
             <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
         </div>
         <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
-            <div className="">{`${hero.name.value} (${hero.idNum})`}</div>
+            <div className="flex-row flex gap-2">
+                <div>{`${hero.name.value}`}</div>
+                <div className="text-sm">{`(${hero.idNum})`}</div>
+            </div>
             <div className="text-sm">{`${hero.epithet.value}`}</div>
         </Link>
     </div>

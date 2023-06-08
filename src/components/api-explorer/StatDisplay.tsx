@@ -29,7 +29,7 @@ export function StatDisplay(props: { stats: ParameterPerStat, traits: Traits }) 
     const selectedLanguage = useContext(LanguageContext);
     const statString = statStringsForLanguage(selectedLanguage);
 
-    return <div className="flex flex-row justify-around">
+    return <div className="flex flex-row justify-around border-2 border-gray-500">
         {StatEnumValues.map(stat =>
             <div key={stat} className="flex flex-col items-center">
                 <div>{statString(stat)}</div>

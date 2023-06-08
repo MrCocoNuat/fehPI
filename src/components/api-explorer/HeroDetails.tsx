@@ -6,6 +6,7 @@ import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honor
 import { HonorType, Series } from "../../pages/api/dao/types/dao-types";
 import { Checkbox } from "../tailwind-styled/sync/Checkbox";
 import { StatCalculator } from "./StatCalculator";
+import Link from "next/link";
 
 
 function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
@@ -27,6 +28,26 @@ function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
             </div>
     }
 }
+
+export function HeroDetailsMini({ hero }: {
+    hero: {
+        name: { value: string },
+        epithet: { value: string },
+        idNum: number,
+        imageUrl: string,
+    }
+}) {
+    return <div className="flex flex-row gap-2 items-center" key={hero.idNum}>
+        <div className="aspect-square w-16 relative">
+            <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
+        </div>
+        <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
+            <div className="">{`${hero.name.value} (${hero.idNum})`}</div>
+            <div className="text-sm">{`${hero.epithet.value}`}</div>
+        </Link>
+    </div>
+}
+
 
 export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);

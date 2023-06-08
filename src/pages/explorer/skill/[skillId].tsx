@@ -143,7 +143,7 @@ export default function SkillExplorer() {
     }
 
     const skillQueryResult = mapQuery(data);
-    return <div className="flex flex-row justify-center border-2 border-purple-600">
+    return <div className="flex flex-row justify-center">
         <SkillDetails skillDetails={skillQueryResult} />
     </div>
 }

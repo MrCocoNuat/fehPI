@@ -34,13 +34,12 @@ export function TopBar(
     return <>
         <nav className="dark:bg-red-800 bg-blue-300 h-[50px] w-full fixed top-0 flex justify-between items-center z-50">
             <div>logo</div>
-            <div>name</div>
             <div className="flex gap-2">
-                <Button
+                {false && <Button
                     onClick={() => setTheme((theme === "dark") ? "light" : "dark")}
                     className="px-2 py-2"
                     value={(theme === "dark") ? <MoonIcon className="h-6 w-6" /> : <SunIcon className="h-6 w-6" />}
-                />
+                />}
 
                 <label htmlFor="language-select">
                     <LanguageIcon className="m-2 mr-0 h-6 w-6" />
@@ -48,7 +47,7 @@ export function TopBar(
 
                 <select
                     id="language-select"
-                    className="m-2 ml-0"
+                    className="m-2 ml-0 mr-4 w-32"
                     defaultValue={currentLanguage}
                     onChange={(evt) => updateCurrentLanguage(+evt.target.value as Language)}
                 >

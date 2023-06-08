@@ -47,7 +47,7 @@ export function StatCalculator({
     }
         , [rarity, level, merges, dragonflowers, traits]);
 
-    return <div className="flex flex-col gap-1">
+    return <div className="flex flex-col gap-2 p-2 bg-neutral-900/50 rounded-xl ">
         <div className="flex flex-row justify-between">
             <div>
                 <Select id="unit-rarity" className="w-18"
@@ -57,7 +57,7 @@ export function StatCalculator({
                         getAllEnumEntries(Rarity).map(([key, value]) => ({ value: value, label: rarityString(value) }))
                     } />
             </div>
-            <div>
+            <div className="flex flex-row items-center">
                 <label htmlFor="unit-level">{getUiStringResource(selectedLanguage, "UNIT_LEVEL")}</label>
                 <NumericInput className="w-16" id="unit-level"
                     minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }}

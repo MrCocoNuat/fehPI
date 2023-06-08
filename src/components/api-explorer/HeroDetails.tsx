@@ -60,14 +60,14 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
         setUseResplendent(false);
     }
 
-    return <div className="border-2 border-red-500 flex flex-col w-[600px] h-[600px]">
-        <div className="flex flex-row justify-center items-center border-2 border-green-500 gap-1">
+    return <div className="flex flex-col w-[600px] h-[600px] gap-2 p-2">
+        <div className="flex flex-row justify-center items-start gap-1 bg-neutral-900/50 rounded-xl">
             <div className="flex flex-col items-center">
-                <div className="aspect-square w-24 relative">
+                <div className="aspect-square w-24 relative bg-neutral-900/50">
                     <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
                         alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
                 </div>
-                {heroDetails.resplendentExists && <div className="flex flex-row">
+                {heroDetails.resplendentExists && <div className="flex flex-row items-center">
                     <Checkbox id="use-resplendent" checked={useResplendent}
                         onChange={evt => setUseResplendent(evt.target.checked)} />
                     <label htmlFor="use-resplendent">
@@ -77,7 +77,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                     </label>
 
                 </div>}
-                <div className="flex flex-row">
+                <div className="flex flex-row p-1 pr-0 bg-neutral-900/50 rounded-xl">
                     <div className="relative w-6 aspect-square">
                         {movementTypeIcon(heroDetails.movementType)}
                     </div>
@@ -89,7 +89,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                     <HeroHonor heroDetails={heroDetails} />
                 </div>
             </div>
-            <div className="border-2 border-blue-500 flex flex-col">
+            <div className="flex flex-col bg-neutral-900/50 rounded-xl p-2">
                 <div className="text-2xl">{`${heroDetails.name.value} - ${heroDetails.epithet.value} (${heroDetails.idNum})`}</div>
                 <div className="">{heroDetails.idTag}</div>
                 <div>{heroDetails.origins.map(series => getUiStringResourceForSeries(selectedLanguage, series)).join(" & ")}</div>

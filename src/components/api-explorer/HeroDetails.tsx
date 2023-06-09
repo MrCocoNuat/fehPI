@@ -61,7 +61,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
         setUseResplendent(false);
     }
 
-    return <div className="flex flex-col w-[600px] h-[600px] gap-2 p-2">
+    return <div className="flex flex-col w-[600px] h-[600px] gap-2">
         <div className="flex flex-row justify-center items-start gap-1 p-2 bg-blue-500/25  rounded-xl">
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">

@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLanguage, Series, SeriesName, WeaponType } from "../../api/dao/types/dao-types";
 import { SkillQueryResult } from "../skill/[skillId]";
 import { HeroDetails } from "../../../components/api-explorer/HeroDetails";
-import { BackButton } from "../../../components/api-explorer/BackButton";
+import { SlugBackButton } from "../../../components/api-explorer/BackButton";
 
 const GET_HERO_DETAIL = gql`
     query getHeroDetail($id: Int!, $language: OptionalLanguage!){
@@ -84,8 +84,8 @@ export default function SkillExplorer() {
     }
 
     const HeroQueryResult = mapQuery(data);
-    return <div className="flex flex-row justify-center">
-        <BackButton></BackButton>
+    return <div className="flex flex-row justify-center p-2">
+        <SlugBackButton/>
         <HeroDetails heroDetails={HeroQueryResult} />
     </div>
 }

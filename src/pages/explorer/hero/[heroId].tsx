@@ -83,7 +83,7 @@ export default function SkillExplorer() {
     }
 
     const HeroQueryResult = mapQuery(data);
-    return <div className="flex flex-row justify-center border-2 border-purple-600">
+    return <div className="flex flex-row justify-center">
         <HeroDetails heroDetails={HeroQueryResult} />
     </div>
 }

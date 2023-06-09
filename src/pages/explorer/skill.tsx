@@ -89,7 +89,7 @@ export default function SkillExplorer() {
                 </label>
 
             </div>
-            <div className="w-[1200px] grid grid-cols-4 border-2 border-blue-500 gap-2">
+            <div className="w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border-2 border-blue-500 gap-2">
                 {skillQueryResult.map((skill) =>
                     skill.category == SkillCategory.WEAPON ?
                         WeaponDetailsMini(skill)

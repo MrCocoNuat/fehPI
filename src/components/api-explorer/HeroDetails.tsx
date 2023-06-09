@@ -42,7 +42,7 @@ export function HeroDetailsMini({ hero }: {
             <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
         </div>
         <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
-            <div className="flex-row flex gap-2">
+            <div className="flex-row flex gap-1 items-center">
                 <div>{`${hero.name.value}`}</div>
                 <div className="text-sm">{`(${hero.idNum})`}</div>
             </div>
@@ -61,9 +61,9 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     }
 
     return <div className="flex flex-col w-[600px] h-[600px] gap-2 p-2">
-        <div className="flex flex-row justify-center items-start gap-1 bg-neutral-900/50 rounded-xl">
+        <div className="flex flex-row justify-center items-start gap-1 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
             <div className="flex flex-col items-center">
-                <div className="aspect-square w-24 relative bg-neutral-900/50">
+                <div className="aspect-square w-24 relative bg-blue-500/25 dark:bg-neutral-900/50/50">
                     <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
                         alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
                 </div>
@@ -77,7 +77,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                     </label>
 
                 </div>}
-                <div className="flex flex-row p-1 pr-0 bg-neutral-900/50 rounded-xl">
+                <div className="flex flex-row p-1 pr-0 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
                     <div className="relative w-6 aspect-square">
                         {movementTypeIcon(heroDetails.movementType)}
                     </div>
@@ -85,15 +85,15 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                         {weaponTypeIcon(heroDetails.weaponType)}
                     </div>
                 </div>
-                <div>
+                {heroDetails.honorType != HonorType.NONE && <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 p-1 rounded-xl">
                     <HeroHonor heroDetails={heroDetails} />
-                </div>
+                </div>}
             </div>
-            <div className="flex flex-col bg-neutral-900/50 rounded-xl p-2">
+            <div className="flex flex-col bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl p-2">
                 <div className="text-2xl">{`${heroDetails.name.value} - ${heroDetails.epithet.value} (${heroDetails.idNum})`}</div>
                 <div className="">{heroDetails.idTag}</div>
                 <div>{heroDetails.origins.map(series => getUiStringResourceForSeries(selectedLanguage, series)).join(" & ")}</div>
-                {(heroDetails.refresher) && <div className="border-2 border-yellow-500 text-green-600 font-bold">{getUiStringResource(selectedLanguage, "HERO_REFRESHER")}</div>}
+                {(heroDetails.refresher) && <div className="text-green-600 font-bold">{getUiStringResource(selectedLanguage, "HERO_REFRESHER")}</div>}
             </div>
         </div>
         <div>

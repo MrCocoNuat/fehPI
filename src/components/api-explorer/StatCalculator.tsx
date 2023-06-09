@@ -47,7 +47,7 @@ export function StatCalculator({
     }
         , [rarity, level, merges, dragonflowers, traits]);
 
-    return <div className="flex flex-col gap-2 p-2 bg-neutral-900/50 rounded-xl ">
+    return <div className="flex flex-col gap-2 p-2 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl ">
         <div className="flex flex-row justify-between">
             <div>
                 <Select id="unit-rarity" className="w-18"
@@ -59,26 +59,26 @@ export function StatCalculator({
             </div>
             <div className="flex flex-row items-center">
                 <label htmlFor="unit-level">{getUiStringResource(selectedLanguage, "UNIT_LEVEL")}</label>
-                <NumericInput className="w-16" id="unit-level"
+                <NumericInput className="w-12 sm:w-16" id="unit-level"
                     minMax={{ min: MIN_LEVEL, max: MAX_LEVEL }}
                     value={level}
                     onChange={(evt) => setLevel(constrainNumeric(+evt.target.value, MIN_LEVEL, MAX_LEVEL))} />
                 <label htmlFor="unit-merges">+</label>
-                <NumericInput className="w-16" id="unit-merges"
+                <NumericInput className="w-12 sm:w-16" id="unit-merges"
                     minMax={{ min: MIN_MERGES, max: MAX_MERGES }}
                     value={merges}
                     onChange={(evt) => setMerges(constrainNumeric(+evt.target.value, MIN_MERGES, MAX_MERGES))} />
             </div>
             <div className="flex">
                 <label htmlFor="unit-dragonflowers" className="flex items-center">
-                    <div className="relative w-8 aspect-square">
+                    <div className="relative w-0 sm:w-8 aspect-square">
                         {dragonflowerImage(movementType)}
                     </div>
                     <div>
                         {getUiStringResource(selectedLanguage, "UNIT_DRAGONFLOWERS")}
                     </div>
                 </label>
-                <NumericInput className="w-16" id="unit-dragonflowers"
+                <NumericInput className="w-12 sm:w-16" id="unit-dragonflowers"
                     minMax={{ min: MIN_DRAGONFLOWERS, max: maxDragonflowers }}
                     value={dragonflowers}
                     onChange={(evt) => setDragonflowers(constrainNumeric(+evt.target.value, MIN_DRAGONFLOWERS, maxDragonflowers))} />

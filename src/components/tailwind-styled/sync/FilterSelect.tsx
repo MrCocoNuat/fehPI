@@ -52,11 +52,11 @@ export function FilterSelect<ValueType>({
         isDisabled={isDisabled}
         classNames={{
             // apply tailwind classes to some inner components
-            menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-neutral-900 text-black dark:text-white",
+            menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-blue-500/25 dark:bg-neutral-900/50 text-black dark:text-white",
             option: (state) => (state.isFocused ? "dark:bg-neutral-700" : ""),
-            valueContainer: (state) => "dark:bg-neutral-900",
+            valueContainer: (state) => "dark:bg-blue-500/25 dark:bg-neutral-900/50",
             input: (state) => "text-black dark:text-white",
-            indicatorsContainer: (state) => "dark:bg-neutral-900",
+            indicatorsContainer: (state) => "dark:bg-blue-500/25 dark:bg-neutral-900/50",
             singleValue: (state) => "dark:text-neutral-200",
         }}
     />

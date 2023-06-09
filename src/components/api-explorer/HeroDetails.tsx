@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { MouseEvent, useContext, useState } from "react";
 import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { HonorType, Series } from "../../pages/api/dao/types/dao-types";
 import { Checkbox } from "../tailwind-styled/sync/Checkbox";
 import { StatCalculator } from "./StatCalculator";
 import Link from "next/link";
+import { Button } from "../tailwind-styled/sync/Button";
 
 
 function HeroHonor({ heroDetails }: { heroDetails: HeroQueryResult }) {
@@ -62,21 +63,15 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
 
     return <div className="flex flex-col w-[600px] h-[600px] gap-2 p-2">
         <div className="flex flex-row justify-center items-start gap-1 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-24 relative bg-blue-500/25 dark:bg-neutral-900/50/50">
                     <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
                         alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
                 </div>
-                {heroDetails.resplendentExists && <div className="flex flex-row items-center">
-                    <Checkbox id="use-resplendent" checked={useResplendent}
-                        onChange={evt => setUseResplendent(evt.target.checked)} />
-                    <label htmlFor="use-resplendent">
-                        <div className="relative w-8 aspect-square">
-                            {resplendentIcon()}
-                        </div>
-                    </label>
-
-                </div>}
+                {heroDetails.resplendentExists && <Button className="px-1 bg-blue-500/50" onClick={() => setUseResplendent(!useResplendent)}
+                    value={<div className={`relative w-8 aspect-square ${useResplendent ? "" : "opacity-50"}`}>
+                        {resplendentIcon()}
+                    </div>} />}
                 <div className="flex flex-row p-1 pr-0 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
                     <div className="relative w-6 aspect-square">
                         {movementTypeIcon(heroDetails.movementType)}

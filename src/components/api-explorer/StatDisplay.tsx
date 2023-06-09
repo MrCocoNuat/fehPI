@@ -17,11 +17,11 @@ function ColoredNumber({ n, assetOrFlaw }: { n: number, assetOrFlaw: (keyof Trai
     }
     switch (points) {
         case -1:
-            return <div className="text-xl text-red-600">{n}</div>
+            return <div className="text-xl font-semibold dark:text-red-400 text-red-600">{n}</div>
         case 1:
-            return <div className="text-xl text-cyan-600">{n}</div>
+            return <div className="text-xl font-semibold dark:text-cyan-300 text-cyan-700">{n}</div>
         default:
-            return <div className="text-xl">{n}</div>
+            return <div className="text-xl font-semibold">{n}</div>
     }
 }
 

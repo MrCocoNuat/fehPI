@@ -32,11 +32,11 @@ export function Select<ValueType>({
         noOptionsMessage={(input) => getUiStringResource(selectedLanguage, "SELECT_NO_OPTIONS") as string}
         classNames={{
             // apply tailwind classes to some inner components
-            menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-blue-500/25 dark:bg-neutral-900/50 text-black dark:text-white",
+            menuList: (state) => "rounded-md ring-1 ring-neutral-500 bg-white dark:bg-neutral-900 text-black dark:text-white",
             option: (state) => (state.isFocused ? "dark:bg-neutral-700" : ""),
-            valueContainer: (state) => "dark:bg-blue-500/25 dark:bg-neutral-900/50",
+            valueContainer: (state) => "dark:bg-neutral-900",
             input: (state) => "text-black dark:text-white",
-            indicatorsContainer: (state) => "dark:bg-blue-500/25 dark:bg-neutral-900/50",
+            indicatorsContainer: (state) => "dark:bg-neutral-900",
             singleValue: (state) => "dark:text-neutral-200",
             control: (state) => "dark:bg-black",
         }}

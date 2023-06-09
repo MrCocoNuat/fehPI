@@ -52,22 +52,22 @@ export type WeaponTypeName = keyof typeof WeaponType;
 export type WeaponTypeBitfield = { [weaponTypeId in WeaponType]: boolean };
 
 export enum Series {
-    HEROES,
-    SHADOW_DRAGON_AND_NEW_MYSTERY,
-    ECHOES,
-    GENEALOGY_OF_THE_HOLY_WAR,
-    THRACIA_776,
-    BINDING_BLADE,
-    BLAZING_BLADE,
-    SACRED_STONES,
-    PATH_OF_RADIANCE,
-    RADIANT_DAWN,
-    AWAKENING,
-    FATES,
-    THREE_HOUSES,
-    ENGAGE,
-    TOKYO_MIRAGE_SESSIONS,
-};
+    HEROES = 0,
+    SHADOW_DRAGON_AND_NEW_MYSTERY = 1,
+    ECHOES = 2,
+    GENEALOGY_OF_THE_HOLY_WAR = 3,
+    THRACIA_776 = 4,
+    BINDING_BLADE = 5,
+    BLAZING_BLADE = 6,
+    SACRED_STONES = 7,
+    PATH_OF_RADIANCE = 8,
+    RADIANT_DAWN = 9,
+    AWAKENING = 10,
+    FATES = 11,
+    THREE_HOUSES = 12,
+    TOKYO_MIRAGE_SESSIONS = 13,
+    ENGAGE = 14,
+}; // order matters!
 export type SeriesName = keyof typeof Series;
 export type SeriesBitfield = { [seriesId in Series]: boolean };
 

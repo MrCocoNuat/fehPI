@@ -45,7 +45,7 @@ export function StatCalculator({
         }));
         updater();
     }
-        , [rarity, level, merges, dragonflowers, traits]);
+        , [rarity, level, merges, dragonflowers, traits, useResplendent]);
 
     return <div className="flex flex-col gap-2 p-2 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl ">
         <div className="flex flex-row justify-between">

@@ -92,7 +92,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
             </div>
         </div>
         <div>
-            <StatCalculator heroIdNum={heroDetails.idNum} useResplendent maxDragonflowers={heroDetails.maxDragonflowers} movementType={heroDetails.movementType} />
+            <StatCalculator heroIdNum={heroDetails.idNum} useResplendent={useResplendent} maxDragonflowers={heroDetails.maxDragonflowers} movementType={heroDetails.movementType} />
         </div>
     </div>
 }

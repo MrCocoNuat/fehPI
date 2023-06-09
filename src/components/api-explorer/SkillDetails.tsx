@@ -101,7 +101,8 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
         {(skillDetails.refineType !== undefined || (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined)) && <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl flex flex-col gap-2 p-2">
             {(skillDetails.refineType !== undefined) &&
                 RefineDetails({ skillDetails })}
-            {InheritanceChainDetails({ skillDetails })}
+            {(skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) &&
+                InheritanceChainDetails({ skillDetails })}
         </div>}
     </div>
 }

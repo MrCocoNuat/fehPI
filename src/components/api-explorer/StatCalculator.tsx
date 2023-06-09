@@ -47,8 +47,8 @@ export function StatCalculator({
     }
         , [rarity, level, merges, dragonflowers, traits, useResplendent]);
 
-    return <div className="flex flex-col gap-2 p-2 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl ">
-        <div className="flex flex-row justify-between">
+    return <div className="flex flex-col gap-2 p-2 bg-blue-500/25  rounded-xl ">
+        <div className="flex flex-row justify-between items-center">
             <div>
                 <Select id="unit-rarity" className="w-18"
                     value={rarity}

@@ -62,17 +62,19 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
     }
 
     return <div className="flex flex-col w-[600px] h-[600px] gap-2 p-2">
-        <div className="flex flex-row justify-center items-start gap-1 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
+        <div className="flex flex-row justify-center items-start gap-1 p-2 bg-blue-500/25  rounded-xl">
             <div className="flex flex-col items-center gap-1">
-                <div className="aspect-square w-24 relative bg-blue-500/25 dark:bg-neutral-900/50/50">
+                <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">
+                    <div className="relative aspect-square rounded-lg overflow-hidden">
                     <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
                         alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
+                        </div>
                 </div>
                 {heroDetails.resplendentExists && <Button className="px-1 bg-blue-500/50" onClick={() => setUseResplendent(!useResplendent)}
                     value={<div className={`relative w-8 aspect-square ${useResplendent ? "" : "opacity-50"}`}>
                         {resplendentIcon()}
                     </div>} />}
-                <div className="flex flex-row p-1 pr-0 bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl">
+                <div className="flex flex-row p-1 pr-0 bg-blue-500/25  rounded-xl">
                     <div className="relative w-6 aspect-square">
                         {movementTypeIcon(heroDetails.movementType)}
                     </div>
@@ -80,11 +82,11 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                         {weaponTypeIcon(heroDetails.weaponType)}
                     </div>
                 </div>
-                {heroDetails.honorType != HonorType.NONE && <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 p-1 rounded-xl">
+                {heroDetails.honorType != HonorType.NONE && <div className="bg-blue-500/25  p-1 rounded-xl">
                     <HeroHonor heroDetails={heroDetails} />
                 </div>}
             </div>
-            <div className="flex flex-col bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl p-2">
+            <div className="flex flex-col bg-blue-500/25  rounded-xl p-2">
                 <div className="text-2xl">{`${heroDetails.name.value} - ${heroDetails.epithet.value} (${heroDetails.idNum})`}</div>
                 <div className="">{heroDetails.idTag}</div>
                 <div>{heroDetails.origins.map(series => getUiStringResourceForSeries(selectedLanguage, series)).join(" & ")}</div>

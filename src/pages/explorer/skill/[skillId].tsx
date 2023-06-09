@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
 import { LanguageContext } from "../../_app";
 import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
+import { SlugBackButton } from "../../../components/api-explorer/BackButton";
 
 const GET_SKILL_DETAIL = gql`
 query getSkillDetail($id: Int!, $language: OptionalLanguage!){
@@ -144,6 +145,7 @@ export default function SkillExplorer() {
 
     const skillQueryResult = mapQuery(data);
     return <div className="flex flex-row justify-center p-2">
+        <SlugBackButton/>
         <SkillDetails skillDetails={skillQueryResult} />
     </div>
 }

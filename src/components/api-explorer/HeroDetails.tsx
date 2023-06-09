@@ -38,18 +38,21 @@ export function HeroDetailsMini({ hero }: {
         imageUrl: string,
     }
 }) {
-    return <div className="flex flex-row gap-2 items-center" key={hero.idNum}>
-        <div className="aspect-square w-16 relative">
-            <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
-        </div>
-        <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
+    return <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
+        <div className="flex flex-row gap-2 items-center bg-blue-500/25 rounded-xl" key={hero.idNum}>
+            <div className="aspect-square w-18 m-1 relative bg-blue-500/25 rounded-lg overflow-hidden">
+                <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
+            </div>
+            <div className="flex flex-col bg-blue-500/25 rounded-xl p-2">
             <div className="flex-row flex gap-1 items-center">
                 <div>{`${hero.name.value}`}</div>
                 <div className="text-sm">{`(${hero.idNum})`}</div>
             </div>
             <div className="text-sm">{`${hero.epithet.value}`}</div>
-        </Link>
-    </div>
+            </div>
+        </div>
+    </Link >
+
 }
 
 
@@ -66,9 +69,9 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">
                     <div className="relative aspect-square rounded-lg overflow-hidden">
-                    <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
-                        alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
-                        </div>
+                        <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
+                            alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
+                    </div>
                 </div>
                 {heroDetails.resplendentExists && <Button className="px-1 bg-blue-500/50" onClick={() => setUseResplendent(!useResplendent)}
                     value={<div className={`relative w-8 aspect-square ${useResplendent ? "" : "opacity-50"}`}>

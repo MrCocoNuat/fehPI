@@ -74,22 +74,24 @@ export default function SkillExplorer() {
     }
 
     const skillQueryResult = filterSkills(mapQuery(data), filterText, checkboxes); // TODO: lang
-    return <div className="flex flex-row justify-center border-2 border-green-500">
-        <div className="flex flex-col gap-1">
-            <div className="flex flex-row justify-center gap-2">
+    return <div className="flex flex-row justify-center p-2">
+        <div className="flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row justify-center gap-2 w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] bg-blue-500/25 rounded-xl p-2">
                 <input type="text" id="filter-text" placeholder={getUiStringResource(currentLanguage, "SEARCH_PLACEHOLDER_NAME_ID")}
                     onChange={(evt) => {
                         evt.stopPropagation();
                         setFilterText(evt.target.value.toLowerCase());
                     }} />
                 <label id={"show-refines-label"}>
-                    <Checkbox id={"show-refines"} checked={checkboxes.showWeaponRefines}
-                        onChange={(evt) => setCheckboxes({ ...checkboxes, showWeaponRefines: evt.target.checked })} />
-                    {getUiStringResource(currentLanguage, "SEARCH_REFINE")}
+                    <div className="flex flex-row items-center gap-1">
+                        <Checkbox id={"show-refines"} checked={checkboxes.showWeaponRefines}
+                            onChange={(evt) => setCheckboxes({ ...checkboxes, showWeaponRefines: evt.target.checked })} />
+                        {getUiStringResource(currentLanguage, "SEARCH_REFINE")}
+                    </div>
                 </label>
 
             </div>
-            <div className="w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border-2 border-blue-500 gap-2">
+            <div className="w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                 {skillQueryResult.map((skill) =>
                     skill.category == SkillCategory.WEAPON ?
                         WeaponDetailsMini(skill)

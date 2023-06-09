@@ -8,15 +8,17 @@ import Link from "next/link";
 
 
 export function WeaponDetailsMini(skill: { weaponImageUrl?: string, name: { value: string }, idNum: number, refineType: RefineType }) {
-    return <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
-        <div className="aspect-square w-8 relative">
-            {weaponRefineIcon(skill.refineType, skill.weaponImageUrl)}
+    return <Link href={`/explorer/skill/${skill.idNum}`}>
+        <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
+            <div className="aspect-square w-8 relative">
+                {weaponRefineIcon(skill.refineType, skill.weaponImageUrl)}
+            </div>
+            <div className="flex flex-row bg-blue-500/25 rounded-xl items-center gap-2 p-1">
+                <div>{`${skill.name?.value}`}</div>
+                <div className="text-sm">{`(${skill.idNum})`}</div>
+            </div>
         </div>
-        <Link href={`/explorer/skill/${skill.idNum}`} className="flex flex-row gap-2">
-            <div>{`${skill.name?.value}`}</div>
-            <div className="text-sm">{`(${skill.idNum})`}</div>
-        </Link>
-    </div>
+    </Link>
 }
 
 function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
@@ -37,15 +39,17 @@ function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
 }
 
 export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: string }, idNum: number, category: SkillCategory }) {
-    return <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
-        <div className="aspect-square w-8 relative">
-            {skillCategoryIcon(skill.category, skill.imageUrl)}
+    return <Link href={`/explorer/skill/${skill.idNum}`}>
+        <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
+            <div className="aspect-square w-8 relative">
+                {skillCategoryIcon(skill.category, skill.imageUrl)}
+            </div>
+            <div className="flex flex-row bg-blue-500/25 rounded-xl items-center gap-2 p-1">
+                <div>{`${skill.name?.value}`}</div>
+                <div className="text-sm">{`(${skill.idNum})`}</div>
+            </div>
         </div>
-        <Link href={`/explorer/skill/${skill.idNum}`} className="flex flex-row gap-2">
-            <div>{`${skill.name?.value}`}</div>
-            <div className="text-sm">{`(${skill.idNum})`}</div>
-        </Link>
-    </div>
+    </Link>
 }
 
 function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  //TODO: lang
@@ -66,7 +70,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
 
     return <div className="flex flex-col w-[600px] gap-2">
         <div className="flex flex-row justify-center items-start bg-blue-500/25  rounded-xl p-2 gap-1">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-16 relative">
                     {(skillDetails.refineType !== undefined) ?
                         weaponRefineIcon(skillDetails.refineType, skillDetails.weaponImageUrl)

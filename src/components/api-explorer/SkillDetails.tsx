@@ -49,7 +49,7 @@ export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: stri
 }
 
 function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  //TODO: lang
-    return (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) && <div className="grid grid-cols-2 gap-2">
+    return <div className="grid grid-cols-2 gap-2">
         <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 p-2 rounded-xl flex flex-col items-center">
             <div className="text-lg">Prerequisites</div>
             {skillDetails.prerequisites.map((prereq) => SkillDetailsMini({ ...prereq, category: skillDetails.category }))}
@@ -98,7 +98,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
                 </div>
             </div>
         </div>
-        {(skillDetails.refineType !== undefined && (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined)) && <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl flex flex-col gap-2 p-2">
+        {(skillDetails.refineType !== undefined || (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined)) && <div className="bg-blue-500/25 dark:bg-neutral-900/50/50 rounded-xl flex flex-col gap-2 p-2">
             {(skillDetails.refineType !== undefined) &&
                 RefineDetails({ skillDetails })}
             {InheritanceChainDetails({ skillDetails })}

@@ -70,7 +70,7 @@ export default function HeroExplorer() {
             </div>
             <div className="w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-2">
                 {heroQueryResult.map((hero) =>
-                    <HeroDetailsMini hero={hero} />
+                    <HeroDetailsMini hero={hero} key={hero.idNum}/>
                 )}
             </div>
         </div>

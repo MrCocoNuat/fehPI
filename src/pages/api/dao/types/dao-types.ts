@@ -175,11 +175,11 @@ export enum OptionalStat {
     NONE = "none",
 }
 export enum Stat {
-    HP = OptionalStat.HP,
-    ATK = OptionalStat.ATK,
-    SPD = OptionalStat.SPD,
-    DEF = OptionalStat.DEF,
-    RES = OptionalStat.RES
+    HP = "hp", //OptionalStat.HP,
+    ATK = "atk", //OptionalStat.ATK,
+    SPD = "spd", //OptionalStat.SPD,
+    DEF = "def", //OptionalStat.DEF,
+    RES = "res", //OptionalStat.RES
 };
 export const StatEnumValues = [Stat.HP, Stat.ATK, Stat.SPD, Stat.DEF, Stat.RES] as const;
 // getting only enum keys or values of a string enum is not fun

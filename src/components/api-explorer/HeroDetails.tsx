@@ -70,7 +70,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
                 <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">
                     <div className="relative aspect-square rounded-lg overflow-hidden">
                         <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
-                            alt={`Portrait of ${heroDetails.name.value}`} fill={true} />
+                            alt={`Portrait of ${heroDetails.name.value}`} fill={true} sizes="128px" />
                     </div>
                 </div>
                 {heroDetails.resplendentExists && <Button className="px-1 bg-blue-500/50" onClick={() => setUseResplendent(!useResplendent)}

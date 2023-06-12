@@ -73,7 +73,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-16 relative">
                     {(skillDetails.refineType !== undefined) ?
-                        weaponRefineIcon(skillDetails.refineType, skillDetails.weaponImageUrl)
+                        weaponRefineIcon(skillDetails.refineType, skillDetails.weaponImageUrl, "64px")
                         : largeSkillCategoryIcon(skillDetails.category, skillDetails.imageUrl)}
                 </div>
                 <div className="flex flex-row p-1 bg-blue-500/25  rounded-xl">

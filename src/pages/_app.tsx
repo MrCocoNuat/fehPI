@@ -19,7 +19,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"></link>
       </Head>
       <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />
       

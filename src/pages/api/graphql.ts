@@ -12,5 +12,6 @@ export default createYoga({
       // for everyone
       session: () => null,
     })
-  ]
+  ],
+  // yoga by default replies to preflighted requests with allow origin * and then allow origin <whatever origin requested> later
 })

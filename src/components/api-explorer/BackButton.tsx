@@ -8,11 +8,23 @@ export function SlugBackButton() {
     // interestingly pwd("host/menu/[slug]/.") == "host/menu"
     return <div>
         <Link href="." className="p-2">
-            <Button onClick={() => { }} className="bg-blue-500/25" value={
-                <div className="p-2">
-                    <ArrowLeftIcon className="w-6 h-6 text-black dark:text-white" />
-                </div>
-            } />
+            <LeftArrowButton />
         </Link>
     </div>
+}
+
+export function BackButton() {
+    return <div>
+        <Link href=".." className="p-2">
+            <LeftArrowButton />
+        </Link>
+    </div>
+}
+
+function LeftArrowButton() {
+    return <Button onClick={() => { }} className="bg-blue-500/25" value={
+        <div className="p-2">
+            <ArrowLeftIcon className="w-6 h-6 text-black dark:text-white" />
+        </div>
+    } />
 }

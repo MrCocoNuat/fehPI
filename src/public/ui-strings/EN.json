@@ -5,16 +5,6 @@
     "UNIT_STAT_DEF": "Def",
     "UNIT_STAT_RES": "Res",
     "UNIT_STAT_NONE": "None",
-    "UNIT_REFINE_EFFECT": "Effect",
-    "UNIT_REFINE_DAZZLING": "Dazzling",
-    "UNIT_REFINE_WRATHFUL": "Wrathful",
-    "UNIT_RESPLENDENT": "Resplendent",
-    "UNIT_BLESSING": "Blessing",
-
-    "STAT_SOURCE_BASE": "Bases",
-    "STAT_SOURCE_GROWTH": "Growths",
-    "STAT_SOURCE_MERGE": "Merges",
-    "STAT_SOURCE_SKILL": "Skills",
 
     "UNIT_RARITY_ONE": "1★",
     "UNIT_RARITY_TWO": "2★",
@@ -27,35 +17,6 @@
     "UNIT_ASSET": "Asset",
     "UNIT_FLAW": "Flaw",
     "UNIT_ASCENSION": "Ascension",
-    "UNIT_REFINE": "Refine",
-    "UNIT_BONUS": "Bonus Hero",
-    "UNIT_SUMMONER_SUPPORT" : "Summoner Support",
-
-    "UNIT_SKILL_NONE": "None",
-
-    "BLESSING_NONE": "None",
-    "BLESSING_FIRE": "Fire",
-    "BLESSING_WATER": "Water",
-    "BLESSING_WIND": "Wind",
-    "BLESSING_EARTH": "Earth",
-    "BLESSING_LIGHT": "Light",
-    "BLESSING_DARK": "Dark",
-    "BLESSING_ASTRA": "Astra",
-    "BLESSING_ANIMA": "Anima",
-
-    "HONOR_LEGENDARY": "Legendary",
-    "HONOR_MYTHIC": "Mythic",
-
-    "SUPPORT_NONE" : "None",
-    "SUPPORT_C": "C Support",
-    "SUPPORT_B": "B Support",
-    "SUPPORT_A": "A Support",
-    "SUPPORT_S": "S Support",
-
-    "SELECT_NO_OPTIONS": "No options",
-    "SELECT_LOADING": "Loading...",
-
-    "UI_ADD_UNIT": "Add Unit",
 
     "SERIES_ARCHANEA": "Shadow Dragon / (New) Mystery",
     "SERIES_VALENTIA": "Echoes",

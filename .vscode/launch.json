@@ -18,7 +18,7 @@
             "request": "launch",
             "reAttach": true,
             "firefoxExecutable": "/usr/bin/firefox-developer-edition",
-            "url": "http://localhost:3000/testpage",
+            "url": "http://localhost:3000/",
             "webRoot": "${workspaceFolder}",
             }
         },

@@ -80,5 +80,19 @@
     "SEARCH_PLACEHOLDER_NAME_ID": "Search by name or id",
     "SEARCH_REFINE": "Show Weapon Refines",
 
-    "HERO_REFRESHER": "Refresher"
+    "SKILL_PREREQUISITES": "Prerequisites",
+    "SKILL_NEXT_SKILL": "Next Skill",
+    "SKILL_REFINE_BASE": "Refine Base",
+    "SKILL_REFINES": "Refines",
+
+    "HERO_REFRESHER": "Refresher",
+
+    "HOME_MSG1.1": "fehPI: A",
+    "HOME_MSG1.2": "for Fire Emblem Heroes",
+    "HOME_MSG2.1": "built on",
+    "HOME_MSG3.1": "with data from",
+    "HOME_MSG4.1": "Explore the Data:",
+    "HOME_HEROES": "Heroes",
+    "HOME_SKILLS": "Skills"
+
 }

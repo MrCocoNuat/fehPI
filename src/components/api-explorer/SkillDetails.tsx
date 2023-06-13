@@ -22,16 +22,17 @@ export function WeaponDetailsMini(skill: { weaponImageUrl?: string, name: { valu
 }
 
 function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
+    const selectedLanguage = useContext(LanguageContext);
     return <div className="flex flex-col items-center">
-        {skillDetails.refineBase !== undefined && //TODO: lang
+        {skillDetails.refineBase !== undefined && 
             <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
-                <div>Refine Base</div>
+                <div>{getUiStringResource(selectedLanguage, "SKILL_REFINE_BASE")}</div>
                 {WeaponDetailsMini(skillDetails.refineBase)}
             </div>
         }
-        {skillDetails.refines && skillDetails.refines.length > 0 &&  //TODO: lang
+        {skillDetails.refines && skillDetails.refines.length > 0 && 
             <div className="flex flex-col items-center bg-blue-500/25  p-2 rounded-xl">
-                <div className="text-lg">Refines</div>
+                <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_REFINES")}</div>
                 {skillDetails.refines.map((refine) => WeaponDetailsMini(refine))}
             </div>
         }
@@ -52,18 +53,19 @@ export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: stri
     </Link>
 }
 
-function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  //TODO: lang
+function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  
+    const selectedLanguage = useContext(LanguageContext);
     return <div className="grid grid-cols-2 gap-2">
         <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
-            <div className="text-lg">Prerequisites</div>
+            <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_PREREQUISITES")}</div>
             {skillDetails.prerequisites.map((prereq) => SkillDetailsMini({ ...prereq, category: skillDetails.category }))}
         </div>
         <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
-            <div className="text-lg">Next</div>
+            <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_NEXT_SKILL")}</div>
             {skillDetails.nextSkill != undefined && SkillDetailsMini({ ...skillDetails.nextSkill, category: skillDetails.category })}
         </div>
     </div>
-}  //TODO: lang
+} 
 
 export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);

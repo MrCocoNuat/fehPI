@@ -28,8 +28,6 @@ const GET_SINGLE_HERO = gql`
 `;
 
 
-// TODO: Adjust stat calculation to remove bad assumptions (growth rate > 100% is possible, hp is always prioritized when merge/dfing)
-
 /*
 
 How to calculate stats of a Unit:

@@ -46,7 +46,6 @@ export enum WeaponType {
     BLUE_BEAST,
     GREEN_BEAST,
     COLORLESS_BEAST,
-    //TODO:- some of these have extra properties that would be nice to attach here??
 };
 export type WeaponTypeName = keyof typeof WeaponType;
 export type WeaponTypeBitfield = { [weaponTypeId in WeaponType]: boolean };

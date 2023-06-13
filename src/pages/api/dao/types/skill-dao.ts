@@ -106,7 +106,6 @@ export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeT
                 const passiveSkillDefinition: PassiveSkillDefinition = {
                     ...skillDefinition,
                     // loaded in later
-                    //TODO:- find some way to not break TS when doing this
                     imageUrl: null! as string,
                 }
                 return passiveSkillDefinition;

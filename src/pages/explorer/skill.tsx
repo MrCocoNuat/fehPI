@@ -74,7 +74,7 @@ export default function SkillExplorer() {
         return "error";
     }
 
-    const skillQueryResult = filterSkills(mapQuery(data), filterText, checkboxes); // TODO: lang
+    const skillQueryResult = filterSkills(mapQuery(data), filterText, checkboxes);
     return <div className="flex flex-row justify-center p-2">
         <BackButton/>
         <div className="flex flex-col gap-2">

@@ -28,9 +28,19 @@ const stringsForLanguage = {
 } as const;
 
 const DEFAULT_LANGUAGE = Language.USEN;
+const ORIGIN_LANGUAGE = Language.JPJA;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
+const SAME_AS_DEFAULT = "SAME_AS_DEFAULT";
+const SAME_AS_ORIGIN = "SAME_AS_ORIGIN";
 export function getUiStringResource(language: Language, resouceId: keyof typeof enStrings): string {
     const resource = stringsForLanguage[language][resouceId];
+    if (resource == SAME_AS_DEFAULT){
+        return stringsForLanguage[DEFAULT_LANGUAGE][resouceId];
+    }
+    if (resource == SAME_AS_ORIGIN){
+        return stringsForLanguage[ORIGIN_LANGUAGE][resouceId];
+    }
+    
     if (resource === NOT_TRANSLATED) {
         return `**${stringsForLanguage[DEFAULT_LANGUAGE][resouceId]}**`;
     }

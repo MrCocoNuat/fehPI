@@ -40,6 +40,7 @@ export default function Home() {
               <Link href={'https://pothos-graphql.dev/'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
                 Pothos GraphQL
               </Link>
+              {getUiStringResource(selectedLanguage, "HOME_MSG2.2")}
             </p>
 
             <p className='text-lg'>
@@ -47,6 +48,7 @@ export default function Home() {
               <Link href={'https://github.com/HertzDevil/feh-assets-json'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
                 feh-assets-json
               </Link>
+              {getUiStringResource(selectedLanguage, "HOME_MSG3.2")}
             </p>
           </div>
 

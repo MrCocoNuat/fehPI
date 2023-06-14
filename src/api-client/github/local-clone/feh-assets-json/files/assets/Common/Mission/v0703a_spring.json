@@ -1,0 +1,141 @@
+[
+  {
+    "id_tag": "W_S202303STORY_P01",
+    "title": "W_S202303STORY_P01_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "W_S202303STORY_P01_A1",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "X0821",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "X0821C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 0,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202303STORY_P01_A2",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "X0822",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "X0822C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202303STORY_P01_A3",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "X0823",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "X0823C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 2,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 3
+      }
+    ],
+    "avail": {
+      "start": "2023-03-07T07:00:00Z",
+      "finish": "2023-04-07T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 20,
+    "id_num": 5575,
+    "feh_pass_only": false
+  }
+]

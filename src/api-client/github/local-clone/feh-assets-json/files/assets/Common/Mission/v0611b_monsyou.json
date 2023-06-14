@@ -1,0 +1,434 @@
+[
+  {
+    "id_tag": "S202211KINEN01",
+    "title": "S202211KINEN01_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "S202211KINEN01_A1",
+            "common_id": null,
+            "times": 1,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 1,
+                "len": 30,
+                "id_tag": "TRIAL_Summon_v0611b_monsyou_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202211KINEN01_A2",
+            "common_id": null,
+            "times": 20,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 39,
+                "_type": "divine_code",
+                "count": 20,
+                "len": 6,
+                "id_tag": "202211"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202211KINEN01_A3",
+            "common_id": null,
+            "times": 40,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 1,
+                "len": 30,
+                "id_tag": "TRIAL_Summon_v0611b_monsyou_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202211KINEN01_A4",
+            "common_id": null,
+            "times": 60,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 39,
+                "_type": "divine_code",
+                "count": 20,
+                "len": 6,
+                "id_tag": "202211"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202211KINEN01_A5",
+            "common_id": null,
+            "times": 80,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 1,
+                "len": 30,
+                "id_tag": "TRIAL_Summon_v0611b_monsyou_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202211KINEN01_A6",
+            "common_id": null,
+            "times": 100,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 39,
+                "_type": "divine_code",
+                "count": 20,
+                "len": 6,
+                "id_tag": "202211"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202211KINEN01_A7",
+            "common_id": null,
+            "times": 15,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 0,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 1,
+                "len": 30,
+                "id_tag": "TRIAL_Summon_v0611b_monsyou_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202211KINEN01_A8",
+            "common_id": null,
+            "times": 15,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 39,
+                "_type": "divine_code",
+                "count": 20,
+                "len": 6,
+                "id_tag": "202211"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202211KINEN01_A9",
+            "common_id": null,
+            "times": 15,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 2,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 1,
+                "len": 30,
+                "id_tag": "TRIAL_Summon_v0611b_monsyou_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202211KINEN01_A10",
+            "common_id": null,
+            "times": 15,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 10,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 39,
+                "_type": "divine_code",
+                "count": 20,
+                "len": 6,
+                "id_tag": "202211"
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 10
+      }
+    ],
+    "avail": {
+      "start": "2022-11-24T07:00:00Z",
+      "finish": "2022-12-22T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 30,
+    "id_num": 5328,
+    "feh_pass_only": false
+  }
+]

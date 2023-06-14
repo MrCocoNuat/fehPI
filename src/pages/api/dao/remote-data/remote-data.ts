@@ -1,14 +1,11 @@
-import { readFileSync } from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 import { LocalRepositoryReader, RemoteRepositoryReader, RepositoryReader } from "../../../../api-client/github/github";
 import { MediaWikiReader } from "../../../../api-client/mediawiki/mediawiki";
 import { RepositoryDetails, WikiDetails } from "./datasource-types";
 
+import remoteData from "./remote-data.json";
+
 const loadDataSourceDetails = (descriptor: string) => {
-    const fileText = readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), "remote-data.json"), "utf-8");
-    const fileJson = JSON.parse(fileText) as { [repositoryDescriptor: string]: any };
-    return fileJson[descriptor];
+    return (remoteData as { [repositoryDescriptor: string]: any })[descriptor];
 }
 
 const fehRepositoryReader: () => RepositoryReader = () => {

@@ -1,0 +1,4033 @@
+[
+  {
+    "id_tag": "M202302A",
+    "title": "M202302A_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "M202302A_A1",
+            "common_id": null,
+            "times": 1,
+            "trigger": 3,
+            "map_group": null,
+            "game_mode": 11,
+            "difficulty": 1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 11,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 1600
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A2",
+            "common_id": null,
+            "times": 1,
+            "trigger": 3,
+            "map_group": null,
+            "game_mode": 11,
+            "difficulty": 3,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 11,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 4,
+                "_type": "dueling_crest",
+                "count": 7
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A3",
+            "common_id": null,
+            "times": 1,
+            "trigger": 3,
+            "map_group": null,
+            "game_mode": 11,
+            "difficulty": 5,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 11,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 4,
+                "_type": "dueling_crest",
+                "count": 7
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A4",
+            "common_id": null,
+            "times": 1,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_アルフォンス",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A5",
+            "common_id": null,
+            "times": 1,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_シャロン",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A6",
+            "common_id": null,
+            "times": 1,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_アンナ",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A7",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A8",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 2,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A9",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 3,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A10",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 0,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A11",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 20,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A12",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 5,
+                "_type": "lights_blessing",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A13",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 3,
+                "_type": "stamina_potion",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A14",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 4,
+                "_type": "dueling_crest",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A15",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "S5111",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "S5111C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 20,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A16",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "S5112",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "S5112C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 5,
+                "_type": "lights_blessing",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A17",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "S5113",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "S5113C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 3,
+                "_type": "stamina_potion",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A18",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "S5114",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "S5114C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 4,
+                "_type": "dueling_crest",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A19",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": "S5115",
+            "game_mode": 1,
+            "difficulty": 2,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 1,
+            "map_id": "S5115C",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 20,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A20",
+            "common_id": null,
+            "times": 3,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 20,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A21",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 3,
+                "_type": "stamina_potion",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A22",
+            "common_id": null,
+            "times": 9,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 4,
+                "_type": "dueling_crest",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A23",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 6,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 100
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A24",
+            "common_id": null,
+            "times": 10,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 6,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 300
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "M202302A_A25",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 6,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 500
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 25
+      }
+    ],
+    "avail": {
+      "start": "2023-02-01T07:00:00Z",
+      "finish": "2023-03-01T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 10,
+    "id_num": 5485,
+    "feh_pass_only": false
+  },
+  {
+    "id_tag": "W_M202302B",
+    "title": "W_M202302B_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "W_M202302B_A1",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": "E0001",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0001",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 100
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A2",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": "E0002",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0002",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 100
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A3",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": "E0003",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0003",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 100
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A4",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": "E0004",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0004",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 2,
+                "_type": "hero_feather",
+                "count": 100
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A5",
+            "common_id": null,
+            "times": 10,
+            "trigger": 2,
+            "map_group": "E0005",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0005",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A6",
+            "common_id": null,
+            "times": 10,
+            "trigger": 2,
+            "map_group": "E0006",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0006",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A7",
+            "common_id": null,
+            "times": 10,
+            "trigger": 2,
+            "map_group": "E0007",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0007",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A8",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0008",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0008",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A9",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0009",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0009",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A10",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0010",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A11",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0010",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A12",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0010",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A13",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0010",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_M202302B_A14",
+            "common_id": null,
+            "times": 15,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 5,
+            "map_id": "E0010",
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 14
+      }
+    ],
+    "avail": {
+      "start": "2023-02-01T07:00:00Z",
+      "finish": "2023-03-01T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 11,
+    "id_num": 5486,
+    "feh_pass_only": false
+  },
+  {
+    "id_tag": "W_S202302KINEN01",
+    "title": "W_S202302KINEN01_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "W_S202302KINEN01_A1",
+            "common_id": null,
+            "times": 6,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 46,
+                "_type": "celestial_stone",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A2",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 5,
+                "len": 29,
+                "id_tag": "TRIAL_Summon_v0701c_legend_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A3",
+            "common_id": null,
+            "times": 66,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A4",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 5,
+                "len": 29,
+                "id_tag": "TRIAL_Summon_v0701c_legend_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A5",
+            "common_id": null,
+            "times": 3,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 17,
+                "_type": "refining_stone",
+                "count": 160
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A6",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 6,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A7",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 23,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 500,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A8",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 18,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A9",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": "E0008",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 20,
+                "_type": "blessing",
+                "count": 6,
+                "element": 5
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A10",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": "E0008",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 20,
+                "_type": "blessing",
+                "count": 6,
+                "element": 6
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A11",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": "E0008",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 20,
+                "_type": "blessing",
+                "count": 6,
+                "element": 7
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A12",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": "E0008",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 20,
+                "_type": "blessing",
+                "count": 6,
+                "element": 8
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "W_S202302KINEN01_A13",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": "E0010",
+            "game_mode": 5,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": 4,
+            "_unknown2": 1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 19,
+                "_type": "arena_medal",
+                "count": 600
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 13
+      }
+    ],
+    "avail": {
+      "start": "2023-02-02T07:00:00Z",
+      "finish": "2023-03-02T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 30,
+    "id_num": 5488,
+    "feh_pass_only": false
+  },
+  {
+    "id_tag": "S202302KINEN02",
+    "title": "S202302KINEN02_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "S202302KINEN02_A1",
+            "common_id": null,
+            "times": 6,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_アルフォンス",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A2",
+            "common_id": null,
+            "times": 6,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_シャロン",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 29,
+                "_type": "summoning_ticket",
+                "count": 5,
+                "len": 29,
+                "id_tag": "TRIAL_Summon_v0701c_legend_06"
+              }
+            ],
+            "payload_size": 104
+          },
+          {
+            "quest_id": "S202302KINEN02_A3",
+            "common_id": null,
+            "times": 6,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": "PID_アンナ",
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 500,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A4",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A5",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A6",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A7",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A8",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 0,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A9",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A10",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 2,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A11",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": 3,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 30,
+                "_type": "dragonflower",
+                "count": 30,
+                "move_type": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A12",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 0,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A13",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A14",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 2,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A15",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 0,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A16",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 1,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A17",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 2,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A18",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 6,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 4
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A19",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 10,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 4
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A20",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 15,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": false,
+                "shard_color": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A21",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 6,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A22",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 10,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": true,
+                "shard_color": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A23",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 15,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 5000,
+                "great": true,
+                "shard_color": 0
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A24",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 11,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": false,
+                "shard_color": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A25",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 12,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": false,
+                "shard_color": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A26",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 13,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": false,
+                "shard_color": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A27",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 11,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": true,
+                "shard_color": 1
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A28",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 12,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": true,
+                "shard_color": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A29",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 13,
+              "mov_type": -1,
+              "lv": 35,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": true,
+                "shard_color": 3
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A30",
+            "common_id": null,
+            "times": 36,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 0,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": false,
+                "shard_color": 4
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302KINEN02_A31",
+            "common_id": null,
+            "times": 16,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": 0,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": 40,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 6,
+                "_type": "exp_resource",
+                "count": 6000,
+                "great": true,
+                "shard_color": 4
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 31
+      }
+    ],
+    "avail": {
+      "start": "2023-02-02T07:00:00Z",
+      "finish": "2023-03-02T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 30,
+    "id_num": 5489,
+    "feh_pass_only": false
+  },
+  {
+    "id_tag": "S202302SKY01",
+    "title": "S202302SKY01_TITLE",
+    "lists": [
+      {
+        "difficulty": null,
+        "quests": [
+          {
+            "quest_id": "S202302SKY01_A1",
+            "common_id": null,
+            "times": 1,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 0,
+                "_type": "orb",
+                "count": 2
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A2",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 0,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A3",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 200,
+                "len": 6,
+                "id_tag": "202302"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A4",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 2,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A5",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 6,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 100,
+                "len": 6,
+                "id_tag": "202302"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A6",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 10,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A7",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 11,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A8",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 12,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A9",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 13,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A10",
+            "common_id": null,
+            "times": 5,
+            "trigger": 1,
+            "map_group": null,
+            "game_mode": 0,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 0,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": 15,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A11",
+            "common_id": null,
+            "times": 2,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 100,
+                "len": 6,
+                "id_tag": "202302"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A12",
+            "common_id": null,
+            "times": 3,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 100,
+                "len": 6,
+                "id_tag": "202302"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A13",
+            "common_id": null,
+            "times": 4,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A14",
+            "common_id": null,
+            "times": 5,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          },
+          {
+            "quest_id": "S202302SKY01_A15",
+            "common_id": null,
+            "times": 6,
+            "trigger": 2,
+            "map_group": null,
+            "game_mode": 17,
+            "difficulty": -1,
+            "max_allies": -1,
+            "survive": -1,
+            "game_mode2": 17,
+            "map_id": null,
+            "unit_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "foe_reqs": {
+              "hero_id": null,
+              "color": -1,
+              "wep_type": -1,
+              "mov_type": -1,
+              "lv": -1,
+              "blessing": 0,
+              "blessed": 0
+            },
+            "reward": [
+              {
+                "kind": 27,
+                "_type": "aether_stone",
+                "count": 60,
+                "len": 5,
+                "id_tag": "STONE"
+              }
+            ],
+            "payload_size": 72
+          }
+        ],
+        "quest_count": 15
+      }
+    ],
+    "avail": {
+      "start": "2023-02-02T07:00:00Z",
+      "finish": "2023-03-02T07:00:00Z",
+      "avail_sec": -1,
+      "cycle_sec": -1
+    },
+    "difficulties": 1,
+    "sort_id": 30,
+    "id_num": 5490,
+    "feh_pass_only": false
+  }
+]

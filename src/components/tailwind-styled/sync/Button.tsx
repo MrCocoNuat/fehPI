@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react";
+import { flushSync } from "react-dom";
 
 export function Button({
     onClick,
@@ -10,13 +11,13 @@ export function Button({
     className?: String,
 }) {
     const moreClassName = className ?? "";
+    const fullClassName = `rounded-full
+        bg-blue-800 hover:bg-blue-900 active:bg-blue-700 
+        text-white
+        ${moreClassName}`
 
     return <button
-        className={`rounded-full
-        bg-blue-800 hover:bg-blue-900 active:bg-blue-700 
-        dark:bg-purple-700 dark:hover:bg-purple-900 dark:active:bg-purple-500
-        text-white
-        ${moreClassName}`}
+        className={fullClassName}
         onClick={onClick}>
         {value}
     </button>

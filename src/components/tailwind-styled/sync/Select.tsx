@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import ReactSelect, { Options } from "react-select";
-import { SingleValue } from "react-select"
-import { LanguageContext } from "../../../pages/testpage";
+import { SingleValue } from "react-select";
 import { getUiStringResource } from "../../ui-resources";
+import { LanguageContext } from "../../../pages/_app";
 
 export type ValueAndLabel<ValueType> = {value: ValueType, label: string};
 

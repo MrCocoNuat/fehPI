@@ -1,11 +1,18 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/RandomPortraits'
+import { getUiStringResource } from '../components/ui-resources'
+import { useContext } from 'react'
+import { LanguageContext } from './_app'
 
-const inter = Inter({ subsets: ['latin'] })
+
+
 
 export default function Home() {
+  const selectedLanguage = useContext(LanguageContext);
+
+  //TODO: fill in Heads for other pages
+  //TODO: really basic SEO
   return (
     <>
       <Head>
@@ -14,113 +21,61 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <main className='flex flex-col items-center'>
+        <div className='flex flex-col items-center gap-10 py-10'>
+          <div className='flex flex-col items-center gap-5'>
+            <p className='text-2xl text-center'>
+              {getUiStringResource(selectedLanguage, "HOME_MSG1.1")}
+              <Link href={'/api/graphql'} className='bg-blue-500/25 rounded-xl p-2 m-2'>
+                GraphQL API
+              </Link>
+              {getUiStringResource(selectedLanguage, "HOME_MSG1.2")}
+              </p> 
+            <p className='text-lg'>
+              {getUiStringResource(selectedLanguage, "HOME_MSG2.1")}
+              <Link href={'https://the-guild.dev/graphql/yoga-server'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+                GraphQL Yoga
+              </Link>
+              +
+              <Link href={'https://pothos-graphql.dev/'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+                Pothos GraphQL
+              </Link>
+              {getUiStringResource(selectedLanguage, "HOME_MSG2.2")}
+            </p>
+
+            <p className='text-lg'>
+              {getUiStringResource(selectedLanguage, "HOME_MSG3.1")}
+              <Link href={'https://github.com/HertzDevil/feh-assets-json'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+                feh-assets-json
+              </Link>
+              {getUiStringResource(selectedLanguage, "HOME_MSG3.2")}
+            </p>
           </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
+          <div className='flex flex-col gap-5 items-center self-stretch'>
+            <p className='text-xl'>
+              {getUiStringResource(selectedLanguage, "HOME_MSG4.1")}
+            </p>
+            <div className='flex flex-row gap-2 self-stretch'>
+              <Link href={'explorer/hero'} className='grow'>
+                <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
+                  <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>
+                  <RandomHeroPortraits />
+                </div>
+              </Link>
+              <Link href={'explorer/skill'} className='grow'>
+                <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
+                  <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_SKILLS")}</p>
+                  <RandomSkillIcons />
+                </div>
+              </Link>
+            </div>
           </div>
-        </div>
-        <div>
-          Hello World!
-        </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
         </div>
       </main>
     </>
   )
 }
+
+//TODO: fulfill terms of AGPL, prominently feature source

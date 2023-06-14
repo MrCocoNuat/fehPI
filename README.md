@@ -15,7 +15,7 @@ This application optionally makes use of the [Octokit](https://github.com/octoki
 ```
 It does not need any permissions besides ordinary public repository access (so don't check any checkboxes).
 
-Alternatively, you can choose to include the data repository as a submodule in `src/api-client/github/local-clone`, and then make sure that the relevant repository is marked `useLocal: true` in `src/dao/remote-data/remote-data.json`. The application will then pull from the local clone.
+Alternatively, you can choose to clone the remote repository into `src/api-client/github/local-clone`, and then make sure that the relevant repository is marked `useLocal: true` in `src/dao/remote-data/remote-data.json`. The application will then pull from the local copy.
 
 After this setup, running should be mostly straightforward - 
 ```

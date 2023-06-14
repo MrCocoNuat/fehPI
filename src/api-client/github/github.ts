@@ -83,7 +83,7 @@ export class LocalRepositoryReader implements RepositoryReader {
         this.LOCAL_REPO = path.join(this.LOCAL_ROOT, repoName);
         
         access(this.LOCAL_REPO, constants.F_OK)
-        .then(() => console.log(`Using LOCAL clone of repository ${repoOwner}/${repoName}, unknown branch`))
+        .then(() => console.log(`Using LOCAL submodule ${repoOwner}/${repoName}, branch ${branch}`))
         .catch(err => {
             throw new Error(`Could not access local clone of repository ${repoOwner}/${repoName}. Does it exist?
             Try navigating to ${this.LOCAL_ROOT} and running the command:

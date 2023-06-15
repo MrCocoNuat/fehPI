@@ -97,7 +97,11 @@ readdirSync(path.join(process.cwd(), "api-client/github/local-clone/feh-assets-j
 readdirSync(path.join(process.cwd(), "api-client/github/local-clone/feh-assets-json/files/assets/USPT/Message/"));
 
 export class LocalRepositoryReader implements RepositoryReader {
-    private readonly LOCAL_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "local-clone");
+    // and specifically here do NOT use statically analyzable
+    // string literals, otherwise too much gets deployed and you hit size limits (ughhhh)
+    // so this ridiculous concealment is necessary
+    private readonly parts = [process.cwd(), "api-client/github/local-clone/"];
+    private readonly LOCAL_ROOT = path.join(...this.parts);
     private LOCAL_REPO: string;
 
     constructor({ repoOwner, repoName, branch }: RepositoryDetails) {

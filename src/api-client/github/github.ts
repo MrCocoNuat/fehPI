@@ -6,6 +6,7 @@ import { keyFor } from "../keys";
 import fetch from "node-fetch";
 import { access, constants, readdir, readFile } from "fs/promises";
 import { fileURLToPath } from "url";
+import { readdirSync } from "fs";
 
 export interface RepositoryReader {
     queryForBlob : (targetPath : string) => Promise<GitBlobResponse>;
@@ -87,7 +88,10 @@ export class LocalRepositoryReader implements RepositoryReader {
         .catch(err => {
             throw new Error(`Could not access local clone of repository ${repoOwner}/${repoName}. Does it exist?
             Try navigating to ${this.LOCAL_ROOT} and running the command:
-            git clone https://github.com/${repoOwner}/${repoName} -b ${branch}`)
+            git clone https://github.com/${repoOwner}/${repoName} -b ${branch}.
+            If this is a remote deployment: check process.cwd() == ${process.cwd()},
+            {process.cwd()}/files contains: ${readdirSync(path.join(process.cwd(), "files"))}`,
+            {cause: err})
         });
     }
     

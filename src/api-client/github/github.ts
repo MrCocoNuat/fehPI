@@ -83,6 +83,13 @@ export class LocalRepositoryReader implements RepositoryReader {
         // verify that the local clone actually exists
         this.LOCAL_REPO = path.join(this.LOCAL_ROOT, repoName);
         
+        // dummy check
+        // https://github.com/vercel/next.js/discussions/32236#discussioncomment-3029649
+        // Vercel's build process traces file dependencies through fs method calls,
+        // thus the subtree needed must appear here or it won't be deployed too
+        // that would be bad
+        readdirSync(path.join(process.cwd(), "api-client/github/local-clone/feh-assets-json"));
+
         access(this.LOCAL_REPO, constants.F_OK)
         .then(() => console.log(`Using LOCAL subtree ${repoOwner}/${repoName}, branch ${branch}`))
         .catch(err => {

@@ -89,8 +89,7 @@ export class LocalRepositoryReader implements RepositoryReader {
             throw new Error(`Could not access local clone of repository ${repoOwner}/${repoName}. Does it exist?
             Try navigating to ${this.LOCAL_ROOT} and running the command:
             git clone https://github.com/${repoOwner}/${repoName} -b ${branch}.
-            If this is a remote deployment: check process.cwd() == ${process.cwd()},
-            {process.cwd()}/files contains: ${readdirSync(path.join(process.cwd(), "files"))}`,
+            If this is a remote deployment: check process.cwd() == ${process.cwd()},`,
             {cause: err})
         });
     }

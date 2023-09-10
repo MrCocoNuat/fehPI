@@ -20,7 +20,7 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
         super({ repoPath });
         console.time(timerLabel);
         // this step is for the admin runner - writes to KV
-        const writeInit = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
+        // this.initialization = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
         this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
 
@@ -28,7 +28,7 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
         this.collectionIds = await this.readHash("HERO_BY_ID", keyTypeToken);
     }
 
-    private async loadData() { // to KV, will never finish in 10 second limit so don't bother
+    private async loadData() { // to KV, will never finish in 10 second limit so don't bother doing this in a deployed version
         return this.getGithubData()
             .then(data => data.filter(definition => definition.idNum > 0)) // remove the NULL Hero
             .then(data => this.populateHeroImageUrls(data))

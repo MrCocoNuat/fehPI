@@ -1,3 +1,4 @@
+import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
 
 // Write-Once dao: after a get, set operations are rejected 
@@ -23,10 +24,14 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
                 return;
             }
             entries.forEach(entry => this.collectionIds[entry.idNum] = entry);
+            // entries.forEach(entry => kv.set("TEST" + entry.idNum.toString(), entry)); // try this out
         }
 
         // very common, cache results
         protected getAllIds(){
+            if (!this.readOnlyIds){
+                kv.hset("ALL",this.collectionIds)    
+            }   
             this.readOnlyIds = true;
             if (this.valuesArrayIds === undefined){
                 this.valuesArrayIds = Object.values(this.collectionIds);

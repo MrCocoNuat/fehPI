@@ -1,12 +1,13 @@
 import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
-import {partitionObj} from "../dao-obj-util";
+import { stringify } from "querystring";
+import { partitionObj } from "./vercel-kv-backed";
 
 // Write-Once dao: after a get, set operations are rejected 
 
 export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){
     return class IdIndexedDao extends dBase{
-        private collectionIds : {[id : number] : V} = {};
+        protected collectionIds : {[id : number] : V} = {}; // screw you encapsulation
         private valuesArrayIds? : V[];
         private readOnlyIds = false;
 
@@ -25,17 +26,10 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
                 return;
             }
             entries.forEach(entry => this.collectionIds[entry.idNum] = entry);
-            // entries.forEach(entry => kv.set("TEST" + entry.idNum.toString(), entry)); // try this out
         }
 
         // very common, cache results
-        protected getAllIds(toKv?: boolean){
-            if (!this.readOnlyIds && toKv === true){
-                const kvToPost = partitionObj(this.collectionIds, 500);
-                for (const batch of kvToPost){
-                    kv.hset("ALL",batch);    
-                }
-            }   
+        protected getAllIds(){
             this.readOnlyIds = true;
             if (this.valuesArrayIds === undefined){
                 this.valuesArrayIds = Object.values(this.collectionIds);

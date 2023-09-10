@@ -2,23 +2,33 @@ import { HonorType, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPer
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
+import {  } from "@vercel/kv";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
+import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as HeroDefinition;
 
-export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, WriteOnceIdIndexed(typeToken, Dao<HeroDefinition>))) {
+const keyTypeToken = 0 as number;
+
+export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, MediaWikiImage(typeToken, WriteOnceIdIndexed(typeToken, Dao<HeroDefinition>)))) {
     private initialization: Promise<void>;
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
         super({ repoPath });
         console.time(timerLabel);
-        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
+        // this step is for the admin runner - writes to KV
+        const writeInit = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
 
-    private async loadData() {
+    private async getData() {
+        this.collectionIds = await this.readHash("HERO_BY_ID", keyTypeToken);
+    }
+
+    private async loadData() { // to KV, will never finish in 10 second limit so don't bother
         return this.getGithubData()
             .then(data => data.filter(definition => definition.idNum > 0)) // remove the NULL Hero
             .then(data => this.populateHeroImageUrls(data))
@@ -77,7 +87,7 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
 
     async getAll() {
         await this.initialization;
-        return this.getAllIds(true);
+        return this.getAllIds();
     }
 }
 

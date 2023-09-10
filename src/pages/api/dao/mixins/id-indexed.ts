@@ -1,5 +1,6 @@
 import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
+import {partitionObj} from "../dao-obj-util";
 
 // Write-Once dao: after a get, set operations are rejected 
 
@@ -28,9 +29,12 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
         }
 
         // very common, cache results
-        protected getAllIds(){
-            if (!this.readOnlyIds){
-                kv.hset("ALL",this.collectionIds)    
+        protected getAllIds(toKv?: boolean){
+            if (!this.readOnlyIds && toKv === true){
+                const kvToPost = partitionObj(this.collectionIds, 500);
+                for (const batch of kvToPost){
+                    kv.hset("ALL",batch);    
+                }
             }   
             this.readOnlyIds = true;
             if (this.valuesArrayIds === undefined){
@@ -39,5 +43,7 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
             }
             return this.valuesArrayIds;
         }
+
+        
     }
 }

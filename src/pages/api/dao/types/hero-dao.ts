@@ -77,7 +77,7 @@ export class HeroDao extends GithubSourced(typeToken, MediaWikiImage(typeToken, 
 
     async getAll() {
         await this.initialization;
-        return this.getAllIds();
+        return this.getAllIds(true);
     }
 }
 

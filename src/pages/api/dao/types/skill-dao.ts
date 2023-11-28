@@ -24,8 +24,8 @@ export class SkillDao extends VercelKvBacked(typeToken, GithubSourced(typeToken,
         super({ repoPath });
         console.time(timerLabel);
                 // this step is for the admin runner - writess to KV
-        // this.initialization = this.loadData().then(() => this.writeHash("SKILL_BY_ID", this.collectionIds)).then(() => this.writeHash("SKILL_BY_KEY", this.collectionKeys)).then(() => console.timeEnd(timerLabel));
-        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        this.initialization = this.loadData().then(() => this.writeHash("SKILL_BY_ID", this.collectionIds)).then(() => this.writeHash("SKILL_BY_KEY", this.collectionKeys)).then(() => console.timeEnd(timerLabel));
+        // this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
 
     private async getData() {

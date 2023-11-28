@@ -25,7 +25,7 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
     }
 
     private async getData() {
-        this.collectionIds = await this.readHash("HERO_BY_ID", keyTypeToken);
+        this.setByIds(Object.values(await this.readHash("HERO_BY_ID", keyTypeToken))); //TODO: use the damn setter ya bum
     }
 
     private async loadData() { // to KV, will never finish in 10 second limit so don't bother doing this in a deployed version

@@ -1,11 +1,13 @@
 import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
+import { hasUncaughtExceptionCaptureCallback } from "process";
 
 const batchSize = 300;
 
 export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) {
     return class VercelKvDao extends dBase {
         protected async writeHash(hashName: string, hash: {[key: string|number] : V}){
+            console.log("writing to " + hashName)
             const hashToPost = partitionObj(hash, batchSize);
             for (const batch of hashToPost){
                 kv.hset(hashName,batch);    

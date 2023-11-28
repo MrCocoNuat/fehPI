@@ -18,9 +18,11 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
         super({ repoPath });
         console.time(timerLabel);
+        console.log("hero start");
         // this step is for the admin runner - writes to KV
-        this.initialization = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
-        //this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        // this.initialization = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        // this.initialization = this.loadData();
     }
 
     private async getData() {
@@ -31,7 +33,7 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
         return this.getGithubData()
             .then(data => data.filter(definition => definition.idNum > 0)) // remove the NULL Hero
             .then(data => this.populateHeroImageUrls(data))
-            .then(/* not async so block is fine */data => { this.setByIds(data); return data });
+            .then(/* not async so block is fine */data => { this.setByIds(data);});
     }
 
     protected override toValueType: (json: any) => HeroDefinition = (json) => {

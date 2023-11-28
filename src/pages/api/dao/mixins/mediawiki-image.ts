@@ -35,8 +35,9 @@ export function MediaWikiImage<V extends { imageUrl: string, nameId: string }, D
             const messages = await messageDao.getByMessageKeys(Language.USEN, definitions.map(definition => definition.nameId));
 
             const fileTitles = messages.map(message => message.value).map(name => fudgeSkillName(name)).map(name => `File:${asciify(name)}.png`);
-            const imageUrls = await fehWikiReader.queryImageUrls(fileTitles, true);
-
+            //const imageUrls = await fehWikiReader.queryImageUrls(fileTitles, true);
+//STOPSHIP
+            const imageUrls = Array(definitions.length).fill("");
             definitions.forEach((definition, i) => definition.imageUrl = imageUrls[i]);
             return definitions;
         }

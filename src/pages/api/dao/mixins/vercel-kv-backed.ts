@@ -1,23 +1,25 @@
 import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
-import { hasUncaughtExceptionCaptureCallback } from "process";
 
 const batchSize = 300;
 
 export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) {
     return class VercelKvDao extends dBase {
         protected async writeHash(hashName: string, hash: {[key: string|number] : V}){
-            console.log("writing to " + hashName)
+            console.log("writing to " + hashName);
             const hashToPost = partitionObj(hash, batchSize);
             for (const batch of hashToPost){
                 kv.hset(hashName,batch);    
             }     
+            console.log("wrote to "+ hashName);
         }
 
         // This bulk operation vastly reduces the number of Vercel KV requests, which otherwise would exhaust all 30k/month in about 20 page loads (if there was no server side caching of course)
         protected async readHash(hashName: string, intendedKeyTypeToken: number | string){
             const result = {} as {[key : string | number] : V}; 
             const keyTransformer = typeof intendedKeyTypeToken === "number"? (s : string) => +s : (s : string) => s;
+
+            console.log("reading from " + hashName);
 
             const hkeys = await kv.hkeys(hashName);
             const hashKeysToGet = partitionList(hkeys, batchSize);
@@ -31,6 +33,8 @@ export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V,
                     result[keyTransformer(batch[i])] = hash[batch[i]] as V;
                 }
             }
+
+            console.log("read from " + hashName);
             return result;
         }
     }   

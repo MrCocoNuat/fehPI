@@ -4,7 +4,7 @@ import { DaoConstructor } from "./dao";
 
 export function WriteOnceKeyIndexed<V extends {idTag: string}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){
     return class KeyIndexedDao extends dBase{
-        private collectionKeys : {[key : string] : V} = {};
+        protected collectionKeys : {[key : string] : V} = {};
         private readOnlyKeys = false;
 
         constructor(...args: any[]){

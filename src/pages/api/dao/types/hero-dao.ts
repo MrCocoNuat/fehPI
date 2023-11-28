@@ -2,7 +2,6 @@ import { HonorType, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPer
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
-import {  } from "@vercel/kv";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage as MediaWikiImage } from "../mixins/mediawiki-image";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";
@@ -20,7 +19,7 @@ export class HeroDao extends VercelKvBacked(typeToken,GithubSourced(typeToken, M
         super({ repoPath });
         console.time(timerLabel);
         // this step is for the admin runner - writes to KV
-        // this.initialization = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
+        this.initialization = this.loadData().then(async () => await this.writeHash("HERO_BY_ID", this.collectionIds)).then(() => console.timeEnd(timerLabel));
         this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
 

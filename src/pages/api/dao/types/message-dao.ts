@@ -2,13 +2,16 @@ import { Language, Message } from "./dao-types";
 import { Dao } from "../mixins/dao";
 import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
+import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as Message;
 
+const keyTypeToken = "";
+
 // There are 10 languages to support right now, each needs its own sub-DAO
-class LangMessageDao extends GithubSourced(typeToken, WriteOnceKeyIndexed(typeToken, Dao<string>)){
+class LangMessageDao extends VercelKvBacked(typeToken, GithubSourced(typeToken, WriteOnceKeyIndexed(typeToken, Dao<string>))){
     RELEVANT_KEY_PATTERNS = [
         /^MSID_.*/, // Messages related to Skills
         /^MPID_.*/, // Messages related to Heroes (Persons)
@@ -18,10 +21,16 @@ class LangMessageDao extends GithubSourced(typeToken, WriteOnceKeyIndexed(typeTo
     constructor({repoPath, timerLabel} : {repoPath: string, timerLabel: string}){
         super({repoPath});
         console.time(timerLabel);
-        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
+        // this step is for the admin runner - writes to KV        
+        this.initialization = this.loadData().then(async () => await this.writeHash("MESSAGE_BY_KEY_" + repoPath, this.collectionKeys).then(() => console.timeEnd(timerLabel)));
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
     
-    private async loadData(){
+    private async getData() {
+        this.setByKeys(Object.values(await this.readHash("MESSAGE_BY_KEY", keyTypeToken))); //TODO: use the damn setter ya bum
+    }
+
+    private async loadData(){ // to KV
         return this.getGithubData()
         .then(data => data.filter(message => this.RELEVANT_KEY_PATTERNS.some(regExp => regExp.test(message.idTag))))
         .then(data => this.setByKeys(data));

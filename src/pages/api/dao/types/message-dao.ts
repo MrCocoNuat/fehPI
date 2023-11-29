@@ -25,8 +25,8 @@ class LangMessageDao extends VercelKvBacked(typeToken, GithubSourced(typeToken, 
         console.time(timerLabel);
         // this step is for the admin runner - writes to KV        
         // this.initialization = this.loadData().then(async () => await this.writeHash(this.redisKey, this.collectionKeys).then(() => console.timeEnd(timerLabel)));
-        //this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
-        this.initialization = this.loadData();
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        // this.initialization = this.loadData();
     }
     
     private async getData() {

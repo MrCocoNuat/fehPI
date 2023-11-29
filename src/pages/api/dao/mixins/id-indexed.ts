@@ -1,10 +1,13 @@
+import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
+import { stringify } from "querystring";
+import { partitionObj } from "./vercel-kv-backed";
 
 // Write-Once dao: after a get, set operations are rejected 
 
 export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){
     return class IdIndexedDao extends dBase{
-        private collectionIds : {[id : number] : V} = {};
+        protected collectionIds : {[id : number] : V} = {}; // screw you encapsulation
         private valuesArrayIds? : V[];
         private readOnlyIds = false;
 
@@ -34,5 +37,7 @@ export function WriteOnceIdIndexed<V extends {idNum: number}, DBase extends DaoC
             }
             return this.valuesArrayIds;
         }
+
+        
     }
 }

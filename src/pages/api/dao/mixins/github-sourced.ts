@@ -1,6 +1,8 @@
 import path from "path";
 import { fehAssetsJsonReader } from "../remote-data/remote-data";
 import { DaoConstructor } from "./dao";
+import { keyFor } from "../../../../api-client/keys";
+import { RemoteRepositoryReader } from "../../../../api-client/github/github";
 
 export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) { //add the arguments here? kinda violates the spirit of mixins?
     return class GithubSourcedDao extends dBase {
@@ -25,6 +27,10 @@ export function GithubSourced<V, DBase extends DaoConstructor<V>>(typeToken: V, 
         }
 
         private async githubInitialize() {
+            if (fehAssetsJsonReader instanceof RemoteRepositoryReader && keyFor("octokit") == undefined){
+                console.warn("not authed for remote github");
+                return;
+            }
             if (this.IS_BLOB) {
                 await this.processBlob(path.dirname(this.REPO_PATH), { name: path.basename(this.REPO_PATH) });
             } else {

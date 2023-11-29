@@ -5,19 +5,32 @@ import { WriteOnceIdIndexed } from "../mixins/id-indexed";
 import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
 import { getAllEnumValues } from "enum-for";
 import { MediaWikiImage } from "../mixins/mediawiki-image";
+import { VercelKvBacked } from "../mixins/vercel-kv-backed";
+import { idText } from "typescript";
+import { keyFor } from "../../../../api-client/keys";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
 // Thanks https://stackoverflow.com/a/57362442
 const typeToken = null! as SkillDefinition;
 const imageTypeToken = null! as PassiveSkillDefinition;
 
-export class SkillDao extends GithubSourced(typeToken, MediaWikiImage(imageTypeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>)))) {
+const idKeyTypeToken = 0;
+const stringKeyTypeToken = "";
+
+export class SkillDao extends VercelKvBacked(typeToken, GithubSourced(typeToken, MediaWikiImage(imageTypeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>))))) {
     initialization: Promise<void>;
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
         super({ repoPath });
         console.time(timerLabel);
-        this.initialization = this.loadData().then(() => console.timeEnd(timerLabel));
+                // this step is for the admin runner - writess to KV
+        // this.initialization = this.loadData().then(() => this.writeHash("SKILL_BY_ID", this.collectionIds)).then(() => this.writeHash("SKILL_BY_KEY", this.collectionKeys)).then(() => console.timeEnd(timerLabel));
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+    }
+
+    private async getData() {
+        this.setByIds(Object.values(await this.readHash("SKILL_BY_ID", idKeyTypeToken)));
+        this.setByKeys(Object.values(await this.readHash("SKILL_BY_KEY", stringKeyTypeToken)));
     }
 
     private async loadData() {

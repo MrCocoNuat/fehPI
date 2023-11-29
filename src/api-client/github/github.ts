@@ -6,6 +6,7 @@ import { keyFor } from "../keys";
 import fetch from "node-fetch";
 import { access, constants, readdir, readFile } from "fs/promises";
 import { fileURLToPath } from "url";
+import { isUint16Array } from "util/types";
 
 export interface RepositoryReader {
     queryForBlob : (targetPath : string) => Promise<GitBlobResponse>;
@@ -18,9 +19,12 @@ export class RemoteRepositoryReader implements RepositoryReader{
     private GIT_BLOB_QUERY_FACTORY : (targetPath: string) => string;
     private GIT_TREE_QUERY_FACTORY : (targetPath: string) => string;
     private RAW_URL_FACTORY: (targetPath: string) => string;
+    private isAuthed: boolean;
     
     constructor({repoOwner, repoName, branch, rawUrl} : RepositoryDetails){
         
+        this.isAuthed = keyFor("octokit") != undefined;
+
         this.octokit = new Octokit({auth: keyFor("octokit")});
         
         console.error("SENTINEL - client side means leak: OCTOKIT");
@@ -58,17 +62,29 @@ export class RemoteRepositoryReader implements RepositoryReader{
     }
     
     async queryForBlob(tagertPath : string) : Promise<GitBlobResponse> {
+        if (!this.isAuthed){
+            console.warn("Github - no auth");
+            return undefined as any;
+        }
         //console.log(this.GIT_BLOB_QUERY_FACTORY(tagertPath));
         return this.octokit.graphql(this.GIT_BLOB_QUERY_FACTORY(tagertPath)) as unknown as GitBlobResponse;
     }
     
     async queryForTree(targetPath : string) : Promise<GitTreeResponse> {
+        if (!this.isAuthed){
+            console.warn("Github - no auth");
+            return undefined as any;
+        }
         //console.log(this.GIT_TREE_QUERY_FACTORY(targetPath));
         return this.octokit.graphql(this.GIT_TREE_QUERY_FACTORY(targetPath)) as unknown as GitTreeResponse;
     }
     
     // for when the graphQL api truncates the blob because it is longer than around 500kB
     async getRawBlob(targetPath: string) : Promise<string>{
+        if (!this.isAuthed){
+            console.warn("Github - no auth");
+            return undefined as any;
+        }
         //console.log("GET", this.RAW_URL_FACTORY(targetPath));
         return fetch(this.RAW_URL_FACTORY(targetPath)).then(data => data.text()); 
     }

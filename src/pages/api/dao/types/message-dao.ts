@@ -24,8 +24,8 @@ class LangMessageDao extends VercelKvBacked(typeToken, GithubSourced(typeToken, 
         this.redisKey = "MESSAGE_BY_KEY_" + langLabel;
         console.time(timerLabel);
         // this step is for the admin runner - writes to KV        
-        // this.initialization = this.loadData().then(async () => await this.writeHash(this.redisKey, this.collectionKeys).then(() => console.timeEnd(timerLabel)));
-        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        this.initialization = this.loadData().then(async () => await this.writeHash(this.redisKey, this.collectionKeys).then(() => console.timeEnd(timerLabel)));
+        // this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
         // this.initialization = this.loadData();
     }
     
@@ -73,3 +73,10 @@ export class MessageDao{
         return langMessageDao.getByMessageKeys(messageKeys);
     }
 }
+// Absolutely no way of getting around it - the Bootstrapper and the application absolutely MUST be separated
+// bootstrapper runs locally only (vercel says so, only 1 project allowed to connect to a KV)
+// bootstrapper takes its sweet time, slowly loading up all necessary hashes into linked KV
+// this can be reading from local or github (probably local)
+// application treats db as Read-Only, and LAZILY queries it - no frickin 4MB requests!!!!
+// caching on server is ok - serverless will remain warm for a little bit (minutes?), but recognize that it will be wiped soon for a cold start
+//    COUNT how many requests 1 full load requires - Messages in 1 language = 1 * 600 (way too many!!), heroes = 2, skills = 5ish 

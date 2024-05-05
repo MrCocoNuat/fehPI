@@ -7,7 +7,7 @@ import { OptionalLanguage } from "../api/dao/types/dao-types";
 import { getUiStringResource } from "../../components/ui-resources";
 import { HeroDetailsMini } from "../../components/api-explorer/HeroDetails";
 import { BackButton } from "../../components/api-explorer/BackButton";
-import { Head } from "next/document";
+import Head from "next/head";
 
 
 const GET_ALL_SKILL = gql`

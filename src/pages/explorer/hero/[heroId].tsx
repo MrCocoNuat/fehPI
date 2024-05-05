@@ -7,7 +7,7 @@ import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLangua
 import { SkillQueryResult } from "../skill/[skillId]";
 import { HeroDetails } from "../../../components/api-explorer/HeroDetails";
 import { SlugBackButton } from "../../../components/api-explorer/BackButton";
-import { Head } from "next/document";
+import Head from "next/head";
 import { getUiStringResource } from "../../../components/ui-resources";
 
 const GET_HERO_DETAIL = gql`

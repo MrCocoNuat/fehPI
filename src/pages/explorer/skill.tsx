@@ -7,7 +7,7 @@ import { SkillDetailsMini, WeaponDetailsMini } from "../../components/api-explor
 import { Checkbox } from "../../components/tailwind-styled/sync/Checkbox";
 import { getUiStringResource } from "../../components/ui-resources";
 import { BackButton } from "../../components/api-explorer/BackButton";
-import { Head } from "next/document";
+import Head from "next/head";
 
 const GET_ALL_SKILL = gql`
     query getAllSkillMini($language: OptionalLanguage!){

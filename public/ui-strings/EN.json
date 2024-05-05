@@ -60,6 +60,9 @@
     "HOME_HEROES": "Heroes",
     "HOME_SKILLS": "Skills",
     "HOME_FOSS": "Libre and Open Source",
-    "HOME_TRANSLATION_WARNING": "You should not see this!"
+    "HOME_TRANSLATION_WARNING": "You should not see this!",
 
+    "TITLE_ROOT": "fehPI Data Explorer",
+    "TITLE_HERO": "fehPI Hero Explorer",
+    "TITLE_SKILL": "fehPI Skill Explorer"
 }

@@ -60,5 +60,10 @@
     "HOME_HEROES": "Héros",
     "HOME_SKILLS": "Aptitudes",
     "HOME_FOSS": "Libre et Open Source",
-    "HOME_TRANSLATION_WARNING": "Les traductions dans des langues autres que l'anglais peuvent être de mauvaise qualité. Veuillez contribuer au lien Open Source si vous le pouvez."
+    "HOME_TRANSLATION_WARNING": "Les traductions dans des langues autres que l'anglais peuvent être de mauvaise qualité. Veuillez contribuer au lien Open Source si vous le pouvez.",
+
+    "TITLE_ROOT": "fehPI exploration de données",
+    "TITLE_HERO": "fehPI exploration des héros",
+    "TITLE_SKILL": "fehPI exploration des compétences"
+
 }

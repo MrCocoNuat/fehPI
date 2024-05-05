@@ -60,6 +60,10 @@
     "HOME_HEROES": "英雄",
     "HOME_SKILLS": "スキル",
     "HOME_FOSS": "自由なとオープンソース ",
-    "HOME_TRANSLATION_WARNING": "英語以外の言語への翻訳は品質が低い場合があります。 可能であれば、オープンソース サイトに貢献してください。"
+    "HOME_TRANSLATION_WARNING": "英語以外の言語への翻訳は品質が低い場合があります。 可能であれば、オープンソース サイトに貢献してください。",
+
+    "TITLE_ROOT": "fehPI データの探索",
+    "TITLE_HERO": "fehPI ヒーローの探索",
+    "TITLE_SKILL": "fehPI スキルの探索"
 
 }

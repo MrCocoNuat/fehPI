@@ -7,6 +7,7 @@ import { OptionalLanguage } from "../api/dao/types/dao-types";
 import { getUiStringResource } from "../../components/ui-resources";
 import { HeroDetailsMini } from "../../components/api-explorer/HeroDetails";
 import { BackButton } from "../../components/api-explorer/BackButton";
+import { Head } from "next/document";
 
 
 const GET_ALL_SKILL = gql`
@@ -60,7 +61,11 @@ export default function HeroExplorer() {
 
 
     const heroQueryResult = filterHeroes(mapQuery(data), filterText);
-    return <div className="flex flex-row justify-center p-2">
+    return <>
+    <Head>
+        <title>{getUiStringResource(currentLanguage, "TITLE_ROOT")}</title>
+    </Head>
+    <div className="flex flex-row justify-center p-2">
         <BackButton />
         <div className="flex flex-col gap-2">
             <div className="flex flex-row justify-center gap-2 w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] bg-blue-500/25 rounded-xl p-2">
@@ -77,4 +82,5 @@ export default function HeroExplorer() {
             </div>
         </div>
     </div>
+    </>
 }

@@ -60,6 +60,10 @@
     "HOME_HEROES": "英雄",
     "HOME_SKILLS": "技能",
     "HOME_FOSS": "自由和開源",
-    "HOME_TRANSLATION_WARNING": "非英語語言的翻譯質量可能很差。 如果可以，請在開源網站上做出貢獻。"
+    "HOME_TRANSLATION_WARNING": "非英語語言的翻譯質量可能很差。 如果可以，請在開源網站上做出貢獻。",
+
+    "TITLE_ROOT": "fehPI 數據探索",
+    "TITLE_HERO": "fehPI 英雄探索",
+    "TITLE_SKILL": "fehPI 技能探索"
 
 }

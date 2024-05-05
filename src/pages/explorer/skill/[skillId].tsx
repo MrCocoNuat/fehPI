@@ -7,6 +7,8 @@ import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, Skill
 import { LanguageContext } from "../../_app";
 import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
 import { SlugBackButton } from "../../../components/api-explorer/BackButton";
+import { Head } from "next/document";
+import { getUiStringResource } from "../../../components/ui-resources";
 
 const GET_SKILL_DETAIL = gql`
 query getSkillDetail($id: Int!, $language: OptionalLanguage!){
@@ -144,8 +146,13 @@ export default function SkillExplorer() {
     }
 
     const skillQueryResult = mapQuery(data);
-    return <div className="flex flex-row justify-center p-2">
+    return <>
+    <Head>
+        <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
+    </Head>
+    <div className="flex flex-row justify-center p-2">
         <SlugBackButton/>
         <SkillDetails skillDetails={skillQueryResult} />
     </div>
+    </>
 }

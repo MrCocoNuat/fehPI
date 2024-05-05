@@ -5,6 +5,8 @@ import { Language } from "../pages/api/dao/types/dao-types";
 
 import { MoonIcon, SunIcon, LanguageIcon } from "@heroicons/react/24/solid";
 import { Button } from "./tailwind-styled/sync/Button";
+import { logo } from "./ui-resources";
+import Link from "next/link";
 
 // this is NOT a ui string resource - it is tied to FEH's languages (e.g. USES !== EUES)
 const languageNames = {
@@ -32,8 +34,13 @@ export function TopBar(
     const { theme, setTheme } = useTheme();
 
     return <>
-        <nav className="dark:bg-red-800 bg-blue-300 h-[50px] w-full fixed top-0 flex justify-between items-center z-50">
-            <div>logo</div>
+        <nav className="dark:bg-blue-900/50 bg-blue-300 h-[50px] w-full fixed top-0 left-0 flex justify-between items-center z-50">
+            <Link 
+                href={"/"}
+                className="left-1 relative aspect-square w-10">
+                {logo()}
+            </Link>
+        
             <div className="flex gap-2">
                 {false && <Button
                     onClick={() => setTheme((theme === "dark") ? "light" : "dark")}
@@ -47,7 +54,7 @@ export function TopBar(
 
                 <select
                     id="language-select"
-                    className="m-2 ml-0 mr-4 w-32"
+                    className="m-2 ml-0 mr-4 w-36 pl-1"
                     defaultValue={currentLanguage}
                     onChange={(evt) => updateCurrentLanguage(+evt.target.value as Language)}
                 >

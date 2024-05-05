@@ -79,6 +79,10 @@ export function orbImage() {
     return <Image src={"/icons/misc/Orb.webp"} alt={"orb"} fill={true} sizes="32px" />
 }
 
+export function logo(){
+    return <Image src={"/logo-fehpi.png"} alt={"fehpi logo"} fill={true} sizes="128px" />
+}
+
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-sm font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
     [SkillCategory.PASSIVE_B]: <div className="text-sm font-semibold text-green-500 absolute bottom-[-6px] right-[-3px] z-10">B</div>,

@@ -7,6 +7,8 @@ import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLangua
 import { SkillQueryResult } from "../skill/[skillId]";
 import { HeroDetails } from "../../../components/api-explorer/HeroDetails";
 import { SlugBackButton } from "../../../components/api-explorer/BackButton";
+import { Head } from "next/document";
+import { getUiStringResource } from "../../../components/ui-resources";
 
 const GET_HERO_DETAIL = gql`
     query getHeroDetail($id: Int!, $language: OptionalLanguage!){
@@ -84,8 +86,13 @@ export default function SkillExplorer() {
     }
 
     const HeroQueryResult = mapQuery(data);
-    return <div className="flex flex-row justify-center p-2">
+    return<>
+    <Head>
+        <title>{getUiStringResource(currentLanguage, "TITLE_HERO")}</title>
+    </Head>
+     <div className="flex flex-row justify-center p-2">
         <SlugBackButton/>
         <HeroDetails heroDetails={HeroQueryResult} />
     </div>
+    </>
 }

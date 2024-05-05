@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/RandomPortraits'
-import { getUiStringResource, logo } from '../components/ui-resources'
+import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo, logo } from '../components/ui-resources'
 import { useContext } from 'react'
 import { LanguageContext } from './_app'
 
@@ -30,7 +30,7 @@ export default function Home() {
                 GraphQL API
               </Link>
               {getUiStringResource(selectedLanguage, "HOME_MSG1.2")}
-              </p> 
+            </p>
             <p className='text-lg'>
               {getUiStringResource(selectedLanguage, "HOME_MSG2.1")}
               <Link href={'https://the-guild.dev/graphql/yoga-server'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
@@ -73,6 +73,15 @@ export default function Home() {
           </div>
 
         </div>
+        <p>{selectedLanguage != DEFAULT_LANGUAGE && getUiStringResource(selectedLanguage, "HOME_TRANSLATION_WARNING")}</p>
+        <Link href={'https://github.com/MrCocoNuat/fehPI'}>
+          <div className='flex flex-row gap-1'>
+            <div className='relative aspect-square w-6'>
+              {githubLogo()}
+            </div>
+            {getUiStringResource(selectedLanguage, "HOME_FOSS")}
+          </div>
+        </Link>
       </main>
     </>
   )

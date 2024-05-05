@@ -27,7 +27,7 @@ const stringsForLanguage = {
     [Language.USPT]: ptStrings,
 } as const;
 
-const DEFAULT_LANGUAGE = Language.USEN;
+export const DEFAULT_LANGUAGE = Language.USEN;
 const ORIGIN_LANGUAGE = Language.JPJA;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
 const SAME_AS_DEFAULT = "SAME_AS_DEFAULT";
@@ -82,6 +82,12 @@ export function orbImage() {
 export function logo(){
     return <Image src={"/logo-fehpi.png"} alt={"fehpi logo"} fill={true} sizes="128px" />
 }
+
+
+export function githubLogo(){
+    return <Image src={"/logo-github.png"} alt={"fehpi logo"} fill={true} sizes="32px" />
+}
+
 
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-sm font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,

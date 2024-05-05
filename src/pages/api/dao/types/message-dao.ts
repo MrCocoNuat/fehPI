@@ -23,20 +23,11 @@ class LangMessageDao extends VercelKvBacked(typeToken, GithubSourced(typeToken, 
         super({repoPath});
         this.redisKey = "MESSAGE_BY_KEY_" + langLabel;
         console.time(timerLabel);
-        // this step is for the admin runner - writes to KV        
-        this.initialization = this.loadData().then(async () => await this.writeHash(this.redisKey, this.collectionKeys).then(() => console.timeEnd(timerLabel)));
-        // this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
-        // this.initialization = this.loadData();
+        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
     }
     
     private async getData() {
         this.setByKeys(Object.values(await this.readHash(this.redisKey, keyTypeToken))); //TODO: use the damn setter ya bum
-    }
-
-    private async loadData(){ // to KV
-        return this.getGithubData()
-        .then(data => data.filter(message => this.RELEVANT_KEY_PATTERNS.some(regExp => regExp.test(message.idTag))))
-        .then(data => this.setByKeys(data));
     }
     
     // already correct format

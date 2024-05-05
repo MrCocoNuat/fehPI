@@ -5,7 +5,7 @@ const batchSize = 300;
 
 export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V, dBase: DBase) {
     return class VercelKvDao extends dBase {
-        protected async writeHash(hashName: string, hash: {[key: string|number] : V}){
+        private async writeHash(hashName: string, hash: {[key: string|number] : V}){
             console.log("writing to " + hashName);
             const hashToPost = partitionObj(hash, batchSize);
             for (const batch of hashToPost){
@@ -35,6 +35,17 @@ export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V,
             }
 
             console.log("read from " + hashName);
+            return result;
+        }
+
+        private async writeString(key: string, value: string){
+            await kv.set(key, value);
+            console.log(`wrote to ${key}`);
+        }
+
+        protected async readString(key: string){
+            const result = await kv.get(key) as string;
+            console.log(`read from ${key}`);
             return result;
         }
     }   

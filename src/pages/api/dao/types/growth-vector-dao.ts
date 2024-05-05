@@ -1,5 +1,4 @@
 import { Dao } from "../mixins/dao";
-import { GithubSourced } from "../mixins/github-sourced";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 import { GrowthVectors } from "./dao-types";
 

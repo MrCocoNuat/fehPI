@@ -1,6 +1,5 @@
 import { HonorType, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPerStat, Series, SeriesBitfield, assertIsBlessedHeroDefinition } from "./dao-types";
 import { Dao } from "../mixins/dao";
-import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
 import { getAllEnumValues } from "enum-for";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";

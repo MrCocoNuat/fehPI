@@ -1,6 +1,5 @@
 import { assertIsPassiveSkillDefinition, assertIsWeaponDefinition, AssistDefinition, MovementType, MovementTypeBitfield, ParameterPerStat, PassiveSkillDefinition, RefineType, SkillCategory, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
-import { GithubSourced } from "../mixins/github-sourced";
 import { WriteOnceIdIndexed } from "../mixins/id-indexed";
 import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
 import { getAllEnumValues } from "enum-for";
@@ -15,7 +14,7 @@ const imageTypeToken = null! as PassiveSkillDefinition;
 const idKeyTypeToken = 0;
 const stringKeyTypeToken = "";
 
-export class SkillDao extends VercelKvBacked(typeToken, GithubSourced(imageTypeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>)))) {
+export class SkillDao extends VercelKvBacked(typeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>))) {
     initialization: Promise<void>;
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {

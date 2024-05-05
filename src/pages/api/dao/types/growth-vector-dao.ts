@@ -17,7 +17,8 @@ export class GrowthVectorDao extends VercelKvBacked(typeToken, Dao<GrowthVectors
 
     private async getData() {
         return this.readString(this.redisKey)
-            .then(data => this.growthVectors = JSON.parse(data))
+        // ok something must have changed on the vercel kv side, because suddenly readString started returning a string[][] instead of a string and I CANNOT be arsed to figure out why. So this stupid parse-stringify dance is needed to keep TS happy
+            .then(data => this.growthVectors = JSON.parse(JSON.stringify(data)))
     }
 
     async getAllGrowthVectors() {

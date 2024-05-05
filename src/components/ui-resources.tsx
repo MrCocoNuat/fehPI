@@ -3,14 +3,14 @@ import Image from "next/image";
 
 
 // nextjs static inclusions
-import enStrings from "../public/ui-strings/EN.json"
-import ptStrings from "../public/ui-strings/PT.json"
-import esStrings from "../public/ui-strings/ES.json"
-import deStrings from "../public/ui-strings/DE.json"
-import frStrings from "../public/ui-strings/FR.json"
-import itStrings from "../public/ui-strings/IT.json"
-import jaStrings from "../public/ui-strings/JA.json"
-import zhStrings from "../public/ui-strings/ZH.json"
+import enStrings from "../../public/ui-strings/EN.json"
+import ptStrings from "../../public/ui-strings/PT.json"
+import esStrings from "../../public/ui-strings/ES.json"
+import deStrings from "../../public/ui-strings/DE.json"
+import frStrings from "../../public/ui-strings/FR.json"
+import itStrings from "../../public/ui-strings/IT.json"
+import jaStrings from "../../public/ui-strings/JA.json"
+import zhStrings from "../../public/ui-strings/ZH.json"
 import { Rarity } from "../engine/types";
 
 
@@ -375,12 +375,7 @@ const statStringResourceIds = {
     [OptionalStat.SPD]: "UNIT_STAT_SPD",
     [OptionalStat.DEF]: "UNIT_STAT_DEF",
     [OptionalStat.RES]: "UNIT_STAT_RES",
-    [OptionalStat.NONE]: "UNIT_STAT_NONE",
-    [Stat.HP]: "UNIT_STAT_HP",
-    [Stat.ATK]: "UNIT_STAT_ATK",
-    [Stat.SPD]: "UNIT_STAT_SPD",
-    [Stat.DEF]: "UNIT_STAT_DEF",
-    [Stat.RES]: "UNIT_STAT_RES",
+    [OptionalStat.NONE]: "UNIT_STAT_NONE"
 } as const;
 export function statStringsForLanguage(language: Language) {
     return (stat: OptionalStat | Stat) => getUiStringResource(language, statStringResourceIds[stat]);

@@ -7,6 +7,7 @@ import { SkillDetailsMini, WeaponDetailsMini } from "../../components/api-explor
 import { Checkbox } from "../../components/tailwind-styled/sync/Checkbox";
 import { getUiStringResource } from "../../components/ui-resources";
 import { BackButton } from "../../components/api-explorer/BackButton";
+import Head from "next/head";
 
 const GET_ALL_SKILL = gql`
     query getAllSkillMini($language: OptionalLanguage!){
@@ -75,7 +76,11 @@ export default function SkillExplorer() {
     }
 
     const skillQueryResult = filterSkills(mapQuery(data), filterText, checkboxes);
-    return <div className="flex flex-row justify-center p-2">
+    return <>
+    <Head>
+        <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
+    </Head>
+    <div className="flex flex-row justify-center p-2">
         <BackButton/>
         <div className="flex flex-col gap-2">
             <div className="flex flex-col sm:flex-row justify-center gap-2 w-[300px] sm:w-[600px] lg:w-[900px] xl:w-[1200px] bg-blue-500/25 rounded-xl p-2">
@@ -102,4 +107,5 @@ export default function SkillExplorer() {
             </div>
         </div>
     </div>
+    </>
 }

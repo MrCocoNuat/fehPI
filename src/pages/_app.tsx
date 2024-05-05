@@ -8,6 +8,7 @@ import { createContext } from 'react'
 import { Language } from './api/dao/types/dao-types'
 import { useState } from 'react'
 import { TopBar } from '../components/TopBar'
+import { getUiStringResource } from '../components/ui-resources'
 
 export const LanguageContext = createContext(Language.USEN);
 
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <LanguageContext.Provider value={currentLanguage}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={getUiStringResource(currentLanguage, "HOME_MSG1.1") + " GraphQL API " + getUiStringResource(currentLanguage, "HOME_MSG1.2")} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TopBar currentLanguage={currentLanguage} updateCurrentLanguage={updateCurrentLanguage} />

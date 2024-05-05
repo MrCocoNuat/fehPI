@@ -1,0 +1,69 @@
+{
+    "UNIT_STAT_HP": "PV",
+    "UNIT_STAT_ATK": "Atq.",
+    "UNIT_STAT_SPD": "Vel.",
+    "UNIT_STAT_DEF": "Def.",
+    "UNIT_STAT_RES": "Res.",
+    "UNIT_STAT_NONE": "Nenhuma",
+
+    "UNIT_RARITY_ONE": "1★",
+    "UNIT_RARITY_TWO": "2★",
+    "UNIT_RARITY_THREE": "3★",
+    "UNIT_RARITY_FOUR": "4★",
+    "UNIT_RARITY_FIVE": "5★",
+
+    "UNIT_LEVEL": "Nív.",
+    "UNIT_DRAGONFLOWERS": "Flores de dragão",
+    "UNIT_ASSET": "Forte",
+    "UNIT_FLAW": "Fraco",
+    "UNIT_ASCENSION": "Ascender",
+
+    "SELECT_NO_OPTIONS": "Sem Opções",
+
+    "SERIES_ARCHANEA": "SAME_AS_DEFAULT",
+    "SERIES_VALENTIA": "SAME_AS_DEFAULT",
+    "SERIES_JUGDRAL": "SAME_AS_DEFAULT",
+    "SERIES_THRACIA": "SAME_AS_DEFAULT",
+    "SERIES_ELIBE_1": "SAME_AS_DEFAULT",
+    "SERIES_ELIBE_2": "SAME_AS_DEFAULT",
+    "SERIES_MAGVEL": "SAME_AS_DEFAULT",
+    "SERIES_TELLIUS_1": "SAME_AS_DEFAULT",
+    "SERIES_TELLIUS_2": "SAME_AS_DEFAULT",
+    "SERIES_AWAKENING": "SAME_AS_DEFAULT",
+    "SERIES_FATES": "SAME_AS_DEFAULT",
+    "SERIES_FODLAN": "SAME_AS_DEFAULT",
+    "SERIES_ELYOS": "SAME_AS_DEFAULT",
+    "SERIES_ZENITH": "SAME_AS_DEFAULT",
+    "SERIES_TOKYO": "SAME_AS_DEFAULT",
+
+    "SKILL_EXCLUSIVE": "Exclusivo",
+    "SKILL_ENEMY_ONLY": "Apenas para o Inimigo",
+    "SKILL_ARCANE": "Arcana",
+
+    "SKILL_PREREQUISITES": "Pré-requisitos",
+    "SKILL_NEXT_SKILL": "Próxima Habilidade",
+    "SKILL_REFINE_BASE": "Base de Refino de Arma",
+    "SKILL_REFINES": "Armas Refinadas",
+
+    "SEARCH_PLACEHOLDER_NAME_ID": "Pesquisar por Nome ou ID",
+    "SEARCH_REFINE": "Incluem Armas Refinadas",
+
+    "HERO_REFRESHER": "Dança",
+
+    "HOME_MSG1.1": "fehPI: Uma",
+    "HOME_MSG1.2": "para Fire Emblem Heroes",
+    "HOME_MSG2.1": "criado com",
+    "HOME_MSG2.2": "",
+    "HOME_MSG3.1": "com dados de",
+    "HOME_MSG3.2": "",
+    "HOME_MSG4.1": "Explorar os Dados:",
+    "HOME_HEROES": "Heróis",
+    "HOME_SKILLS": "Habilidades",
+    "HOME_FOSS": "Livre e de Código Aberto",
+    "HOME_TRANSLATION_WARNING": "Traduções em idiomas diferentes do inglês podem ser de baixa qualidade. Por favor, contribua no link Open Source, se puder.",
+
+    "TITLE_ROOT": "fehPI Data Explorer",
+    "TITLE_HERO": "fehPI Hero Explorer",
+    "TITLE_SKILL": "fehPI Skill Explorer"
+
+}

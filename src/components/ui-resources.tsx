@@ -3,14 +3,14 @@ import Image from "next/image";
 
 
 // nextjs static inclusions
-import enStrings from "../public/ui-strings/EN.json"
-import ptStrings from "../public/ui-strings/PT.json"
-import esStrings from "../public/ui-strings/ES.json"
-import deStrings from "../public/ui-strings/DE.json"
-import frStrings from "../public/ui-strings/FR.json"
-import itStrings from "../public/ui-strings/IT.json"
-import jaStrings from "../public/ui-strings/JA.json"
-import zhStrings from "../public/ui-strings/ZH.json"
+import enStrings from "../../public/ui-strings/EN.json"
+import ptStrings from "../../public/ui-strings/PT.json"
+import esStrings from "../../public/ui-strings/ES.json"
+import deStrings from "../../public/ui-strings/DE.json"
+import frStrings from "../../public/ui-strings/FR.json"
+import itStrings from "../../public/ui-strings/IT.json"
+import jaStrings from "../../public/ui-strings/JA.json"
+import zhStrings from "../../public/ui-strings/ZH.json"
 import { Rarity } from "../engine/types";
 
 
@@ -27,7 +27,7 @@ const stringsForLanguage = {
     [Language.USPT]: ptStrings,
 } as const;
 
-const DEFAULT_LANGUAGE = Language.USEN;
+export const DEFAULT_LANGUAGE = Language.USEN;
 const ORIGIN_LANGUAGE = Language.JPJA;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
 const SAME_AS_DEFAULT = "SAME_AS_DEFAULT";
@@ -78,6 +78,16 @@ export function resplendentIcon() {
 export function orbImage() {
     return <Image src={"/icons/misc/Orb.webp"} alt={"orb"} fill={true} sizes="32px" />
 }
+
+export function logo(){
+    return <Image src={"/logo-fehpi.png"} alt={"fehpi logo"} fill={true} sizes="128px" />
+}
+
+
+export function githubLogo(){
+    return <Image src={"/logo-github.png"} alt={"fehpi logo"} fill={true} sizes="32px" />
+}
+
 
 const PassiveSkillCategoryLetter = {
     [SkillCategory.PASSIVE_A]: <div className="text-sm font-semibold text-red-500 absolute bottom-[-6px] right-[-3px] z-10">A</div>,
@@ -375,12 +385,7 @@ const statStringResourceIds = {
     [OptionalStat.SPD]: "UNIT_STAT_SPD",
     [OptionalStat.DEF]: "UNIT_STAT_DEF",
     [OptionalStat.RES]: "UNIT_STAT_RES",
-    [OptionalStat.NONE]: "UNIT_STAT_NONE",
-    [Stat.HP]: "UNIT_STAT_HP",
-    [Stat.ATK]: "UNIT_STAT_ATK",
-    [Stat.SPD]: "UNIT_STAT_SPD",
-    [Stat.DEF]: "UNIT_STAT_DEF",
-    [Stat.RES]: "UNIT_STAT_RES",
+    [OptionalStat.NONE]: "UNIT_STAT_NONE"
 } as const;
 export function statStringsForLanguage(language: Language) {
     return (stat: OptionalStat | Stat) => getUiStringResource(language, statStringResourceIds[stat]);

@@ -17,8 +17,8 @@ function nRandomInts(n: number, max: number) {
     return new Array(n).fill(0).map(() => Math.floor(Math.random() * max));
 }
 
-const RANDOM_HERO_PORTRAITS = gql`
-    query RandomHeroPortraits($ids: [Int!]!){
+const HERO_PORTRAITS = gql`
+    query HeroPortraits($ids: [Int!]!){
         heroes(idNums: $ids){
             idNum
             imageUrl   
@@ -28,8 +28,8 @@ const RANDOM_HERO_PORTRAITS = gql`
 const mapHeroQuery = (data: any) => data.heroes as { idNum: number, imageUrl: string }[]
 
 
-const RANDOM_SKILL_ICONS = gql`
-    query RandomSkillIcons($ids: [Int!]!){
+const SKILL_ICONS = gql`
+    query SkillIcons($ids: [Int!]!){
         skills(idNums: $ids){
             idNum
             category
@@ -55,7 +55,7 @@ const mapSkillQuery = (data: any) => data.skills.map((responseSkill: any) =>
 
 export function RandomHeroPortraits() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_HERO_ID));
-    const { data, loading, error } = useQuery(RANDOM_HERO_PORTRAITS, { variables: { ids: ids } });
+    const { data, loading, error } = useQuery(HERO_PORTRAITS, { variables: { ids: ids } });
     console.log(data);
 
     if (error) {
@@ -65,21 +65,22 @@ export function RandomHeroPortraits() {
         return <>...</>
     }
 
-
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapHeroQuery(data).map((value) => 
-        <Link href={`/hero/${value.idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden" >
-            <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden">
-                <Image src={value.imageUrl} alt={`portrait of hero ${value.idNum}`} fill={true} sizes="64px" />
-            </div>
-        </Link>)}
+        {mapHeroQuery(data).map((value) => <HeroPortrait {...value}/>)}
     </div>
+}
 
+export function HeroPortrait({idNum, imageUrl}: {idNum : number, imageUrl: string}){
+    return <Link href={`/hero/${idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden" >
+            <div key={idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden">
+                <Image src={imageUrl} alt={`portrait of hero ${idNum}`} fill={true} sizes="64px" />
+            </div>
+        </Link>
 }
 
 export function RandomSkillIcons() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_SKILL_ID));
-    const { data, loading, error } = useQuery(RANDOM_SKILL_ICONS, { variables: { ids: ids } });
+    const { data, loading, error } = useQuery(SKILL_ICONS, { variables: { ids: ids } });
     console.log(data);
     if (error) {
         return <>error</>
@@ -88,14 +89,15 @@ export function RandomSkillIcons() {
         return <>...</>
     }
 
-
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapSkillQuery(data).map((value) => 
-        <Link href={`/skill/${value.idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl" >
-            <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl">
-                {skillCategoryIcon(value.skillCategory, value.imageUrl, false, "48px")}
-            </div>
-        </Link>
-        )}
+        {mapSkillQuery(data).map((value) => <SkillPortrait {...value} />)}
     </div>
+}
+
+export function SkillPortrait({idNum, imageUrl, skillCategory} : {idNum: number, imageUrl?: string, skillCategory:SkillCategory}){
+    return <Link href={`/skill/${idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl" >
+    <div key={idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl">
+        {skillCategoryIcon(skillCategory, imageUrl, false, "48px")}
+    </div>
+</Link>
 }

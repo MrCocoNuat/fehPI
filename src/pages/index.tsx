@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/RandomPortraits'
+import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/Portraits'
 import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo, logo } from '../components/ui-resources'
 import { useContext } from 'react'
 import { LanguageContext } from './_app'

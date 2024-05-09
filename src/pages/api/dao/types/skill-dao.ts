@@ -1,7 +1,7 @@
 import { assertIsPassiveSkillDefinition, assertIsWeaponDefinition, AssistDefinition, MovementType, MovementTypeBitfield, ParameterPerStat, PassiveSkillDefinition, RefineType, SkillCategory, SkillDefinition, SpecialDefinition, Stat, WeaponDefinition, WeaponType, WeaponTypeBitfield, } from "./dao-types";
 import { Dao } from "../mixins/dao";
-import { WriteOnceIdIndexed } from "../mixins/id-indexed";
-import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
+import { IdIndexed } from "../mixins/id-indexed";
+import { KeyIndexed } from "../mixins/key-indexed";
 import { getAllEnumValues } from "enum-for";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 import { idText } from "typescript";
@@ -14,13 +14,12 @@ const imageTypeToken = null! as PassiveSkillDefinition;
 const idKeyTypeToken = 0;
 const stringKeyTypeToken = "";
 
-export class SkillDao extends VercelKvBacked(typeToken, WriteOnceIdIndexed(typeToken, WriteOnceKeyIndexed(typeToken, Dao<SkillDefinition>))) {
-    initialization: Promise<void>;
+export class SkillDao extends VercelKvBacked(typeToken, IdIndexed(typeToken, KeyIndexed(typeToken, Dao<SkillDefinition>))) {
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
         super({ repoPath });
         console.time(timerLabel);
-         this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
+        console.timeEnd(timerLabel);
     }
 
     private async getData() {
@@ -29,7 +28,10 @@ export class SkillDao extends VercelKvBacked(typeToken, WriteOnceIdIndexed(typeT
     }
 
     async getByIdNums(idNums: number[], filterCategories?: SkillCategory[] | null) {
-        await this.initialization;
+        const unknownIds = idNums.filter((x) => { return Object.keys(this.collectionIds).indexOf(x.toString()) < 0 });
+        if (unknownIds.length > 0){
+            await this.setByIds(Object.values(await this.readKeysOfHash("SKILL_BY_ID", unknownIds.map(id => id.toString()), idKeyTypeToken)))
+        }
         const skills = this.getByIds(idNums);
         if (filterCategories) {
             return skills.filter(skill => filterCategories.includes(skill.category));
@@ -39,16 +41,11 @@ export class SkillDao extends VercelKvBacked(typeToken, WriteOnceIdIndexed(typeT
 
     // NOTE!! idTags are not unique - e.g. Quick Riposte 3 as a PASSIVE_B and Quick Riposte 3 as a PASSIVE_S share the same idTag.
     async getByIdTags(idTags: string[]) {
-        await this.initialization;
+        const unknownKeys = idTags.filter((x) => { return Object.keys(this.collectionKeys).indexOf(x) < 0 });
+        if (unknownKeys.length > 0){
+            await this.setByKeys(Object.values(await this.readKeysOfHash("SKILL_BY_KEY", unknownKeys, stringKeyTypeToken)))
+        }
         return this.getByKeys(idTags);
     }
 
-    async getAll(filterCategories?: SkillCategory[] | null) {
-        await this.initialization;
-        const skills = this.getAllIds();
-        if (filterCategories) {
-            return skills.filter(skill => filterCategories.includes(skill.category));
-        }
-        return skills;
-    }
 }

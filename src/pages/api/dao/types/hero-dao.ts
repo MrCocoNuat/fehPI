@@ -1,6 +1,6 @@
 import { HonorType, BlessingEffect, BlessingSeason, HeroDefinition, ParameterPerStat, Series, SeriesBitfield, assertIsBlessedHeroDefinition } from "./dao-types";
 import { Dao } from "../mixins/dao";
-import { WriteOnceIdIndexed } from "../mixins/id-indexed";
+import { IdIndexed } from "../mixins/id-indexed";
 import { getAllEnumValues } from "enum-for";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 
@@ -10,26 +10,21 @@ const typeToken = null! as HeroDefinition;
 
 const keyTypeToken = 0 as number;
 
-export class HeroDao extends VercelKvBacked(typeToken, WriteOnceIdIndexed(typeToken, Dao<HeroDefinition>)) {
-    private initialization: Promise<void>;
+export class HeroDao extends VercelKvBacked(typeToken, IdIndexed(typeToken, Dao<HeroDefinition>)) {
 
     constructor({ repoPath, timerLabel }: { repoPath: string, timerLabel: string }) {
         super({ repoPath });
         console.time(timerLabel);
-        this.initialization = this.getData();
-    }
-
-    private async getData() {
-        this.setByIds(Object.values(await this.readHash("HERO_BY_ID", keyTypeToken))); 
+        console.timeEnd(timerLabel);
     }
 
     async getByIdNums(idNums: number[]) {
-        await this.initialization;
+        // grab any unknown values
+        const unknownIds = idNums.filter((x) => { return Object.keys(this.collectionIds).indexOf(x.toString()) < 0 });
+        if (unknownIds.length > 0){
+            await this.setByIds(Object.values(await this.readKeysOfHash("HERO_BY_ID", unknownIds.map(id => id.toString()), keyTypeToken)))
+        }
         return this.getByIds(idNums);
     }
 
-    async getAll() {
-        await this.initialization;
-        return this.getAllIds();
-    }
 }

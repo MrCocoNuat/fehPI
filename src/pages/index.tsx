@@ -11,8 +11,6 @@ import { LanguageContext } from './_app'
 export default function Home() {
   const selectedLanguage = useContext(LanguageContext);
 
-  //TODO: fill in Heads for other pages
-  //TODO: really basic SEO
   return (
     <>
       <Head>
@@ -86,5 +84,3 @@ export default function Home() {
     </>
   )
 }
-
-//TODO: fulfill terms of AGPL, prominently feature source

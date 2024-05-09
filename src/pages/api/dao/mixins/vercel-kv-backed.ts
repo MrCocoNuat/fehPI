@@ -38,6 +38,34 @@ export function VercelKvBacked<V, DBase extends DaoConstructor<V>>(typeToken: V,
             return result;
         }
 
+        protected async readKeysOfHash(hashName: string, keys: string[], intendedKeyTypeToken: number | string){
+            const result = {} as {[key : string | number] : V}; 
+            const keyTransformer = typeof intendedKeyTypeToken === "number"? (s : string | number) => +s : (s : string | number) => s;
+
+            console.log("reading from " + hashName);
+            // for whatever asinine reason, Vercel's kv library handles nils like shit
+            // as in an HMGET that returns even 1 nil value turns the whole return value into null
+            // WTF???
+            // so filter to extant keys
+            const currentKeys = new Set((await kv.hkeys(hashName)).map(key => key.toString()));
+            const hashKeysToGet = partitionList(keys.filter(key => currentKeys.has((key))), batchSize);
+
+            // everything else gets undefs
+
+            for (const batch of hashKeysToGet){
+                const hash = await kv.hmget(hashName, ...batch);
+                if (hash === null){
+                    throw Error("retrieved hash was null");
+                }
+                for (let i = 0; i < batch.length; i++){
+                    result[keyTransformer(batch[i])] = hash[batch[i]] as V;
+                }
+            }
+
+            console.log("read from " + hashName);
+            return result;
+        }
+
         private async writeString(key: string, value: string){
             await kv.set(key, value);
             console.log(`wrote to ${key}`);

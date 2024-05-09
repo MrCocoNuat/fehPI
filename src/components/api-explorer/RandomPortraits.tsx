@@ -56,7 +56,7 @@ export function RandomHeroPortraits() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_HERO_ID));
     const { data, loading, error } = useQuery(RANDOM_HERO_PORTRAITS, { variables: { ids: ids } });
     if (data === undefined) {
-        return <></>
+        return <>...</>
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">
@@ -71,7 +71,7 @@ export function RandomSkillIcons() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_SKILL_ID));
     const { data, loading, error } = useQuery(RANDOM_SKILL_ICONS, { variables: { ids: ids } });
     if (data === undefined) {
-        return <></>
+        return <>...</>
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">

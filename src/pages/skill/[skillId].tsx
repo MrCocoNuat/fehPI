@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
-import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG } from "../../../components/api-fragments";
+import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG } from "../../components/api-fragments";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
-import { LanguageContext } from "../../_app";
-import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
-import { SlugBackButton } from "../../../components/api-explorer/BackButton";
-import { getUiStringResource } from "../../../components/ui-resources";
+import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../api/dao/types/dao-types";
+import { LanguageContext } from "../_app";
+import { SkillDetails } from "../../components/api-explorer/SkillDetails";
+import { SlugBackButton } from "../../components/api-explorer/BackButton";
+import { getUiStringResource } from "../../components/ui-resources";
 import Head from "next/head";
 
 const GET_SKILL_DETAIL = gql`

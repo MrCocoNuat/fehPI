@@ -1,5 +1,5 @@
 import { MouseEvent, useContext, useState } from "react";
-import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
+import { HeroQueryResult } from "../../pages/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
 import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, resplendentIcon, weaponTypeIcon } from "../ui-resources";

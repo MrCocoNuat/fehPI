@@ -1,4 +1,4 @@
-import { SkillQueryResult } from "../../pages/explorer/skill/[skillId]";
+import { SkillQueryResult } from "../../pages/skill/[skillId]";
 import Image from "next/image";
 import { getUiStringResource, largeSkillCategoryIcon, movementTypeIcon, skillCategoryIcon, weaponRefineIcon, weaponTypeIcon } from "../ui-resources";
 import { RefineType, SkillCategory } from "../../pages/api/dao/types/dao-types";

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 
 // don't really matter that much, so no need to update these values
-const MAX_RAND_HERO_ID = 900;
+const MAX_RAND_HERO_ID = 1000;
 const MAX_RAND_SKILL_ID = 3600;
 
 const count = 4;
@@ -39,9 +39,9 @@ const RANDOM_SKILL_ICONS = gql`
     }
 `
 // skill ids are not all consecutively defined (holes exist) so any nulls are replaced with
-// a special - all we need is the icon anyway, this is for show
+// a special (Galeforce) - all we need is the icon anyway, this is for show
 const fakeSkill = {
-    idNum: -9999,
+    idNum: 199,
     skillCategory: SkillCategory.SPECIAL,
 }
 const mapSkillQuery = (data: any) => data.skills.map((responseSkill: any) =>
@@ -55,8 +55,11 @@ const mapSkillQuery = (data: any) => data.skills.map((responseSkill: any) =>
 export function RandomHeroPortraits() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_HERO_ID));
     const { data, loading, error } = useQuery(RANDOM_HERO_PORTRAITS, { variables: { ids: ids } });
-    if (data === undefined) {
+    if (loading !== undefined) {
         return <>...</>
+    }
+    if (error !== undefined) {
+        return <>error</>
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">
@@ -70,8 +73,11 @@ export function RandomHeroPortraits() {
 export function RandomSkillIcons() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_SKILL_ID));
     const { data, loading, error } = useQuery(RANDOM_SKILL_ICONS, { variables: { ids: ids } });
-    if (data === undefined) {
+    if (loading !== undefined) {
         return <>...</>
+    }
+    if (error !== undefined) {
+        return <>error</>
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">

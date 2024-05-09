@@ -1,14 +1,14 @@
 import { useContext } from "react";
-import { LanguageContext } from "../../_app";
+import { LanguageContext } from "../_app";
 import { useRouter } from "next/router";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
-import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLanguage, Series, SeriesName, WeaponType } from "../../api/dao/types/dao-types";
+import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLanguage, Series, SeriesName, WeaponType } from "../api/dao/types/dao-types";
 import { SkillQueryResult } from "../skill/[skillId]";
-import { HeroDetails } from "../../../components/api-explorer/HeroDetails";
-import { SlugBackButton } from "../../../components/api-explorer/BackButton";
+import { HeroDetails } from "../../components/api-explorer/HeroDetails";
+import { SlugBackButton } from "../../components/api-explorer/BackButton";
 import Head from "next/head";
-import { getUiStringResource } from "../../../components/ui-resources";
+import { getUiStringResource } from "../../components/ui-resources";
 
 const GET_HERO_DETAIL = gql`
     query getHeroDetail($id: Int!, $language: OptionalLanguage!){

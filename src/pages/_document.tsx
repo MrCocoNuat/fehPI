@@ -11,7 +11,7 @@ export default function Document() {
         <Main />
         <NextScript />
       </body>
-      {/* <SpeedInsights /> */}
+      <SpeedInsights />
     </Html>
   )
 }

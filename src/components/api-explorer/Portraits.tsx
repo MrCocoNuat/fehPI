@@ -56,7 +56,6 @@ const mapSkillQuery = (data: any) => data.skills.map((responseSkill: any) =>
 export function RandomHeroPortraits() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_HERO_ID));
     const { data, loading, error } = useQuery(HERO_PORTRAITS, { variables: { ids: ids } });
-    console.log(data);
 
     if (error) {
         return <>error</>
@@ -81,7 +80,7 @@ export function HeroPortrait({idNum, imageUrl}: {idNum : number, imageUrl: strin
 export function RandomSkillIcons() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_SKILL_ID));
     const { data, loading, error } = useQuery(SKILL_ICONS, { variables: { ids: ids } });
-    console.log(data);
+    
     if (error) {
         return <>error</>
     }

@@ -1,7 +1,4 @@
-import { kv } from "@vercel/kv";
 import { DaoConstructor } from "./dao";
-import { stringify } from "querystring";
-import { partitionObj } from "./vercel-kv-backed";
 
 
 export function IdIndexed<V extends {idNum: number}, DBase extends DaoConstructor<V>>(typeToken: V, dBase : DBase){

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../api/dao/types/dao-types";
 import { LanguageContext } from "../_app";
 import { SkillDetails } from "../../components/api-explorer/SkillDetails";
-import { SlugBackButton } from "../../components/api-explorer/BackButton";
+import { BackButton } from "../../components/api-explorer/BackButton";
 import { getUiStringResource } from "../../components/ui-resources";
 import Head from "next/head";
 
@@ -151,7 +151,7 @@ export default function SkillExplorer() {
         <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
     </Head>
     <div className="flex flex-row justify-center p-2">
-        <SlugBackButton/>
+        <BackButton/>
         <SkillDetails skillDetails={skillQueryResult} />
     </div>
     </>

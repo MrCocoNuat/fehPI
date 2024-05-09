@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import Image from "next/image"
 import { largeSkillCategoryIcon, skillCategoryIcon } from "../ui-resources";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 
 // don't really matter that much, so no need to update these values
@@ -17,7 +18,7 @@ function nRandomInts(n: number, max: number) {
 }
 
 const RANDOM_HERO_PORTRAITS = gql`
-    query RandomHeroPortraits($ids: [Int!]){
+    query RandomHeroPortraits($ids: [Int!]!){
         heroes(idNums: $ids){
             idNum
             imageUrl   
@@ -28,7 +29,7 @@ const mapHeroQuery = (data: any) => data.heroes as { idNum: number, imageUrl: st
 
 
 const RANDOM_SKILL_ICONS = gql`
-    query RandomSkillIcons($ids: [Int!]){
+    query RandomSkillIcons($ids: [Int!]!){
         skills(idNums: $ids){
             idNum
             category
@@ -55,17 +56,23 @@ const mapSkillQuery = (data: any) => data.skills.map((responseSkill: any) =>
 export function RandomHeroPortraits() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_HERO_ID));
     const { data, loading, error } = useQuery(RANDOM_HERO_PORTRAITS, { variables: { ids: ids } });
-    if (loading !== undefined) {
-        return <>...</>
-    }
-    if (error !== undefined) {
+    console.log(data);
+
+    if (error) {
         return <>error</>
     }
+    if (loading) {
+        return <>...</>
+    }
+
 
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapHeroQuery(data).map((value) => <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden">
-            <Image src={value.imageUrl} alt={`portrait of hero ${value.idNum}`} fill={true} sizes="64px" />
-        </div>)}
+        {mapHeroQuery(data).map((value) => 
+        <Link href={`/hero/${value.idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden" >
+            <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl overflow-hidden">
+                <Image src={value.imageUrl} alt={`portrait of hero ${value.idNum}`} fill={true} sizes="64px" />
+            </div>
+        </Link>)}
     </div>
 
 }
@@ -73,16 +80,22 @@ export function RandomHeroPortraits() {
 export function RandomSkillIcons() {
     const [ids, setIds] = useState(nRandomInts(count, MAX_RAND_SKILL_ID));
     const { data, loading, error } = useQuery(RANDOM_SKILL_ICONS, { variables: { ids: ids } });
-    if (loading !== undefined) {
-        return <>...</>
-    }
-    if (error !== undefined) {
+    console.log(data);
+    if (error) {
         return <>error</>
     }
+    if (loading) {
+        return <>...</>
+    }
+
 
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapSkillQuery(data).map((value) => <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl">
-            {skillCategoryIcon(value.skillCategory, value.imageUrl, false, "48px")}
-        </div>)}
+        {mapSkillQuery(data).map((value) => 
+        <Link href={`/skill/${value.idNum}`} className="p-1 aspect-square relative bg-blue-500/25 rounded-xl" >
+            <div key={value.idNum} className="w-12 aspect-square relative bg-blue-500/25 rounded-xl">
+                {skillCategoryIcon(value.skillCategory, value.imageUrl, false, "48px")}
+            </div>
+        </Link>
+        )}
     </div>
 }

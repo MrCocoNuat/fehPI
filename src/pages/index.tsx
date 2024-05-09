@@ -55,18 +55,18 @@ export default function Home() {
               {getUiStringResource(selectedLanguage, "HOME_MSG4.1")}
             </p>
             <div className='flex flex-row gap-2 self-stretch'>
-              <Link href={'explorer/hero'} className='grow'>
+              <div className='grow'>
                 <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>
                   <RandomHeroPortraits />
                 </div>
-              </Link>
-              <Link href={'explorer/skill'} className='grow'>
+              </div>
+              <div className='grow'>
                 <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_SKILLS")}</p>
                   <RandomSkillIcons />
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
 

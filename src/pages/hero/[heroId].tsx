@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { BlessingEffect, BlessingSeason, HonorType, MovementType, OptionalLanguage, Series, SeriesName, WeaponType } from "../api/dao/types/dao-types";
 import { SkillQueryResult } from "../skill/[skillId]";
 import { HeroDetails } from "../../components/api-explorer/HeroDetails";
-import { SlugBackButton } from "../../components/api-explorer/BackButton";
+import { BackButton } from "../../components/api-explorer/BackButton";
 import Head from "next/head";
 import { getUiStringResource } from "../../components/ui-resources";
 
@@ -91,7 +91,7 @@ export default function SkillExplorer() {
         <title>{getUiStringResource(currentLanguage, "TITLE_HERO")}</title>
     </Head>
      <div className="flex flex-row justify-center p-2">
-        <SlugBackButton/>
+        <BackButton/>
         <HeroDetails heroDetails={HeroQueryResult} />
     </div>
     </>

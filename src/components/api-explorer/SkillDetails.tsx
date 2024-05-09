@@ -8,7 +8,7 @@ import Link from "next/link";
 
 
 export function WeaponDetailsMini(skill: { weaponImageUrl?: string, name: { value: string }, idNum: number, refineType: RefineType }) {
-    return <Link href={`/explorer/skill/${skill.idNum}`}>
+    return <Link href={`/skill/${skill.idNum}`}>
         <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
             <div className="aspect-square w-8 relative">
                 {weaponRefineIcon(skill.refineType, skill.weaponImageUrl)}
@@ -40,7 +40,7 @@ function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
 }
 
 export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: string }, idNum: number, category: SkillCategory }) {
-    return <Link href={`/explorer/skill/${skill.idNum}`}>
+    return <Link href={`/skill/${skill.idNum}`}>
         <div className="flex flex-row gap-2 items-center bg-blue-500/25  rounded-xl p-1" key={skill.idNum}>
             <div className="aspect-square w-8 relative">
                 {skillCategoryIcon(skill.category, skill.imageUrl)}

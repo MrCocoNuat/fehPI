@@ -111,7 +111,7 @@ export default function HeroExplorer() {
     <Head>
         <title>{getUiStringResource(currentLanguage, "TITLE_HERO")}</title>
     </Head>
-    <div className="flex flex-row justify-center p-2">
+    <div className="flex flex-row justify-center p-2 h-[600px]">
             <BackButton />
             <div className="flex flex-col gap-2">
                 <HeroDetails heroDetails={HeroQueryResult} />

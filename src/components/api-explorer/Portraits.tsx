@@ -66,7 +66,7 @@ export function RandomHeroPortraits() {
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapHeroQuery(data).map((value) => <HeroPortrait {...value}/>)}
+        {mapHeroQuery(data).map((value) => <HeroPortrait {...value} key={value.idNum}/>)}
     </div>
 }
 
@@ -90,7 +90,7 @@ export function RandomSkillIcons() {
     }
 
     return <div className="flex flex-row justify-between self-stretch m-2">
-        {mapSkillQuery(data).map((value) => <SkillPortrait {...value} />)}
+        {mapSkillQuery(data).map((value) => <SkillPortrait {...value} key={value.idNum} />)}
     </div>
 }
 

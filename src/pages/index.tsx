@@ -24,18 +24,18 @@ export default function Home() {
             </div>
             <p className='text-2xl text-center'>
               {getUiStringResource(selectedLanguage, "HOME_MSG1.1")}
-              <Link href={'/api/graphql'} className='bg-blue-500/25 rounded-xl p-2 m-2'>
+              <Link href={'/api/graphql'} className='bg-blue-700/25 rounded-xl p-2 m-2'>
                 GraphQL API
               </Link>
               {getUiStringResource(selectedLanguage, "HOME_MSG1.2")}
             </p>
             <p className='text-lg'>
               {getUiStringResource(selectedLanguage, "HOME_MSG2.1")}
-              <Link href={'https://the-guild.dev/graphql/yoga-server'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+              <Link href={'https://the-guild.dev/graphql/yoga-server'} className='bg-blue-700/25 rounded-xl p-1 m-1'>
                 GraphQL Yoga
               </Link>
               +
-              <Link href={'https://pothos-graphql.dev/'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+              <Link href={'https://pothos-graphql.dev/'} className='bg-blue-700/25 rounded-xl p-1 m-1'>
                 Pothos GraphQL
               </Link>
               {getUiStringResource(selectedLanguage, "HOME_MSG2.2")}
@@ -43,7 +43,7 @@ export default function Home() {
 
             <p className='text-lg'>
               {getUiStringResource(selectedLanguage, "HOME_MSG3.1")}
-              <Link href={'https://github.com/HertzDevil/feh-assets-json'} className='bg-blue-500/25 rounded-xl p-1 m-1'>
+              <Link href={'https://github.com/HertzDevil/feh-assets-json'} className='bg-blue-700/25 rounded-xl p-1 m-1'>
                 feh-assets-json
               </Link>
               {getUiStringResource(selectedLanguage, "HOME_MSG3.2")}
@@ -56,13 +56,13 @@ export default function Home() {
             </p>
             <div className='flex flex-row gap-2 self-stretch'>
               <div className='grow'>
-                <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
+                <div className='bg-blue-700/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>
                   <RandomHeroPortraits />
                 </div>
               </div>
               <div className='grow'>
-                <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
+                <div className='bg-blue-700/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_SKILLS")}</p>
                   <RandomSkillIcons />
                 </div>

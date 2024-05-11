@@ -25,13 +25,13 @@ function RefineDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
     return <div className="flex flex-col items-center">
         {skillDetails.refineBase !== undefined && 
-            <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
+            <div className="bg-blue-600/25  p-2 rounded-xl flex flex-col items-center">
                 <div>{getUiStringResource(selectedLanguage, "SKILL_REFINE_BASE")}</div>
                 {WeaponDetailsMini(skillDetails.refineBase)}
             </div>
         }
         {skillDetails.refines && skillDetails.refines.length > 0 && 
-            <div className="flex flex-col items-center bg-blue-500/25  p-2 rounded-xl">
+            <div className="flex flex-col items-center bg-blue-600/25  p-2 rounded-xl">
                 <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_REFINES")}</div>
                 {skillDetails.refines.map((refine) => WeaponDetailsMini(refine))}
             </div>
@@ -56,11 +56,11 @@ export function SkillDetailsMini(skill: { imageUrl?: string, name: { value: stri
 function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {  
     const selectedLanguage = useContext(LanguageContext);
     return <div className="grid grid-cols-2 gap-2">
-        <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
+        <div className="bg-blue-600/25  p-2 rounded-xl flex flex-col items-center">
             <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_PREREQUISITES")}</div>
             {skillDetails.prerequisites.map((prereq) => SkillDetailsMini({ ...prereq, category: skillDetails.category }))}
         </div>
-        <div className="bg-blue-500/25  p-2 rounded-xl flex flex-col items-center">
+        <div className="bg-blue-600/25  p-2 rounded-xl flex flex-col items-center">
             <div className="text-lg">{getUiStringResource(selectedLanguage, "SKILL_NEXT_SKILL")}</div>
             {skillDetails.nextSkill != undefined && SkillDetailsMini({ ...skillDetails.nextSkill, category: skillDetails.category })}
         </div>
@@ -71,7 +71,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
     const selectedLanguage = useContext(LanguageContext);
 
     return <div className="flex flex-col w-[600px] gap-2">
-        <div className="flex flex-row justify-center items-start bg-blue-500/25  rounded-xl p-2 gap-1">
+        <div className="flex flex-row justify-center items-start bg-blue-700/25  rounded-xl p-2 gap-1">
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-16 relative">
                     {(skillDetails.refineType !== undefined) ?
@@ -107,7 +107,7 @@ export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult 
                 </div>
             </div>
         </div>
-        {(skillDetails.refineType !== undefined || (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined)) && <div className="bg-blue-500/25  rounded-xl flex flex-col gap-2 p-2">
+        {(skillDetails.refineType !== undefined || (skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined)) && <div className="bg-blue-700/25  rounded-xl flex flex-col gap-2 p-2">
             {(skillDetails.refineType !== undefined) &&
                 RefineDetails({ skillDetails })}
             {(skillDetails.prerequisites.length > 0 || skillDetails.nextSkill != undefined) &&

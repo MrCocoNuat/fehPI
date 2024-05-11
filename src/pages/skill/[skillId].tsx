@@ -7,9 +7,10 @@ import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, Skill
 import { LanguageContext } from "../_app";
 import { SkillDetails, SkillDetailsMini } from "../../components/api-explorer/SkillDetails";
 import { BackButton } from "../../components/api-explorer/BackButton";
-import { getUiStringResource } from "../../components/ui-resources";
+import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo } from "../../components/ui-resources";
 import Head from "next/head";
 import { SkillPortrait } from "../../components/api-explorer/Portraits";
+import Link from "next/link";
 
 const GET_SKILL_DETAIL = gql`
 query getSkillDetail($id: Int!, $language: OptionalLanguage!){
@@ -161,19 +162,28 @@ export default function SkillExplorer() {
     const { loading: loadingSide, error: errorSide, data: dataSide } = useQuery(GET_ADJACENT_SKILLS, { variables: { ids: [skillId - 1, skillId + 1], language: OptionalLanguage[currentLanguage] } })
 
     if (loading) {
-        return <>...</>
+        return <></>
     }
     if (error) {
-        return "error";
+        return "";
+    }
+
+    if (data.skills[0] === null){
+        return <div className="flex flex-row justify-center p-2">
+            <BackButton />
+            <div className="bg-blue-800/25 rounded-xl p-2 gap-1">
+                {getUiStringResource(currentLanguage, "HOME_NOT_FOUND")}
+            </div>
+        </div>
     }
 
     const skillQueryResult = mapQuery(data);
     const sideQueryResults = (dataSide === undefined)? undefined : mapSideQuery(dataSide);
-    return <>
+    return <div className="flex flex-col items-center">
         <Head>
             <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
         </Head>
-        <div className="flex flex-row justify-center p-2">
+        <div className="flex flex-row justify-center p-2 mb-10">
             <BackButton />
             <div className="flex flex-col gap-2">
                 <SkillDetails skillDetails={skillQueryResult} />
@@ -183,5 +193,14 @@ export default function SkillExplorer() {
                 </div>}
             </div>
         </div>
-    </>
+        <p>{currentLanguage != DEFAULT_LANGUAGE && getUiStringResource(currentLanguage, "HOME_TRANSLATION_WARNING")}</p>
+        <Link href={'https://github.com/MrCocoNuat/fehPI'}>
+          <div className='flex flex-row gap-1'>
+            <div className='relative aspect-square w-6'>
+              {githubLogo()}
+            </div>
+            {getUiStringResource(currentLanguage, "HOME_FOSS")}
+          </div>
+        </Link>
+    </div>
 }

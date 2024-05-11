@@ -28,6 +28,7 @@ const stringsForLanguage = {
 } as const;
 
 export const DEFAULT_LANGUAGE = Language.USEN;
+export const DEFAULT_LANGUAGE_SYNONYMS = [Language.USEN, Language.EUEN];
 const ORIGIN_LANGUAGE = Language.JPJA;
 const NOT_TRANSLATED = "NOT_TRANSLATED";
 const SAME_AS_DEFAULT = "SAME_AS_DEFAULT";

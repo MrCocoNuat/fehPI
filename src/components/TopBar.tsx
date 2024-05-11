@@ -56,6 +56,7 @@ export function TopBar(
                     id="language-select"
                     className="m-2 ml-0 mr-4 w-36 pl-1"
                     defaultValue={currentLanguage}
+                    value={currentLanguage}
                     onChange={(evt) => updateCurrentLanguage(+evt.target.value as Language)}
                 >
                     {getAllEnumEntries(Language).map(([key, value]) => <option key={value} value={value}>{languageNames[value]}</option>)}

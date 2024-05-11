@@ -147,7 +147,7 @@ const mapQuery = (data: any) => data.skills.map((responseSkill: any) => ({
 
 }))[0] as SkillQueryResult;
 
-const mapSideQuery = (data: any) => data.skills.map((responseSkill: any) => ({
+const mapSideQuery = (data: any) => data.skills.map((responseSkill: any) => responseSkill === null? ({}) : ({
     ...responseSkill,
     category: SkillCategory[responseSkill.category],
 })) as { category: SkillCategory, idNum: number, imageUrl?: string, name: { value: string } }[];
@@ -178,8 +178,8 @@ export default function SkillExplorer() {
             <div className="flex flex-col gap-2">
                 <SkillDetails skillDetails={skillQueryResult} />
                 {sideQueryResults && <div className="flex flex-row justify-between gap-2">
-                    <SkillDetailsMini {...sideQueryResults[0]} />
-                    <SkillDetailsMini {...sideQueryResults[1]} />
+                    {sideQueryResults[0].idNum === undefined? <div/> : <SkillDetailsMini {...sideQueryResults[0]} /> /* div needed for flex element placement */}
+                    {sideQueryResults[1].idNum === undefined? <div/> : <SkillDetailsMini {...sideQueryResults[1]} />}
                 </div>}
             </div>
         </div>

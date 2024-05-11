@@ -116,8 +116,8 @@ export default function HeroExplorer() {
             <div className="flex flex-col gap-2">
                 <HeroDetails heroDetails={HeroQueryResult} />
                 {sideQueryResults && <div className="flex flex-row justify-between gap-2">
-                    <HeroDetailsMini hero={sideQueryResults[0]} />
-                    <HeroDetailsMini hero={sideQueryResults[1]} />
+                    {sideQueryResults[0].idNum === undefined? <div/> : <HeroDetailsMini hero={sideQueryResults[0]} /> /* div needed to correctly place flex elements*/}
+                    {sideQueryResults[1].idNum === undefined? <div/> : <HeroDetailsMini hero={sideQueryResults[1]} />}
                 </div>}
             </div>
         </div>

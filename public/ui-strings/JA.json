@@ -1,4 +1,6 @@
 {
+    "HOME_NOT_FOUND": "ここには何もないようです",
+
     "UNIT_STAT_HP": "HP",
     "UNIT_STAT_ATK": "攻撃",
     "UNIT_STAT_SPD": "速さ",

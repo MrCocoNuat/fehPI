@@ -1,4 +1,6 @@
 {
+    "HOME_NOT_FOUND": "Looks like there's nothing here",
+
     "UNIT_STAT_HP": "HP",
     "UNIT_STAT_ATK": "Atk",
     "UNIT_STAT_SPD": "Spd",

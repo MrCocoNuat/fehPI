@@ -1,4 +1,6 @@
 {
+    "HOME_NOT_FOUND": "Sieht so aus, als gäbe es hier nichts",
+
     "UNIT_STAT_HP": "KP",
     "UNIT_STAT_ATK": "Agr.",
     "UNIT_STAT_SPD": "Ges.",

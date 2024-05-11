@@ -1,4 +1,6 @@
 {
+    "HOME_NOT_FOUND": "Sembra che non ci sia niente qui",
+
     "UNIT_STAT_HP": "PS",
     "UNIT_STAT_ATK": "Att",
     "UNIT_STAT_SPD": "Vel",

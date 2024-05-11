@@ -66,10 +66,10 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
         setUseResplendent(false);
     }
 
-    return <div className="flex flex-col w-[600px] gap-2">
+    return <div className="flex flex-col sm:w-[600px] gap-2">
         <div className="flex flex-row justify-center items-start gap-1 p-2 bg-blue-700/25  rounded-xl">
             <div className="flex flex-col items-center gap-1">
-                <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">
+                <div className="aspect-square w-24 sm:w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">
                     <div className="relative aspect-square rounded-lg overflow-hidden">
                         <Image src={useResplendent ? heroDetails.resplendentImageUrl! : heroDetails.imageUrl}
                             alt={`Portrait of ${heroDetails.name.value}`} fill={true} sizes="128px" />

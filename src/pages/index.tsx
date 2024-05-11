@@ -54,7 +54,7 @@ export default function Home() {
             <p className='text-xl'>
               {getUiStringResource(selectedLanguage, "HOME_MSG4.1")}
             </p>
-            <div className='flex flex-row gap-2 self-stretch'>
+            <div className='flex flex-col sm:flex-row gap-2 sm:self-stretch'>
               <div className='grow'>
                 <div className='bg-blue-700/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>

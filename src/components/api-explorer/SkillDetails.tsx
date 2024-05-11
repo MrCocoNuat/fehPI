@@ -70,7 +70,7 @@ function InheritanceChainDetails({ skillDetails }: { skillDetails: SkillQueryRes
 export function SkillDetails({ skillDetails }: { skillDetails: SkillQueryResult }) {
     const selectedLanguage = useContext(LanguageContext);
 
-    return <div className="flex flex-col w-[600px] gap-2">
+    return <div className="flex flex-col sm:w-[600px] gap-2">
         <div className="flex flex-row justify-center items-start bg-blue-700/25  rounded-xl p-2 gap-1">
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-16 relative">

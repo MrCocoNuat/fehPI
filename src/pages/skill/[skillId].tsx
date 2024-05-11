@@ -7,7 +7,7 @@ import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, Skill
 import { LanguageContext } from "../_app";
 import { SkillDetails, SkillDetailsMini } from "../../components/api-explorer/SkillDetails";
 import { BackButton } from "../../components/api-explorer/BackButton";
-import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo } from "../../components/ui-resources";
+import { DEFAULT_LANGUAGE, DEFAULT_LANGUAGE_SYNONYMS, getUiStringResource, githubLogo } from "../../components/ui-resources";
 import Head from "next/head";
 import { SkillPortrait } from "../../components/api-explorer/Portraits";
 import Link from "next/link";
@@ -193,7 +193,7 @@ export default function SkillExplorer() {
                 </div>}
             </div>
         </div>
-        <p>{currentLanguage != DEFAULT_LANGUAGE && getUiStringResource(currentLanguage, "HOME_TRANSLATION_WARNING")}</p>
+        <p className="text-center">{ ! DEFAULT_LANGUAGE_SYNONYMS.includes(currentLanguage) && getUiStringResource(currentLanguage, "HOME_TRANSLATION_WARNING")}</p>
         <Link href={'https://github.com/MrCocoNuat/fehPI'}>
           <div className='flex flex-row gap-1'>
             <div className='relative aspect-square w-6'>

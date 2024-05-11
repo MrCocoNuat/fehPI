@@ -273,6 +273,9 @@ export function assertIsBlessedHeroDefinition(heroDefinition: HeroDefinition): h
 export enum Language {
     EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT
 };
+
+export const LANGUAGE_CODES = {[Language.EUDE]: "de", [Language.EUEN]: "en", [Language.EUES]: "es", [Language.EUFR]: "fr", [Language.EUIT]: "it", [Language.JPJA]: "ja", [Language.TWZH]: "zh", [Language.USEN]: "en", [Language.USES]: "es", [Language.USPT]: "pt" };
+
 export enum OptionalLanguage {
     EUDE, EUEN, EUES, EUFR, EUIT, JPJA, TWZH, USEN, USES, USPT, NONE
 };

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/Portraits'
-import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo, logo } from '../components/ui-resources'
+import { DEFAULT_LANGUAGE, DEFAULT_LANGUAGE_SYNONYMS, getUiStringResource, githubLogo, logo } from '../components/ui-resources'
 import { useContext } from 'react'
 import { LanguageContext } from './_app'
 
@@ -54,7 +54,7 @@ export default function Home() {
             <p className='text-xl'>
               {getUiStringResource(selectedLanguage, "HOME_MSG4.1")}
             </p>
-            <div className='flex flex-row gap-2 self-stretch'>
+            <div className='flex flex-col sm:flex-row gap-2 sm:self-stretch'>
               <div className='grow'>
                 <div className='bg-blue-700/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>
@@ -71,7 +71,7 @@ export default function Home() {
           </div>
 
         </div>
-        <p>{selectedLanguage != DEFAULT_LANGUAGE && getUiStringResource(selectedLanguage, "HOME_TRANSLATION_WARNING")}</p>
+        <p className="text-center">{ ! DEFAULT_LANGUAGE_SYNONYMS.includes(selectedLanguage) && getUiStringResource(selectedLanguage, "HOME_TRANSLATION_WARNING")}</p>
         <Link href={'https://github.com/MrCocoNuat/fehPI'}>
           <div className='flex flex-row gap-1'>
             <div className='relative aspect-square w-6'>

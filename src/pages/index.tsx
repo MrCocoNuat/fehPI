@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/RandomPortraits'
+import { RandomHeroPortraits, RandomSkillIcons } from '../components/api-explorer/Portraits'
 import { DEFAULT_LANGUAGE, getUiStringResource, githubLogo, logo } from '../components/ui-resources'
 import { useContext } from 'react'
 import { LanguageContext } from './_app'
@@ -11,8 +11,6 @@ import { LanguageContext } from './_app'
 export default function Home() {
   const selectedLanguage = useContext(LanguageContext);
 
-  //TODO: fill in Heads for other pages
-  //TODO: really basic SEO
   return (
     <>
       <Head>
@@ -57,18 +55,18 @@ export default function Home() {
               {getUiStringResource(selectedLanguage, "HOME_MSG4.1")}
             </p>
             <div className='flex flex-row gap-2 self-stretch'>
-              <Link href={'explorer/hero'} className='grow'>
+              <div className='grow'>
                 <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_HEROES")}</p>
                   <RandomHeroPortraits />
                 </div>
-              </Link>
-              <Link href={'explorer/skill'} className='grow'>
+              </div>
+              <div className='grow'>
                 <div className='bg-blue-500/25 rounded-xl flex flex-col items-center'>
                   <p className='text-2xl'>{getUiStringResource(selectedLanguage, "HOME_SKILLS")}</p>
                   <RandomSkillIcons />
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
 
@@ -86,5 +84,3 @@ export default function Home() {
     </>
   )
 }
-
-//TODO: fulfill terms of AGPL, prominently feature source

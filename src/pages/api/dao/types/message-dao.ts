@@ -1,6 +1,6 @@
 import { Language, Message } from "./dao-types";
 import { Dao } from "../mixins/dao";
-import { WriteOnceKeyIndexed } from "../mixins/key-indexed";
+import { KeyIndexed } from "../mixins/key-indexed";
 import { VercelKvBacked } from "../mixins/vercel-kv-backed";
 
 // typescript needs this to correctly infer the type parameters of generic mixins, 
@@ -10,28 +10,28 @@ const typeToken = null! as Message;
 const keyTypeToken = "";
 
 // There are 10 languages to support right now, each needs its own sub-DAO
-class LangMessageDao extends VercelKvBacked(typeToken, WriteOnceKeyIndexed(typeToken, Dao<string>)){
+class LangMessageDao extends VercelKvBacked(typeToken, KeyIndexed(typeToken, Dao<string>)){
     RELEVANT_KEY_PATTERNS = [
         /^MSID_.*/, // Messages related to Skills
         /^MPID_.*/, // Messages related to Heroes (Persons)
     ] as const;
-    initialization: Promise<void>;
     redisKey: string;
 
     constructor({repoPath, timerLabel, langLabel} : {repoPath: string, timerLabel: string, langLabel: string}){
         super({repoPath});
         this.redisKey = "MESSAGE_BY_KEY_" + langLabel;
         console.time(timerLabel);
-        this.initialization = this.getData().then(() => console.timeEnd(timerLabel));
-    }
-    
-    private async getData() {
-        this.setByKeys(Object.values(await this.readHash(this.redisKey, keyTypeToken))); //TODO: use the damn setter ya bum
+        console.timeEnd(timerLabel);
     }
 
     async getByMessageKeys(messageKeys : string[]){
-        await this.initialization;
-        return this.getByKeys(messageKeys);
+        console.log("reading from " + this.redisKey);
+        const unknownKeys = messageKeys.filter((x) => { return Object.keys(this.collectionKeys).indexOf(x) < 0 });
+        if (unknownKeys.length > 0){
+            await this.setByKeys(Object.values(await this.readKeysOfHash(this.redisKey, unknownKeys, keyTypeToken)))
+        }
+        const ret = this.getByKeys(messageKeys);
+        return ret;
     }
 }
 

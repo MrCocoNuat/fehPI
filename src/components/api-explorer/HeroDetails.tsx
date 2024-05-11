@@ -1,5 +1,5 @@
 import { MouseEvent, useContext, useState } from "react";
-import { HeroQueryResult } from "../../pages/explorer/hero/[heroId]";
+import { HeroQueryResult } from "../../pages/hero/[heroId]";
 import { LanguageContext } from "../../pages/_app";
 import Image from "next/image";
 import { blessingIcons, getUiStringResource, getUiStringResourceForSeries, honorTypeIcon, movementTypeIcon, resplendentIcon, weaponTypeIcon } from "../ui-resources";
@@ -38,12 +38,14 @@ export function HeroDetailsMini({ hero }: {
         imageUrl: string,
     }
 }) {
-    return <Link href={`/explorer/hero/${hero.idNum}`} className="flex-col flex">
-        <div className="flex flex-row gap-2 items-center bg-blue-500/25 rounded-xl" key={hero.idNum}>
+    return <Link href={`/hero/${hero.idNum}`} className="flex-col flex">
+        <div className="flex flex-row gap-1 items-center bg-blue-500/25 rounded-xl" key={hero.idNum}>
+            <div className="m-1 mr-0 bg-blue-500/25 rounded-lg">
             <div className="aspect-square w-18 m-1 relative bg-blue-500/25 rounded-lg overflow-hidden">
                 <Image src={hero.imageUrl} alt={`portrait of hero ${hero.idNum}`} width={64} height={64} />
             </div>
-            <div className="flex flex-col bg-blue-500/25 rounded-xl p-2">
+            </div>
+            <div className="flex flex-col bg-blue-500/25 rounded-xl p-2 mr-1">
             <div className="flex-row flex gap-1 items-center">
                 <div>{`${hero.name.value}`}</div>
                 <div className="text-sm">{`(${hero.idNum})`}</div>
@@ -64,7 +66,7 @@ export function HeroDetails({ heroDetails }: { heroDetails: HeroQueryResult }) {
         setUseResplendent(false);
     }
 
-    return <div className="flex flex-col w-[600px] h-[600px] gap-2">
+    return <div className="flex flex-col w-[600px] gap-2">
         <div className="flex flex-row justify-center items-start gap-1 p-2 bg-blue-500/25  rounded-xl">
             <div className="flex flex-col items-center gap-1">
                 <div className="aspect-square w-36 border-8 border-blue-500/25 rounded-xl bg-blue-500/25">

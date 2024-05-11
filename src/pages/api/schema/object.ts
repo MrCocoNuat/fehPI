@@ -355,7 +355,7 @@ HeroSkillsObject.implement({
     fields: (ofb) => ({
         known: ofb.field({
             type: ofb.listRef(SkillDefinitionInterface, {
-                nullable: false
+                nullable: true
             }),
             nullable: false,
             resolve: (heroSkills) => heroSkills.known,
@@ -363,7 +363,7 @@ HeroSkillsObject.implement({
         }),
         learnable: ofb.field({
             type: ofb.listRef(SkillDefinitionInterface, {
-                nullable: false
+                nullable: true
             }),
             nullable: false,
             resolve: (heroSkills) => heroSkills.learnable,

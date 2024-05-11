@@ -12,18 +12,18 @@ export const setQueries = () => {
 
     // define queries here. This one returns a field (with subfields)
     builder.queryField("skills", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a SkillDefinition for each. Alternatively, if the input is null, returns all known SkillDefinitions.",
+        description: "Looks up a list of idNums and returns a SkillDefinition for each.",
         // its args are a
         args: {
-            // [Int!] named idNums
+            // [Int!]! named idNums
             idNums: qfb.arg({
                 type: qfb.arg.listRef("Int", { required: true }),
-                required: false,
+                required: true,
             }),
             filterCategories: qfb.arg({
                 type: qfb.arg.listRef(SkillCategoryEnum, { required: true }),
                 required: false,
-                description: "If present, returned SkillDefinitions will be one of thse categories"
+                description: "If present, returned SkillDefinitions will be one of these categories"
             })
         },
         // and the return field is a [Graphql Object type implemented elsewhere]!. To get its backing object,
@@ -31,7 +31,7 @@ export const setQueries = () => {
         nullable: false,
         // run this resolver given args.
         resolve: async (parent, { idNums, filterCategories }) =>
-            await (idNums ? skillDao.getByIdNums(idNums, filterCategories) : skillDao.getAll(filterCategories))
+            await (skillDao.getByIdNums(idNums, filterCategories) )
 
     }));
 
@@ -49,16 +49,16 @@ export const setQueries = () => {
     }));
 
     builder.queryField("heroes", (qfb) => qfb.field({
-        description: "Looks up a list of idNums and returns a HeroDefinition for each. Alternatively, if the input is null, returns all known HeroDefinitions.",
+        description: "Looks up a list of idNums and returns a HeroDefinition for each.",
         args: {
             idNums: qfb.arg({
                 type: qfb.arg.listRef("Int", { required: true }),
-                required: false
+                required: true
             }),
         },
         type: qfb.listRef(HeroDefinitionInterface, { nullable: true }),
         nullable: false,
-        resolve: async (parent, { idNums }) => (await (idNums ? heroDao.getByIdNums(idNums) : heroDao.getAll())),
+        resolve: async (parent, { idNums }) => (await (heroDao.getByIdNums(idNums))),
     }))
 
     builder.queryField("messages", (qfb) => qfb.field({

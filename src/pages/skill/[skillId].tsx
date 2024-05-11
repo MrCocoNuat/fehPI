@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
-import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG } from "../../../components/api-fragments";
+import { INCLUDE_FRAG, PASSIVE_SKILL_IMAGE_URL, PASSIVE_SKILL_IMAGE_URL_FRAG, WEAPON_IMAGE_URL, WEAPON_IMAGE_URL_FRAG } from "../../components/api-fragments";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../../api/dao/types/dao-types";
-import { LanguageContext } from "../../_app";
-import { SkillDetails } from "../../../components/api-explorer/SkillDetails";
-import { SlugBackButton } from "../../../components/api-explorer/BackButton";
-import { getUiStringResource } from "../../../components/ui-resources";
+import { MovementType, MovementTypeBitfield, OptionalLanguage, RefineType, SkillCategory, WeaponType, WeaponTypeBitfield } from "../api/dao/types/dao-types";
+import { LanguageContext } from "../_app";
+import { SkillDetails, SkillDetailsMini } from "../../components/api-explorer/SkillDetails";
+import { BackButton } from "../../components/api-explorer/BackButton";
+import { getUiStringResource } from "../../components/ui-resources";
 import Head from "next/head";
+import { SkillPortrait } from "../../components/api-explorer/Portraits";
 
 const GET_SKILL_DETAIL = gql`
 query getSkillDetail($id: Int!, $language: OptionalLanguage!){
@@ -79,6 +80,21 @@ query getSkillDetail($id: Int!, $language: OptionalLanguage!){
     }
 }`
 
+const GET_ADJACENT_SKILLS = gql`
+query getAdjacentSkills($ids: [Int!]!, $language: OptionalLanguage!){
+    skills(idNums: $ids){
+        idNum
+        category
+        ... on PassiveSkillDefinition{
+            imageUrl   
+        }
+        name(language: $language){
+            value
+        }
+    }
+}
+`
+
 export type SkillQueryResult = {
     idNum: number
     idTag: string,
@@ -115,7 +131,7 @@ export type SkillQueryResult = {
 const mapQuery = (data: any) => data.skills.map((responseSkill: any) => ({
     ...responseSkill,
     category: SkillCategory[responseSkill.category],
-    desc: { value: responseSkill.desc?.value?.replace("\n", " ") },
+    desc: { value: responseSkill.desc?.value?.replace("\n", " ").replace(/$./g,"") },
     weaponEquip: responseSkill.weaponEquip.map((weaponTypeKey: keyof typeof WeaponType) => WeaponType[weaponTypeKey]),
     movementEquip: responseSkill.movementEquip.map((movementTypeKey: keyof typeof MovementType) => MovementType[movementTypeKey]),
     refineType: (responseSkill.refineType == undefined) ? undefined : RefineType[responseSkill.refineType],
@@ -131,12 +147,18 @@ const mapQuery = (data: any) => data.skills.map((responseSkill: any) => ({
 
 }))[0] as SkillQueryResult;
 
+const mapSideQuery = (data: any) => data.skills.map((responseSkill: any) => ({
+    ...responseSkill,
+    category: SkillCategory[responseSkill.category],
+})) as { category: SkillCategory, idNum: number, imageUrl?: string, name: { value: string } }[];
+
 export default function SkillExplorer() {
     const currentLanguage = useContext(LanguageContext);
     const router = useRouter();
     const skillId = +(router.query.skillId as String);
 
     const { loading, error, data } = useQuery(GET_SKILL_DETAIL, { variables: { id: skillId, language: OptionalLanguage[currentLanguage] } });
+    const { loading: loadingSide, error: errorSide, data: dataSide } = useQuery(GET_ADJACENT_SKILLS, { variables: { ids: [skillId - 1, skillId + 1], language: OptionalLanguage[currentLanguage] } })
 
     if (loading) {
         return <>...</>
@@ -146,13 +168,20 @@ export default function SkillExplorer() {
     }
 
     const skillQueryResult = mapQuery(data);
+    const sideQueryResults = (dataSide === undefined)? undefined : mapSideQuery(dataSide);
     return <>
-    <Head>
-        <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
-    </Head>
-    <div className="flex flex-row justify-center p-2">
-        <SlugBackButton/>
-        <SkillDetails skillDetails={skillQueryResult} />
-    </div>
+        <Head>
+            <title>{getUiStringResource(currentLanguage, "TITLE_SKILL")}</title>
+        </Head>
+        <div className="flex flex-row justify-center p-2">
+            <BackButton />
+            <div className="flex flex-col gap-2">
+                <SkillDetails skillDetails={skillQueryResult} />
+                {sideQueryResults && <div className="flex flex-row justify-between gap-2">
+                    <SkillDetailsMini {...sideQueryResults[0]} />
+                    <SkillDetailsMini {...sideQueryResults[1]} />
+                </div>}
+            </div>
+        </div>
     </>
 }

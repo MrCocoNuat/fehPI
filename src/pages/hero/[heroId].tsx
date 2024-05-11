@@ -131,7 +131,7 @@ export default function HeroExplorer() {
                 </div>}
             </div>
         </div>
-        <p>{ ! DEFAULT_LANGUAGE_SYNONYMS.includes(currentLanguage) && getUiStringResource(currentLanguage, "HOME_TRANSLATION_WARNING")}</p>
+        <p className="text-center">{ ! DEFAULT_LANGUAGE_SYNONYMS.includes(currentLanguage) && getUiStringResource(currentLanguage, "HOME_TRANSLATION_WARNING")}</p>
         <Link href={'https://github.com/MrCocoNuat/fehPI'}>
           <div className='flex flex-row gap-1'>
             <div className='relative aspect-square w-6'>

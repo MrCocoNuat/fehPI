@@ -16,16 +16,17 @@ export const LanguageContext = createContext(Language.USEN);
 export default function App({ Component, pageProps }: AppProps) {
   const [currentLanguage, updateCurrentLanguage] = useState(Language.USEN); // yeah yeah US defaultism... 
   useEffect(() => {
-    const lang = localStorage.getItem(LOCAL_STORAGE_LANGUAGE_KEY);
-    if (lang){
-      updateCurrentLanguage(JSON.parse(lang));
+    const langData = localStorage.getItem(LOCAL_STORAGE_LANGUAGE_KEY);
+    if (langData){
+      const language = JSON.parse(langData) as Language;
+      document.documentElement.lang = LANGUAGE_CODES[language];
+      updateCurrentLanguage(language);
     }
   }, [currentLanguage]);
 
   return <>
     <LanguageContext.Provider value={currentLanguage}>
       <Head>
-        <html lang={LANGUAGE_CODES[currentLanguage]} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={getUiStringResource(currentLanguage, "HOME_MSG1.1") + " GraphQL API " + getUiStringResource(currentLanguage, "HOME_MSG1.2")} />
         <link rel="icon" href="/favicon.ico" />

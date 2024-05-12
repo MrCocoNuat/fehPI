@@ -13,7 +13,7 @@ A GraphQL API offering source information from the Fire Emblem Heroes mobile gam
 
 ## Building
 
-This application is deployed on Vercel and integrated with Vercel's KV Redis storage - yes, even when running locally. Please see [fehPi-bootstrapper](https://github.com/MrCocoNuat/fehPI-bootstrapper) for initialization of the source data - there is a lot of it, so if you are cheap and use the free Hobby plan from Vercel like me, you will need these tricks to get it all uploaded. Keep in mind the monthly/daily request limits too, at this point approximately 500 uncached page loads / API requests a month will cause the limit to be hit.
+This application is deployed on Vercel and integrated with Vercel's KV Redis storage - yes, even when running locally. Please see [fehPi-bootstrapper](https://github.com/MrCocoNuat/fehPI-bootstrapper) for initialization of the source data - there is a lot of it, so if you are cheap and use the free Hobby plan from Vercel like me, you will need these tricks to get it all uploaded. Keep in mind the monthly/daily request limits too, at this point approximately 5000 uncached page loads / API requests a month will cause the limit to be hit.
 
 After this setup, running is straightforward - 
 ```

@@ -102,11 +102,8 @@ export default function HeroExplorer() {
     if (loading) {
         return <></>
     }
-    if (error) {
-        return "error";
-    }
 
-    if (data.heroes[0] === null){
+    if (error || data.heroes[0] === null){
         return <div className="flex flex-row justify-center p-2">
             <BackButton />
             <div className="bg-blue-700/25 rounded-xl p-2 gap-1">

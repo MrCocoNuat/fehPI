@@ -164,11 +164,8 @@ export default function SkillExplorer() {
     if (loading) {
         return <></>
     }
-    if (error) {
-        return "";
-    }
 
-    if (data.skills[0] === null){
+    if (error || data.skills[0] === null){
         return <div className="flex flex-row justify-center p-2">
             <BackButton />
             <div className="bg-blue-800/25 rounded-xl p-2 gap-1">

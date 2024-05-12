@@ -1,26 +1,22 @@
-# Turnwheel
+<p align="center">
+  <img src="github-assets/logo-fehpi.png" alt="fehpi logo" width="200"/>
+</p>
+
+# fehPI
 
 ## Overview
-Simulate Arena / Aether Raids / etc. battles in the Fire Emblem Heroes (FEH) mobile game. Form teams of units and see the outcomes of each action and combat with a reference computer player or yourself, reversing course and trying a different branch from the action tree if you like.
+A GraphQL API offering source information from the Fire Emblem Heroes mobile game. Explore Heroes and their Skills with the demonstration [client application](https://feh-pi.vercel.app/) too, with support for all source languages from the game.
+
+`POST` to `https://feh-pi.vercel.app/api/graphql` for the API.
+
+<img src="github-assets/fehpi-hero-en.png" alt="hero example page" width="500"/> <img src="github-assets/fehpi-skill-jp.png" alt="skill example page" width="500"/>
 
 ## Building
 
-### Octokit
+This application is deployed on Vercel and integrated with Vercel's KV Redis storage - yes, even when running locally. Please see [fehPi-bootstrapper](https://github.com/MrCocoNuat/fehPI-bootstrapper) for initialization of the source data - there is a lot of it, so if you are cheap and use the free Hobby plan from Vercel like me, you will need these tricks to get it all uploaded. Keep in mind the monthly/daily request limits too, at this point approximately 500 uncached page loads / API requests a month will cause the limit to be hit.
 
-This application optionally makes use of the [Octokit](https://github.com/octokit/octokit.js/) library to access a remote repository at https://github.com/HertzDevil/feh-assets-json. You will need to supply your own GitHub PAT at `src/api-client/keys.json`:
+After this setup, running is straightforward - 
 ```
-{
-  "octokit": "YOUR_PERSONAL_ACCESS_TOKEN_HERE"
-}
-```
-It does not need any permissions besides ordinary public repository access (so don't check any checkboxes).
-
-Alternatively, you can choose to use the included subtree inside `src/api-client/github/local-clone`, and then make sure that the relevant repository is marked `useLocal: true` in `src/dao/remote-data/remote-data.json`. The application will then pull from the local clone.
-
-After this setup, running should be mostly straightforward - 
-```
-git clone ...
-cd turnwheel/src
 npm install
 npx next build
 npm run start
@@ -39,7 +35,6 @@ Many thanks to maintainers of and contributors to:
 - [Pothos GraphQL schema](https://github.com/hayes/pothos) (ISC)
 - [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) (MIT)
 - [Apollo GraphQL client](https://github.com/apollographql/apollo-client) (MIT)
-- [Octokit](https://github.com/octokit/octokit.js) (MIT)
 - and more
 
 ## License
@@ -63,7 +58,8 @@ This application is licensed under the AGPL, see [LICENSE](./LICENSE)
 
 
 Fire Emblem Heroes and its associated data are the intellectual property of
-their respective owners.
+their respective owners. There is no intended affiliation with Intelligent Systems Co., Ltd. or Nintendo Co., Ltd.,
+and this application does not represent their views in any way.
 
 Other licenses appear in [this file](./dependencies-copyright).
 
@@ -83,4 +79,4 @@ client software that calls this application's API is not considered a
 derivative work. 
 
 note: If any legal information above is incorrect, please contact me. I am not 
-much of a lawyer, I just write code.
+much of a lawyer, I write code.

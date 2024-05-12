@@ -338,7 +338,7 @@ export function honorTypeIcon(honorType: HonorType) {
         case HonorType.ASCENDED:
             return ascendantFloretImage();
         case HonorType.REARMED:
-            return <Image src={"/Icon_Arcane_Weapon.png"} alt={"rearmed"} fill={true} sizes="32px"/>;
+            return <Image src={"/icons/misc/Icon_Arcane_Weapon.png"} alt={"rearmed"} fill={true} sizes="32px"/>;
         case HonorType.DUO:
             return <Image src={"/icons/misc/Icon_Hero_Type_Duo.png"} alt={"duo"} fill={true} sizes="32px"/>;
         case HonorType.HARMONIC:

@@ -5,7 +5,7 @@
 # fehPI
 
 ## Overview
-A GraphQL API offering source information from the Fire Emblem Heroes mobile game. Explore Heroes and their Skills with the demonstration [client application](https://feh-pi.vercel.app/) too, with support for all source languages from the game.
+A GraphQL API offering source information from the Fire Emblem Heroes mobile game. Explore Heroes and their Skills and calculate statistics with the demonstration [client application](https://feh-pi.vercel.app/) too, with support for all source languages from the game.
 
 `POST` to `https://feh-pi.vercel.app/api/graphql` for the API.
 
